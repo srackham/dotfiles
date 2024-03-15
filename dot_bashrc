@@ -1,0 +1,428 @@
+# ~/.bashrc: executed by bash(1) for non-login interactive shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+shopt -s extglob
+
+# updatedb(1) --prunepaths option.
+#export PRUNEPATHS='/tmp /usr/tmp /var/tmp /afs /var/local/backups/hosts'
+
+# PIM docs.
+PERSONAL_DOCS=$HOME/doc/personal
+
+# If running interactively, then:
+if [ "$PS1" ]; then
+
+    set -o vi   # vi command-line editing mode.
+
+#    export PYTHONSTARTUP=~/.pythonrc
+#    export PYTHONPATH=$HOME/lib/python:$HOME/bin/django-trunk
+    # Use Vim a manpage viewer.
+#    export MANPAGER="/bin/sh -c \"col -b | view -c 'set ft=man nomod nolist' -c 'map q :q<CR>' -\""
+
+    # export HISTCONTROL=ignoredups
+    export HISTFILESIZE=400000000
+    export HISTSIZE=10000
+    export PROMPT_COMMAND="history -a"
+    shopt -s histappend
+
+    # check the window size after each command and, if necessary,
+    # update the values of LINES and COLUMNS.
+    #shopt -s checkwinsize
+
+    # Allow less to examine lots of non-text files.
+    #eval $(lessfile)
+
+    # enable color support of ls and also add handy aliases
+    if [ "$TERM" != "dumb" ]; then
+        eval `dircolors -b`
+        alias ls='ls --color=auto'
+    fi
+
+    # set fancy prompt color differently for servers.
+    # see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
+    case $(hostname) in
+    nuc1)
+        PS1='\[\n\033[1;36m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+        ;;
+    nuc2)
+        PS1='\[\n\033[1;31m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+        ;;
+    hph9-server)
+        PS1='\[\n\033[1;35m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+        ;;
+    *)
+        PS1='\[\n\033[1;32m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+        ;;
+    esac
+
+    # enable programmable completion features (you don't need to enable
+    # this, if it's already enabled in /etc/bash.bashrc).
+    if [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+    fi
+
+    ## SJR
+    # Completion confined to relevant file extensions.
+    complete -f -o dirnames -X '!*.@(pdf|PDF)' evince
+
+    # Task name completion for Jake files.
+    function _jake() {
+        local cur tasks
+        cur=${COMP_WORDS[COMP_CWORD]}
+        # The sed command strips terminal escape sequences.
+        tasks=$(jake -T \
+              | sed -r 's/\x1b[[()=][;?0-9]*[0-9A-Za-z]?//g' \
+              | awk '{print $2}')
+        if [ $COMP_CWORD -eq 1 ]; then
+            # Task name completion for first argument.
+            COMPREPLY=( $(compgen -W "$tasks" $cur) )
+        else
+            # File name completion for other arguments.
+            COMPREPLY=( $(compgen -f $cur) )
+        fi
+    }
+    complete -o default -F _jake jake j
+
+    # Task name completion for grunt files.
+    function _grunt() {
+        local cur tasks
+        cur=${COMP_WORDS[COMP_CWORD]}
+        # Extract list of task names from help text.
+        tasks="$(grunt --help --no-color | awk 'task==1 {print $1} /Available tasks/ {task=1} /^$/ {task=0}')"
+        if [ $COMP_CWORD -eq 1 ]; then
+            # Task name completion for first argument.
+            COMPREPLY=( $(compgen -W "$tasks" $cur) )
+        else
+            # File name completion for other arguments.
+            COMPREPLY=( $(compgen -f $cur) )
+        fi
+    }
+    complete -o default -F _grunt grunt
+
+    # Completion for make 'm' alias.
+    complete -o default -F _make m
+
+    ###
+    # Miscellaneous shortcuts
+    ###
+    alias drake='deno run -A Drakefile.ts'
+    alias b='google-chrome' # Browser.
+    alias g='grep'
+    alias grep='grep --color=auto'
+    alias gw='./gradlew --console plain'
+    alias gh='./gradlew help --task'
+    alias h=history
+    # Recursively validate all HTML files in current directory.
+    alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-validator --verbose --format=text --file=$f; done'
+    alias l='less -R'
+    alias ll='ls -Altr --time-style="+%d-%m-%Y %H:%M:%S"'      # Long listing in reverse chronological order.
+    alias npm='LINK=g++ npm'    # https://github.com/TooTallNate/node-gyp/issues/147#issuecomment-10895149
+    alias rp='mogrify -quality 25 -resize 800' # Resize and compress photos.
+    alias vi='vim'
+    alias vs='gvim -c SessionOpenLast'     # GVim with session.
+    alias xclip='xclip -selection clipboard'
+
+    # Activate Python virtual environment in directory $1 (defaults to .venv).
+    function activate() {
+        source ${1:-.venv}/bin/activate
+    }
+
+    # Simple Web server
+    function webserver() {
+        local port
+        port=1212
+        case $# in
+            1)
+                cd "$1"
+                ;;
+            2)
+                cd "$1"
+                port=$2
+                ;;
+        esac
+        python3 -m http.server $port
+    }
+
+    # Append note to or edit notes file.
+    function note() {
+        if [ $# -eq 0 ]; then
+            vi +10000 $PERSONAL_DOCS/notes.txt # Open at end of file.
+        else
+            cat >>$PERSONAL_DOCS/notes.txt <<EOF
+---
+date: $(date '+%a %d %b %Y %H:%M')
+note: "$*"
+
+EOF
+        fi
+    }
+
+    # Search each "record" in personal information file for regular
+    # expressions in contacts and memo files.
+    # NOTE: Requires GNU awk (gawk) for IGNORECASE option.
+    function pim() {
+        if [ $# -eq 0 ]; then
+            vi $PERSONAL_DOCS/contacts.txt $PERSONAL_DOCS/memos.txt \
+                $PERSONAL_DOCS/notes.txt
+        elif [ $# -eq 2 ]; then
+            awk 'BEGIN {IGNORECASE = 1; RS = "---" } /'$1'/ && /'$2'/' \
+                $PERSONAL_DOCS/contacts.txt $PERSONAL_DOCS/memos.txt \
+                $PERSONAL_DOCS/notes.txt
+        else
+            awk 'BEGIN {IGNORECASE = 1; RS = "---" } /'$1'/' \
+                $PERSONAL_DOCS/contacts.txt $PERSONAL_DOCS/memos.txt \
+                $PERSONAL_DOCS/notes.txt
+        fi
+    }
+
+    # Sorted list of anchors in AsciiDoc document.
+    function aa() {
+        if [ "$1" ]; then
+            cat "$1" | \
+            grep '\[\[X[0-9]\+\]\]' | \
+            sed -e 's/.*\(\[\[X[0-9]\+\]\]\).*/\1/' | \
+            sort -nk1.4
+        else
+            echo "missing file name" >&2
+            return 1
+        fi
+    }
+
+    # Find file name pattern $1 in directory $2.
+    function ff() {
+        if [ "$1" ]; then
+            find "${2:-.}" -iname "$1"
+        else
+            echo "usage: ff <filename-pattern> [<dir]"
+            return 1
+        fi
+    }
+
+    # Spell check words.
+    function s() {
+        if [ -z "$2" -a -f "$1" ]; then
+            # Interactively spell check file, use/create .dict file with
+            # extension .dict in same directory.
+            dir="$(dirname "$1")"
+            dict="${1%.*}.dict"
+            # Dictionary must start with . or / else $HOME/aspell dir is used.
+            if [ ${dict::1} != '/' ]; then
+                dict="./$dict"
+            fi
+            aspell check -p "$dict" "$1"
+        else
+            echo $* | aspell -a
+        fi
+    }
+
+    # Document search. Lists file names that match query.
+    # Usage: ds query
+    function ds() {
+        if [ "$*" ]; then
+            recoll -t -q $*  2>/dev/null \
+                | tail -n +3 \
+                | head -n 20 \
+                | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|'
+        else
+            echo "missing search query" >&2
+            return 1
+        fi
+    }
+
+    ###
+    # node/npm shortcuts
+    ###
+    alias nls='npm list --depth 0 --silent'
+    alias run='npm run --silent'
+
+    ###
+    # Git shortcuts
+    ###
+    alias gd='git diff --color'
+    alias gl='git log --pretty=format:"%h%x09%ad%x09%Cgreen%d%Creset %s" --date=relative'
+    alias gls='git ls-files'
+    alias gpush='git push --tags origin master' # Push local master to remote origin.
+    alias gss='git status --short'
+
+    ###
+    # Mercurial shortcuts
+    ###
+    alias hgs='hg status'
+    alias hgl="hg log --template 'r{rev}: {desc}\n' | less -E"
+    # View Mercurial repo in Firefox.
+    alias hgw='hg serve & firefox http://localhost:8000 &'
+    # Colorized Mercurial diff in Vim.
+    function hgd() {
+        if [ "$2" ]; then
+            hg diff -r "$1" -r "$2" | vim -R -
+        elif [ "$1" ]; then
+            r=$1
+            hg diff -r $((r - 1)) -r $r | vim -R -
+        else
+            hg diff | vim -R -
+        fi
+    }
+
+    # Pager.
+    function v() {
+        if [ "$*" ]; then
+            vim -R "$@"
+        else
+            vim -R -
+        fi
+    }
+
+    # Print URL to stdout. stderr displays HTML syntax errors.
+    function u() {
+        if [ "$*" ]; then
+            curl -s "$@" | tidy -iq
+        else
+            echo "missing curl(1) arguments" >&2
+            return 1
+        fi
+    }
+
+    # Push project to Google Code Mercurial repository.
+    function gcpush() {
+        if [ "$1" ]; then
+            hg push https://srackham%40gmail.com:ab9UY7dN2EV2@$1.googlecode.com/hg/
+        else
+            echo "missing project name argument" >&2
+            return 1
+        fi
+    }
+
+    # Push project to sourceforge upload directory.
+    function sfpush() {
+        if [ "$1" ]; then
+            rsync -avP -e ssh $@ sjrackham@frs.sourceforge.net:uploads/
+        else
+            echo "missing file names arguments" >&2
+            return 1
+        fi
+    }
+
+    function jog() {
+
+        local msg sendto server subject
+        sendto="srackham@methods.co.nz"
+        server="srackham@kestrel"
+
+        if [ -z "$1" ]; then
+            cat <<EOF
+
+usage: jog TIME
+
+Beep console and display messge from stdin and
+email message from $server to $sendto
+at specified TIME.
+See also: at(1).
+
+Examples:
+  jog +5 min
+  echo check mail | jog 9:00 tomorrow
+EOF
+            return
+        fi
+        read -t 1 msg
+        if [ -z "$msg" ]; then
+            msg="jog $*"
+        fi
+        # Schedule wall on local machine.
+        echo "echo \"########## $msg ##########\" | wall; \
+              beep -r 3 -l 1000 -f 1000     \
+                   -n -r 6 -l 500 -f 2000   \
+                   -n -r 12 -l 250 -f 1500" \
+        | at $*
+        # Schedule mail message on server.
+        subject="#### JOG: $* \####"    # Escaped # so not seen as comment.
+        ssh $server "echo echo $msg \| mail $sendto -s \'$subject\' | at $*"
+    }
+
+    # Rebuild session manager sessions.
+    function sessionclean() {
+        if [ $# -lt 1 ]; then
+            echo "usage: sessionclean SESSION..."
+            return 1
+        fi
+        local sdir tmp
+        sdir=$HOME/.vim/sessions
+        if [ ! -d $sdir ]; then
+            echo sessionclean: no sessions directory: $sdir
+            return 1
+        fi
+        tmp=$sdir/sessionclean.tmp
+        for s in $*; do
+            # Include only cd, badd and edit commands.
+            grep '^cd \|^badd \|^edit ' $sdir/$s > $tmp || return 1
+            echo SessionSaveAs $s >> $tmp
+            echo ":quit" >> $tmp
+            vi -S $tmp || return 1
+        done
+        rm $tmp
+    }
+
+    # Favorite directory management.
+    function _fd() {
+        # cd to and optionally set the favorite directory.
+        # If the first argument is --list then list favorite directories.
+        # If no arguments are given cd to the current favorite directory.
+        # If $1 is given cd to favorite directory number (1..9).
+        # If $2 is is given set favorite directory $1.
+        local dir dirfile
+        if [ "$1" = --list ]; then
+            for i in current 1 2 3 4 5 6 7 8 9; do
+                dirfile=$HOME/.fd/$i
+                [ -f $dirfile ] && printf "%-8s%s\n" "$i" "$(cat $dirfile)"
+            done
+        else
+            if [ -z "$1" ]; then
+                dirfile=$HOME/.fd/current
+            else
+                dirfile=$HOME/.fd/$1
+            fi
+            if [ "$2" ]; then
+                dir="$2"
+            else
+                if [ ! -f $dirfile ]; then
+                    if [ ! -z "$1" ]; then
+                        echo "_fd: directory has not been set" >&2
+                    fi
+                    return 1
+                fi
+                dir=$(cat $dirfile)
+            fi
+            [ ! -e $HOME/.fd ] && mkdir $HOME/.fd
+            if [ ! -d "$dir" ]; then
+                echo "_fd: no such directory: $dir" >&2
+                return 1
+            fi
+            if [ "$2" ]; then
+                echo -n "$dir" > $dirfile
+            fi
+            echo -n "$dir" > $HOME/.fd/current
+            cd "$dir"
+        fi
+    }
+
+    # Favorite directory aliases.
+    alias 00="_fd --list"   # list favorite dirs.
+    alias 0="_fd"           # cd to current favorite dir.
+    alias 1="_fd 1"         # cd to favorite dir 1.
+    alias 2="_fd 2"         # cd to favorite dir 2.
+    alias 3="_fd 3"         # cd to favorite dir 3.
+    alias 4="_fd 4"         # cd to favorite dir 4.
+    alias 5="_fd 5"         # cd to favorite dir 5.
+
+    # Start all shells in previous current working directory.
+    _fd
+
+fi
+
+# vim: set et ts=4 sw=4 sts=4:
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/srackham/.sdkman"
+[[ -s "/home/srackham/.sdkman/bin/sdkman-init.sh" ]] && source "/home/srackham/.sdkman/bin/sdkman-init.sh"
+. "$HOME/.cargo/env"
