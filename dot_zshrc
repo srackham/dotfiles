@@ -1,0 +1,188 @@
+#
+# Interactive shell initialisation
+# Inspired by https://gist.github.com/scottstanfield/fa1085c225069160225d18b1dc16ee1c
+#
+
+
+# KLUDGE: 1-Nov-2021: Because Manjaro was mysteriously not sourcing ~/.zprofile
+source $HOME/.zprofile
+
+
+# Aliases
+unalias -a
+
+alias ,="cd -"
+alias ...="cd ../.."
+alias ....="cd ../../.."
+#alias b="google-chrome" # Open in browser
+alias b="brave" # Open in browser
+
+alias cat="bat" # 17-Dec-2023: replace cat and less with bat (https://github.com/sharkdp/bat).
+# alias l="less -R"
+alias less="bat"
+alias l="bat"
+
+alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
+alias dmesg="sudo dmesg --human --color=always"
+alias diff="diff --color=always -u"
+alias drake="deno run -A Drakefile.ts"
+
+# 17-Dec-2023: use ripgrep (rg) recursive grep (https://github.com/BurntSushi/ripgrep)
+# alias g="grep"
+alias rg="rg --colors path:style:bold  --colors path:fg:yellow"
+alias g="rg --max-depth 1 -z"
+# Seach markdown and text files in ~/doc directory.
+alias rgdocs="echo \"$HOME/doc\" | xargs rg -wil --count-matches --colors path:style:bold --colors path:fg:yellow -t txt -t markdown"
+
+alias gd="git diff --color"
+alias gg="git grep -P"
+alias gl="git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative"
+alias gls="git ls-files"
+alias grep="grep --color=auto"
+alias gst="git status --short 2>/dev/null"
+alias gw="./gradlew --console plain"
+alias h="history -i 1" # List all history with ISO 8601 timestamps
+
+# lsflags="--color --group-directories-first"
+# alias ls="ls ${lsflags}"
+# alias la="ls ${lsflags} -lA"
+# alias ll="ls ${lsflags} -l"
+# alias lr="ls ${lsflags} -Altr --time-style='+%d-%m-%Y %H:%M:%S'" # Long listing in reverse chronological order
+
+# 17-Dec-2023: replace ls with eza (https://github.com/eza-community/eza)
+alias ls="eza"
+alias ll="eza -l"
+alias lr="eza -las modified"
+
+alias m="make --silent"
+alias nls="npm list --depth 0 --silent"
+alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"
+alias paste-text="xclip -selection clipboard -o -t text/plain"   # Copy clipboard text to stdout
+alias paste-image="xclip -selection clipboard -o -t image/png"   # Copy clipboard image to stdout
+alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser.
+alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
+alias sc='scala-cli'
+alias services="/usr/sbin/service --status-all"
+alias ug="ugrep --perl-regexp --query --smart-case"
+
+alias ac="conda activate"
+alias da="conda deactivate"
+
+
+# History settings
+HISTFILE=~/.zhistory
+HISTSIZE=10000
+SAVEHIST=10000
+setopt append_history           # Immediately append history instead of overwriting
+setopt inc_append_history       # Write to history file immediately, not when shell quits
+setopt share_history            # Share history among all sessions
+setopt hist_ignore_all_dups     # If a new command is a duplicate, remove the older one
+
+
+# Tab completion
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit
+zstyle ':completion:*' rehash true  # automatically find new executables in the $PATH
+# Fix slow git tab completion, see https://stackoverflow.com/a/9810485/1136455
+__git_files () {
+    _wanted files expl 'local files' _files
+}
+
+# Miscellaneous
+export EDITOR=/usr/bin/vi
+export VISUAL=/usr/bin/vi
+case $TERM in
+screen*)
+    export PROMPT=$'\n%B%F{red}screen %F{green}%n@%m %F{yellow}%~%f%b\n$ '
+    ;;
+*)
+    # export PROMPT=$'\n%B%F{cyan}%n@%m %F{yellow}%~%f%b\n$ '
+    export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
+    ;;
+esac
+CDPATH=~/local/projects:~/projects:~/doc/business:~/doc/domestic
+TIMEFMT=$'\nelapsed time: %*E\nmax memory:   %MKB\ncpu:          %P' # time command format
+bindkey -v                          # vi command-line editing
+setopt interactive_comments         # allow # comments in shell; good for copy/paste
+export BLOCK_SIZE="'1"              # Add commas to file sizes
+typeset -U path                     # keep duplicates out of the path
+setopt extended_glob                # extended globbing. Allows using regular expressions with *
+setopt autocd                       # if only directory path is entered, cd there.
+
+
+#
+# zsh functions
+#
+autoload -Uz zmv                # Bundled zsh functions
+alias zcp='zmv -C'
+alias zln='zmv -L'
+
+
+#
+# Custom functions
+#
+fpath=(~/.zsh/autoload $fpath)
+autoload -Uk activate ds man webserver open-in-gvim
+
+# F12 opens the highlighted filename in VS Code ~/doc workspace.
+bindkey -s '^[[24~' 'code --goto \"$(xclip -o)\" ~/doc\n'
+
+# Shift+F12 opens the highlighted filename in gvim.
+# The zsh function ~/.zsh/autoloadopen-in-gvim requires the xdotool package is installed.
+bindkey -s '^[[24;2~' 'open-in-gvim \"$(xclip -o)\"\n'
+
+#
+# zsh-users addins (https://github.com/zsh-users)
+#
+
+# If not already installed then install a zsh-users
+# (://github.com/zsh-usershttps) project and then load it.
+# $1 is the zsh-users # project Github repository URL.
+function load-zsh-users() {
+    local url="$1"
+    local dir="$HOME/.zsh/$(basename $1)"
+    local file="$dir/$(basename $1).zsh"
+    if [ ! -d $dir ]; then
+        git clone $url $dir
+    fi
+    source $file
+}
+
+load-zsh-users https://github.com/zsh-users/zsh-autosuggestions
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=249" # See https://coderwall.com/p/pb1uzq/z-shell-colors
+# Mapping Ctrl+Enter to autosuggest-execute is problematic (https://stackoverflow.com/a/45714460/1136455)
+bindkey '^@' autosuggest-execute    # Ctrl+Space executes current suggestion
+
+load-zsh-users https://github.com/zsh-users/zsh-syntax-highlighting
+
+load-zsh-users https://github.com/zsh-users/zsh-history-substring-search
+# Manjaro Linux
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+# Ubuntu 20.04
+#bindkey "$terminfo[kcuu1]" history-substring-search-up
+#bindkey "$terminfo[kcud1]" history-substring-search-down
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
+
+
+# Login message
+echo $USER@$HOST  $(uname -srm) $(lsb_release -rcs)
+# Wasmer
+export WASMER_DIR="/home/srackham/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/srackham/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/srackham/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/srackham/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/srackham/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

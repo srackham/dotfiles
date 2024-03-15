@@ -1,0 +1,21 @@
+# Colored man pages (see https://github.com/ael-code/zsh-colored-man-pages)
+#
+# For more info on tput(1) and color numbers see:
+#   http://linuxcommand.org/lc3_adv_tput.php
+#   https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+#   https://unix.stackexchange.com/questions/269077/tput-setaf-color-table-how-to-determine-color-codes
+#   https://www.geeksforgeeks.org/how-to-view-colored-man-pages-in-linux/
+function man() {
+    env \
+        COLUMNS=120 \
+        LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
+        LESS_TERMCAP_me=$(tput sgr0) \
+        LESS_TERMCAP_mb=$(tput blink) \
+        LESS_TERMCAP_us=$(tput setaf 2) \
+        LESS_TERMCAP_ue=$(tput sgr0) \
+        LESS_TERMCAP_so=$(tput smso) \
+        LESS_TERMCAP_se=$(tput rmso) \
+        PAGER="${commands[less]:-$PAGER}" \
+        man "$@"
+}
+

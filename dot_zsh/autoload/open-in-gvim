@@ -1,0 +1,30 @@
+# Open file name argument in current instance of gvim.
+# Necessary because gvim has no command-line option to open a file in the current window.
+function open-in-gvim() {
+    local file="$1"
+    if [ -z "$file" ]; then
+        echo "usage: $0 FILE"
+        return 1
+    fi
+    if [[ "$file" != /* ]]; then
+        file="$(pwd)/$file"
+    fi
+    if [ ! -f "$file" ]; then
+        echo "missing file: '$file'"
+        return 1
+    fi
+    local wid=$(xdotool search gvim 2>/dev/null | tail -1)  # gvim window ID
+    if [ -z "$wid" ]; then
+        command gvim
+        open-in-gvim "$file"
+    fi
+    xdotool windowactivate --sync $wid
+    if [ $? -ne 0 ]; then
+        return $?
+    fi
+    sleep 0.1               # xdotool --sync is not sufficent.
+    xdotool key Escape      # Escape Vim insert and command modes.
+    xdotool type ":e $file"
+    xdotool key Return
+}
+

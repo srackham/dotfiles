@@ -1,0 +1,68 @@
+#
+# Environment variables exported from login shell
+#
+
+# Customise ls colors
+# ~/.dircolors generated with command: dircolors -p > ~/.dircolors
+# See also ~/bin/lscolors.sh
+[[ -f $HOME/.dircolors ]] && eval $(dircolors -b ~/.dircolors)
+
+# User's binaries
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/local/bin" ]; then
+    export PATH="$HOME/local/bin:$PATH"
+fi
+
+# Use Brave instead of Chrome when doing Flutter Web development.
+export CHROME_EXECUTABLE=/usr/bin/brave-browser     # Ubuntu.
+#export CHROME_EXECUTABLE=/usr/bin/brave             # Manjaro Linux.
+
+# Deno runtime
+if [ -d "$HOME/.deno/bin" ]; then
+    export PATH=$PATH:$HOME/.deno/bin
+fi
+
+# Go language (add GOROOT and GOPATH to PATH)
+if [ -d "$HOME/go" ]; then
+    export PATH=$PATH:$HOME/local/bin/go/bin:$HOME/go/bin
+fi
+
+# Rust language
+if [ -f $HOME/.cargo/env ]; then
+    source $HOME/.cargo/env
+fi
+
+# Virgil language
+if [ -d "$HOME/local/bin/virgil" ]; then
+    export PATH="$HOME/local/bin/virgil/bin:$HOME/local/bin/virgil/bin/dev:$PATH"
+fi
+
+# wassmtime Wasm runtime
+if [ -d "$HOME/.wasmtime" ]; then
+    export WASMTIME_HOME="$HOME/.wasmtime"
+    export PATH="$WASMTIME_HOME/bin:$PATH"
+fi
+
+# wasmer Wasm runtime
+if [ -d "$HOME/.wasmer" ]; then
+    export WASMER_HOME="$HOME/.wasmer"
+    export PATH="$WASMER_HOME/bin:$PATH"
+fi
+
+# Java applications
+# 5-Jun-2022: JAVA_HOME is unnecessary for my applications.
+#export JAVA_HOME=/usr/lib/jvm/default-java   # Ubuntu 20.04
+#export JAVA_HOME=/usr/lib/jvm/default        # Manjaro Linux
+
+# Don't use Git repo in $HOME unless it's the current working directory.
+export GIT_CEILING_DIRECTORIES="$HOME"
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
+# <<< coursier install directory <<<

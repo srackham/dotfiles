@@ -1,0 +1,22 @@
+# Simple Web server
+function webserver() {
+    case "$1" in
+        -h|--help)
+            echo "USAGE: webserver [HOME_DIR [PORT_NUMBER]]"
+            return
+    esac
+    local port=1212
+    local dir=$PWD
+    case $# in
+        1)
+            dir=$1
+            ;;
+        2)
+            dir=$1
+            port=$2
+            ;;
+    esac
+    (cd "$dir" && python3 -m http.server $port)
+}
+
+
