@@ -1,0 +1,203 @@
+" -----------------
+" SJR customisation
+" -----------------
+
+" Don't need vi compatibility.
+set nocompatible
+
+" Set <Leader> character.
+let mapleader = ","
+
+set encoding=utf-8
+set directory=~/.vim/swap//   "swap files
+set backup
+set backupdir=$HOME/.vim/backups//
+set undofile
+set undodir=$HOME/.vim/undo
+
+if has("gui_running")
+  colorscheme desert
+  highlight Normal guibg=grey15
+  set guifont=Monospace\ 10
+  set guioptions-=m  "remove menu bar
+  set guioptions-=T  "remove toolbar
+  set guioptions-=r  "remove right-hand scroll bar
+
+  " gx command opens URI under cursor in browser.
+  " See http://vi.stackexchange.com/questions/5032/gx-not-opening-url-in-gvim-but-works-in-terminal
+  "let g:netrw_browsex_viewer="setsid xdg-open"
+
+  " Use standard Windows functions for Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+S,
+  " Ctrl+A, Ctrl+Tab, Ctrl+F4 etc.
+  " Only seems to work with gvim.
+  source $VIMRUNTIME/mswin.vim
+  behave mswin
+endif
+
+
+" vim-plug plugin management
+
+call plug#begin('~/.vim/plugged')
+" Declare plugins
+Plug 'junegunn/vim-plug'
+Plug 'jlanzarotta/bufexplorer'
+let g:polyglot_disabled = ['markdown']  "markdown is incompatible with rimu syntax
+Plug 'sheerun/vim-polyglot'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'farmergreg/vim-lastplace'
+call plug#end()
+
+" Show command parameters on status line.
+set showcmd
+
+" Always keep a couple of lines above and below the cursor.
+set scrolloff=2
+
+" Mainly to suppress beeping under Windows.
+set visualbell
+
+" Intelligent case-sensitive search (ignorecase must be set for smartcase to
+" work).
+set ignorecase
+set smartcase
+
+" Replace all occurences on line by default (use g flag to replace the first).
+"set gdefault
+
+" Highlight search result as you type.
+set incsearch
+set showmatch
+set hlsearch
+
+set ruler
+
+" Specify what to save in ~/.viminfo
+set viminfo='1000,h,!,:500,@500,/500
+
+" Optimize colors for dark background (overrides default auto sense).
+set background=dark
+" Highlight search in red.
+hi Search term=reverse ctermfg=white ctermbg=red guifg=white guibg=Red
+
+" Disable folding.
+set nofoldenable
+
+" So buffers can be switched without having to save first.
+set hidden
+
+" No insert mode backspace/delete boundaries.
+set backspace=indent,eol,start
+
+syntax on
+filetype on
+filetype indent on
+filetype plugin on
+
+" Show tabs and trailing characters.
+"set listchars=tab:»·,trail:·,eol:¬
+set listchars=tab:»·,trail:·
+set list
+
+" If we don't do this spaces are highlighted in the margin of changelog files.
+let g:changelog_spacing_errors = 0
+
+" I prefer to return to the column rather than start of line.
+nnoremap '' ``
+nnoremap ' `
+
+" Space to page down like most browsers.
+" nnoremap <Space> <PageDown>
+
+" Make line title case
+nnoremap gt :s/\<\(\w\)\(\w*\)\>/\u\1\L\2/g<CR>
+
+" Turn off search and spelling highlights.
+nnoremap <Leader><space> :nohls<CR>:set nospell<CR>
+
+" Highlight all occurrences of word under the cursor.
+nnoremap <Leader>h :let @/=expand("<cword>")<CR>:set hls<CR>
+
+" Spell checking on.
+nnoremap <Leader>s :set spell<CR>
+
+" Go to next spelling error.
+nnoremap <Leader>d ]s
+
+" Make spelling suggestion for word under the cursor.
+nnoremap <Leader>D z=
+
+" Reformat paragraphs and list.
+nnoremap <Leader>r gq}
+nnoremap <C-R> gq}
+nnoremap Q gq}
+
+" Undo.
+nnoremap U :redo<CR>
+
+" Expand tabs to spaces and delete trailing white space and Dos-returns.
+nnoremap <Leader>t :set et<CR>:retab!<CR>:silent! %s/[\r \t]\+$//<CR>
+
+" Retab text and delete trailing white space and Dos-returns.
+nnoremap <Leader>T :set noet<CR>:retab!<CR>:set et<CR>:silent! %s/[\r \t]\+$//<CR>
+
+" Save all
+nnoremap <Leader>w :wa<CR>
+
+" Save all and exit
+nnoremap <Leader>q :xa<CR>
+
+" Close buffer
+nnoremap <Leader>c :bd<CR>
+
+" Paste toggle.
+nnoremap <Leader>v :set invpaste<CR>
+
+" Toggle to previous buffer.
+nnoremap <Leader>, <C-^>
+nnoremap <C-Tab> <C-^>
+
+" Latin long vowels.
+imap <Leader>a ā
+imap <Leader>e ē
+imap <Leader>i ī
+imap <Leader>o ō
+imap <Leader>u ū
+
+" Buffer Explorer.
+nnoremap <silent> <Leader>f :BufExplorer<CR>
+
+" Auto-save when gvim loses focus (NOTE: Does not work with terminal Vim).
+autocmd FocusLost * silent! wall
+
+" Highlight wrapped lines. But it spoils terminal cut-and-paste so need to
+" explicitly unset all the subsequently set on a per buffer basis.
+autocmd BufEnter * set showbreak=
+
+" Default tab expansion and tab stops.
+autocmd BufRead,BufNewFile *
+        \ setlocal autoindent expandtab tabstop=8 softtabstop=2 shiftwidth=2
+
+" Specific tab stops and options.
+autocmd BufRead,BufNewFile *.rmu,*.txt,README,TODO,CHANGELOG,NOTES,ABOUT
+        \ setlocal textwidth=70 wrap formatoptions+=t
+        \ formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\\|^\\s*[a-zA-Z.]\\.\\s\\+\\\\|^\\s*[ivxIVX]\\+\\.\\s\\+
+autocmd BufRead,BufNewFile *.{cs,c,h,cc,py,php,go}
+        \ setlocal softtabstop=4 shiftwidth=4
+autocmd BufRead,BufNewFile *.{sh,zsh},.bashrc,bash_profile,.zshrc
+        \ setlocal softtabstop=4 shiftwidth=4
+autocmd BufRead,BufNewFile *.{groovy,gradle,gant,java,kt,kts}
+        \ setlocal softtabstop=4 shiftwidth=4
+
+" File type exceptions.
+autocmd BufRead,BufNewFile Jakefile setlocal filetype=javascript
+autocmd BufRead,BufNewFile *.md setlocal syntax=rimu
+autocmd BufRead,BufNewFile *.rmu setlocal filetype=rimu
+autocmd BufRead,BufNewFile *.txt setlocal filetype=asciidoc
+autocmd BufNewFile,BufRead *.gradle,*.gant setlocal filetype=groovy
+
+if has("gui_running")
+  " Session auto load and save.
+  autocmd VimEnter * nested :source $HOME/.vim/sessions/default
+  set sessionoptions+=winpos,resize
+  autocmd VimLeave * :mksession! $HOME/.vim/sessions/default
+endif
