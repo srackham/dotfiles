@@ -1,0 +1,19 @@
+[user]
+  name = Stuart Rackham
+  email = srackham@gmail.com
+[color]
+    ui = auto
+[color "diff"]
+    meta = green bold
+    frag = yellow bold
+    old = red bold
+    new = cyan bold
+[core]
+	excludesfile = /home/srackham/.gitignore
+	autocrlf = input
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
