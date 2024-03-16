@@ -77,7 +77,11 @@ EDITOR=/usr/bin/vim; export EDITOR              # Linux
 # Add path to Ruby's $LOAD_PATH ($:)
 export RUBYLIB=$HOME/lib/ruby
 
-. "$HOME/.cargo/env"
+# Rust language
+if [ -f $HOME/.cargo/env ]; then
+    source $HOME/.cargo/env
+fi
+
 
 # >>> coursier install directory >>>
 export PATH="$PATH:/home/srackham/.local/share/coursier/bin"

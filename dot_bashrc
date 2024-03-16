@@ -425,4 +425,8 @@ fi
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/srackham/.sdkman"
 [[ -s "/home/srackham/.sdkman/bin/sdkman-init.sh" ]] && source "/home/srackham/.sdkman/bin/sdkman-init.sh"
-. "$HOME/.cargo/env"
+
+# Rust language
+if [ -f $HOME/.cargo/env ]; then
+    source $HOME/.cargo/env
+fi
