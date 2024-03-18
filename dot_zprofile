@@ -20,8 +20,7 @@ if [ -d "$HOME/local/bin" ]; then
 fi
 
 # Use Brave instead of Chrome when doing Flutter Web development.
-export CHROME_EXECUTABLE=/usr/bin/brave-browser     # Ubuntu.
-#export CHROME_EXECUTABLE=/usr/bin/brave             # Manjaro Linux.
+export CHROME_EXECUTABLE=$(which brave)
 
 # Deno runtime
 if [ -d "$HOME/.deno/bin" ]; then
@@ -54,11 +53,6 @@ if [ -d "$HOME/.wasmer" ]; then
     export WASMER_HOME="$HOME/.wasmer"
     export PATH="$WASMER_HOME/bin:$PATH"
 fi
-
-# Java applications
-# 5-Jun-2022: JAVA_HOME is unnecessary for my applications.
-#export JAVA_HOME=/usr/lib/jvm/default-java   # Ubuntu 20.04
-#export JAVA_HOME=/usr/lib/jvm/default        # Manjaro Linux
 
 # Don't use Git repo in $HOME unless it's the current working directory.
 export GIT_CEILING_DIRECTORIES="$HOME"
