@@ -3,13 +3,10 @@
 # Inspired by https://gist.github.com/scottstanfield/fa1085c225069160225d18b1dc16ee1c
 #
 
-source /etc/os-release
-
+{{ if eq .chezmoi.osRelease.id "manjaro" -}}
 # KLUDGE: 1-Nov-2021: Because Manjaro was mysteriously not sourcing ~/.zprofile
-if [[ $ID == "manjaro" ]]; then
-    source $HOME/.zprofile
-fi
-
+source $HOME/.zprofile
+{{- end }}
 
 # Aliases
 unalias -a
@@ -159,13 +156,13 @@ bindkey '^@' autosuggest-execute    # Ctrl+Space executes current suggestion
 load-zsh-users https://github.com/zsh-users/zsh-syntax-highlighting
 
 load-zsh-users https://github.com/zsh-users/zsh-history-substring-search
-if [[ $ID == "manjaro" ]]; then
-    bindkey '^[[A' history-substring-search-up
-    bindkey '^[[B' history-substring-search-down
-else
-    bindkey "$terminfo[kcuu1]" history-substring-search-up
-    bindkey "$terminfo[kcud1]" history-substring-search-down
-fi
+{{ if eq .chezmoi.osRelease.id "manjaro" -}}
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+{{- else -}}
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+{{- end }}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 
