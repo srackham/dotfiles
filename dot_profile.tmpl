@@ -1,17 +1,12 @@
-
-# >>> coursier install directory >>>
-export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
-# <<< coursier install directory <<<
-
 # SJR: 10-Oct-2023: GnuCash data and config directories.
 export GNC_DATA_HOME=/home/srackham/doc/business/accounting/gnucash5/.local/share/gnucash
 export GNC_CONFIG_HOME=/home/srackham/doc/business/accounting/gnucash5/.config/gnucash
 
-# SJR: 11-Oct-2023: Set locale from ~/.config/locale.conf
-# SJR: 15-Mar-2024: Skipped by NixOS, don't know if/why it is necessary.
+{{ if eq .chezmoi.osRelease.id "manjaro" -}}
 if [ -f "/etc/profile.d/locale.sh" ]; then
     unset LANG
     source /etc/profile.d/locale.sh
 fi
+{{- end }}
 
 
