@@ -62,8 +62,8 @@ alias paste-image="xclip -selection clipboard -o -t image/png"   # Copy clipboar
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser.
 alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
 alias sc='scala-cli'
-alias services="/usr/sbin/service --status-all"
-alias ug="ugrep --perl-regexp --query --smart-case"
+#alias services="/usr/sbin/service --status-all"
+#alias ug="ugrep --perl-regexp --query --smart-case"
 
 alias ac="conda activate"
 alias da="conda deactivate"
@@ -89,8 +89,8 @@ __git_files () {
 }
 
 # Miscellaneous
-export EDITOR=/usr/bin/vi
-export VISUAL=/usr/bin/vi
+export EDITOR=$(which vi)
+export VISUAL=$(which vi)
 case $TERM in
 screen*)
     export PROMPT=$'\n%B%F{red}screen %F{green}%n@%m %F{yellow}%~%f%b\n$ '
