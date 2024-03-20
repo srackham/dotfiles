@@ -1,134 +1,40 @@
 echo "*** sourcing ~/.bashrc ***"
 
-# ~/.bashrc: executed by bash(1) for non-login interactive shells.
-
-# # Disable Ctrl+S flow control.
-# stty -ixon
-
+set -o vi   # vi command-line editing mode.
 shopt -s extglob
+shopt -s histappend
 
-# If running interactively, then:
-# if [ "$PS1" ]; then
+export HISTFILESIZE=400000000
+export HISTSIZE=10000
+export PROMPT_COMMAND="history -a"
 
-    set -o vi   # vi command-line editing mode.
+# set fancy prompt color differently for servers.
+# see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
+case $(hostname) in
+nuc1)
+    PS1='\[\n\033[1;36m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+    ;;
+nuc2)
+    PS1='\[\n\033[1;31m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+    ;;
+*)
+    PS1='\[\n\033[1;32m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
+    ;;
+esac
 
-    export HISTFILESIZE=400000000
-    export HISTSIZE=10000
-    export PROMPT_COMMAND="history -a"
-    shopt -s histappend
-
-    # enable color support of ls and also add handy aliases
-    # if [ "$TERM" != "dumb" ]; then
-    #     eval `dircolors -b`
-    #     alias ls='ls --color=auto'
-    # fi
-
-    # set fancy prompt color differently for servers.
-    # see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
-    case $(hostname) in
-    nuc1)
-        PS1='\[\n\033[1;36m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
-        ;;
-    nuc2)
-        PS1='\[\n\033[1;31m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
-        ;;
-    *)
-        PS1='\[\n\033[1;32m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
-        ;;
-    esac
-
-    # enable programmable completion features (you don't need to enable
-    # this, if it's already enabled in /etc/bash.bashrc).
-    # if [ -f /etc/bash_completion ]; then
-    #   . /etc/bash_completion
-    # fi
-
-    # Completion confined to relevant file extensions.
-    # complete -f -o dirnames -X '!*.@(pdf|PDF)' evince
-
-    # Completion for make 'm' alias.
-    # complete -o default -F _make m
-
-    # ###
-    # # Miscellaneous shortcuts
-    # ###
-    # alias drake='deno run -A Drakefile.ts'
-    # alias b='google-chrome' # Browser.
-    # alias g='grep'
-    # alias grep='grep --color=auto'
-    # alias gw='./gradlew --console plain'
-    # alias gh='./gradlew help --task'
-    # alias h=history
-    # alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-validator --verbose --format=text --file=$f; done' # Recursively validate all HTML files in current directory.
-    # alias l='less -R'
-    # alias ll='ls -Altr --time-style="+%d-%m-%Y %H:%M:%S"'      # Long listing in reverse chronological order.
-    # alias npm='LINK=g++ npm'    # https://github.com/TooTallNate/node-gyp/issues/147#issuecomment-10895149
-    # alias rp='mogrify -quality 25 -resize 800' # Resize and compress photos.
-    # alias vi='vim'
-    # alias vs='gvim -c SessionOpenLast'     # GVim with session.
-    # alias xclip='xclip -selection clipboard'
 
 {{ template "aliases.tmpl" . }}
 
-    # Activate Python virtual environment in directory $1 (defaults to .venv).
-    # function activate() {
-    #     source ${1:-.venv}/bin/activate
-    # }
-
-    # Simple Web server
-    # function webserver() {
-    #     local port
-    #     port=1212
-    #     case $# in
-    #         1)
-    #             cd "$1"
-    #             ;;
-    #         2)
-    #             cd "$1"
-    #             port=$2
-    #             ;;
-    #     esac
-    #     python3 -m http.server $port
-    # }
-
-    # Document search. Lists file names that match query.
-    # Usage: ds query
-    function ds() {
-        if [ "$*" ]; then
-            recoll -t -q $*  2>/dev/null \
-                | tail -n +3 \
-                | head -n 20 \
-                | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|'
-        else
-            echo "missing search query" >&2
-            return 1
-        fi
-    }
-
-    # ###
-    # # node/npm shortcuts
-    # ###
-    # alias nls='npm list --depth 0 --silent'
-    # alias run='npm run --silent'
-
-    # ###
-    # # Git shortcuts
-    # ###
-    # alias gd='git diff --color'
-    # alias gl='git log --pretty=format:"%h%x09%ad%x09%Cgreen%d%Creset %s" --date=relative'
-    # alias gls='git ls-files'
-    # alias gpush='git push --tags origin master' # Push local master to remote origin.
-    # alias gss='git status --short'
-
-# fi
-
-# vim: set et ts=4 sw=4 sts=4:
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# export SDKMAN_DIR="/home/srackham/.sdkman"
-# [[ -s "/home/srackham/.sdkman/bin/sdkman-init.sh" ]] && source "/home/srackham/.sdkman/bin/sdkman-init.sh"
-
-# Rust language
-# if [ -f $HOME/.cargo/env ]; then
-#     source $HOME/.cargo/env
-# fi
+# Recoll document search, lists file names that match query.
+# Usage: ds query
+function ds() {
+    if [ "$*" ]; then
+        recoll -t -q $*  2>/dev/null \
+            | tail -n +3 \
+            | head -n 20 \
+            | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|'
+    else
+        echo "missing search query" >&2
+        return 1
+    fi
+}

@@ -1,17 +1,4 @@
-#
-# Interactive shell initialisation
-# Inspired by https://gist.github.com/scottstanfield/fa1085c225069160225d18b1dc16ee1c
-#
-
-# {{ if eq .chezmoi.osRelease.id "manjaro" -}}
-# # KLUDGE: 1-Nov-2021: Because Manjaro was mysteriously not sourcing ~/.zprofile
-# source $HOME/.zprofile
-# {{- end }}
-
 echo "*** sourcing ~/.zshrc ***"
-
-# Aliases
-# unalias -a
 
 {{ template "aliases.tmpl" . }}
 
@@ -57,14 +44,6 @@ setopt autocd                       # if only directory path is entered, cd ther
 
 
 #
-# zsh functions
-#
-autoload -Uz zmv                # Bundled zsh functions
-alias zcp='zmv -C'
-alias zln='zmv -L'
-
-
-#
 # Custom functions
 #
 fpath=(~/.zsh/autoload $fpath)
@@ -76,10 +55,6 @@ bindkey -s '^[[24~' 'code --goto \"$(xclip -o)\" ~/doc\n'
 # Shift+F12 opens the highlighted filename in gvim.
 # The zsh function ~/.zsh/autoloadopen-in-gvim requires the xdotool package is installed.
 bindkey -s '^[[24;2~' 'open-in-gvim \"$(xclip -o)\"\n'
-
-#
-# zsh-users addins (https://github.com/zsh-users)
-#
 
 # If not already installed then install a zsh-users
 # (://github.com/zsh-usershttps) project and then load it.
@@ -98,9 +73,7 @@ load-zsh-users https://github.com/zsh-users/zsh-autosuggestions
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=249" # See https://coderwall.com/p/pb1uzq/z-shell-colors
 # Mapping Ctrl+Enter to autosuggest-execute is problematic (https://stackoverflow.com/a/45714460/1136455)
 bindkey '^@' autosuggest-execute    # Ctrl+Space executes current suggestion
-
 load-zsh-users https://github.com/zsh-users/zsh-syntax-highlighting
-
 load-zsh-users https://github.com/zsh-users/zsh-history-substring-search
 {{ if eq .chezmoi.osRelease.id "manjaro" -}}
 bindkey '^[[A' history-substring-search-up
@@ -110,10 +83,6 @@ bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 {{- end }}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
-
-
-# Login message
-# echo $USER@$HOST  $(uname -srm) $(lsb_release -rcs)
 
 # Wasmer
 export WASMER_DIR="/home/srackham/.wasmer"
@@ -133,4 +102,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
