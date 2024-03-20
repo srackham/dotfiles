@@ -1,6 +1,7 @@
 echo "*** sourcing ~/.bashrc ***"
 
 set -o vi   # vi command-line editing mode.
+bind -s 'set completion-ignore-case on'
 shopt -s extglob
 shopt -s histappend
 
@@ -21,7 +22,6 @@ nuc2)
     PS1='\[\n\033[1;32m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
     ;;
 esac
-
 
 {{ template "aliases.tmpl" . }}
 
