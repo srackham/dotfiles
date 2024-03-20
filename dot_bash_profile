@@ -2,6 +2,9 @@ if [ -f ~/.profile ]; then
   . ~/.profile
 fi
 
-if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
+if [[ $- == *i* && $- == *l* ]]; then
+    # Source ~/.bashrc if we an interactive login shell.
+    if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+    fi
 fi
