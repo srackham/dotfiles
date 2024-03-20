@@ -2,6 +2,17 @@
 # Environment variables exported from login shell
 #
 
+# SJR: 10-Oct-2023: GnuCash data and config directories.
+export GNC_DATA_HOME=/home/srackham/doc/business/accounting/gnucash5/.local/share/gnucash
+export GNC_CONFIG_HOME=/home/srackham/doc/business/accounting/gnucash5/.config/gnucash
+
+{{ if eq .chezmoi.osRelease.id "manjaro" -}}
+if [ -f "/etc/profile.d/locale.sh" ]; then
+    unset LANG
+    source /etc/profile.d/locale.sh
+fi
+{{- end }}
+
 # Customise ls colors
 # ~/.dircolors generated with command: dircolors -p > ~/.dircolors
 # See also ~/bin/lscolors.sh

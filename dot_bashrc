@@ -1,4 +1,9 @@
+echo "*** SOURCING ~/.bashrc ***"
+
 # ~/.bashrc: executed by bash(1) for non-login interactive shells.
+
+# # Disable Ctrl+S flow control.
+# stty -ixon
 
 shopt -s extglob
 
@@ -44,25 +49,69 @@ shopt -s extglob
     # Completion for make 'm' alias.
     # complete -o default -F _make m
 
-    ###
-    # Miscellaneous shortcuts
-    ###
-    alias drake='deno run -A Drakefile.ts'
-    alias b='google-chrome' # Browser.
-    alias g='grep'
-    alias grep='grep --color=auto'
-    alias gw='./gradlew --console plain'
-    alias gh='./gradlew help --task'
-    alias h=history
-    # Recursively validate all HTML files in current directory.
-    alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-validator --verbose --format=text --file=$f; done'
-    alias l='less -R'
-    alias ll='ls -Altr --time-style="+%d-%m-%Y %H:%M:%S"'      # Long listing in reverse chronological order.
-    alias npm='LINK=g++ npm'    # https://github.com/TooTallNate/node-gyp/issues/147#issuecomment-10895149
-    alias rp='mogrify -quality 25 -resize 800' # Resize and compress photos.
-    alias vi='vim'
-    alias vs='gvim -c SessionOpenLast'     # GVim with session.
-    alias xclip='xclip -selection clipboard'
+    # ###
+    # # Miscellaneous shortcuts
+    # ###
+    # alias drake='deno run -A Drakefile.ts'
+    # alias b='google-chrome' # Browser.
+    # alias g='grep'
+    # alias grep='grep --color=auto'
+    # alias gw='./gradlew --console plain'
+    # alias gh='./gradlew help --task'
+    # alias h=history
+    # alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-validator --verbose --format=text --file=$f; done' # Recursively validate all HTML files in current directory.
+    # alias l='less -R'
+    # alias ll='ls -Altr --time-style="+%d-%m-%Y %H:%M:%S"'      # Long listing in reverse chronological order.
+    # alias npm='LINK=g++ npm'    # https://github.com/TooTallNate/node-gyp/issues/147#issuecomment-10895149
+    # alias rp='mogrify -quality 25 -resize 800' # Resize and compress photos.
+    # alias vi='vim'
+    # alias vs='gvim -c SessionOpenLast'     # GVim with session.
+    # alias xclip='xclip -selection clipboard'
+
+
+alias ,="cd -"
+#alias b="google-chrome" # Open in browser
+alias b="brave"
+alias cat="bat" 
+alias less="bat"
+alias l="bat"
+alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
+alias dmesg="sudo dmesg --human --color=always"
+alias diff="diff --color=always -u"
+alias drake="deno run -A Drakefile.ts"
+alias rg="rg --colors path:style:bold  --colors path:fg:yellow"
+alias g="rg --max-depth 1 -z"
+alias rgdocs="echo \"$HOME/doc\" | xargs rg -wil --count-matches --colors path:style:bold --colors path:fg:yellow -t txt -t markdown" # Search markdown and text files in ~/doc directory.
+alias gd="git diff --color"
+alias gg="git grep -P"
+alias gl="git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative"
+alias gls="git ls-files"
+alias grep="grep --color=auto"
+alias gst="git status --short 2>/dev/null"
+alias gw="./gradlew --console plain"
+alias h=history
+alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-validator --verbose --format=text --file=$f; done' # Recursively validate all HTML files in current directory.
+
+# lsflags="--color --group-directories-first"
+# alias ls="ls ${lsflags}"
+# alias la="ls ${lsflags} -lA"
+# alias ll="ls ${lsflags} -l"
+# alias lr="ls ${lsflags} -Altr --time-style='+%d-%m-%Y %H:%M:%S'" # Long listing in reverse chronological order
+
+alias ls="eza"
+alias ll="eza -l"
+alias lr="eza -las modified"
+
+alias nls="npm list --depth 0 --silent"
+alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"
+alias paste-text="xclip -selection clipboard -o -t text/plain"   # Copy clipboard text to stdout
+alias paste-image="xclip -selection clipboard -o -t image/png"   # Copy clipboard image to stdout
+alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser.
+alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
+
+alias ac="conda activate"
+alias da="conda deactivate"
+
 
     # Activate Python virtual environment in directory $1 (defaults to .venv).
     # function activate() {
@@ -99,20 +148,20 @@ shopt -s extglob
         fi
     }
 
-    ###
-    # node/npm shortcuts
-    ###
-    alias nls='npm list --depth 0 --silent'
-    alias run='npm run --silent'
+    # ###
+    # # node/npm shortcuts
+    # ###
+    # alias nls='npm list --depth 0 --silent'
+    # alias run='npm run --silent'
 
-    ###
-    # Git shortcuts
-    ###
-    alias gd='git diff --color'
-    alias gl='git log --pretty=format:"%h%x09%ad%x09%Cgreen%d%Creset %s" --date=relative'
-    alias gls='git ls-files'
-    alias gpush='git push --tags origin master' # Push local master to remote origin.
-    alias gss='git status --short'
+    # ###
+    # # Git shortcuts
+    # ###
+    # alias gd='git diff --color'
+    # alias gl='git log --pretty=format:"%h%x09%ad%x09%Cgreen%d%Creset %s" --date=relative'
+    # alias gls='git ls-files'
+    # alias gpush='git push --tags origin master' # Push local master to remote origin.
+    # alias gss='git status --short'
 
 # fi
 
