@@ -1,4 +1,7 @@
-echo "*** SOURCING .bash_profile ***"
+[[ "${_PROFILE:-""}" == "yes" ]] && return # Only source this file once.
+_PROFILE=yes
+
+echo "*** SOURCING .profile ***"
 
 #
 # Environment variables exported from login shell
@@ -10,9 +13,6 @@ echo "*** SOURCING .bash_profile ***"
 # [[ -f $HOME/.dircolors ]] && eval $(dircolors -b ~/.dircolors)
 
 # User's binaries
-echo "\$PATH = $PATH"
-echo "\$HOME/bin = $HOME/bin"
-
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi
