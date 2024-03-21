@@ -33,8 +33,6 @@ screen*)
     export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
     ;;
 esac
-CDPATH=~/local/projects:~/projects:~/doc/business:~/doc/domestic
-TIMEFMT=$'\nelapsed time: %*E\nmax memory:   %MKB\ncpu:          %P' # time command format
 bindkey -v                          # vi command-line editing
 setopt interactive_comments         # allow # comments in shell; good for copy/paste
 export BLOCK_SIZE="'1"              # Add commas to file sizes

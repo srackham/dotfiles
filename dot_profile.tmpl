@@ -1,9 +1,37 @@
 # Sourced by bash (from ~/.bash_profile), zsh (from ~/.zprofile), and the GDM.
 
-[[ "${_PROFILE:-""}" == "yes" ]] && return # Only source this file once.
+[[ "${_PROFILE:-""}" == "yes" ]] && return # Only source this file once per session.
 export _PROFILE=yes
 
 echo "*** sourcing ~/.profile ***"
+
+{{ if eq .chezmoi.osRelease.id "manjaro" -}}
+if [ -f "/etc/profile.d/locale.sh" ]; then
+    unset LANG
+    source /etc/profile.d/locale.sh
+fi
+{{- end }}
+
+# Used by bash and zsh for easier path navigation.
+CDPATH=~/local/projects:~/projects:~/doc/business:~/doc/domestic
+
+# time command format
+TIMEFMT=$'\nelapsed time: %*E\nmax memory:   %MKB\ncpu:          %P'
+
+# Don't use Git repo in $HOME unless it's the current working directory.
+export GIT_CEILING_DIRECTORIES="$HOME"
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
+# <<< coursier install directory <<<
+
+# SJR: 10-Oct-2023: GnuCash data and config directories.
+export GNC_DATA_HOME=/home/srackham/doc/business/accounting/gnucash5/.local/share/gnucash
+export GNC_CONFIG_HOME=/home/srackham/doc/business/accounting/gnucash5/.config/gnucash
+
+#
+# Build the PATH env variable:
+#
 
 # User's binaries
 if [ -d "$HOME/bin" ] ; then
@@ -51,21 +79,3 @@ fi
 #     export WASMER_HOME="$HOME/.wasmer"
 #     export PATH="$WASMER_HOME/bin:$PATH"
 # fi
-
-# Don't use Git repo in $HOME unless it's the current working directory.
-export GIT_CEILING_DIRECTORIES="$HOME"
-
-# >>> coursier install directory >>>
-export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
-# <<< coursier install directory <<<
-
-# SJR: 10-Oct-2023: GnuCash data and config directories.
-export GNC_DATA_HOME=/home/srackham/doc/business/accounting/gnucash5/.local/share/gnucash
-export GNC_CONFIG_HOME=/home/srackham/doc/business/accounting/gnucash5/.config/gnucash
-
-{{ if eq .chezmoi.osRelease.id "manjaro" -}}
-if [ -f "/etc/profile.d/locale.sh" ]; then
-    unset LANG
-    source /etc/profile.d/locale.sh
-fi
-{{- end }}

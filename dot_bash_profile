@@ -2,6 +2,7 @@ if [ -f ~/.profile ]; then
   . ~/.profile
 fi
 
+# Because bash login shell do not source ~/.bashrc
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi
