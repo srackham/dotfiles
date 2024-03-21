@@ -13,10 +13,10 @@ fi
 {{- end }}
 
 # Used by bash and zsh for easier path navigation.
-CDPATH=~/local/projects:~/projects:~/doc/business:~/doc/domestic
+export CDPATH=~/local/projects:~/projects:~/doc/business:~/doc/domestic
 
 # time command format
-TIMEFMT=$'\nelapsed time: %*E\nmax memory:   %MKB\ncpu:          %P'
+export TIMEFMT=$'\nelapsed time: %*E\nmax memory:   %MKB\ncpu:          %P'
 
 # Don't use Git repo in $HOME unless it's the current working directory.
 export GIT_CEILING_DIRECTORIES="$HOME"
