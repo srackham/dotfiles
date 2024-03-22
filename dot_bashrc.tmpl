@@ -3,6 +3,7 @@ echo "*** sourcing ~/.bashrc ***"
 set -o vi   # vi command-line editing mode.
 bind -s 'set completion-ignore-case on'
 shopt -s extglob
+shopt -s globstar   # the ** pattern recursively matches subdirectories and files.
 shopt -s histappend
 
 export HISTFILESIZE=400000000
