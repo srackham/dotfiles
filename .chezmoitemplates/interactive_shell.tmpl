@@ -4,9 +4,18 @@ Shared bash and zsh configuration settings for interactive shells.
 # Shared bash and zsh aliases
 alias ,="cd -"
 alias b="brave"
+
+{{/* 23-Mar-2024: Ubuntu renamed `bat` to `batcat`*/}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+alias cat="batcat" 
+alias less="batcat"
+alias l="batcat"
+{{- else -}}
 alias cat="bat" 
 alias less="bat"
 alias l="bat"
+{{- end }}
+
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
 alias dmesg="sudo dmesg --human --color=always"
 alias diff="diff --color=always -u"
@@ -30,9 +39,16 @@ alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-va
 # alias ll="ls ${lsflags} -l"
 # alias lr="ls ${lsflags} -Altr --time-style='+%d-%m-%Y %H:%M:%S'" # Long listing in reverse chronological order
 
+{{/* 23-Mar-2024: Ubuntu uses the older exa */}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+alias ls="exa"
+alias ll="exa -l"
+alias lr="exa -las modified"
+{{- else -}}
 alias ls="eza"
 alias ll="eza -l"
 alias lr="eza -las modified"
+{{- end }}
 
 alias nls="npm list --depth 0 --silent"
 alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"
