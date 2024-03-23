@@ -1,14 +1,15 @@
 echo "*** sourcing ~/.bashrc ***"
 
-set -o vi   # vi command-line editing mode.
+{{ template "interactive_shell.tmpl" . }}
+
+export HISTFILESIZE=$HISTSIZE
+export PROMPT_COMMAND="history -a"  # Update history file after each command.
+
+shopt -s histappend
+set -o vi
 bind -s 'set completion-ignore-case on'
 shopt -s extglob
 shopt -s globstar   # the ** pattern recursively matches subdirectories and files.
-shopt -s histappend
-
-export HISTFILESIZE=400000000
-export HISTSIZE=10000
-export PROMPT_COMMAND="history -a"
 
 # set fancy prompt color differently for servers.
 # see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
@@ -23,8 +24,6 @@ nuc2)
     PS1='\[\n\033[1;32m\]\u@\h \[\033[1;33m\w\033[0m\]\n$ '
     ;;
 esac
-
-{{ template "aliases.tmpl" . }}
 
 # Recoll document search, lists file names that match query.
 # Usage: ds query

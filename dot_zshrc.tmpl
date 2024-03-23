@@ -1,16 +1,14 @@
 echo "*** sourcing ~/.zshrc ***"
 
-{{ template "aliases.tmpl" . }}
+{{ template "interactive_shell.tmpl" . }}
 
-# History settings
-HISTFILE=~/.zhistory
-HISTSIZE=10000
-SAVEHIST=10000
+# zsh specific history settings.
+export SAVEHIST=$HISTSIZE
 setopt append_history           # Immediately append history instead of overwriting
 setopt inc_append_history       # Write to history file immediately, not when shell quits
-setopt share_history            # Share history among all sessions
+setopt no_extended_history
+setopt no_share_history         # So zsh doesn't use extended history format.
 setopt hist_ignore_all_dups     # If a new command is a duplicate, remove the older one
-
 
 # Tab completion
 fpath=(~/.zsh/completion $fpath)
