@@ -8,12 +8,12 @@ alias b="brave"
 {{/* 23-Mar-2024: Ubuntu renamed `bat` to `batcat`*/}}
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 alias cat="batcat --style=plain" 
-alias less="batcat"
-alias l="batcat"
+alias less="batcat --style=plain"
+alias l="batcat --style=plain"
 {{- else -}}
 alias cat="bat --style=plain" 
-alias less="bat"
-alias l="bat"
+alias less="bat --style=plain"
+alias l="bat --style=plain"
 {{- end }}
 
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
