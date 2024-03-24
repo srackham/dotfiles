@@ -7,11 +7,11 @@ alias b="brave"
 
 {{/* 23-Mar-2024: Ubuntu renamed `bat` to `batcat`*/}}
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
-alias cat="batcat" 
+alias cat="batcat --style=plain" 
 alias less="batcat"
 alias l="batcat"
 {{- else -}}
-alias cat="bat" 
+alias cat="bat --style=plain" 
 alias less="bat"
 alias l="bat"
 {{- end }}
