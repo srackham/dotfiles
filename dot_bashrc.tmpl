@@ -43,17 +43,21 @@ function ds() {
 # Configure fzf in NixOS (https://nixos.wiki/wiki/Fzf)
 if command -v fzf-share >/dev/null; then
     source "$(fzf-share)/key-bindings.bash"
-    # source "$(fzf-share)/completion.bash"
+    source "$(fzf-share)/completion.bash"
 fi
 {{- else if eq .chezmoi.osRelease.id "manjaro" -}}
 # Configure fzf (https://wiki.archlinux.org/title/fzf)
 if [ -d /usr/share/fzf ]; then
     source /usr/share/fzf/key-bindings.bash
-    # source /usr/share/fzf/completion.bash
+    source /usr/share/fzf/completion.bash
 fi
 {{- else if eq .chezmoi.osRelease.id "ubuntu" -}}
 # Configure fzf (https://github.com/junegunn/fzf/issues/3395)
 if [ -d /usr/share/doc/fzf/examples ]; then
     source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
+if [ -f /usr/share/bash-completion/completions/fzf ]; then
+    # 24-Mar-2024: '**' autocompletion not working on Ubuntu 22.04.
+    source /usr/share/bash-completion/completions/fzf
 fi
 {{- end }}
