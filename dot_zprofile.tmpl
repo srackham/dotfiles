@@ -1,1 +1,4 @@
-source ~/.profile
+if [ -f ~/.profile ]; then
+    [ ! -v _PROFILE ] && source ~/.profile # Only source this file once.
+    export _PROFILE=yes
+fi

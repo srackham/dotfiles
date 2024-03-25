@@ -1,8 +1,9 @@
 if [ -f ~/.profile ]; then
-  . ~/.profile
+    [ ! -v _PROFILE ] && source ~/.profile # Only source this file once.
+    export _PROFILE=yes
 fi
 
 # Because bash login shell do not source ~/.bashrc
 if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
+  source ~/.bashrc
 fi
