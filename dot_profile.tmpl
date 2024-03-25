@@ -26,10 +26,6 @@ export TIMEFMT=$'\nelapsed time: %*E\nmax memory:   %MKB\ncpu:          %P'
 # Don't use Git repo in $HOME unless it's the current working directory.
 export GIT_CEILING_DIRECTORIES="$HOME"
 
-# >>> coursier install directory >>>
-export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
-# <<< coursier install directory <<<
-
 # SJR: 10-Oct-2023: GnuCash data and config directories.
 export GNC_DATA_HOME=/home/srackham/doc/business/accounting/gnucash5/.local/share/gnucash
 export GNC_CONFIG_HOME=/home/srackham/doc/business/accounting/gnucash5/.config/gnucash
@@ -68,6 +64,10 @@ if [ -f $HOME/.cargo/env ]; then
     source $HOME/.cargo/env
 fi
 
+##############
+# Legacy paths
+##############
+
 # # Virgil language
 # if [ -d "$HOME/local/bin/virgil" ]; then
 #     export PATH="$HOME/local/bin/virgil/bin:$HOME/local/bin/virgil/bin/dev:$PATH"
@@ -84,3 +84,7 @@ fi
 #     export WASMER_HOME="$HOME/.wasmer"
 #     export PATH="$WASMER_HOME/bin:$PATH"
 # fi
+
+# # >>> coursier install directory >>>
+# export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
+# # <<< coursier install directory <<<
