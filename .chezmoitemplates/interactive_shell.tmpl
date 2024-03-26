@@ -42,12 +42,12 @@ alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-va
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 alias ls="exa"
-alias ll="exa -l"
-alias lr="exa -las modified"
+alias ll="exa -lH"
+alias lr="exa -lasH modified"
 {{- else -}}
 alias ls="eza"
-alias ll="eza -l"
-alias lr="eza -las modified"
+alias ll="eza -lH"
+alias lr="eza -lasH modified"
 {{- end }}
 
 alias nls="npm list --depth 0 --silent"
