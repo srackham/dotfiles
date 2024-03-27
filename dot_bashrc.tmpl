@@ -7,7 +7,7 @@ export PROMPT_COMMAND="history -a"  # Update history file after each command.
 
 shopt -s histappend
 set -o vi
-bind -s 'set completion-ignore-case on'
+bind -s 'set completion-ignore-case on' > /dev/null
 shopt -s extglob
 shopt -s globstar   # the ** pattern recursively matches subdirectories and files.
 
