@@ -43,11 +43,11 @@ alias html-validator-all='for f in $(find . -name "*.html"); do echo $f; html-va
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 alias ls="exa"
 alias ll="exa -lH"
-alias lr="exa -lasH modified"
+alias lr="exa -laHs modified"
 {{- else -}}
 alias ls="eza"
 alias ll="eza -lH"
-alias lr="eza -lasH modified"
+alias lr="eza -laHs modified"
 {{- end }}
 
 alias nls="npm list --depth 0 --silent"
