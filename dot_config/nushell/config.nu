@@ -771,51 +771,101 @@ use std testing run-tests
 ### Aliases
 
 # SJR: 1-Nov-2023: aliases from ~/.zshrc
+# Shared bash and zsh aliases
 alias , = cd -
-alias ... = cd ../..
-alias .... = cd ../../..
-alias ac = conda activat # Activate Conda Python environment.
-alias b = brave # Open URL in Web browser.
-#alias b = google-chrome # Open in browser.
-alias clipboard = xclip -selection clipboard    # Copy stdout to clipboard.
-alias da = conda deactivate # Deactivate Conda Python environment.
-alias diff = diff --color=always -u # Colorized diff.
-alias dmesg = sudo dmesg --human --color=always
-alias drake = deno run -A Drakefile.ts
-alias gd = git diff --color
+alias b = brave
 
-# 17-Dec-2023: use ripgrep (rg) recursive grep (https://github.com/BurntSushi/ripgrep)
-# alias g="grep"
-# alias g = grep
+{{/* 23-Mar-2024: Ubuntu renamed `bat` to `batcat`*/}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+alias cat = batcat --style=plain 
+alias less = batcat --style=plain
+alias l = batcat --style=plain
+{{- else -}}
+alias cat = bat --style=plain 
+alias less = bat --style=plain
+alias l = bat --style=plain
+{{- end }}
+
+alias clipboard = xclip -selection clipboard    # Copy stdout to clipboard
+alias dmesg = sudo dmesg --human --color=always
+alias diff = diff --color=always -u
+alias drake = deno run -A Drakefile.ts
 alias rg = rg --colors path:style:bold  --colors path:fg:yellow
 alias g = rg --max-depth 1 -z
-
+# alias rgdocs = echo \"$HOME/doc\" | xargs rg -wil --count-matches --colors path:style:bold --colors path:fg:yellow -t txt -t markdown # Search markdown and text files in ~/doc directory.
+alias gd = git diff --color
+alias gg = git grep -P
 alias gl = git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative
 alias gls = git ls-files
 alias grep = grep --color=auto
 alias gst = git status --short 2>/dev/null
 alias gw = ./gradlew --console plain
 
-alias cat = bat # 17-Dec-2023: replace cat and less with bat (https://github.com/sharkdp/bat).
-# alias l = less -R
-alias less = bat
-alias l = bat
-
-# 17-Dec-2023: replace ls with eza (https://github.com/eza-community/eza)
+# alias ls = ^ls --color --group-directories-first
 # alias la = ^ls --color --group-directories-first -lA
 # alias ll = ^ls --color --group-directories-first -l
-# alias lr = ^ls --color --group-directories-first -Altr --time-style='+%d-%m-%Y %H:%M:%S' # Long listing in reverse chronological order.
-alias la = eza -la --group-directories-first
-alias ll = eza -l
-alias lr = eza -las modified
+# alias lr = ^ls --color --group-directories-first -Altr --time-style='+%d-%m-%Y %H:%M:%S' # Long listing in reverse chronological order
 
-alias nls = npm list --depth 0 --silent # List project top-level NPM packages.
+{{/* 23-Mar-2024: Ubuntu uses the older exa */}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+alias ls = exa
+alias ll = exa -lH
+alias lr = exa -laHs modified
+{{- else -}}
+alias ls = eza
+alias ll = eza -lH
+alias lr = eza -laHs modified
+{{- end }}
+
+alias nls = npm list --depth 0 --silent
 alias ocr = bash -c "xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null" # Convert clipboard image to text on stdout.
+alias paste-text = xclip -selection clipboard -o -t text/plain   # Copy clipboard text to stdout
+alias paste-image = xclip -selection clipboard -o -t image/png   # Copy clipboard image to stdout
 alias paste-browser = bash -c "xclip -selection clipboard -o -t image/png >/tmp/clipboard.png && brave /tmp/clipboard.png 2>/dev/null" # Paste clipboard image to browser tab.
-alias paste-image = xclip -selection clipboard -o -t image/png   # Copy clipboard image to stdout.
-alias paste-text = xclip -selection clipboard -o -t text/plain   # Copy clipboard text to stdout.
-alias resize-image = mogrify -quality 25 -resize 800             # Resize and compress image file to width of 800 pixels.
-alias sc = scala-cli # Open Scala CLI.
+alias resize-image = mogrify -quality 25 -resize 800             # Resize and compress images
+
+# alias , = cd -
+# alias ... = cd ../..
+# alias .... = cd ../../..
+# alias b = brave # Open URL in Web browser.
+# alias clipboard = xclip -selection clipboard    # Copy stdout to clipboard.
+# alias diff = diff --color=always -u # Colorized diff.
+# alias dmesg = sudo dmesg --human --color=always
+# alias drake = deno run -A Drakefile.ts
+# alias gd = git diff --color
+
+# # 17-Dec-2023: use ripgrep (rg) recursive grep (https://github.com/BurntSushi/ripgrep)
+# # alias g = grep
+# # alias g = grep
+# alias rg = rg --colors path:style:bold  --colors path:fg:yellow
+# alias g = rg --max-depth 1 -z
+
+# alias gl = git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative
+# alias gls = git ls-files
+# alias grep = grep --color=auto
+# alias gst = git status --short 2>/dev/null
+# alias gw = ./gradlew --console plain
+
+# alias cat = bat # 17-Dec-2023: replace cat and less with bat (https://github.com/sharkdp/bat).
+# # alias l = less -R
+# alias less = bat
+# alias l = bat
+
+# # 17-Dec-2023: replace ls with eza (https://github.com/eza-community/eza)
+# # alias la = ^ls --color --group-directories-first -lA
+# # alias ll = ^ls --color --group-directories-first -l
+# # alias lr = ^ls --color --group-directories-first -Altr --time-style='+%d-%m-%Y %H:%M:%S' # Long listing in reverse chronological order.
+# alias la = eza -la --group-directories-first
+# alias ll = eza -l
+# alias lr = eza -las modified
+
+# alias nls = npm list --depth 0 --silent # List project top-level NPM packages.
+# alias ocr = bash -c "xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null" # Convert clipboard image to text on stdout.
+# alias paste-browser = bash -c "xclip -selection clipboard -o -t image/png >/tmp/clipboard.png && brave /tmp/clipboard.png 2>/dev/null" # Paste clipboard image to browser tab.
+# alias paste-image = xclip -selection clipboard -o -t image/png   # Copy clipboard image to stdout.
+# alias paste-text = xclip -selection clipboard -o -t text/plain   # Copy clipboard text to stdout.
+# alias resize-image = mogrify -quality 25 -resize 800             # Resize and compress image file to width of 800 pixels.
+# alias sc = scala-cli # Open Scala CLI.
 
 
 ### Prompt
