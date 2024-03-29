@@ -763,6 +763,9 @@ $env.config = {
 ###############
 # Customization
 ###############
+# FIXME: 30-Mar-2024: The redone aliases have not been checked.
+
+echo "*** sourcing config.nu ***\n" # FIXME: not echoing on login
 
 use std
 use std *
@@ -770,7 +773,7 @@ use std testing run-tests
 
 ### Aliases
 
-# SJR: 1-Nov-2023: aliases from ~/.zshrc
+# SJR: 30-Mar-2024: aliases from ./.chezmoitemplates/interactive_shell.tmpl
 # Shared bash and zsh aliases
 alias , = cd -
 alias b = brave
