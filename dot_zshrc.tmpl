@@ -84,6 +84,7 @@ export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 export WASMER_DIR="/home/srackham/.wasmer"
 [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
 
+{{ if or (eq .chezmoi.osRelease.id "manjaro") (eq .chezmoi.osRelease.id "ubuntu") -}}
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/srackham/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -100,8 +101,9 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+{{- end }}
 
-{{/* Configure fzf */}}
+{{- /* Configure fzf */ -}}
 {{/*
 TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions (only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
 */}}
