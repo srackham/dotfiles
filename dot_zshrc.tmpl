@@ -19,9 +19,6 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
-# Miscellaneous
-export EDITOR=$(which vi)
-export VISUAL=$(which vi)
 case $TERM in
 screen*)
     export PROMPT=$'\n%B%F{red}screen %F{green}%n@%m %F{yellow}%~%f%b\n$ '
