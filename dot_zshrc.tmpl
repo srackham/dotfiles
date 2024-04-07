@@ -36,9 +36,12 @@ setopt extended_glob                # extended globbing. Allows using regular ex
 setopt autocd                       # if only directory path is entered, cd there.
 
 
-# If not already installed then install a zsh-users
-# (https://github.com/zsh-users) project and then load it.
-# $1 is the zsh-users # project Github repository URL.
+#
+# Install zsh community projects (https://github.com/zsh-users)
+#
+
+# If not already installed then install a zsh-users project and then load it.
+# $1 is the zsh-users project Github repository URL.
 function load-zsh-users() {
     local url="$1"
     local dir="$HOME/.zsh/$(basename $1)"
@@ -48,7 +51,6 @@ function load-zsh-users() {
     fi
     source $file
 }
-
 load-zsh-users https://github.com/zsh-users/zsh-autosuggestions
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=249" # See https://coderwall.com/p/pb1uzq/z-shell-colors
 # Mapping Ctrl+Enter to autosuggest-execute is problematic (https://stackoverflow.com/a/45714460/1136455)
@@ -63,6 +65,7 @@ bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 {{- end }}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
+
 
 {{ if or (eq .chezmoi.osRelease.id "manjaro") (eq .chezmoi.osRelease.id "ubuntu") -}}
 # >>> conda initialize >>>
