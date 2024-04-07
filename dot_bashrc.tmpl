@@ -25,20 +25,6 @@ nuc2)
     ;;
 esac
 
-# Recoll document search, lists file names that match query.
-# Usage: ds query
-function ds() {
-    if [ "$*" ]; then
-        recoll -t -q $*  2>/dev/null \
-            | tail -n +3 \
-            | head -n 20 \
-            | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|'
-    else
-        echo "missing search query" >&2
-        return 1
-    fi
-}
-
 {{/* Configure fzf */}}
 {{/*
 TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions (only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).

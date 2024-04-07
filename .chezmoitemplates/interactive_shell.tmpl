@@ -1,3 +1,22 @@
+#
+# Shared environment variables.
+#
+
+# Shared bash and zsh history.
+export HISTFILE=~/.shared_history
+export HISTSIZE=10000
+
+# Custom fzf key bindings.
+# TODO: Key bindings do not work with fzf-history-widget (fzf 0.46).
+export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-k:up,ctrl-j:down,ctrl-space:toggle+down"
+
+# Default apps.
+export EDITOR=vi
+
+
+#
+# Shared aliases
+#
 {{/*
 Shared bash and zsh configuration settings for interactive shells.
 */}}
@@ -22,7 +41,6 @@ alias diff="diff --color=always -u"
 alias drake="deno run -A Drakefile.ts"
 alias rg="rg --colors path:style:bold  --colors path:fg:yellow"
 alias g="rg --max-depth 1 -z"
-alias rgdocs="echo \"$HOME/doc\" | xargs rg -wil --count-matches --colors path:style:bold --colors path:fg:yellow -t txt -t markdown" # Search markdown and text files in ~/doc directory.
 alias gd="git diff --color"
 alias gg="git grep -P"
 alias gl="git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative"
@@ -56,13 +74,35 @@ alias paste-image="xclip -selection clipboard -o -t image/png"   # Copy clipboar
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser.
 alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
 
-# Shared bash and zsh history.
-export HISTFILE=~/.shared_history
-export HISTSIZE=10000
 
-# Custom fzf key bindings.
-# TODO: Key bindings do not work with fzf-history-widget (fzf 0.46).
-export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-k:up,ctrl-j:down,ctrl-space:toggle+down"
+#
+# Shared functions
+#
 
-# Default apps.
-export EDITOR=vi
+# Search for regular expression matches in markdown and text files in ~/doc directory.
+# Print file names in ascending order of match count (file wit the most matches is printed last).
+# Usage: rgdocs PATTERN
+function rgdocs() {
+    if [ -z "$1" ]; then
+        echo "missing search pattern" >&2
+        return 1
+    fi
+    rg -wil --count-matches -t txt -t markdown "$1"  "$HOME/doc" \
+        | sort -t ':' -k2n \
+        | tail -40 \
+        | awk -F':' '{print $1}'
+}
+
+# Recoll document search, lists file names that match query.
+# Usage: ds query
+function ds() {
+    if [ "$*" ]; then
+        recoll -t -q $*  2>/dev/null \
+            | tail -n +3 \
+            | head -n 20 \
+            | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|'
+    else
+        echo "missing search query" >&2
+        return 1
+    fi
+}
