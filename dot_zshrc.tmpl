@@ -36,21 +36,8 @@ setopt extended_glob                # extended globbing. Allows using regular ex
 setopt autocd                       # if only directory path is entered, cd there.
 
 
-#
-# Custom functions
-#
-fpath=(~/.zsh/autoload $fpath)
-autoload -Uk activate ds man webserver open-in-gvim
-
-# F12 opens the highlighted filename in VS Code ~/doc workspace.
-bindkey -s '^[[24~' 'code --goto \"$(xclip -o)\" ~/doc\n'
-
-# Shift+F12 opens the highlighted filename in gvim.
-# The zsh function ~/.zsh/autoloadopen-in-gvim requires the xdotool package is installed.
-bindkey -s '^[[24;2~' 'open-in-gvim \"$(xclip -o)\"\n'
-
 # If not already installed then install a zsh-users
-# (://github.com/zsh-usershttps) project and then load it.
+# (https://github.com/zsh-users) project and then load it.
 # $1 is the zsh-users # project Github repository URL.
 function load-zsh-users() {
     local url="$1"
@@ -76,10 +63,6 @@ bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 {{- end }}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
-
-# Wasmer
-export WASMER_DIR="/home/srackham/.wasmer"
-[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
 
 {{ if or (eq .chezmoi.osRelease.id "manjaro") (eq .chezmoi.osRelease.id "ubuntu") -}}
 # >>> conda initialize >>>
