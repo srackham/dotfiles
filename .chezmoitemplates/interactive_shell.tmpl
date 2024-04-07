@@ -60,5 +60,9 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
+# Custom fzf key bindings.
+# TODO: Key bindings do not work with fzf-history-widget (fzf 0.46).
+export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-k:up,ctrl-j:down,ctrl-space:toggle+down"
+
 # Default apps.
 export EDITOR=vi
