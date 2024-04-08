@@ -87,10 +87,18 @@ function rgdocs() {
         echo "missing search pattern" >&2
         return 1
     fi
-    rg -wil --count-matches -t txt -t markdown "$1"  "$HOME/doc" \
+    rg --ignore-case --word-regexp --files-with-matches --sort=none --count-matches --type txt --type markdown "$1"  "$HOME/doc" \
         | sort -t ':' -k2n \
         | tail -40 \
         | awk -F':' '{print $1}'
+}
+
+function fzfdocs() {
+    if [ -z "$1" ]; then
+        echo "missing search pattern" >&2
+        return 1
+    fi
+    rgdocs "$1" | tac | fzf --preview "rg --ignore-case --line-number --word-regexp --sort=none --color=always '$1' {}"
 }
 
 # Recoll document search, lists file names that match query.
