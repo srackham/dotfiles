@@ -81,7 +81,9 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 
 # Search for regular expression matches in markdown and text files in ~/doc directory.
 # Print file names in ascending order of match count (file wit the most matches is printed last).
+#
 # Usage: rgdocs PATTERN
+#
 function rgdocs() {
     if [ -z "$1" ]; then
         echo "missing search pattern" >&2
@@ -93,6 +95,10 @@ function rgdocs() {
         | awk -F':' '{print $1}'
 }
 
+# Pipe the files found by rgdocs (see above) to fzf and display grepped contents in the preview window.
+#
+# Usage: fzfdocs PATTERN
+#
 function fzfdocs() {
     if [ -z "$1" ]; then
         echo "missing search pattern" >&2
