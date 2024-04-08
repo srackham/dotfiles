@@ -6,8 +6,8 @@
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down" # Custom fzf key bindings.
-export FZF_DEFAULT_COMMAND="fd --type f" # Faster than find(1).
+export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down --preview 'bat --color=always {}' --bind ctrl-t:toggle-preview --preview-window :hidden"
+export FZF_DEFAULT_COMMAND="fd --type f"
 
 # Default apps.
 export EDITOR=vi
