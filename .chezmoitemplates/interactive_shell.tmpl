@@ -6,7 +6,7 @@
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down --preview 'bat --color=always --style=plain {}' --bind ctrl-t:toggle-preview --preview-window :hidden"
+export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down --preview 'bat --color=always --style=plain {}' --bind ctrl-t:toggle-preview --preview-window wrap:hidden"
 export FZF_DEFAULT_COMMAND="fd --type f"
 
 # Default apps.
@@ -98,7 +98,7 @@ function fzfdocs() {
         echo "missing search pattern" >&2
         return 1
     fi
-    rgdocs "$1" | tac | fzf --preview "rg --ignore-case --line-number --word-regexp --sort=none --color=always '$1' {}"
+    rgdocs "$1" | tac | fzf --preview "rg --ignore-case --line-number --word-regexp --sort=none --color=always '$1' {}" --preview-window nohidden
 }
 
 # Recoll document search, lists file names that match query.
