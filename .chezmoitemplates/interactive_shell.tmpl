@@ -80,12 +80,12 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-# Search for the regular expression PATTERN in markdown and text files the in the ~/doc directory.
-function fzfdocs() {
+# Search the `/doc directory for the regexp PATTERN in markdown and text files.
+function sd() {
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
         cat >&2 <<EOF
 
-Search for the regular expression PATTERN in markdown and text files the in the ~/doc directory.
+Search the ~/doc directory for the regexp PATTERN in markdown and text files.
 List top 40 file in ascending order of match count (the file with the most matches is printed last).
 If PATTERN is omitted list all files in ~/doc.
 
