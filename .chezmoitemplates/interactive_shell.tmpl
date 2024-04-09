@@ -8,6 +8,7 @@ export HISTSIZE=10000
 
 export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down --preview 'bat --color=always --style=plain {}' --bind ctrl-t:toggle-preview --preview-window wrap:hidden"
 export FZF_DEFAULT_COMMAND="fd --type f"
+export FZF_COMPLETION_TRIGGER=".."
 
 # Default apps.
 export EDITOR=vi
@@ -85,7 +86,7 @@ function fzfdocs() {
         cat >&2 <<EOF
 
 Search for the regular expression PATTERN in markdown and text files the in the ~/doc directory.
-List top 40 file names in ascending order of match count (the file with the most matches is printed last).
+List top 40 file in ascending order of match count (the file with the most matches is printed last).
 If PATTERN is omitted list all files in ~/doc.
 
 usage: $0 [PATTERN]
