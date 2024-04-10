@@ -795,7 +795,6 @@ alias diff = diff --color=always -u
 alias drake = deno run -A Drakefile.ts
 alias rg = rg --colors path:style:bold  --colors path:fg:yellow
 alias g = rg --max-depth 1 -z
-# alias rgdocs = echo \"$HOME/doc\" | xargs rg -wil --count-matches --colors path:style:bold --colors path:fg:yellow -t txt -t markdown # Search markdown and text files in ~/doc directory.
 alias gd = git diff --color
 alias gg = git grep -P
 alias gl = git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative
