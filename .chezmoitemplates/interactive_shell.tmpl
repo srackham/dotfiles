@@ -109,8 +109,7 @@ EOF
             | tail -40 \
             | awk -F':' '{print $1}' \
             | tac \
-            | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" --preview-window=nohidden \
-            ; exit ${PIPESTATUS[5]}
+            | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" --preview-window=nohidden
         )
     fi
     if [ -z "$files" ]; then
