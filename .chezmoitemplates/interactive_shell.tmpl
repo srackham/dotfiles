@@ -80,16 +80,19 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-# Search the `/doc directory for the regexp PATTERN in markdown and text files.
+# Search the $SD_DIR directory for the regexp PATTERN in markdown and text files.
+SD_DIR="$DOCUMENTS_DIR"
+
 function sd() {
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
         cat >&2 <<EOF
 
-Search the ~/doc directory for the regexp PATTERN in markdown and text files.
+Search the $SD_DIR directory for the regexp PATTERN in markdown and text files.
 
 - List top 40 file in ascending order of match count (the file with the most matches is printed last).
 - Selected files are opened in VSCode.
-- If PATTERN is omitted list all files in ~/doc.
+- If PATTERN is omitted list all files in $SD_DIR.
+- Set the SD_DIR env variable to change the documents directory.
 
 usage: $0 [PATTERN]
 
@@ -99,12 +102,12 @@ EOF
     local files=
     if [ -z "$1" ]; then
         # List all files.
-        files=$(fd --type f . $HOME/doc/ | fzf)
+        files=$(fd --type f . "$SD_DIR" | fzf)
     else
         # List files matching $1 and preview grepped contents.
         local rg_opts=(--ignore-case --word-regexp --sort=none --type=txt --type=markdown)
         files=$(
-            rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$HOME/doc" \
+            rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$SD_DIR" \
             | sort -t ':' -k2n \
             | tail -40 \
             | awk -F':' '{print $1}' \
