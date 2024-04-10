@@ -99,12 +99,23 @@ EOF
         return
     fi
     local rg_opts=(--ignore-case --word-regexp --sort=none --type=txt --type=markdown)
-    rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$HOME/doc" \
+    local files=$(
+        rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$HOME/doc" \
         | sort -t ':' -k2n \
         | tail -40 \
         | awk -F':' '{print $1}' \
         | tac \
-        | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" --preview-window=nohidden
+        | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" --preview-window=nohidden \
+        ; exit ${PIPESTATUS[5]}
+    )
+    if [ -z "$files" ]; then
+        return 1
+    fi
+    files_array=()
+    while IFS= read -r line; do
+        files_array+=("$line")
+    done <<< "$files"
+    code ${files_array[@]}
 }
 
 # Recoll document search, lists file names that match query.
