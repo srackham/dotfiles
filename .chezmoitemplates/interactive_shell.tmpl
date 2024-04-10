@@ -104,7 +104,7 @@ EOF
         | tail -40 \
         | awk -F':' '{print $1}' \
         | tac \
-        | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always '$1' {}" --preview-window=nohidden
+        | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" --preview-window=nohidden
 }
 
 # Recoll document search, lists file names that match query.
