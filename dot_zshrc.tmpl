@@ -91,11 +91,8 @@ unset __conda_setup
 TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions (only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
 */}}
 {{ if eq .chezmoi.osRelease.id "nixos" -}}
-# Configure fzf (https://nixos.wiki/wiki/Fzf)
-if [ -n "${commands[fzf-share]}" ]; then
-    source "$(fzf-share)/key-bindings.zsh"
-    source "$(fzf-share)/completion.zsh"
-fi
+    # Set up fzf key bindings and fuzzy completion
+    eval "$(fzf --zsh)"
 {{- end }}
 {{ if eq .chezmoi.osRelease.id "manjaro" -}}
 # Configure fzf (https://wiki.archlinux.org/title/fzf)
