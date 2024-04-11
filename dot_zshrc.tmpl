@@ -57,17 +57,17 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=249" # See https://coderwall.com/p/pb
 bindkey '^@' autosuggest-execute    # Ctrl+Space executes current suggestion
 load-zsh-users https://github.com/zsh-users/zsh-syntax-highlighting
 load-zsh-users https://github.com/zsh-users/zsh-history-substring-search
-{{ if eq .chezmoi.osRelease.id "manjaro" -}}
+{{ if eq .chezmoi.osRelease.id "manjaro" }}
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-{{- else -}}
+{{ else }}
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
-{{- end }}
+{{ end }}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 
-{{ if or (eq .chezmoi.osRelease.id "manjaro") (eq .chezmoi.osRelease.id "ubuntu") -}}
+{{ if or (eq .chezmoi.osRelease.id "manjaro") (eq .chezmoi.osRelease.id "ubuntu") }}
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/srackham/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -84,25 +84,24 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-{{- end }}
+{{ end }}
 
-{{/* Configure fzf */}}
-{{- /*
+{{/*
 TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions (only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
-*/ -}}
-{{ if eq .chezmoi.osRelease.id "nixos" -}}
+*/}}
+{{ if eq .chezmoi.osRelease.id "nixos" }}
 # Set up fzf key bindings and fuzzy completion.
 eval "$(fzf --zsh)"
-{{- else if eq .chezmoi.osRelease.id "manjaro" -}}
+{{ else if eq .chezmoi.osRelease.id "manjaro" }}
 # Configure fzf (https://wiki.archlinux.org/title/fzf)
 if [ -d /usr/share/fzf ]; then
     source /usr/share/fzf/key-bindings.zsh
     source /usr/share/fzf/completion.zsh
 fi
-{{- else if eq .chezmoi.osRelease.id "ubuntu" -}}
+{{ else if eq .chezmoi.osRelease.id "ubuntu" }}
 # Configure fzf (https://github.com/junegunn/fzf/issues/3395)
 if [ -d /usr/share/doc/fzf/examples ]; then
     source /usr/share/doc/fzf/examples/key-bindings.zsh
     source /usr/share/doc/fzf/examples/completion.zsh
 fi
-{{- end }}
+{{ end }}
