@@ -809,7 +809,7 @@ alias gw = ./gradlew --console plain
 # alias lr = ^ls --color --group-directories-first -Altr --time-style='+%d-%m-%Y %H:%M:%S' # Long listing in reverse chronological order
 
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
-{{ if eq .chezmoi.osRelease.id "ubuntu" }}
+{{ if or (eq .chezmoi.osRelease.id "ubuntu")  (eq .chezmoi.osRelease.id "debian") }}
 alias ls = exa
 alias ll = exa -lH
 alias lr = exa -laHs modified

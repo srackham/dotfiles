@@ -98,7 +98,7 @@ if [ -d /usr/share/fzf ]; then
     source /usr/share/fzf/key-bindings.zsh
     source /usr/share/fzf/completion.zsh
 fi
-{{ else if eq .chezmoi.osRelease.id "ubuntu" }}
+{{ else if or (eq .chezmoi.osRelease.id "ubuntu")  (eq .chezmoi.osRelease.id "debian") }}
 # Configure fzf (https://github.com/junegunn/fzf/issues/3395)
 if [ -d /usr/share/doc/fzf/examples ]; then
     source /usr/share/doc/fzf/examples/key-bindings.zsh
