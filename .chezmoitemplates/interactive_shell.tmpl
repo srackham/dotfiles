@@ -31,15 +31,15 @@ alias ,="cd -"
 alias b="brave"
 
 {{/* 23-Mar-2024: Ubuntu renamed `bat` to `batcat`*/}}
-{{ if eq .chezmoi.osRelease.id "ubuntu" }}
+{{if eq .chezmoi.osRelease.id "ubuntu"}}
 alias cat="batcat --style=plain" 
 alias less="batcat --style=plain"
 alias l="batcat --style=plain"
-{{ else }}
+{{else}}
 alias cat="bat --style=plain" 
 alias less="bat --style=plain"
 alias l="bat --style=plain"
-{{ end }}
+{{end}}
 
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
 alias dmesg="sudo dmesg --human --color=always"
@@ -64,15 +64,15 @@ alias h=history
 # alias lr="ls ${lsflags} -Altr --time-style='+%d-%m-%Y %H:%M:%S'" # Long listing in reverse chronological order
 
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
-{{ if or (eq .chezmoi.osRelease.id "ubuntu")  (eq .chezmoi.osRelease.id "debian") }}
+{{if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
 alias ls="exa"
 alias ll="exa -lH"
 alias lr="exa -laHs modified"
-{{ else }}
+{{else}}
 alias ls="eza"
 alias ll="eza -lH"
 alias lr="eza -laHs modified"
-{{ end }}
+{{end}}
 
 alias nls="npm list --depth 0 --silent"
 alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"

@@ -1,6 +1,6 @@
 echo "*** sourcing ~/.bashrc ***"
 
-{{ template "interactive_shell.tmpl" . }}
+{{template "interactive_shell.tmpl" .}}
 
 export HISTFILESIZE=$HISTSIZE
 export PROMPT_COMMAND="history -a"  # Update history file after each command.
@@ -28,16 +28,16 @@ esac
 {{/*
 TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions (only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
 */}}
-{{ if eq .chezmoi.osRelease.id "nixos" }}
+{{if eq .chezmoi.osRelease.id "nixos"}}
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
-{{ else if eq .chezmoi.osRelease.id "manjaro" }}
+{{else if eq .chezmoi.osRelease.id "manjaro"}}
 # Configure fzf (https://wiki.archlinux.org/title/fzf)
 if [ -d /usr/share/fzf ]; then
     source /usr/share/fzf/key-bindings.bash
     source /usr/share/fzf/completion.bash
 fi
-{{ else if or (eq .chezmoi.osRelease.id "ubuntu")  (eq .chezmoi.osRelease.id "debian") }}
+{{else if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
 # Configure fzf (https://github.com/junegunn/fzf/issues/3395)
 if [ -d /usr/share/doc/fzf/examples ]; then
     source /usr/share/doc/fzf/examples/key-bindings.bash
@@ -46,4 +46,4 @@ if [ -f /usr/share/bash-completion/completions/fzf ]; then
     # 24-Mar-2024: '**' autocompletion not working on Ubuntu 22.04.
     source /usr/share/bash-completion/completions/fzf
 fi
-{{ end }}
+{{end}}
