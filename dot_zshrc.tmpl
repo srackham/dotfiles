@@ -96,7 +96,7 @@ eval "$(fzf --zsh)"
 # Configure fzf (https://wiki.archlinux.org/title/fzf)
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
-{{else if or eq .chezmoi.osRelease.id "ubuntu"}}
+{{else if eq .chezmoi.osRelease.id "ubuntu"}}
 # Configure fzf (https://github.com/junegunn/fzf/issues/3395)
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
