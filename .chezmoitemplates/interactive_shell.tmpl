@@ -2,14 +2,16 @@
 # Shared environment variables.
 #
 
-# Shared bash and zsh history.
-export HISTFILE=~/.shared_history
-export HISTSIZE=10000
-
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
 # Fix Remmina invisible cursor over SSH issue.
 export PROMPT=$'%{\e]12;green\a%}\n%B%F{green}%n@%m %F{yellow}%~%f%b\n$ '
+{{else}}
+export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 {{end}}
+
+# Shared bash and zsh history.
+export HISTFILE=~/.shared_history
+export HISTSIZE=10000
 
 export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down --preview 'bat --color=always --style=plain {}' --bind ctrl-t:toggle-preview --preview-window wrap:hidden"
 export FZF_DEFAULT_COMMAND="fd --type f"

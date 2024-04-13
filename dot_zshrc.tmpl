@@ -19,15 +19,6 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
-case $TERM in
-screen*)
-    export PROMPT=$'\n%B%F{red}screen %F{green}%n@%m %F{yellow}%~%f%b\n$ '
-    ;;
-*)
-    # export PROMPT=$'\n%B%F{cyan}%n@%m %F{yellow}%~%f%b\n$ '
-    export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
-    ;;
-esac
 bindkey -v                          # vi command-line editing
 setopt interactive_comments         # allow # comments in shell; good for copy/paste
 export BLOCK_SIZE="'1"              # Add commas to file sizes
