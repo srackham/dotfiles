@@ -94,14 +94,10 @@ TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions
 eval "$(fzf --zsh)"
 {{else if eq .chezmoi.osRelease.id "manjaro"}}
 # Configure fzf (https://wiki.archlinux.org/title/fzf)
-if [ -d /usr/share/fzf ]; then
-    source /usr/share/fzf/key-bindings.zsh
-    source /usr/share/fzf/completion.zsh
-fi
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 {{else if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
 # Configure fzf (https://github.com/junegunn/fzf/issues/3395)
-if [ -d /usr/share/doc/fzf/examples ]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-    source /usr/share/doc/fzf/examples/completion.zsh
-fi
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
 {{end}}
