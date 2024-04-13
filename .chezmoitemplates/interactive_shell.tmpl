@@ -6,6 +6,11 @@
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
+{{if .chezmoi.hostname | hasPrefix "nuc"}}
+# Fix Remmina invisible cursor over SSH issue.
+export PROMPT=$'%{\e]12;green\a%}\n%B%F{green}%n@%m %F{yellow}%~%f%b\n$ '
+{{end}}
+
 export FZF_DEFAULT_OPTS="--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down --preview 'bat --color=always --style=plain {}' --bind ctrl-t:toggle-preview --preview-window wrap:hidden"
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER=".."
@@ -80,6 +85,22 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 #
 # Shared functions
 #
+
+# 1. Search for text in files using Ripgrep
+# 2. Interactively narrow down the list using fzf
+# 3. Open the file in Vim
+# https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration
+function sa() {
+    # rg --color=always --line-number --no-heading --smart-case --type=all "$1" "${2:-$SD_DIR}" |
+    rg --color=always --line-number --no-heading --smart-case --type=all "${*:-}" |
+    fzf --ansi \
+        --color "hl:-1:underline,hl+:-1:underline:reverse" \
+        --delimiter : \
+        --preview 'bat --color=always {1} --highlight-line {2}' \
+        --preview-window 'nohidden,up,60%,border-bottom,+{2}+3/3,~3' \
+        --bind 'enter:become(code --goto {1}:{2})'
+        # --bind 'enter:become(vim {1} +{2})'
+}
 
 # Search the $SD_DIR directory for the regexp PATTERN in markdown and text files.
 SD_DIR="$DOCUMENTS_DIR"
