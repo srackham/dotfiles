@@ -8,13 +8,8 @@ if [ -f "/etc/profile.d/locale.sh" ]; then
 fi
 {{end}}
 
-{{if .chezmoi.hostname | hasPrefix "nuc"}}
-export DOCUMENTS_DIR="/files/users/srackham/doc"
-export PROJECTS_DIR="/files/users/srackham/projects"
-{{else}}
 export DOCUMENTS_DIR="$HOME/doc"
 export PROJECTS_DIR="$HOME/projects"
-{{end}}
 
 # Used by bash and zsh for easier path navigation.
 export CDPATH=$PROJECTS:$DOCUMENTS_DIR/business:$DOCUMENTS_DIR/domestic
