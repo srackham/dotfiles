@@ -86,6 +86,7 @@ alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1
 # TODO Add pkgs alias for NixOS.
 {{end}}
 
+alias mknixos="sudo nixos-rebuild -I nixos-config=$HOME/nixos-configurations/$(hostname)-configuration.nix"
 alias paste-text="xclip -selection clipboard -o -t text/plain"   # Copy clipboard text to stdout
 alias paste-image="xclip -selection clipboard -o -t image/png"   # Copy clipboard image to stdout
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser.
