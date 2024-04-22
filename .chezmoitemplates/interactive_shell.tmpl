@@ -67,12 +67,12 @@ alias h=history
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
 {{if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
 alias ls="exa"
-alias ll="exa -lH"
-alias lr="exa -laHs modified"
+alias ll="exa -lHg"
+alias lr="exa -laHgs modified"
 {{else}}
 alias ls="eza"
-alias ll="eza -lH"
-alias lr="eza -laHs modified"
+alias ll="eza -lHg"
+alias lr="eza -laHgs modified"
 {{end}}
 
 alias nls="npm list --depth 0 --silent"
