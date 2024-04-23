@@ -9,6 +9,7 @@ setopt inc_append_history       # Write to history file immediately, not when sh
 setopt no_extended_history
 setopt no_share_history         # So zsh doesn't use extended history format.
 setopt hist_ignore_all_dups     # If a new command is a duplicate, remove the older one
+alias h="history 1"             # List all history.
 
 # Tab completion
 fpath=(~/.zsh/completion $fpath)
