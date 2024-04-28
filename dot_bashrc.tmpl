@@ -10,6 +10,7 @@ set -o vi
 bind -s 'set completion-ignore-case on' > /dev/null
 shopt -s extglob
 shopt -s globstar   # the ** pattern recursively matches subdirectories and files.
+alias h="history -a && history -r && history" # List history from all shell instances.
 
 # set fancy prompt color differently for servers.
 # see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
