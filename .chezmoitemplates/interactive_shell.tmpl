@@ -43,6 +43,9 @@ alias less="bat --style=plain"
 alias l="bat --style=plain"
 {{end}}
 
+{{if eq .chezmoi.arch "arm64"}}
+alias cryptor="cryptor.arm64"
+{{end}}
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
 alias dmesg="sudo dmesg --human --color=always"
 alias diff="diff --color=always -u"
