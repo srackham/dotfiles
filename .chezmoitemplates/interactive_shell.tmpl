@@ -32,7 +32,7 @@ Shared bash and zsh configuration settings for interactive shells.
 alias ,="cd -"
 alias b="brave"
 
-{{/* 23-Mar-2024: Ubuntu renamed `bat` to `batcat`*/}}
+{{/* Ubuntu renamed `bat` to `batcat`*/}}
 {{if eq .chezmoi.osRelease.id "ubuntu"}}
 alias cat="batcat --style=plain" 
 alias less="batcat --style=plain"

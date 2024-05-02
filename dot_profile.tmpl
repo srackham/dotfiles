@@ -36,10 +36,6 @@ if [ -d "$HOME/.local/bin" ] ; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/local/bin" ]; then
-    export PATH="$HOME/local/bin:$PATH"
-fi
-
 # Use Brave instead of Chrome when doing Flutter Web development.
 if which brave >/dev/null; then
     export CHROME_EXECUTABLE=$(which brave)
@@ -52,7 +48,7 @@ fi
 
 # Go language (add GOROOT and GOPATH to PATH)
 if [ -d "$HOME/go" ]; then
-    export PATH=$PATH:$HOME/local/bin/go/bin:$HOME/go/bin
+    export PATH=$PATH:$HOME/go/bin
 fi
 
 # Rust language
@@ -63,6 +59,10 @@ fi
 ##############
 # Legacy paths
 ##############
+
+# if [ -d "$HOME/local/bin" ]; then
+#     export PATH="$HOME/local/bin:$PATH"
+# fi
 
 # # Virgil language
 # if [ -d "$HOME/local/bin/virgil" ]; then
