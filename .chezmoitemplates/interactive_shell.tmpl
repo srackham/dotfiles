@@ -100,9 +100,10 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-# Usage: sa PATTERN [PATHS...]
+# Usage: rgfzf PATTERN [PATHS...]
 #
 # Recursively search for PATTERN in PATHS.
+# If PATTERN is "" then every line will be matched.
 # If PATHS are omitted search the current directory.
 # Interactively narrow down the list using fzf.
 # Open the selected file in Vim.
@@ -110,10 +111,10 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # NOTE: The /dev/null is included in rg paths so rg always sees two or more files, this ensures it always includes the file name in search results, which is necessary for the fzf {1} parameter.
 #
 # https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration
-function sa() {
+function rgfzf() {
     local pattern="$1"
     shift   # Drop $1
-    rg --color=always --line-number --no-heading --smart-case --type=all "$pattern" ${*:-*} /dev/null |
+    rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$pattern" ${*:-*} /dev/null |
     fzf --ansi \
         --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
@@ -123,9 +124,14 @@ function sa() {
         # --bind 'enter:become(vim {1} +{2})'
 }
 
+function rgdocs() {
+    rgfzf "$1" "$DOCUMENTS_DIR"
+}
+
 # Search the $SD_DIR directory for the regexp PATTERN in markdown and text files.
 SD_DIR="$DOCUMENTS_DIR"
 
+# TODO: Tidy this up; document; drop -h option???; move preview to top (not the side); PATTERN mandatory;
 function sd() {
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
         cat >&2 <<EOF
@@ -148,7 +154,7 @@ EOF
         files=$(fd --type f . "$SD_DIR" | fzf)
     else
         # List files matching $1 and preview grepped contents.
-        local rg_opts=(--ignore-case --word-regexp --sort=none --type=txt --type=markdown)
+        local rg_opts=(--ignore-case --word-regexp --sort=none --type=all --type-not=pdf)
         files=$(
             rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$SD_DIR" \
             | sort -t ':' -k2n \
