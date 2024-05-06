@@ -100,15 +100,20 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-# Usage: sa PATTERN
+# Usage: sa PATTERN [PATHS...]
 #
-# 1. Recursively search for PATTERN in all file in the current directory using Ripgrep.
-# 2. Interactively narrow down the list using fzf.
-# 3. Open the file in Vim.
+# Recursively search for PATTERN in PATHS.
+# If PATHS are omitted search the current directory.
+# Interactively narrow down the list using fzf.
+# Open the selected file in Vim.
+#
+# NOTE: The /dev/null is included in rg paths so rg always sees two or more files, this ensures it always includes the file name in search results, which is necessary for the fzf {1} parameter.
+#
 # https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration
-# BUG: If only one file is searched the file name is not emitted by rg and subsequent bat command {1} and {2} fields are incorrect.
 function sa() {
-    rg --color=always --line-number --no-heading --smart-case --type=all "$1" * |
+    local pattern="$1"
+    shift   # Drop $1
+    rg --color=always --line-number --no-heading --smart-case --type=all "$pattern" ${*:-*} /dev/null |
     fzf --ansi \
         --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
