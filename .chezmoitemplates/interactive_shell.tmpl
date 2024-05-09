@@ -112,6 +112,10 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 #
 # https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration
 function rgfzf() {
+    if [ "$#" -eq 0 ]; then
+        echo "usage: $0 PATTERN [PATHS...]" >&2
+        return 1
+    fi
     local pattern="$1"
     shift   # Drop $1
     rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$pattern" ${*:-*} /dev/null |
@@ -125,54 +129,36 @@ function rgfzf() {
 }
 
 function rgdocs() {
+    if [ "$#" -ne 1 ]; then
+        echo "usage: $0 PATTERN" >&2
+        return 1
+    fi
     rgfzf "$1" "$DOCUMENTS_DIR"
 }
 
-# Search the $SD_DIR directory for the regexp PATTERN in markdown and text files.
-SD_DIR="$DOCUMENTS_DIR"
-
-# TODO: Tidy this up; document; drop -h option???; move preview to top (not the side); PATTERN mandatory;
+# Search the documents directory for files containing the the regexp WORD_PATTERN.
+#
+# - List top 40 file in ascending order of match word count (the file with the
+#   most matches is listed last).
+# - Open the selected file in VSCode.
 function sd() {
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-        cat >&2 <<EOF
-
-Search the $SD_DIR directory for the regexp PATTERN in markdown and text files.
-
-- List top 40 file in ascending order of match count (the file with the most matches is printed last).
-- Selected files are opened in VSCode.
-- If PATTERN is omitted list all files in $SD_DIR.
-- Set the SD_DIR env variable to change the documents directory.
-
-usage: $0 [PATTERN]
-
-EOF
-        return
-    fi
-    local files=
-    if [ -z "$1" ]; then
-        # List all files.
-        files=$(fd --type f . "$SD_DIR" | fzf)
-    else
-        # List files matching $1 and preview grepped contents.
-        local rg_opts=(--ignore-case --word-regexp --sort=none --type=all --type-not=pdf)
-        files=$(
-            rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$SD_DIR" \
-            | sort -t ':' -k2n \
-            | tail -40 \
-            | awk -F':' '{print $1}' \
-            | tac \
-            | fzf --preview "rg ${rg_opts[*]} --context=3 --context-separator=______________________________ --line-number --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" --preview-window=nohidden
-        )
-    fi
-    if [ -z "$files" ]; then
+    if [ "$#" -ne 1 ]; then
+        echo "usage: $0 WORD_PATTERN" >&2
         return 1
     fi
-    # Open selected files.
-    local files_array=()
-    while IFS= read -r line; do
-        files_array+=("$line")
-    done <<< "$files"
-    code ${files_array[@]}
+    # List files matching $1 and preview grepped contents.
+    local rg_opts=(--ignore-case --word-regexp --sort=none --type=all --type-not=pdf)
+    rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$DOCUMENTS_DIR" \
+    | sort -t ':' -k2n \
+    | tail -40 \
+    | awk -F':' '{print $1}' \
+    | tac \
+    | fzf --preview "rg ${rg_opts[*]} --context=3 \
+          --context-separator=______________________________ \
+          --line-number \
+          --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" \
+          --preview-window 'nohidden,up,60%,border-bottom' \
+          --bind 'enter:become(code --goto {1}:1)'
 }
 
 # Recoll document search, lists file names that match query.
