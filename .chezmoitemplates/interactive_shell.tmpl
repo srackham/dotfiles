@@ -100,9 +100,31 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
+# Usage: sf PATTERN [PATHS...]
+#
+# Recursively search for files that match regular expression PATTERN in PATHS.
+# If PATTERN is "" then every file will be matched.
+# If PATHS are omitted search the current directory.
+# Interactively narrow down the list using fzf.
+# Open the selected file in Vim.
+function sf() {
+    if [ "$#" -eq 0 ]; then
+        echo "usage: $0 PATTERN [PATHS...]" >&2
+        return 1
+    fi
+    local pattern="$1"
+    shift   # Drop $1
+    fd --color always "$pattern" $* |
+    fzf --ansi \
+        --preview 'bat --color=always {1} --theme Dracula' \
+        --preview-window 'nohidden,up,60%,border-bottom,+{2}+3/3,~3' \
+        --bind 'enter:become(code --goto {1})'
+        # --bind 'enter:become(vim {1})'
+}
+
 # Usage: rgfzf PATTERN [PATHS...]
 #
-# Recursively search for PATTERN in PATHS.
+# Recursively search for regular expression PATTERN in PATHS.
 # If PATTERN is "" then every line will be matched.
 # If PATHS are omitted search the current directory.
 # Interactively narrow down the list using fzf.
