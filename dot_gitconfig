@@ -11,6 +11,9 @@
 [core]
 	excludesfile = /home/srackham/.gitignore
 	autocrlf = input
+[init]
+    defaultBranch = main
+
 # [credential "https://github.com"]
 # 	helper = 
 # 	helper = !/usr/bin/gh auth git-credential
