@@ -78,20 +78,8 @@ unset __conda_setup
 # <<< conda initialize <<<
 {{end}}
 
-{{/*
-TODO: Use fzf `--bash`, `--zsh`, options to install key bindings and completions (only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
-*/}}
-{{if eq .chezmoi.osRelease.id "nixos"}}
 # Set up fzf key bindings and fuzzy completion.
+{{/*
+NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
+*/}}
 eval "$(fzf --zsh)"
-{{else if eq .chezmoi.osRelease.id "manjaro"}}
-# Configure fzf (https://wiki.archlinux.org/title/fzf)
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
-{{else if eq .chezmoi.osRelease.id "ubuntu"}}
-# Configure fzf (https://github.com/junegunn/fzf/issues/3395)
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
-{{else if .chezmoi.hostname | hasPrefix "nuc"}}
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-{{end}}
