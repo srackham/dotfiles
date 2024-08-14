@@ -83,3 +83,6 @@ unset __conda_setup
 NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
 */}}
 eval "$(fzf --zsh)"
+
+# Set up zoxide and alias to cd and cdi.
+eval "$(zoxide init --cmd cd zsh)"
