@@ -78,12 +78,19 @@ alias lr="eza -laHgs modified"
 alias nls="npm list --depth 0 --silent"
 alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"
 
+{{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
+alias pkg-info="pacman -Si"
+alias pkg-install="sudo pacman -S"
+alias pkg-remove="sudo pacman -Rsun"
+alias pkgs-search="pacman -Ss"
+alias pkgs-upgrade="sudo pacman -Syu"
 alias pkgs="pacman -Q | fzf --preview 'pactree --color {1}' --preview-window=nohidden"
 {{else if or (eq .chezmoi.osRelease.id "ubuntu")   (eq .chezmoi.osRelease.id "debian")}}
 alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1}' --preview-window=nohidden"
+{{/* TODO: Add pkgs aliases for Debian/Ubuntu. */}}
 {{else if eq .chezmoi.osRelease.id "nixos"}}
-# TODO Add pkgs alias for NixOS.
+{{/* TODO: Add pkgs aliases for NixOS. */}}
 {{end}}
 
 alias mknixos="sudo nixos-rebuild -I nixos-config=$HOME/nixos-configurations/$HOST-configuration.nix"
