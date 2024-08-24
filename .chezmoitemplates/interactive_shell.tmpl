@@ -13,7 +13,7 @@ export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-p:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window wrap:hidden"
+export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window wrap:hidden"
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER=".."
 
