@@ -80,7 +80,7 @@ alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
-alias pkgs="pacman -Q | fzf --preview 'pacman -Si "{1}"' --preview-window=nohidden"
+alias pkgs="pacman -Ssq | fzf --preview 'pacman -Si "{1}"' --preview-window=nohidden"
 alias pkg-install="sudo pacman -S"
 alias pkg-remove="sudo pacman -Rsun"
 alias pkgs-upgrade="sudo pacman -Syu"
