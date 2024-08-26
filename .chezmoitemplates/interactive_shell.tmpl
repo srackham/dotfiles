@@ -102,31 +102,31 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-# Usage: sf PATTERN [PATHS...]
+# Usage: sf REGEXP [PATHS...]
 #
-# Recursively search for files that match regular expression PATTERN in PATHS.
-# If PATTERN is "" then every file will be matched.
+# Recursively search for files that match regular expression REGEXP in PATHS.
+# If REGEXP is "" then every file will be matched.
 # If PATHS are omitted search the current directory.
 # Interactively narrow down the list using fzf.
 # Open the selected file in Vim.
 function sf() {
     if [ "$#" -eq 0 ]; then
-        echo "usage: $0 PATTERN [PATHS...]" >&2
+        echo "usage: $0 REGEXP [PATHS...]" >&2
         return 1
     fi
-    local pattern="$1"
+    local regexp="$1"
     shift   # Drop $1
-    fd --color always "$pattern" $* |
+    fd --color always "$regexp" $* |
     fzf --preview 'bat --color=always {1} --theme Dracula' \
         --preview-window 'nohidden,up,60%,border-bottom,+{2}+3/3,~3' \
         --bind 'enter:become(code --goto {1})'
         # --bind 'enter:become(vim {1})'
 }
 
-# Usage: rgfzf PATTERN [PATHS...]
+# Usage: rgfzf REGEXP [PATHS...]
 #
-# Recursively search for regular expression PATTERN in PATHS.
-# If PATTERN is "" then every line will be matched.
+# Recursively search for regular expression REGEXP in PATHS.
+# If REGEXP is "" then every line will be matched.
 # If PATHS are omitted search the current directory.
 # Interactively narrow down the list using fzf.
 # Open the selected file in Vim.
@@ -136,12 +136,12 @@ function sf() {
 # https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration
 function rgfzf() {
     if [ "$#" -eq 0 ]; then
-        echo "usage: $0 PATTERN [PATHS...]" >&2
+        echo "usage: $0 REGEXP [PATHS...]" >&2
         return 1
     fi
-    local pattern="$1"
+    local regexp="$1"
     shift   # Drop $1
-    rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$pattern" ${*:-*} /dev/null |
+    rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$regexp" ${*:-*} /dev/null |
     fzf --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2} --theme Dracula' \
@@ -152,7 +152,7 @@ function rgfzf() {
 
 function rgdocs() {
     if [ "$#" -ne 1 ]; then
-        echo "usage: $0 PATTERN" >&2
+        echo "usage: $0 REGEXP" >&2
         return 1
     fi
     rgfzf "$1" "$DOCUMENTS_DIR"
