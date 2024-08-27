@@ -102,75 +102,67 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-# Usage: sf REGEXP [PATHS...]
-#
-# Recursively search for files that match regular expression REGEXP in PATHS.
-# If REGEXP is "" then every file will be matched.
-# If PATHS are omitted search the current directory.
-# Interactively narrow down the list using fzf.
-# Open the selected file in Vim.
-function sf() {
-    if [ "$#" -eq 0 ]; then
-        echo "usage: $0 REGEXP [PATHS...]" >&2
+ff_manpage="Usage: ff PATH REGEXP
+
+Recursively find file names that match regular expression REGEXP in PATHS.
+
+- If REGEXP is "" then every file will be matched.
+- Interactively narrow down the list using fzf.
+- Open the selected file in VSCode."
+
+function ff() {
+    if [ "$#" -ne 2 ]; then
+        echo $ff_manpage >&2
         return 1
     fi
-    local regexp="$1"
-    shift   # Drop $1
-    fd --color always "$regexp" $* |
-    fzf --preview 'bat --color=always {1} --theme Dracula' \
-        --preview-window 'nohidden,up,60%,border-bottom,+{2}+3/3,~3' \
-        --bind 'enter:become(code --goto {1})'
-        # --bind 'enter:become(vim {1})'
+    fd --type f --hidden --color always "$2" "$1" |
+    fzf --preview 'bat --color=always {} --theme Dracula' \
+        --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
+        --no-multi \
+        --bind 'enter:become(code --goto {})'
+        # --bind 'enter:become(vim {})'
 }
 
-# Usage: rgfzf REGEXP [PATHS...]
-#
-# Recursively search for regular expression REGEXP in PATHS.
-# If REGEXP is "" then every line will be matched.
-# If PATHS are omitted search the current directory.
-# Interactively narrow down the list using fzf.
-# Open the selected file in Vim.
-#
-# NOTE: The /dev/null is included in rg paths so rg always sees two or more files, this ensures it always includes the file name in search results, which is necessary for the fzf {1} parameter.
-#
-# https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration
-function rgfzf() {
-    if [ "$#" -eq 0 ]; then
-        echo "usage: $0 REGEXP [PATHS...]" >&2
+ft_manpage="Usage: ft PATH REGEXP
+
+Recursively grep the files in PATH for text matching REGEXP.
+
+- If REGEXP is "" then every file will be matched.
+- Interactively narrow down the list using fzf.
+- Open the selected file in VSCode."
+
+function ft() {
+    if [ "$#" -ne 2 ]; then
+        echo $ft_manpage >&2
         return 1
     fi
-    local regexp="$1"
-    shift   # Drop $1
-    rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$regexp" ${*:-*} /dev/null |
+    # The /dev/null is included in rg paths so rg always sees two or more files, this ensures it always includes the file name in search results, which is necessary for the fzf {1} parameter.  https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration"
+    rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$2" "$1" /dev/null |
     fzf --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2} --theme Dracula' \
-        --preview-window 'nohidden,up,60%,border-bottom,+{2}+3/3,~3' \
+        --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
+        --no-multi \
         --bind 'enter:become(code --goto {1}:{2})'
         # --bind 'enter:become(vim {1} +{2})'
 }
 
-function rgdocs() {
-    if [ "$#" -ne 1 ]; then
-        echo "usage: $0 REGEXP" >&2
-        return 1
-    fi
-    rgfzf "$1" "$DOCUMENTS_DIR"
-}
+sd_manpage="Usage: sd PATH REGEXP
 
-# Search the documents directory for files containing the the regexp WORD_PATTERN.
-#
-# - List top 40 file in ascending order of match word count (the file with the
-#   most matches is listed last).
-# - Open the selected file in VSCode.
+Recursively grep the files in PATH for words matching REGEXP.
+
+- List top 40 files in ascending order of match word count (the file with the
+  most matches is listed last).
+- If REGEXP is "" then every file will be matched.
+- Interactively narrow down the list using fzf.
+- Open the selected file in VSCode."
 function sd() {
-    if [ "$#" -ne 1 ]; then
-        echo "usage: $0 WORD_PATTERN" >&2
+    if [ "$#" -ne 2 ]; then
+        echo $sd_manpage >&2
         return 1
     fi
-    # List files matching $1 and preview grepped contents.
     local rg_opts=(--ignore-case --word-regexp --sort=none --type=all --type-not=pdf)
-    rg ${rg_opts[@]} --files-with-matches --count-matches "$1"  "$DOCUMENTS_DIR" \
+    rg ${rg_opts[@]} --files-with-matches --count-matches "$2"  "$1" \
     | sort -t ':' -k2n \
     | tail -40 \
     | awk -F':' '{print $1}' \
@@ -178,21 +170,36 @@ function sd() {
     | fzf --preview "rg ${rg_opts[*]} --context=3 \
           --context-separator=______________________________ \
           --line-number \
-          --color=always --colors=match:bg:yellow --colors=match:style:bold '$1' {}" \
-          --preview-window 'nohidden,up,60%,border-bottom' \
-          --bind 'enter:become(code --goto {1}:1)'
+          --color=always --colors=match:bg:yellow --colors=match:style:bold '$2' {}" \
+          --preview-window 'hidden,up,60%,border-bottom' \
+          --no-multi \
+          --bind 'enter:become(code --goto {})'
 }
 
+ds_manpage="Usage: sd QUERY
+
+Full text document search for files whose contents that match the Recoll QUERY.
+Recursively grep the files in PATH for words matching REGEXP.
+
+- List top 40 files in ascending match order (the file with the
+  best match is listed last).
+- Interactively narrow down the list using fzf.
+- Open the selected file in VSCode."
 # Recoll document search, lists file names that match query.
 # Usage: ds query
 function ds() {
     if [ "$*" ]; then
         recoll -t -q $*  2>/dev/null \
-            | tail -n +3 \
-            | head -n 20 \
-            | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|'
+        | tail -n +3 \
+        | head -n 40 \
+        | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|' \
+        | fzf --preview 'bat --color=always {} --theme Dracula' \
+            --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
+            --no-multi \
+            --bind 'enter:become(code --goto {})'
+            # --bind 'enter:become(vim {})'
     else
-        echo "missing search query" >&2
+        echo $ds_manpage >&2
         return 1
     fi
 }
