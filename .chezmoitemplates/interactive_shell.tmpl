@@ -127,7 +127,9 @@ ft_manpage="Usage: ft PATH REGEXP
 
 Recursively grep the files in PATH for text matching REGEXP.
 
-- If REGEXP is "" then every file will be matched.
+- Display the file name and the match count.
+- List top 40 files in ascending match count order (the file with the
+  most matches is listed last).
 - Interactively narrow down the list using fzf.
 - Open the selected file in VSCode."
 
@@ -136,15 +138,16 @@ function ft() {
         echo $ft_manpage >&2
         return 1
     fi
-    # The /dev/null is included in rg paths so rg always sees two or more files, this ensures it always includes the file name in search results, which is necessary for the fzf {1} parameter.  https://github.com/junegunn/fzf/blob/master/ADVANCED.md#ripgrep-integration"
-    rg --color=always --line-number --no-heading --smart-case --type=all --type-not=pdf "$2" "$1" /dev/null |
-    fzf --color "hl:-1:underline,hl+:-1:underline:reverse" \
+    rg --color=always --count-matches --smart-case --type=all --type-not=pdf "$2" "$1" \
+    | sort -t ':' -k2n \
+    | tail -40 \
+    | tac \
+    | fzf --preview 'bat --color=always {1} --theme Dracula' \
         --delimiter : \
-        --preview 'bat --color=always {1} --highlight-line {2} --theme Dracula' \
         --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
         --no-multi \
-        --bind 'enter:become(code --goto {1}:{2})'
-        # --bind 'enter:become(vim {1} +{2})'
+        --bind 'enter:become(code --goto {1})'
+        # --bind 'enter:become(vim {1})'
 }
 
 sd_manpage="Usage: sd PATH REGEXP
