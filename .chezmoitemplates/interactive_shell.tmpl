@@ -150,35 +150,6 @@ function ft() {
         # --bind 'enter:become(vim {1})'
 }
 
-sd_manpage="Usage: sd PATH REGEXP
-
-Recursively grep the files in PATH for words matching REGEXP.
-
-- List top 40 files in ascending order of match word count (the file with the
-  most matches is listed last).
-- If REGEXP is "" then every file will be matched.
-- Interactively narrow down the list using fzf.
-- Open the selected file in VSCode."
-function sd() {
-    if [ "$#" -ne 2 ]; then
-        echo $sd_manpage >&2
-        return 1
-    fi
-    local rg_opts=(--ignore-case --word-regexp --sort=none --type=all --type-not=pdf)
-    rg ${rg_opts[@]} --files-with-matches --count-matches "$2"  "$1" \
-    | sort -t ':' -k2n \
-    | tail -40 \
-    | awk -F':' '{print $1}' \
-    | tac \
-    | fzf --preview "rg ${rg_opts[*]} --context=3 \
-          --context-separator=______________________________ \
-          --line-number \
-          --color=always --colors=match:bg:yellow --colors=match:style:bold '$2' {}" \
-          --preview-window 'hidden,up,60%,border-bottom' \
-          --no-multi \
-          --bind 'enter:become(code --goto {})'
-}
-
 ds_manpage="Usage: sd QUERY
 
 Full text document search for files whose contents that match the Recoll QUERY.
