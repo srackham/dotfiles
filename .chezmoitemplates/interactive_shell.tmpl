@@ -13,9 +13,11 @@ export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window wrap:hidden"
+export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER=".."
+
+export BAT_THEME="Dracula"
 
 # Default apps.
 export EDITOR=vi
@@ -80,12 +82,12 @@ alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
-alias pkgs="pacman -Ssq | fzf --preview 'pacman -Si "{1}"' --preview-window=nohidden"
+alias pkgs="pacman -Ssq | fzf --preview 'pacman -Si "{1}"' --preview-window=hidden"
 alias pkg-install="sudo pacman -S"
 alias pkg-remove="sudo pacman -Rsun"
 alias pkgs-upgrade="sudo pacman -Syu"
 {{else if or (eq .chezmoi.osRelease.id "ubuntu")   (eq .chezmoi.osRelease.id "debian")}}
-alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1}' --preview-window=nohidden"
+alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1}' --preview-window=hidden"
 {{/* TODO: Add pkgs aliases for Debian/Ubuntu. */}}
 {{else if eq .chezmoi.osRelease.id "nixos"}}
 {{/* TODO: Add pkgs aliases for NixOS. */}}
@@ -106,7 +108,7 @@ ff_manpage="Usage: ff PATH REGEXP
 
 Recursively find file names that match regular expression REGEXP in PATHS.
 
-- If REGEXP is "" then every file will be matched.
+- If REGEXP is \"\" then every file will be matched.
 - Interactively narrow down the list using fzf.
 - Open the selected file in VSCode."
 
@@ -116,11 +118,9 @@ function ff() {
         return 1
     fi
     fd --type f --hidden --color always "$2" "$1" |
-    fzf --preview 'bat --color=always {} --theme Dracula' \
-        --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
-        --no-multi \
-        --bind 'enter:become(code --goto {})'
-        # --bind 'enter:become(vim {})'
+    fzf --preview 'bat --color=always {}' \
+        --bind 'enter:become(code --goto {+})'
+        # --bind 'enter:become(vim {+})'
 }
 
 ft_manpage="Usage: ft PATH REGEXP
@@ -142,12 +142,10 @@ function ft() {
     | sort -t ':' -k2n \
     | tail -40 \
     | tac \
-    | fzf --preview 'bat --color=always {1} --theme Dracula' \
+    | fzf --preview 'bat --color=always {1}' \
         --delimiter : \
-        --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
-        --no-multi \
-        --bind 'enter:become(code --goto {1})'
-        # --bind 'enter:become(vim {1})'
+        --bind 'enter:become(code {+1})'
+        # --bind 'enter:become(vim {+1})'
 }
 
 ds_manpage="Usage: sd QUERY
@@ -167,11 +165,9 @@ function ds() {
         | tail -n +3 \
         | head -n 40 \
         | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|' \
-        | fzf --preview 'bat --color=always {} --theme Dracula' \
-            --preview-window 'hidden,up,60%,border-bottom,+{2}+3/3,~3' \
-            --no-multi \
-            --bind 'enter:become(code --goto {})'
-            # --bind 'enter:become(vim {})'
+        | fzf --preview 'bat --color=always {}' \
+            --bind 'enter:become(code {+})'
+            # --bind 'enter:become(vim {+})'
     else
         echo $ds_manpage >&2
         return 1
