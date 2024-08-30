@@ -1,0 +1,8 @@
+[window.dimensions]
+columns = 120
+lines = 70
+
+[keyboard]
+bindings = [
+  { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+]
