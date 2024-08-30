@@ -56,7 +56,7 @@ alias rg="rg --colors path:style:bold  --colors path:fg:yellow"
 alias g="rg --max-depth 1 -z"
 alias gd="git diff --color"
 alias gg="git grep -P"
-alias gl="git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative --color=always | fzf --preview 'git show --name-only {1}' --preview-window=hidden"
+alias gl="git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=relative --color=always | fzf --preview 'git show --name-only {1}'"
 alias gls="git ls-files"
 alias grep="grep --color=auto"
 alias gst="git status --short 2>/dev/null"
@@ -82,12 +82,12 @@ alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
-alias pkgs="pacman -Ssq | fzf --preview 'pacman -Si "{1}"' --preview-window=hidden"
+alias pkgs="pacman -Sl --color=always | fzf --preview 'pacman -Si {2}'"
 alias pkg-install="sudo pacman -S"
 alias pkg-remove="sudo pacman -Rsun"
 alias pkgs-upgrade="sudo pacman -Syu"
 {{else if or (eq .chezmoi.osRelease.id "ubuntu")   (eq .chezmoi.osRelease.id "debian")}}
-alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1}' --preview-window=hidden"
+alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1}'"
 {{/* TODO: Add pkgs aliases for Debian/Ubuntu. */}}
 {{else if eq .chezmoi.osRelease.id "nixos"}}
 {{/* TODO: Add pkgs aliases for NixOS. */}}
@@ -131,7 +131,7 @@ Recursively grep the files in PATH for text matching REGEXP.
 - List top 40 files in ascending match count order (the file with the
   most matches is listed last).
 - Interactively narrow down the list using fzf.
-- Open the selected file in VSCode."
+- Open the selected files in VSCode."
 
 function ft() {
     if [ "$#" -ne 2 ]; then
@@ -156,7 +156,7 @@ Recursively grep the files in PATH for words matching REGEXP.
 - List top 40 files in ascending match order (the file with the
   best match is listed last).
 - Interactively narrow down the list using fzf.
-- Open the selected file in VSCode."
+- Open the selected files in VSCode."
 # Recoll document search, lists file names that match query.
 # Usage: ds query
 function ds() {
