@@ -2,7 +2,50 @@
 columns = 120
 lines = 70
 
+[window.padding]
+x = 10
+y = 10
+
 [keyboard]
 bindings = [
-  { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+    { key = "Space", mods = "Control|Shift", action = "ToggleViMode" },
+    { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
 ]
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+vi_mode_style = { shape = "Underline", blinking = "On" }
+blink_interval = 500
+blink_timeout = 0
+thickness = 1.0
+
+# From [Alacritty themes collection](https://github.com/alacritty/alacritty-theme)
+# name = "Monokai (dark)"
+# author = "Chris Kempson"
+[colors.primary]
+background = "#272822"
+foreground = "#f8f8f2"
+
+[colors.cursor]
+text = "#272822"
+cursor = "#f8f8f2"
+
+[colors.normal]
+black = "#272822"
+red = "#f92672"
+green = "#a6e22e"
+yellow = "#f4bf75"
+blue = "#66d9ef"
+magenta = "#ae81ff"
+cyan = "#a1efe4"
+white = "#f8f8f2"
+
+[colors.bright]
+black = "#75715e"
+red = "#f92672"
+green = "#a6e22e"
+yellow = "#f4bf75"
+blue = "#66d9ef"
+magenta = "#ae81ff"
+cyan = "#a1efe4"
+white = "#f9f8f5"
