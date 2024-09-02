@@ -61,7 +61,10 @@ alias gls="git ls-files"
 alias grep="grep --color=auto"
 alias gst="git status --short 2>/dev/null"
 alias gw="./gradlew --console plain"
-alias h=history
+{{if eq .chezmoi.osRelease.id "manjaro"}}
+alias hx="helix"    # hx is the canonical name of the Helix executable.
+{{end}}
+alias h="history"
 
 # lsflags="--color --group-directories-first"
 # alias ls="ls ${lsflags}"
