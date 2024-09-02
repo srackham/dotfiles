@@ -1,1 +1,16 @@
-theme = "monokai"
+theme = "monokai_pro_machine"
+
+[editor]
+text-width = 80
+
+[editor.gutters]
+layout = ["diagnostics", "spacer", "diff"]
+
+[editor.soft-wrap]
+enable = true
+wrap-at-text-width = true
+
+[keys.normal]
+C-tab = ":buffer-next"
+C-S-tab = ":buffer-previous"
+F5 = ":reload"
