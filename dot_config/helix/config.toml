@@ -24,8 +24,32 @@ H = "goto_window_top"
 M = "goto_window_center"
 L = "goto_window_bottom"
 "%" = "match_brackets"
-"*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
-"#" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_prev"]
+"*" = [
+    "move_char_right",
+    "move_prev_word_start",
+    "move_next_word_end",
+    "search_selection",
+    "search_next",
+]
+"#" = [
+    "move_char_right",
+    "move_prev_word_start",
+    "move_next_word_end",
+    "search_selection",
+    "search_prev",
+]
 # Make j and k behave as they do Vim when soft-wrap is enabled
 j = "move_line_down"
 k = "move_line_up"
+
+[keys.normal.","]
+c = [":write", ":buffer-close"]
+q = [":write-quit-all"]
+
+[keys.insert]
+# Latin long vowels.
+A-a = [":insert-output echo ā", "move_char_right"]
+A-e = [":insert-output echo ē", "move_char_right"]
+A-i = [":insert-output echo ī", "move_char_right"]
+A-o = [":insert-output echo ō", "move_char_right"]
+A-u = [":insert-output echo ū", "move_char_right"]
