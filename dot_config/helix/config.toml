@@ -11,6 +11,8 @@ enable = true
 wrap-at-text-width = true
 
 [keys.normal]
+C-q = [":write-quit-all"]
+C-del = [":write", ":buffer-close"]
 C-tab = ":buffer-next"
 C-S-tab = ":buffer-previous"
 F5 = ":reload-all"
