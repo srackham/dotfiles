@@ -62,7 +62,9 @@ alias grep="grep --color=auto"
 alias gst="git status --short 2>/dev/null"
 alias gw="./gradlew --console plain"
 {{if eq .chezmoi.osRelease.id "manjaro"}}
-alias hx="helix"    # hx is the canonical name of the Helix executable.
+alias hx="alacritty -e helix"
+{{else}}
+alias hx="alacritty -e \hx"
 {{end}}
 alias h="history"
 
