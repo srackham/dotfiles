@@ -23,6 +23,8 @@ C-tab = ":buffer-next"
 C-S-tab = ":buffer-previous"
 F5 = ":reload-all"
 A-w = ":toggle-option soft-wrap.enable"
+C-left = "jump_backward"
+C-right = "jump_forward"
 
 # Some Vi concessions (see https://github.com/LGUG2Z/helix-vim).
 0 = "goto_line_start"
