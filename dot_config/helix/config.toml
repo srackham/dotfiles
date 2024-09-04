@@ -2,6 +2,7 @@ theme = "dark_plus"
 
 [editor]
 text-width = 80
+cursorline = true
 
 [editor.gutters]
 layout = ["diagnostics", "spacer", "diff"]
@@ -9,6 +10,11 @@ layout = ["diagnostics", "spacer", "diff"]
 [editor.soft-wrap]
 enable = true
 wrap-at-text-width = true
+
+[editor.cursor-shape]
+normal = "block"
+insert = "underline"
+select = "bar"
 
 [keys.normal]
 C-q = [":write-quit-all"]
