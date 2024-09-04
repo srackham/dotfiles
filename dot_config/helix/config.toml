@@ -40,13 +40,6 @@ L = "goto_window_bottom"
     "search_selection",
     "search_prev",
 ]
-# Make j and k behave as they do Vim when soft-wrap is enabled
-j = "move_line_down"
-k = "move_line_up"
-
-[keys.normal.","]
-c = [":write", ":buffer-close"]
-q = [":write-quit-all"]
 
 [keys.insert]
 # Latin long vowels.
