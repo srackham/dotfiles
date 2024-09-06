@@ -4,6 +4,9 @@ theme = "dark_plus"
 text-width = 80
 cursorline = true
 
+[editor.auto-save]
+focus-lost = true
+
 [editor.gutters]
 layout = ["diagnostics", "spacer", "diff"]
 
