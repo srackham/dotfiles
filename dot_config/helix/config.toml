@@ -10,6 +10,11 @@ focus-lost = true
 [editor.gutters]
 layout = ["diagnostics", "spacer", "diff"]
 
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-type", "total-line-numbers", "file-encoding"]
+center = []
+right = ["selections", "primary-selection-length", "position", "position-percentage", "spacer", "diagnostics", "workspace-diagnostics", "version-control"]
+
 [editor.soft-wrap]
 enable = true
 wrap-at-text-width = true
