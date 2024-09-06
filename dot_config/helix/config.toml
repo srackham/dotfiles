@@ -3,6 +3,8 @@ theme = "dark_plus"
 [editor]
 text-width = 80
 cursorline = true
+rulers = [120]
+color-modes = true
 
 [editor.auto-save]
 focus-lost = true
@@ -15,6 +17,9 @@ left = ["mode", "spinner", "file-name", "file-type", "total-line-numbers", "file
 center = []
 right = ["selections", "primary-selection-length", "position", "position-percentage", "spacer", "diagnostics", "workspace-diagnostics", "version-control"]
 
+[editor.lsp]
+display-messages = true
+
 [editor.soft-wrap]
 enable = true
 wrap-at-text-width = true
@@ -23,6 +28,10 @@ wrap-at-text-width = true
 normal = "block"
 insert = "underline"
 select = "bar"
+
+[editor.indent-guides]
+render = true
+character = "▏"
 
 [keys.normal]
 C-q = [":write-quit-all"]
