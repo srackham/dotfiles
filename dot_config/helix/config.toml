@@ -1,5 +1,4 @@
 theme = "catppuccin_mocha"
-# theme = "dark_plus"
 
 [editor]
 text-width = 80
@@ -43,29 +42,6 @@ F5 = ":reload-all"
 A-w = ":toggle-option soft-wrap.enable"
 C-left = "jump_backward"
 C-right = "jump_forward"
-
-# Some Vi concessions (see https://github.com/LGUG2Z/helix-vim).
-0 = "goto_line_start"
-"$" = "goto_line_end"
-G = "goto_file_end"
-H = "goto_window_top"
-M = "goto_window_center"
-L = "goto_window_bottom"
-"%" = "match_brackets"
-"*" = [
-    "move_char_right",
-    "move_prev_word_start",
-    "move_next_word_end",
-    "search_selection",
-    "search_next",
-]
-"#" = [
-    "move_char_right",
-    "move_prev_word_start",
-    "move_next_word_end",
-    "search_selection",
-    "search_prev",
-]
 
 [keys.insert]
 # Latin long vowels.
