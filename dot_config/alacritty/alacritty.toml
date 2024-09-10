@@ -11,10 +11,7 @@ x = 10
 y = 10
 
 [keyboard]
-bindings = [
-    { key = "Space", mods = "Control|Shift", action = "ToggleViMode" },
-    { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
-]
+bindings = [{ key = "N", mods = "Control|Shift", action = "CreateNewWindow" }]
 
 [cursor]
 style = { shape = "Block", blinking = "On" }
