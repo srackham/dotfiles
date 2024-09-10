@@ -13,9 +13,26 @@ focus-lost = true
 layout = ["diagnostics", "spacer", "diff"]
 
 [editor.statusline]
-left = ["mode", "spinner", "file-name", "file-type", "total-line-numbers", "file-encoding"]
+left = [
+    "mode",
+    "spinner",
+    "file-name",
+    "file-type",
+    "total-line-numbers",
+    "file-encoding",
+    "file-modification-indicator",
+]
 center = []
-right = ["selections", "primary-selection-length", "position", "position-percentage", "spacer", "diagnostics", "workspace-diagnostics", "version-control"]
+right = [
+    "selections",
+    "primary-selection-length",
+    "position",
+    "position-percentage",
+    "spacer",
+    "diagnostics",
+    "workspace-diagnostics",
+    "version-control",
+]
 
 [editor.lsp]
 display-messages = true
@@ -36,8 +53,9 @@ character = "▏"
 [keys.normal]
 C-q = [":write-quit-all"]
 C-del = [":write", ":buffer-close"]
-C-tab = ":buffer-next"
-C-S-tab = ":buffer-previous"
+A-C-c = [":write", ":buffer-close"]
+A-C-j = ":buffer-previous"
+A-C-k = ":buffer-next"
 F5 = ":reload-all"
 A-w = ":toggle-option soft-wrap.enable"
 C-left = "jump_backward"
