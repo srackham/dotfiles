@@ -1,5 +1,19 @@
 theme = "catppuccin_mocha"
 
+[keys.normal]
+C-q = [":write-quit-all"]
+C-del = [":write", ":buffer-close"]
+F5 = ":reload-all"
+A-w = ":toggle-option soft-wrap.enable"
+
+[keys.insert]
+# Latin long vowels.
+A-a = [":insert-output echo ā", "move_char_right"]
+A-e = [":insert-output echo ē", "move_char_right"]
+A-i = [":insert-output echo ī", "move_char_right"]
+A-o = [":insert-output echo ō", "move_char_right"]
+A-u = [":insert-output echo ū", "move_char_right"]
+
 [editor]
 text-width = 80
 cursorline = true
@@ -49,22 +63,3 @@ select = "bar"
 [editor.indent-guides]
 render = true
 character = "▏"
-
-[keys.normal]
-C-q = [":write-quit-all"]
-C-del = [":write", ":buffer-close"]
-A-C-c = [":write", ":buffer-close"]
-A-C-j = ":buffer-previous"
-A-C-k = ":buffer-next"
-F5 = ":reload-all"
-A-w = ":toggle-option soft-wrap.enable"
-C-left = "jump_backward"
-C-right = "jump_forward"
-
-[keys.insert]
-# Latin long vowels.
-A-a = [":insert-output echo ā", "move_char_right"]
-A-e = [":insert-output echo ē", "move_char_right"]
-A-i = [":insert-output echo ī", "move_char_right"]
-A-o = [":insert-output echo ō", "move_char_right"]
-A-u = [":insert-output echo ū", "move_char_right"]
