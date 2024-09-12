@@ -9,12 +9,19 @@ A-w = ":toggle-option soft-wrap.enable"
 
 [keys.insert]
 C-s = [":write-all!"]
-# Latin long vowels.
-A-a = [":insert-output echo ā", "move_char_right"]
-A-e = [":insert-output echo ē", "move_char_right"]
-A-i = [":insert-output echo ī", "move_char_right"]
-A-o = [":insert-output echo ō", "move_char_right"]
-A-u = [":insert-output echo ū", "move_char_right"]
+
+# Latin long vowels
+[keys.insert."A-l"]
+a = [":insert-output echo ā", "move_char_right"]
+e = [":insert-output echo ē", "move_char_right"]
+i = [":insert-output echo ī", "move_char_right"]
+o = [":insert-output echo ō", "move_char_right"]
+u = [":insert-output echo ū", "move_char_right"]
+
+# Unicode characters
+[keys.insert."A-u"]
+d = [":insert-output echo †", "move_char_right"]
+m = [":insert-output echo —", "move_char_right"]
 
 [editor]
 text-width = 80
