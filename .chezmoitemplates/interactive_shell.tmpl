@@ -66,12 +66,10 @@ alias hx="helix"
 {{end}}
 alias h="history"
 
-# lsflags="--color --group-directories-first"
-# alias ls="ls ${lsflags}"
-# alias la="ls ${lsflags} -lA"
-# alias ll="ls ${lsflags} -l"
-# alias lr="ls ${lsflags} -Altr --time-style='+%d-%m-%Y %H:%M:%S'" # Long listing in reverse chronological order
+# Mini tmux IDE
+alias tide="tmux new-window\; split-window -h\; select-pane -L\; send-keys \"hx -w .\" Enter"
 
+# eza aliases.
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
 {{if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
 alias eza="exa"
@@ -79,6 +77,13 @@ alias eza="exa"
 alias ls="eza"
 alias ll="eza -lHg"
 alias lr="eza -laHgs modified"
+
+# ls aliases.
+# lsflags="--color --group-directories-first"
+# alias ls="ls ${lsflags}"
+# alias la="ls ${lsflags} -lA"
+# alias ll="ls ${lsflags} -l"
+# alias lr="ls ${lsflags} -Altr --time-style='+%d-%m-%Y %H:%M:%S'" # Long listing in reverse chronological order
 
 alias nls="npm list --depth 0 --silent"
 alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"
