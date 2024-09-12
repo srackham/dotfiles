@@ -3,6 +3,8 @@ theme = "catppuccin_mocha"
 [keys.normal]
 C-q = [":write-quit-all"]
 C-s = [":write-all!"]
+C-tab = ":buffer-next"
+C-S-tab = ":buffer-previous"
 C-del = [":write", ":buffer-close"]
 F5 = ":reload-all"
 A-w = ":toggle-option soft-wrap.enable"
