@@ -13,15 +13,15 @@ F5 = ":reload-all"
 C-s = [":write-all!"]
 C-S-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
+[keys.insert]
+C-s = [":write-all!"]
+C-S-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+
 # Comma minor mode for miscellaneous commands
 [keys.normal.","]
 c = [":write", ":buffer-close"]
 q = [":write-quit-all"]
 s = [":write-all!"]
-
-[keys.insert]
-C-s = [":write-all!"]
-C-S-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
 # Latin long vowels
 [keys.insert."A-l"]
@@ -44,6 +44,8 @@ color-modes = true
 
 [editor.auto-save]
 focus-lost = true
+after-delay.enable = true
+after-delay.timeout = 3000
 
 [editor.gutters]
 layout = ["diagnostics", "spacer", "diff"]
