@@ -42,6 +42,9 @@ cursorline = true
 rulers = [120]
 color-modes = true
 
+[editor.file-picker]
+hidden = false
+
 [editor.auto-save]
 focus-lost = true
 after-delay.enable = true
