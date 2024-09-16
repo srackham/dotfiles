@@ -67,7 +67,7 @@ alias hx="helix"
 alias h="history"
 
 # Mini tmux IDE: editor in left pane, terminal in right pane
-alias tide="tmux new-window -n \"#{b:pane_current_path}\"\; split-window -h\; select-pane -L\; send-keys \"hx -w .\" Enter"
+alias tide="tmux new-window -n \"#{b:pane_current_path}\"\; split-window -h\; split-window -v\; send-keys lazygit Enter\; select-pane -L\; send-keys \"hx -w .\" Enter" 
 
 # eza aliases.
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
