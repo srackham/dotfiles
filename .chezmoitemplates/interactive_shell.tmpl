@@ -67,7 +67,13 @@ alias hx="helix"
 alias h="history"
 
 # Mini tmux IDE: editor in left pane; terminal in right pane; a third lazygit pane if in a Git repo
-alias tide="tmux new-window -n '#{b:pane_current_path}'\; split-window -h\; if-shell '[ -d .git ]' 'split-window -v'\; if-shell '[ -d .git ]' 'send-keys lazygit Enter'\; select-pane -L\; send-keys 'hx -w .' Enter"
+alias tide="tmux new-window -n '#{b:pane_current_path}'\; \
+    split-window -h\; \
+    if-shell '[ -d .git ]' 'split-window -v'\; \
+    if-shell '[ -d .git ]' 'send-keys lazygit Enter'\; \
+    select-pane -L\; \
+    send-keys 'hx -w .' Enter\; \
+    send-keys ' f'"
 
 # eza aliases.
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
