@@ -6,11 +6,11 @@ A-w = ":toggle-option soft-wrap.enable"
 C-b = ":buffer-next"
 C-A-b = ":buffer-previous"
 C-del = [":write", ":buffer-close"]
-C-q = [":write-quit-all"]
+C-q = ":write-quit-all"
 C-tab = ":buffer-next"
 C-S-tab = ":buffer-previous"
 F5 = ":reload-all"
-C-s = [":write-all!"]
+C-s = ":write-all!"
 C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
 [keys.insert]
@@ -20,8 +20,8 @@ C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 # Comma minor mode for miscellaneous commands
 [keys.normal.","]
 c = [":write", ":buffer-close"]
-q = [":write-quit-all"]
-s = [":write-all!"]
+q = ":write-quit-all"
+s = ":write-all!"
 
 # Latin long vowels
 [keys.insert."A-l"]
