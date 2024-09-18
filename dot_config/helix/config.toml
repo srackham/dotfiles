@@ -7,14 +7,16 @@ C-b = ":buffer-next"
 C-A-b = ":buffer-previous"
 C-del = [":write", ":buffer-close"]
 C-q = ":write-quit-all"
-C-tab = ":buffer-next"
-C-S-tab = ":buffer-previous"
+# C-tab = ":buffer-next"
+# C-S-tab = ":buffer-previous"
 F5 = ":reload-all"
-C-s = ":write-all!"
+# C-s = ":write-all!"
 C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+0 = "goto_line_start"
+G = "goto_file_end"
 
 [keys.insert]
-C-s = [":write-all!"]
+# C-s = [":write-all!"]
 C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
 # Comma minor mode for miscellaneous commands
