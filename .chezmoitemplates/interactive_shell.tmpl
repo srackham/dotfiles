@@ -66,16 +66,6 @@ alias hx="helix"
 {{end}}
 alias h="history"
 
-# Mini tmux IDE: editor in left pane; terminal in right pane; a third lazygit pane if in a Git repo
-alias tide="[ -z \"$TMUX\" ] && echo 'ERROR: must be run inside tmux' || tmux \
-    new-window -n '#{b:pane_current_path}'\; \
-    split-window -h\; \
-    if-shell '[ -d .git ]' 'split-window -v'\; \
-    if-shell '[ -d .git ]' 'send-keys lazygit Enter'\; \
-    select-pane -L\; \
-    send-keys 'hx -w .' Enter\; \
-    send-keys ' f'"
-
 # eza aliases.
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
 {{if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
@@ -187,4 +177,80 @@ function ds() {
         echo $ds_manpage >&2
         return 1
     fi
+}
+
+# Mini tmux IDE: editor in left pane; terminal in right pane; a third lazygit pane if in a Git repo
+tide() {
+    local replace=false
+    local rootdir=$(pwd)
+    local OPTIND
+
+    usage() {
+        echo "Usage: tide [-w <dir> | --working-dir <dir>] [-r | --replace] [-h | --help]"
+        echo "  -w, --working-dir DIR  Set working directory (default: current directory)"
+        echo "  -r, --replace          Replace current window"
+        echo "  -h, --help             Display this help message"
+    }
+
+    # Check if we're in a tmux session
+    if [ -z "$TMUX" ]; then
+        echo "This command must be run inside a tmux session."
+        return 1
+    fi
+
+    while (( $# > 0 )); do
+        case "$1" in
+            -w|--working-dir)
+                if [[ -n "$2" && "$2" != -* ]]; then
+                    rootdir="$2"
+                    shift 2
+                else
+                    echo "Error: Argument for $1 is missing" >&2
+                    usage
+                    return 1
+                fi
+                ;;
+            -r|--replace)
+                replace=true
+                shift
+                ;;
+            -h|--help)
+                usage
+                return 0
+                ;;
+            *)
+                echo "Error: Invalid option $1" >&2
+                usage
+                return 1
+                ;;
+        esac
+    done
+
+    rootdir=$(realpath "$rootdir")
+
+    if [[ ! -d "$rootdir" ]]; then
+        echo "Error: $rootdir is not a valid directory" >&2
+        return 1
+    fi
+
+    window_index=$(tmux display-message -p '#{window_index}')
+
+    echo "replace: $replace"
+    echo "rootdir: $rootdir"
+    echo "window:  $window_index"
+
+    tmux \
+        new-window -c "$rootdir" -n "$(basename "$rootdir")"\; \
+        split-window -c "$rootdir" -h\; \
+        if-shell "[ -d .git ]" "split-window -c "$rootdir" -v"\; \
+        if-shell "[ -d .git ]" "send-keys lazygit Enter"\; \
+        select-pane -L\; \
+        send-keys "hx -w ." Enter\; \
+        send-keys " f"
+
+    if $replace; then
+        # Kill the window that tide was executed in.
+        tmux kill-window -t:$window_index
+    fi
+
 }
