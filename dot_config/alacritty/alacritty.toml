@@ -14,8 +14,8 @@ y = 10
 bindings = [{ key = "T", mods = "Control|Shift", action = "CreateNewWindow" }]
 
 [cursor]
-style = { shape = "Block", blinking = "On" }
-vi_mode_style = { shape = "Underline", blinking = "On" }
+style = { shape = "Block", blinking = "Always" }
+vi_mode_style = { shape = "Underline", blinking = "Always" }
 blink_interval = 500
 blink_timeout = 0
 thickness = 1.0
