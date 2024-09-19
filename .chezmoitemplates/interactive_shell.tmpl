@@ -242,8 +242,8 @@ tide() {
     tmux \
         new-window -c "$rootdir" -n "$(basename "$rootdir")"\; \
         split-window -c "$rootdir" -h\; \
-        if-shell "[ -d .git ]" "split-window -c "$rootdir" -v"\; \
-        if-shell "[ -d .git ]" "send-keys lazygit Enter"\; \
+        if-shell "[ -d "$rootdir/.git" ]" "split-window -c "$rootdir" -v"\; \
+        if-shell "[ -d "$rootdir/.git" ]" "send-keys lazygit Enter"\; \
         select-pane -L\; \
         send-keys "hx -w ." Enter\; \
         send-keys " f"
