@@ -240,4 +240,26 @@ tide() {
         # Kill the window that tide was executed in.
         tmux kill-window -t:$window_index
     fi
+}     
+        
+# Interactively select and delete files.
+frm() {
+  local files_to_delete
+  files_to_delete=$(fzf -m)
+  if [ -n "$files_to_delete" ]; then
+    echo "The following files will be deleted:"
+    echo
+    echo "$files_to_delete"
+    echo
+    echo -n "Are you sure you want to delete these files? (y/n) "
+    read confirm
+    if [ "$confirm" = "y" ]; then
+      echo
+      echo "$files_to_delete" | tr '\n' '\0' | xargs -0 rm -v
+    else
+      echo "Operation cancelled."
+    fi
+  else
+    echo "No files selected."
+  fi
 }
