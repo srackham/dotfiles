@@ -7,17 +7,32 @@ C-b = ":buffer-next"
 C-A-b = ":buffer-previous"
 C-del = [":write", ":buffer-close"]
 C-q = ":write-quit-all"
-# C-tab = ":buffer-next"
-# C-S-tab = ":buffer-previous"
 F5 = ":reload-all"
-# C-s = ":write-all!"
 C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+
+#
+# Vi compatibility
+#
+# I've tried to keep only the most must-have Vi bindings.
+# See https://github.com/LGUG2Z/helix-vim/blob/master/config.toml
+#
+
 0 = "goto_line_start"
 G = "goto_file_end"
+V = ["select_mode", "extend_to_line_bounds"]
+C = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection", "insert_mode"]
+A-c = "copy_selection_on_next_line"  # Add selection on next line (default C mapping)
+D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
+"*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
+"#" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_prev"]
+esc = ["collapse_selection", "keep_primary_selection"]
+
+[keys.select]
+esc = ["collapse_selection", "keep_primary_selection", "normal_mode"]
 
 [keys.insert]
-# C-s = [":write-all!"]
 C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+esc = ["collapse_selection", "normal_mode"]
 
 # Comma minor mode for miscellaneous commands
 [keys.normal.","]
@@ -39,7 +54,7 @@ d = [":insert-output echo †", "move_char_right"]
 m = [":insert-output echo —", "move_char_right"]
 
 [editor]
-text-width = 80
+text-width = 120
 cursorline = true
 rulers = [120]
 color-modes = true
