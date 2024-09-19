@@ -182,13 +182,13 @@ function ds() {
 # Mini tmux IDE: editor in left pane; terminal in right pane; a third lazygit pane if in a Git repo
 tide() {
     local replace=false
-    local rootdir=$(pwd)
+    local rootdir
     local OPTIND
     usage() {
-        echo "Usage: tide [-w <dir> | --working-dir <dir>] [-r | --replace] [-h | --help]"
-        echo "  -w, --working-dir DIR  Set working directory (default: current directory)"
-        echo "  -r, --replace          Replace current window"
-        echo "  -h, --help             Display this help message"
+        echo "Usage: tide [-r | --replace] [-h | --help] <dir>"
+        echo "  -r, --replace          Replace current window"
+        echo "  -h, --help             Display this help message"
+        echo "  <dir>                  Working directory (default: current directory)"
     }
     # Check if we're in a tmux session
     if [ -z "$TMUX" ]; then
@@ -197,16 +197,6 @@ tide() {
     fi
     while (( $# > 0 )); do
         case "$1" in
-            -w|--working-dir)
-                if [[ -n "$2" && "$2" != -* ]]; then
-                    rootdir="$2"
-                    shift 2
-                else
-                    echo "Error: Argument for $1 is missing" >&2
-                    usage
-                    return 1
-                fi
-                ;;
             -r|--replace)
                 replace=true
                 shift
@@ -216,17 +206,20 @@ tide() {
                 return 0
                 ;;
             *)
-                echo "Error: Invalid option $1" >&2
-                usage
-                return 1
+                rootdir="$1"
+                shift
                 ;;
         esac
     done
-    rootdir=$(realpath "$rootdir")
-    if [[ ! -d "$rootdir" ]]; then
-        echo "Error: $rootdir is not a valid directory" >&2
+    if [ -z "$rootdir" ]; then
+        echo "Error: Missing working directory" >&2
         return 1
     fi
+    if [[ ! -d "$rootdir" ]]; then
+        echo "Error: '$rootdir' is not a valid directory" >&2
+        return 1
+    fi
+    rootdir=$(realpath "$rootdir")
     window_index=$(tmux display-message -p '#{window_index}')
     tmux \
         new-window -c "$rootdir" -n "$(basename "$rootdir")"\; \
