@@ -235,10 +235,6 @@ tide() {
 
     window_index=$(tmux display-message -p '#{window_index}')
 
-    echo "replace: $replace"
-    echo "rootdir: $rootdir"
-    echo "window:  $window_index"
-
     tmux \
         new-window -c "$rootdir" -n "$(basename "$rootdir")"\; \
         split-window -c "$rootdir" -h\; \
