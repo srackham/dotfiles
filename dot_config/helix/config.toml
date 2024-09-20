@@ -59,6 +59,7 @@ text-width = 120
 cursorline = true
 rulers = [120]
 color-modes = true
+auto-pairs = false
 
 [editor.file-picker]
 hidden = false
