@@ -190,11 +190,6 @@ tide() {
         echo "  -h, --help             Display this help message"
         echo "  <dir>                  Working directory (default: current directory)"
     }
-    # Check if we're in a tmux session
-    if [ -z "$TMUX" ]; then
-        echo "This command must be run inside a tmux session."
-        return 1
-    fi
     while (( $# > 0 )); do
         case "$1" in
             -r|--replace)
@@ -211,6 +206,11 @@ tide() {
                 ;;
         esac
     done
+    # Check if we're in a tmux session
+    if [ -z "$TMUX" ]; then
+        echo "This command must be run inside a tmux session."
+        return 1
+    fi
     if [ -z "$rootdir" ]; then
         echo "Error: Missing working directory" >&2
         return 1
