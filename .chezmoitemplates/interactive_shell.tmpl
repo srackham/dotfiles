@@ -237,22 +237,47 @@ tide() {
         
 # Interactively select and delete files.
 frm() {
-  local files_to_delete
-  files_to_delete=$(fzf -m)
-  if [ -n "$files_to_delete" ]; then
-    echo "The following files will be deleted:"
-    echo
-    echo "$files_to_delete"
-    echo
-    echo -n "Are you sure you want to delete these files? (y/n) "
-    read confirm
-    if [ "$confirm" = "y" ]; then
-      echo
-      echo "$files_to_delete" | tr '\n' '\0' | xargs -0 rm -v
-    else
-      echo "Operation cancelled."
+    local files_to_delete
+    local dir=$(pwd)
+    usage() {
+        echo "Usage: frm [-h | --help] [<dir>]"
+        echo "  -h, --help             Display this help message"
+        echo "  <dir>                  Working directory (default: current directory)"
+    }
+    while (( $# > 0 )); do
+        case "$1" in
+            -h|--help)
+                usage
+                return 0
+                ;;
+            *)
+                dir="$1"
+                shift
+                ;;
+        esac
+    done
+    if [[ -n "$dir" && ! -d "$dir" ]]; then
+        echo "Error: ''$dir' is not a valid directory" >&2
+        return 1
     fi
-  else
-    echo "No files selected."
-  fi
+    dir=$(realpath "$dir")
+    cd "$dir" || return 1
+    files_to_delete=$(fzf -m)
+    if [ -n "$files_to_delete" ]; then
+        echo "The following files will be deleted:"
+        echo
+        echo "$files_to_delete"
+        echo
+        echo -n "Are you sure you want to delete these files? (y/n) "
+        read confirm
+        if [ "$confirm" = "y" ]; then
+            echo
+            echo "$files_to_delete" | tr '\n' '\0' | xargs -0 rm -v
+        else
+            echo "Operation cancelled."
+        fi
+    else
+        echo "No files selected."
+    fi
+    cd - >/dev/null
 }
