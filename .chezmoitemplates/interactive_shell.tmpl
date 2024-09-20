@@ -212,11 +212,11 @@ tide() {
         return 1
     fi
     if [ -z "$rootdir" ]; then
-        echo "Error: Missing working directory" >&2
+        echo "Missing working directory" >&2
         return 1
     fi
     if [[ ! -d "$rootdir" ]]; then
-        echo "Error: '$rootdir' is not a valid directory" >&2
+        echo "'$rootdir' is not a valid directory" >&2
         return 1
     fi
     rootdir=$(realpath "$rootdir")
@@ -257,7 +257,7 @@ frm() {
         esac
     done
     if [[ -n "$dir" && ! -d "$dir" ]]; then
-        echo "Error: ''$dir' is not a valid directory" >&2
+        echo "'$dir' is not a valid directory" >&2
         return 1
     fi
     dir=$(realpath "$dir")
