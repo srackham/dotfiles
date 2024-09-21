@@ -112,3 +112,6 @@ select = "bar"
 [editor.indent-guides]
 render = true
 character = "▏"
+
+[editor.smart-tab]
+enable = false
