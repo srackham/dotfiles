@@ -40,7 +40,7 @@ C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 [keys.normal.","]
 c = [":write", ":buffer-close"]
 q = ":write-quit-all"
-s = ":write-all!"
+w = ":write-all!"
 
 # Latin long vowels
 [keys.insert."A-l"]
