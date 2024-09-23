@@ -1,0 +1,18 @@
+inherits =  "catppuccin_mocha"
+
+# Override theme settings.
+# "comment" = { fg = "purple" }
+"comment" = { fg = "green" }
+"markup.heading.1" = "green"
+"markup.heading.2" = "green"
+"markup.heading.3" = "green"
+"markup.heading.4" = "green"
+"markup.heading.5" = "green"
+"markup.heading.6" = "green"
+"markup.bold" = { fg = "flamingo", modifiers = ["bold"] }
+"markup.italic" = { fg = "flamingo", modifiers = ["italic"] }
+punctuation = "flamingo"
+
+[palette]
+# Override existing colors or add new colors.
+purple = "#96aaf9"
