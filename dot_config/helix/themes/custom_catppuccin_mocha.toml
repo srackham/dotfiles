@@ -11,6 +11,7 @@ inherits =  "catppuccin_mocha"
 "markup.heading.6" = "green"
 "markup.bold" = { fg = "flamingo", modifiers = ["bold"] }
 "markup.italic" = { fg = "flamingo", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
 punctuation = "flamingo"
 "ui.statusline" = { fg = "white", bg = "surface1" }
 
