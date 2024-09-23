@@ -12,6 +12,7 @@ inherits =  "catppuccin_mocha"
 "markup.bold" = { fg = "flamingo", modifiers = ["bold"] }
 "markup.italic" = { fg = "flamingo", modifiers = ["italic"] }
 punctuation = "flamingo"
+"ui.statusline" = { fg = "white", bg = "surface1" }
 
 [palette]
 # Override existing colors or add new colors.
