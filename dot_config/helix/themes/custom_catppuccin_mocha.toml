@@ -2,12 +2,12 @@ inherits =  "catppuccin_mocha"
 
 # Override theme settings.
 "comment" = { fg = "green" }
-"markup.heading.1" = "green"
-"markup.heading.2" = "green"
-"markup.heading.3" = "green"
-"markup.heading.4" = "green"
-"markup.heading.5" = "green"
-"markup.heading.6" = "green"
+"markup.heading.1" = { fg = "green", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "green", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "green", modifiers = ["bold"] }
+"markup.heading.4" = { fg = "green", modifiers = ["bold"] }
+"markup.heading.5" = { fg = "green", modifiers = ["bold"] }
+"markup.heading.6" = { fg = "green", modifiers = ["bold"] }
 "markup.bold" = { fg = "flamingo", modifiers = ["bold"] }
 "markup.italic" = { fg = "flamingo", modifiers = ["italic"] }
 "markup.strikethrough" = { modifiers = ["crossed_out"] }
