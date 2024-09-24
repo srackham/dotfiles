@@ -14,7 +14,11 @@ inherits =  "catppuccin_mocha"
 "markup.strikethrough" = { modifiers = ["crossed_out"] }
 punctuation = "flamingo"
 "ui.statusline" = { fg = "white", bg = "surface1" }
+"ui.selection" = { bg = "selection" }
+"ui.selection.primary" = { bg = "selection" }
 
 [palette]
 # Override existing colors or add new colors.
 purple = "#96aaf9"
+cursorline = "#36374a"
+selection = "#193D66"
