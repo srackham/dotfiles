@@ -1,7 +1,6 @@
 inherits =  "catppuccin_mocha"
 
 # Override theme settings.
-# "comment" = { fg = "purple" }
 "comment" = { fg = "green" }
 "markup.heading.1" = "green"
 "markup.heading.2" = "green"
@@ -19,6 +18,5 @@ punctuation = "flamingo"
 
 [palette]
 # Override existing colors or add new colors.
-purple = "#96aaf9"
 cursorline = "#36374a"
 selection = "#193D66"
