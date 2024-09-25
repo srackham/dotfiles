@@ -27,6 +27,7 @@ C-c = "yank_main_selection_to_clipboard"
 
 [keys.insert]
 C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
 
 # Comma minor mode for miscellaneous commands
