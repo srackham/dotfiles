@@ -15,8 +15,11 @@ punctuation = "flamingo"
 "ui.statusline" = { fg = "white", bg = "surface1" }
 "ui.selection" = { bg = "selection" }
 "ui.selection.primary" = { bg = "selection" }
+"markup.link.text" = { modifiers = ["bold"] }
+"markup.link.url" = { fg = "url", modifiers = ["italic", "underlined"] }
 
 [palette]
 # Override existing colors or add new colors.
 cursorline = "#36374a"
 selection = "#193D66"
+url = "#6897bb"
