@@ -5,6 +5,8 @@ A-w = ":toggle-option soft-wrap.enable"
 F5 = ":reload-all"
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
+C-n = "page_down"
+C-p = "page_up"
 
 #
 # Vi compatibility
@@ -23,9 +25,13 @@ D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection
 
 [keys.select]
 C-c = "yank_main_selection_to_clipboard"
+C-n = "page_down"
+C-p = "page_up"
 
 [keys.insert]
 C-c = "yank_main_selection_to_clipboard"
+C-n = "page_down"
+C-p = "page_up"
 C-v = "paste_clipboard_before"
 
 # Comma minor mode for miscellaneous commands
