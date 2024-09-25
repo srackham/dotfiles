@@ -3,7 +3,6 @@ theme = "custom_catppuccin_mocha"
 [keys.normal]
 A-w = ":toggle-option soft-wrap.enable"
 F5 = ":reload-all"
-C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
 
@@ -26,15 +25,18 @@ D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection
 C-c = "yank_main_selection_to_clipboard"
 
 [keys.insert]
-C-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
 
 # Comma minor mode for miscellaneous commands
 [keys.normal.","]
 c = [":write", ":buffer-close"]
+d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 q = ":write-quit-all"
 w = ":write-all!"
+
+[keys.insert.","]
+d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
 # Latin long vowels
 [keys.insert."A-l"]
