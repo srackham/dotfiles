@@ -65,12 +65,6 @@ alias hx="helix"
 {{end}}
 alias h="history"
 
-# fzf-based aliases to edit, copy move and remove files
-alias ce="code \$(fzf --no-multi)"      # edit
-alias cz="cp -i \$(fzf --multi)"        # copy (cz <destination-directory>)
-alias mz="mv -i \$(fzf --multi)"        # move (mz <destination-directory>)
-alias rz="rm -i \$(fzf --multi)"        # delete
-
 # eza aliases.
 {{/* 23-Mar-2024: Ubuntu uses the older exa */}}
 {{if or (eq .chezmoi.osRelease.id "ubuntu")  (.chezmoi.hostname | hasPrefix "nuc")}}
