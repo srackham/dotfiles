@@ -180,21 +180,15 @@ function ds() {
 
 # Mini tmux IDE: editor in left pane; terminal in right pane; a third lazygit pane if in a Git repo
 tide() {
-    local replace=false
     local rootdir
     local OPTIND
     usage() {
-        echo "Usage: tide [-r | --replace] [-h | --help] [<dir>]"
-        echo "  -r, --replace          Replace current window"
-        echo "  -h, --help             Display this help message"
-        echo "  <dir>                  Working directory (default: current directory)"
+        echo "Usage: tide [-h | --help] [<dir>]"
+        echo "  <dir>           Working directory (default: current directory)"
+        echo "  -h, --help      Display this help message"
     }
     while (( $# > 0 )); do
         case "$1" in
-            -r|--replace)
-                replace=true
-                shift
-                ;;
             -h|--help)
                 usage
                 return 0
@@ -219,7 +213,6 @@ tide() {
         return 1
     fi
     rootdir=$(realpath "$rootdir")
-    window_index=$(tmux display-message -p '#{window_index}')
     tmux \
         new-window -c "$rootdir" -n "$(basename "$rootdir")"\; \
         split-window -c "$rootdir" -h\; \
@@ -228,10 +221,6 @@ tide() {
         select-pane -L\; \
         send-keys "hx -w ." Enter\; \
         send-keys " f"
-    if $replace; then
-        # Kill the window that tide was executed in.
-        tmux kill-window -t:$window_index
-    fi
 }     
         
 # Interactively select and delete files.
