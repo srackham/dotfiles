@@ -14,7 +14,6 @@ C-v = "paste_clipboard_before"
 #
 
 C = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection", "insert_mode"]
-A-c = "copy_selection_on_next_line"  # Add selection on next line (default C mapping)
 D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
 "*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
 "#" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_prev"]
