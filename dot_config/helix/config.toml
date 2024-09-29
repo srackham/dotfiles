@@ -13,7 +13,6 @@ C-v = "paste_clipboard_before"
 # See https://github.com/LGUG2Z/helix-vim/blob/master/config.toml
 #
 
-V = ["select_mode", "extend_to_line_bounds"]
 C = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection", "insert_mode"]
 A-c = "copy_selection_on_next_line"  # Add selection on next line (default C mapping)
 D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
