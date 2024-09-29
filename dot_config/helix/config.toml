@@ -32,6 +32,7 @@ c = [":write", ":buffer-close"]
 d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 q = ":write-quit-all"
 w = ":write-all!"
+";"= ["flip_selections", "collapse_selection", "keep_primary_selection"]
 
 [keys.insert.","]
 d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
