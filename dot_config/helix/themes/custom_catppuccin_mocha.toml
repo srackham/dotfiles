@@ -17,12 +17,13 @@ punctuation = "flamingo"
 "ui.selection.primary" = { bg = "selection" }
 "markup.list" = "flamingo"
 "markup.link.text" = { fg = "flamingo" }
-"markup.link.url" = { fg = "url", modifiers = ["italic", "underlined"] }
+"markup.link.url" = { fg = "url", modifiers = ["italic"] }
 
 [palette]
 # Override existing colors or add new colors.
+text = "#d7d7ff"
 base = "#1c1c1c"
 cursorline = "#3a3a3a"
 selection = "#005f87"
-url = "#5fafd7"
+url = "#c0c0c0"
 comment = "#87af5f"
