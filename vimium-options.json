@@ -18,6 +18,10 @@
     {
       "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrstuvwxyz{|}~",
       "pattern": "https?://goplay.tools/*"
+    },
+    {
+      "passKeys": "!",
+      "pattern": "https?://github.com/*"
     }
   ]
 }
