@@ -4,6 +4,21 @@
 
 My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io/).
 
+## Applications
+Here's the list of application configurations managed by Chezmoi:
+
+- bash
+- GNOME desktop shortcuts (installed manually)
+- Helix
+- lazygit
+- nushell
+- Remmina
+- tmux
+- Vim
+- Vimium (installed manually)
+- zsh
+
+
 ## GNOME Desktop key bindings
 Use the dconf load command to restore custom GNOME key binding from the `*.dconf` dump file. See the _Configuring GNOME Settings_ section in `~/doc/distros/nixos-notes.md` for details.
 
