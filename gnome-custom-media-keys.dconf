@@ -1,0 +1,12 @@
+[/]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+logout=@as []
+screensaver=['<Primary><Super>l']
+volume-down=['<Primary><Super>F11']
+volume-mute=['<Primary><Super>F10']
+volume-up=['<Primary><Super>F12']
+
+[custom-keybindings/custom0]
+binding='<Control><Alt><Super>p'
+command='sh -c "killall -ABRT brave; killall -ABRT code; shutdown now"'
+name='Shutdown'
