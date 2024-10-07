@@ -4,19 +4,19 @@
   "settingsVersion": "2.1.2",
   "exclusionRules": [
     {
-      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrstuvwxyz{|}~",
+      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrsuvwxyz{|}~",
       "pattern": "https?://mail.google.com/*"
     },
     {
-      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrstuvwxyz{|}~",
+      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrsuvwxyz{|}~",
       "pattern": "https?://colab.research.google.com/*"
     },
     {
-      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrstuvwxyz{|}~",
+      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrsuvwxyz{|}~",
       "pattern": "https?://play.rust-lang.org/*"
     },
     {
-      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrstuvwxyz{|}~",
+      "passKeys": "!\"#%&'()*+,-./0123456789:;<=>?@ACDEGIMNPQRSUVWXYZ[\\]_`abcdefghijklmnopqrsuvwxyz{|}~",
       "pattern": "https?://goplay.tools/*"
     },
     {
