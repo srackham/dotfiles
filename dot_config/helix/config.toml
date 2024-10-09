@@ -13,6 +13,7 @@ C-v = "paste_clipboard_before"
 # I've tried to keep only the most must-have Vi bindings.
 # See https://github.com/LGUG2Z/helix-vim/blob/master/config.toml
 #
+C-6 = "goto_last_accessed_file"    # C-^
 G = "goto_file_end"
 "*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
 "#" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_prev"]
