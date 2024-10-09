@@ -11,6 +11,7 @@ Here's the list of application configurations managed by Chezmoi:
 - GNOME desktop shortcuts (installed manually)
 - Helix
 - lazygit
+- neovim
 - nushell
 - Remmina
 - tmux
@@ -19,9 +20,12 @@ Here's the list of application configurations managed by Chezmoi:
 - zsh
 
 
-## GNOME Desktop key bindings
-Use the dconf load command to restore custom GNOME key binding from the `*.dconf` dump file. See the _Configuring GNOME Settings_ section in `~/doc/distros/nixos-notes.md` for details.
+## Manually Exported/Imported Configurations
+The `exported` directory contains files that are managed manually:
+
+- _Browser Bookmarks_: Exported from Brave browser.
+
+- _GNOME Desktop key bindings_: Use the dconf load command to restore custom GNOME key binding from the `*.dconf` dump file. See the _Configuring GNOME Settings_ section in `~/doc/distros/nixos-notes.md` for details.
 
 
-## Vimium Options
-The Vimium browser extension options are in the `vimium-options.json` file, manually restore them with the restore command on the Vimium extension Options page.
+- _Vimium Options_: The Vimium browser extension options are in the `vimium-options.json` file, manually restore them with the restore command on the Vimium extension Options page.
