@@ -9,3 +9,10 @@ file-types = [
   { glob = "dot_zshrc.tmpl" },
   { glob = "dot_bash_profile.tmpl" }
 ]
+
+[[language]]
+name = "nu"
+file-types = [
+  { glob = "env.nu" },
+  { glob = "config.nu.tmpl" }
+]
