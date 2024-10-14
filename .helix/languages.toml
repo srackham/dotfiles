@@ -1,18 +1,19 @@
 [[language]]
 name = "bash"
 file-types = [
-  { glob = "dot_profile.tmpl" },
-  { glob = "interactive_shell.tmpl" },
   { glob = "dot_bash_profile" },
-  { glob = "dot_zprofile.tmpl" },
+  { glob = "dot_bash_profile.tmpl" },
   { glob = "dot_bashrc.tmpl" },
+  { glob = "dot_profile.tmpl" },
+  { glob = "dot_zprofile.tmpl" },
   { glob = "dot_zshrc.tmpl" },
-  { glob = "dot_bash_profile.tmpl" }
+  { glob = "interactive_shell.tmpl" },
+  { glob = "tmux.conf" },
 ]
 
 [[language]]
 name = "nu"
 file-types = [
+  { glob = "config.nu.tmpl" },
   { glob = "env.nu" },
-  { glob = "config.nu.tmpl" }
 ]
