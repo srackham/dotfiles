@@ -123,7 +123,8 @@ function ff() {
     fi
     fd --type f --hidden --color always "$2" "$1" |
     fzf --preview 'bat --color=always {}' \
-        --bind 'enter:become(code --goto {+})'
+        --bind 'enter:become(hx-open.sh {1})'
+        # --bind 'enter:become(code --goto {+})'
         # --bind 'enter:become(vim {+})'
 }
 
@@ -148,7 +149,8 @@ function ft() {
     | tac \
     | fzf --preview 'bat --color=always {1}' \
         --delimiter : \
-        --bind 'enter:become(code {+1})'
+        --bind 'enter:become(hx-open.sh {1})'
+        # --bind 'enter:become(code {+1})'
         # --bind 'enter:become(vim {+1})'
 }
 
@@ -170,7 +172,8 @@ function ds() {
         | head -n 40 \
         | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|' \
         | fzf --preview 'bat --color=always {}' \
-            --bind 'enter:become(code {+})'
+        --bind 'enter:become(hx-open.sh {1})'
+            # --bind 'enter:become(code {+})'
             # --bind 'enter:become(vim {+})'
     else
         echo $ds_manpage >&2
@@ -222,7 +225,7 @@ tide() {
         send-keys "hx -w ." Enter\; \
         send-keys " f"
 }     
-        
+
 # Interactively select and delete files.
 frm() {
     local files_to_delete
