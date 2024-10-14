@@ -1,5 +1,5 @@
 {
-  "keyMappings": "map ' Marks.activateGotoMode\nmap $ lastTab\nmap r reload\nmap R reload hard",
+  "keyMappings": "map ' Marks.activateGotoMode\nmap $ lastTab\nmap r reload\nmap R reload hard\nmap J nextTab\nmap K previousTab",
   "searchEngines": "a: https://www.amazon.com/s/?field-keywords=%s Amazon\nd: https://www.google.com/maps/dir/home/%s Google Maps directions from home\ngh: https://github.com/search?q=%s GitHub\ng: https://www.google.com/search?q=%s Google\ni: https://www.google.com/search?tbm=isch&q=%s Google Images\nm: https://www.google.com/maps?q=%s Google Maps\np: https://www.perplexity.ai/search?focus=internet&q=%s Perplexity.ai\nt: https://www.trademe.co.nz/a/search?search_string=%s&auto_category_jump=false Trademe\nw: https://en.wikipedia.org/wiki/Special:Search?search=%s Wikipedia\ny: https://www.youtube.com/results?search_query=%s YouTube",
   "settingsVersion": "2.1.2",
   "exclusionRules": [
