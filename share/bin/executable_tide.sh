@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-
+#
 # Mini tmux IDE: editor in left pane; terminal in right pane; a third lazygit pane if in a Git repo
+#
 
 usage() {
     echo "Usage: $(basename "$0") [-h | --help] [<dir>]"
