@@ -4,7 +4,6 @@ theme = "custom_catppuccin_mocha"
 # See https://github.com/LGUG2Z/helix-vim/blob/master/config.toml
 
 [keys.normal]
-A-w = ":toggle-option soft-wrap.enable"
 F5 = ":reload-all"
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
@@ -31,6 +30,7 @@ c = [":write", ":buffer-close"]
 d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 q = ":write-quit-all"
 w = ":write-all!"
+W = ":toggle-option soft-wrap.enable"
 ";"= ["flip_selections", "collapse_selection", "keep_primary_selection"]
 
 [keys.insert.","]
