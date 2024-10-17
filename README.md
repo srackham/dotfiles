@@ -13,12 +13,12 @@ Here's the list of application configurations managed by Chezmoi:
 - lazygit
 - neovim
 - nushell
+- recoll
 - Remmina
 - tmux
 - Vim
 - Vimium (installed manually)
 - zsh
-
 
 ## Manually Exported/Imported Configurations
 The `exported` directory contains files that are managed manually:
