@@ -33,7 +33,11 @@ W = ":toggle-option soft-wrap.enable"
 "," = "goto_last_accessed_file"
 
 [keys.insert.","]
+# These insert mode bindings cannot be entered directly. Not usually a problem because commas are normally followed by white space. To insert a binding use the ",\" command to enter a comma followed by the command character.
+"\\" = [":insert-output echo ,", "move_char_right"]
+"," = "goto_last_accessed_file"
 d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+w = ":write-all!"
 
 # Latin long vowels
 [keys.insert."A-l"]
