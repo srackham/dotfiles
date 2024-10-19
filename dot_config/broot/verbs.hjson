@@ -29,7 +29,8 @@ verbs: [
         shortcut: e
         key: ctrl-e
         apply_to: text_file
-        execution: "$EDITOR {file}"
+    #   execution: "$EDITOR {file}"
+        execution: "hx {file}:{line}"
         leave_broot: false
     }
 
@@ -52,7 +53,8 @@ verbs: [
     #  the current directory or below
     {
         invocation: create {subpath}
-        execution: "$EDITOR {directory}/{subpath}"
+    #   execution: "$EDITOR {directory}/{subpath}"
+        execution: "hx {directory}/{subpath}"
         leave_broot: false
     }
 
