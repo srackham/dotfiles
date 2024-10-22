@@ -30,7 +30,6 @@ d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 q = ":write-quit-all"
 w = ":write-all!"
 W = ":toggle-option soft-wrap.enable"
-"," = "goto_last_accessed_file"
 
 [keys.insert.","]
 # These insert mode bindings cannot be entered directly. Not usually a problem because commas are normally followed by white space. To insert a binding use the ",\" command to enter a comma followed by the command character.
