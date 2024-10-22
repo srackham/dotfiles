@@ -12,6 +12,12 @@ file-types = [
 ]
 
 [[language]]
+name = "json"
+file-types = [
+  { glob = "user.json.tmpl" },
+]
+
+[[language]]
 name = "nu"
 file-types = [
   { glob = "config.nu.tmpl" },
