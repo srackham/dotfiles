@@ -1,3 +1,4 @@
+# https://github.com/helix-editor/helix/blob/master/runtime/themes/catppuccin_mocha.toml
 inherits =  "catppuccin_mocha"
 
 # Override theme settings.
