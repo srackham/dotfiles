@@ -6,8 +6,8 @@
 #   https://www.perplexity.ai/search/ansi-color-escape-sequences-lSbRTvfURCu4xKz0MdUnnw#0
 source-list-line-color: "\x1b[38;5;246m"
 source-list-arrow-color: "\x1b[38;5;226m"
-source-list-keyword-color: "\x1b[38;5;183m"
-source-list-string-color: "\x1b[38;5;78m"
+source-list-keyword-color: "\x1b[38;5;182m"
+source-list-string-color: "\x1b[38;5;79m"
 source-list-number-color: "\x1b[38;5;208m"
 source-list-comment-color: "\x1b[38;5;248m"
 source-list-tab-color: "\x1b[38;5;242m"
