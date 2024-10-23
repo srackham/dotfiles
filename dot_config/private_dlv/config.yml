@@ -1,14 +1,9 @@
 # Configuration file for the delve debugger.
 
-# This is the default configuration file. Available options are provided, but disabled.
-# Delete the leading hash mark to enable an item.
-
-# Uncomment the following line and set your preferred ANSI colors.
-# See:
-# https://en.wikipedia.org/wiki/ANSI_escape_code
-# https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-# https://www.perplexity.ai/search/ansi-color-escape-sequences-lSbRTvfURCu4xKz0MdUnnw#0
-
+# ANSI colors. See:
+#   https://en.wikipedia.org/wiki/ANSI_escape_code
+#   https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+#   https://www.perplexity.ai/search/ansi-color-escape-sequences-lSbRTvfURCu4xKz0MdUnnw#0
 source-list-line-color: "\x1b[38;5;246m"
 source-list-arrow-color: "\x1b[38;5;226m"
 source-list-keyword-color: "\x1b[38;5;183m"
@@ -20,8 +15,7 @@ source-list-tab-color: "\x1b[38;5;242m"
 # Uncomment to change what is printed instead of '\t'.
 tab: "... "
 
-# Uncomment to change the number of lines printed above and below cursor when
-# listing source code.
+# The number of lines printed above and below cursor when listing source code.
 source-list-line-count: 15
 
 # Provided aliases will be added to the default aliases for a given command.
@@ -38,13 +32,13 @@ substitute-path:
   # - {from: path, to: path}
   
 # Maximum number of elements loaded from an array.
-# max-array-values: 64
+max-array-values: 256
 
 # Maximum loaded string length.
 max-string-len: 256
 
 # Output evaluation.
-# max-variable-recurse: 1
+max-variable-recurse: 8
 
 # Uncomment the following line to make the whatis command also print the DWARF location expression of its argument.
 # show-location-expr: true
@@ -53,4 +47,4 @@ max-string-len: 256
 # disassemble-flavor: intel
 
 # List of directories to use when searching for separate debug info files.
-debug-info-directories: ["/usr/lib/debug/.build-id"]
+# debug-info-directories: ["/usr/lib/debug/.build-id"]
