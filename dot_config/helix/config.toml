@@ -7,7 +7,7 @@ theme = "custom_catppuccin_mocha"
 F5 = ":reload-all"
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
-";"= ["collapse_selection", "keep_primary_selection"]
+A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 # Vim bindings:
 G = "goto_file_end"
 "*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
@@ -15,28 +15,21 @@ G = "goto_file_end"
 
 [keys.select]
 C-c = "yank_main_selection_to_clipboard"
-";"= ["collapse_selection", "keep_primary_selection", "normal_mode"]
 # Vim bindings:
 G = "goto_file_end"
 
 [keys.insert]
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
+A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
-# Comma minor mode for miscellaneous commands
-[keys.normal.","]
-c = [":write", ":buffer-close"]
-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
-q = ":write-quit-all"
+# Custom minor normal mode
+[keys.normal."\\"]
+"\\" = "goto_last_accessed_file"
+c = [":write!", ":buffer-close"]
+q = ":write-quit-all!"
 w = ":write-all!"
 W = ":toggle-option soft-wrap.enable"
-
-[keys.insert.","]
-# These insert mode bindings cannot be entered directly. Not usually a problem because commas are normally followed by white space. To insert a binding use the ",\" command to enter a comma followed by the command character.
-"\\" = [":insert-output echo ,", "move_char_right"]
-"," = "goto_last_accessed_file"
-d = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
-w = ":write-all!"
 
 # Latin long vowels
 [keys.insert."A-l"]
@@ -46,8 +39,8 @@ i = [":insert-output echo ī", "move_char_right"]
 o = [":insert-output echo ō", "move_char_right"]
 u = [":insert-output echo ū", "move_char_right"]
 
-# Unicode characters
-[keys.insert."A-u"]
+# Custom minor insert mode
+[keys.insert."A-\\"]
 d = [":insert-output echo †", "move_char_right"]
 m = [":insert-output echo —", "move_char_right"]
 
