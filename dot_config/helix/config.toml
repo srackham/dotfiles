@@ -23,6 +23,10 @@ G = "goto_file_end"
 C-c = "yank_main_selection_to_clipboard"
 C-v = ["change_selection", "paste_clipboard_before"]
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+C-h = "move_char_left"
+C-l = "move_char_right"
+C-j = "move_line_down"
+C-k = "move_line_up"
 
 # Custom minor normal mode
 [keys.normal."\\"]
