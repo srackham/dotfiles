@@ -6,7 +6,7 @@ theme = "custom_catppuccin_mocha"
 [keys.normal]
 F5 = ":reload-all"
 C-c = "yank_main_selection_to_clipboard"
-C-v = "paste_clipboard_before"
+C-v = ["change_selection", "paste_clipboard_before", "normal_mode"]
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 # Vim bindings:
 G = "goto_file_end"
@@ -15,12 +15,13 @@ G = "goto_file_end"
 
 [keys.select]
 C-c = "yank_main_selection_to_clipboard"
+C-v = ["change_selection", "paste_clipboard_before", "normal_mode"]
 # Vim bindings:
 G = "goto_file_end"
 
 [keys.insert]
 C-c = "yank_main_selection_to_clipboard"
-C-v = "paste_clipboard_before"
+C-v = ["change_selection", "paste_clipboard_before"]
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
 # Custom minor normal mode
