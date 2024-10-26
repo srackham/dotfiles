@@ -8,6 +8,7 @@ F5 = ":reload-all"
 C-c = "yank_main_selection_to_clipboard"
 C-v = ["paste_clipboard_before", "normal_mode"]
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
+S-down = "extend_line_below"
 # Vim bindings:
 G = "goto_file_end"
 "*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
@@ -16,6 +17,7 @@ G = "goto_file_end"
 [keys.select]
 C-c = "yank_main_selection_to_clipboard"
 C-v = ["paste_clipboard_before", "normal_mode"]
+S-down = "extend_line_below"
 # Vim bindings:
 G = "goto_file_end"
 
