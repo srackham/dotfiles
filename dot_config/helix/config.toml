@@ -9,6 +9,7 @@ C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 S-down = "extend_line_below"
+A-k = ["kill_to_line_end", "insert_mode"]
 # Vim bindings:
 G = "goto_file_end"
 "*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
@@ -19,6 +20,7 @@ F5 = [":reload-all", ":config-reload"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
 S-down = "extend_line_below"
+A-k = ["kill_to_line_end", "insert_mode"]
 # Vim bindings:
 G = "goto_file_end"
 
@@ -27,7 +29,7 @@ F5 = [":reload-all", ":config-reload"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = "paste_clipboard_before"
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
-C-o = "kill_to_line_end"
+A-k = "kill_to_line_end"
 C-h = "move_char_left"
 C-l = "move_char_right"
 C-j = "move_line_down"
