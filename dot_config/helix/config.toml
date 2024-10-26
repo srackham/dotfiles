@@ -4,7 +4,7 @@ theme = "custom_catppuccin_mocha"
 # See https://github.com/LGUG2Z/helix-vim/blob/master/config.toml
 
 [keys.normal]
-F5 = ":reload-all"
+F5 = [":reload-all", ":config-reload"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = ["paste_clipboard_before", "normal_mode"]
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
@@ -15,6 +15,7 @@ G = "goto_file_end"
 "#" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_prev"]
 
 [keys.select]
+F5 = [":reload-all", ":config-reload"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = ["paste_clipboard_before", "normal_mode"]
 S-down = "extend_line_below"
@@ -22,6 +23,7 @@ S-down = "extend_line_below"
 G = "goto_file_end"
 
 [keys.insert]
+F5 = [":reload-all", ":config-reload"]
 C-c = "yank_main_selection_to_clipboard"
 C-v = ["paste_clipboard_before"]
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
