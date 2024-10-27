@@ -43,8 +43,6 @@ c = [":write!", ":buffer-close"]
 q = ":write-quit-all!"
 w = ":write-all!"
 W = ":toggle-option soft-wrap.enable"
-C = ["insert_mode", "kill_to_line_end"]
-D = ["kill_to_line_end"]
 
 # Latin long vowels
 [keys.insert."A-l"]
