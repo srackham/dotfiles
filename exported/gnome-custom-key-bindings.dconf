@@ -1,4 +1,5 @@
 [/]
+activate-window-menu=@as []
 close=['<Alt>F4', '<Super>Delete']
 maximize=@as []
 move-to-monitor-right=@as []
