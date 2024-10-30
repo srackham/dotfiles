@@ -42,6 +42,7 @@ C-k = "move_line_up"
 [keys.normal."\\"]
 "\\" = "goto_last_accessed_file"
 c = [":write!", ":buffer-close"]
+f = ":format"
 q = ":write-quit-all!"
 w = ":write-all!"
 W = ":toggle-option soft-wrap.enable"
