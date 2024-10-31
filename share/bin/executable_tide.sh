@@ -4,8 +4,9 @@
 #
 
 usage() {
-    echo "Usage: $(basename "$0") [-h | --help] [<dir>]"
+    echo "Usage: $(basename "$0") [-g | --git] [-h | --help] [<dir>]"
     echo "  <dir>           Working directory (default: current directory)"
+    echo "  -g, --git       Open lazygit in third pane if the working directory is a git repo"
     echo "  -h, --help      Display this help message"
 }
 
@@ -16,12 +17,17 @@ if [ -z "$TMUX" ]; then
 fi
 
 rootdir=""
+git=false
 
 while (( $# > 0 )); do
     case "$1" in
         -h|--help)
             usage
             exit 0
+            ;;
+        -g|--git)
+            git=true
+            shift
             ;;
         *)
             rootdir="$1"
@@ -44,8 +50,8 @@ rootdir=$(realpath "$rootdir")
 tmux \
     new-window -c "$rootdir" -n "$(basename "$rootdir")"\; \
     split-window -c "$rootdir" -h\; \
-    if-shell "[ -d "$rootdir/.git" ]" "split-window -c "$rootdir" -v"\; \
-    if-shell "[ -d "$rootdir/.git" ]" "send-keys lazygit Enter"\; \
+    if-shell "$git && [ -d "$rootdir/.git" ]" "split-window -c "$rootdir" -v"\; \
+    if-shell "$git && [ -d "$rootdir/.git" ]" "send-keys lazygit Enter"\; \
     select-pane -L\; \
     send-keys "hx -w ." Enter\; \
     send-keys " f"
