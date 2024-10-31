@@ -66,6 +66,7 @@ cursorline = true
 rulers = [120]
 color-modes = true
 auto-pairs = false
+auto-format = false
 
 [editor.file-picker]
 hidden = false
