@@ -73,7 +73,7 @@ hidden = false
 [editor.auto-save]
 focus-lost = true
 after-delay.enable = true
-after-delay.timeout = 3000
+after-delay.timeout = 1000
 
 [editor.gutters]
 layout = ["diagnostics", "spacer", "diff"]
