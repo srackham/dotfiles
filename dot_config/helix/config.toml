@@ -6,6 +6,8 @@ theme = "custom_catppuccin_mocha"
 [keys.normal]
 del= "delete_selection"
 F5 = [":reload-all", ":config-reload"]
+C-c = "yank_main_selection_to_clipboard"
+C-v = "paste_clipboard_before"
 C-k = ["insert_mode", "kill_to_line_end"]
 # Vim bindings
 0 = "goto_line_start"
@@ -17,6 +19,8 @@ G = "goto_file_end"
 [keys.select]
 del= "delete_selection"
 F5 = [":reload-all", ":config-reload"]
+C-c = "yank_main_selection_to_clipboard"
+C-v = "paste_clipboard_before"
 # Vim bindings
 0 = "goto_line_start"
 "$" = "goto_line_end"
@@ -24,6 +28,8 @@ G = "goto_file_end"
 
 [keys.insert]
 F5 = [":reload-all", ":config-reload"]
+C-c = "yank_main_selection_to_clipboard"
+C-v = "paste_clipboard_before"
 A-D = [":insert-output date '+%d-%b-%Y'", "move_char_right"]
 
 # Custom minor normal mode
