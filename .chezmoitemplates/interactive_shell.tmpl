@@ -48,6 +48,7 @@ alias l="bat --style=plain"
 alias cryptor="cryptor.arm64"
 {{end}}
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
+alias cryptor-summary="cryptor valuate -currency nzd -force -confdir ~/bin/.cryptor && cryptor valuate -currency nzd -aggregate -confdir ~/bin/.cryptor"
 alias dmesg="sudo dmesg --human --color=always"
 alias diff="diff --color=always -u"
 alias drake="deno run -A Drakefile.ts"
