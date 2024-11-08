@@ -6,7 +6,7 @@ theme = "custom_catppuccin_mocha"
 [keys.normal]
 del= "delete_selection"
 F5 = [":reload-all", ":config-reload"]
-C-c = ["insert_mode", "kill_to_line_end"]
+C-k = ["insert_mode", "kill_to_line_end"]
 # Vim bindings
 0 = "goto_line_start"
 "$" = "goto_line_end"
