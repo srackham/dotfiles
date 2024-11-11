@@ -86,3 +86,15 @@ fi
 # # >>> coursier install directory >>>
 # export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
 # # <<< coursier install directory <<<
+
+
+#
+# Run custom login commands
+#
+
+{{if eq .chezmoi.osRelease.id "nixos"}}
+# KLUDGE: After a NixOS restart `<Super>Right` executes the GNOME `move-to-monitor-right` desktop action even though it's bound to `<Super><Shift>Right` (its default binding). See `$HOME/doc/apps/gnome-notes.md`.
+if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
+gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-right "[]" &&  gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-right "['disabled']"
+fi
+{{end}}
