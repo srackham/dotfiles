@@ -32,6 +32,7 @@ Shared bash and zsh configuration settings for interactive shells.
 # Shared bash and zsh aliases
 alias ,="cd -"
 alias b="brave"
+alias btc='echo $(date +'%H:%M'): $(ccp BTC)'
 
 {{/* Ubuntu renamed `bat` to `batcat`*/}}
 {{if eq .chezmoi.osRelease.id "ubuntu"}}
