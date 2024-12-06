@@ -2,3 +2,8 @@
 name = "markdown"
 auto-format = false
 formatter = { command = "prettier", args = ["--parser", "markdown"] }
+
+[[language]]
+name = "nix"
+auto-format = false
+formatter = { command = "nixfmt" }
