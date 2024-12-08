@@ -51,7 +51,9 @@ u = [":insert-output echo ū", "move_char_right"]
 # Custom minor insert mode
 [keys.insert."A-\\"]
 d = [":insert-output echo †", "move_char_right"]
+h = [":insert-output echo …", "move_char_right"]
 m = [":insert-output echo —", "move_char_right"]
+v = [":insert-output echo ⋮", "move_char_right"]
 
 [editor]
 text-width = 120
