@@ -24,6 +24,8 @@ Here's the list of application configurations managed by Chezmoi:
 The `exported` directory contains files that are managed manually:
 
 - _Browser Bookmarks_: Exported from Brave browser.
+  * Open [Bookmarks Manager](brave://bookmarks/) (C-S-o).
+  * Run the _Export bookmarks_ command in the ⋮ menu (vertical ellipsis menu, top right) and save bookmarks file to `~/.local/share/chezmoi/exported/bookmarks.html`.
 
 - _GNOME Desktop key bindings_: Use the dconf load command to restore custom GNOME key binding from the `*.dconf` dump file. See the _Configuring GNOME Settings_ section in `~/doc/distros/nixos-notes.md` for details.
 
