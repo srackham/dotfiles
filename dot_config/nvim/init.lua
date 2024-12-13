@@ -15,5 +15,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require "vim-options" -- Load ./lua/vim-options.lua
+require "options" -- Load ./lua/options.lua
+require "keymaps" -- Load ./lua/keymaps.lua
 require ("lazy").setup("plugins") -- Load ./lua/plugins/*.lua
