@@ -18,8 +18,13 @@ return {
     config = function()
       local actions = require("telescope.actions")
       require("telescope").setup {
-        -- A single Esc closes the picker (https://www.reddit.com/r/neovim/comments/pzxw8h/telescope_quit_on_first_single_esc/)
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+        },
         defaults = {
+          file_ignore_patterns = { "^.git/", "^node_modules/" },
           mappings = {
             i = {
               ["<esc>"] = actions.close,
