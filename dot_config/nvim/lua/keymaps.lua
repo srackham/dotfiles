@@ -6,7 +6,7 @@ vim.keymap.set('n', '<C-v>', '"+p', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true })
 
 -- Map Alt+C to enter Visual Block mode
-vim.keymap.set('n', '<A-c>', '<C-v>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true })
 
 -- Map U to redo.
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true })
