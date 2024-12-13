@@ -53,5 +53,4 @@ tmux \
     if-shell "$git && [ -d "$rootdir/.git" ]" "split-window -c "$rootdir" -v"\; \
     if-shell "$git && [ -d "$rootdir/.git" ]" "send-keys lazygit Enter"\; \
     select-pane -L\; \
-    send-keys "hx -w ." Enter\; \
-    send-keys " f"
+    send-keys "nvim" Enter\;
