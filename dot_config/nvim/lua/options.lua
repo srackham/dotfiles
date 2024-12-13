@@ -12,5 +12,5 @@ vim.opt.smartcase = true
 
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words
-vim.opt.textwidth = 120 -- Set text width to 120 characters
+vim.opt.columns = 120 -- Set text width
 vim.opt.showbreak = '↳' -- Character to indicate wrapped lines
