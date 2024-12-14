@@ -9,6 +9,11 @@ return {
       flavour = "auto",    -- latte, frappe, macchiato, mocha
       no_underline = true, -- Force no underline
       no_bold = true,      -- Force no underline
+      color_overrides = {
+        all = {
+          base = "#1c1c1c",
+        },
+      },
     })
     -- setup must be called before loading
     vim.cmd.colorscheme "catppuccin"
