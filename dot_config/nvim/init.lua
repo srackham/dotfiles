@@ -17,4 +17,5 @@ vim.opt.rtp:prepend(lazypath)
 
 require "options" -- Load ./lua/options.lua
 require "keymaps" -- Load ./lua/keymaps.lua
+require "autocmds" -- Load ./lua/autocmds.lua
 require ("lazy").setup("plugins") -- Load ./lua/plugins/*.lua

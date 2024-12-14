@@ -18,6 +18,7 @@ return {
       end,
       nested = true,
     })
+    -- Save the session when nvim closes
     vim.api.nvim_create_autocmd("VimLeavePre", {
       callback = function()
         resession.save(vim.fn.getcwd(), { dir = "dirsession", notify = false })
