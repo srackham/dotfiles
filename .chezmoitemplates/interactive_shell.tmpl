@@ -119,6 +119,7 @@ Recursively find file names that match regular expression REGEXP in PATHS.
 - If REGEXP is \"\" then every file will be matched.
 - Interactively narrow down the list using fzf.
 - Open the selected file in VSCode."
+open_file_cmd="$HOME/bin/nvim-open.sh"
 
 function ff() {
     if [ "$#" -ne 2 ]; then
@@ -127,7 +128,7 @@ function ff() {
     fi
     fd --type f --hidden --color always "$2" "$1" |
     fzf --preview 'bat --color=always {}' \
-        --bind 'enter:become(hx-open.sh {1})'
+        --bind "enter:become($open_file_cmd {1})"
         # --bind 'enter:become(code --goto {+})'
         # --bind 'enter:become(vim {+})'
 }
@@ -153,7 +154,7 @@ function ft() {
     | tac \
     | fzf --preview 'bat --color=always {1}' \
         --delimiter : \
-        --bind 'enter:become(hx-open.sh {1})'
+        --bind "enter:become($open_file_cmd {1})"
         # --bind 'enter:become(code {+1})'
         # --bind 'enter:become(vim {+1})'
 }
@@ -176,7 +177,7 @@ function ds() {
         | head -n 40 \
         | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|' \
         | fzf --preview 'bat --color=always {}' \
-        --bind 'enter:become(hx-open.sh {1})'
+        --bind "enter:become($open_file_cmd {1})"
             # --bind 'enter:become(code {+})'
             # --bind 'enter:become(vim {+})'
     else
