@@ -8,5 +8,6 @@ config.initial_rows = 50
 config.initial_cols = 120
 config.audible_bell = "Disabled"
 config.enable_tab_bar = false
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures
 
 return config
