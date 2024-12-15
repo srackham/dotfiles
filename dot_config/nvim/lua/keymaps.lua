@@ -16,3 +16,6 @@ vim.keymap.set('n', '<leader>c', ':update | bd<CR>', { noremap = true, silent = 
 vim.keymap.set('n', '<leader>q', ':wqa<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>w', ':wa<CR>', { noremap = true, silent = true })
 vim.keymap.set('i', '<A-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true })
+
+-- https://neovim.io/doc/user/spell.html
+vim.keymap.set('n', '<leader>s', ':set invspell<CR>', { noremap = true, silent = true }) -- Toggle spell checker
