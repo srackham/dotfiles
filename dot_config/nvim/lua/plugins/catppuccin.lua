@@ -11,11 +11,12 @@ return {
       no_bold = true,      -- Force no underline
       color_overrides = {
         all = {
-          base = "#1c1c1c",
+          base = "#181818",
         },
       },
     })
     -- setup must be called before loading
     vim.cmd.colorscheme "catppuccin"
+    vim.api.nvim_set_hl(0, 'Comment', { fg = '#999999' }) -- Comments group color
   end,
 }
