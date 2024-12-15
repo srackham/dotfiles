@@ -1,8 +1,6 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = "\\"
 
-vim.opt.clipboard = "unnamedplus" -- The default yank/paste register is the system clipboard
-
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
