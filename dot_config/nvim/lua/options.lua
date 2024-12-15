@@ -11,5 +11,6 @@ vim.opt.smartcase = true
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words
 vim.opt.columns = 120 -- Set text width
--- vim.opt.colorcolumn = '120' -- Right-hand margin ruler
 vim.opt.showbreak = '↪ ' -- Characters to indicate wrapped lines
+
+vim.opt.spellsuggest = 'best,10' -- Limit the number os spelling suggestions
