@@ -13,10 +13,11 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<leader><leader>', '<C-^>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>c', ':update | bd<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', ':wqa<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>w', ':wa<CR>', { noremap = true, silent = true })
-vim.keymap.set('i', '<A-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>c', ':update | bd<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>q', ':wqa<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>w', ':wa<cr>', { noremap = true, silent = true })
+vim.keymap.set('i', '<A-S-d>', '<C-r>=strftime("%d-%b-%Y")<cr>', { noremap = true, silent = true })
 
--- https://neovim.io/doc/user/spell.html
-vim.keymap.set('n', '<leader>s', ':set invspell<CR>', { noremap = true, silent = true }) -- Toggle spell checker
+-- Spell checker mappings (https://neovim.io/doc/user/spell.html)
+vim.keymap.set('n', '<leader>s', ':set invspell<cr>', { noremap = true, silent = true }) -- Toggle spell checker
+vim.keymap.set('i', '<C-l>', '<esc>[s1z=`]a', { noremap = true, silent = true })         -- Correct last error

@@ -13,4 +13,4 @@ vim.opt.linebreak = true -- Prevent breaking words
 vim.opt.columns = 120 -- Set text width
 vim.opt.showbreak = '↪ ' -- Characters to indicate wrapped lines
 
-vim.opt.spellsuggest = 'best,10' -- Limit the number os spelling suggestions
+vim.opt.spellsuggest = 'best,9' -- Limit the number os spelling suggestions
