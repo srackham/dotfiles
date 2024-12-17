@@ -6,6 +6,7 @@ return {
       sources = {
         null_ls.builtins.formatting.gofmt,
         null_ls.builtins.formatting.goimports,
+        null_ls.builtins.formatting.prettierd,
       },
     })
   end,
