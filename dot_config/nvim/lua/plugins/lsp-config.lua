@@ -21,6 +21,7 @@ return {
       lspconfig.gopls.setup({})
       lspconfig.lua_ls.setup({})
       lspconfig.ts_ls.setup({})
+      lspconfig.gleam.setup({})
       vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
       vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
