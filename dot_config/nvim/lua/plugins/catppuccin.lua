@@ -11,7 +11,7 @@ return {
       no_bold = true,      -- Force no underline
       color_overrides = {
         all = {
-          base = "#181818",
+          base = "#1c1c1c",
         },
       },
     })
