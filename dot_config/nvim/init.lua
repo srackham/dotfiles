@@ -6,7 +6,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -15,7 +15,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require "options" -- Load ./lua/options.lua
-require "keymaps" -- Load ./lua/keymaps.lua
-require "autocmds" -- Load ./lua/autocmds.lua
-require ("lazy").setup("plugins") -- Load ./lua/plugins/*.lua
+require "options"                -- Load ./lua/options.lua
+require "keymaps"                -- Load ./lua/keymaps.lua
+require "autocmds"               -- Load ./lua/autocmds.lua
+require "highlight-text"         -- Load ./lua/highlighting.lua
+require("lazy").setup("plugins") -- Load ./lua/plugins/*.lua
