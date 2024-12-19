@@ -13,6 +13,6 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 
 vim.api.nvim_create_autocmd("InsertLeave", {
   callback = function()
-    vim.opt.timeoutlen = 1000
+    vim.opt.timeoutlen = 1500
   end,
 })
