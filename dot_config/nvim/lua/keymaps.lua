@@ -3,7 +3,8 @@ vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true })
 
 -- Map Ctrl+C to copy to the clipboard
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true })
-
+-- Map Ctrl+X to delete to the clipboard
+vim.keymap.set('v', '<C-x>', '"+d', { noremap = true, silent = true })
 -- Map Ctrl+V to paste from the clipboard
 vim.keymap.set('n', '<C-v>', '"+Pl', { noremap = true, silent = true })
 vim.keymap.set('v', '<C-v>', 'd"+Pl', { noremap = true, silent = true })
