@@ -1,7 +1,7 @@
 return {
   {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.8",
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.8',
     dependencies = {
       'nvim-lua/plenary.nvim'
     },
@@ -16,29 +16,29 @@ return {
   {
     'nvim-telescope/telescope-ui-select.nvim',
     config = function()
-      local actions = require("telescope.actions")
-      require("telescope").setup {
+      local actions = require('telescope.actions')
+      require('telescope').setup {
         pickers = {
           find_files = {
             hidden = true,
           },
         },
         defaults = {
-          file_ignore_patterns = { "^.git/", "^node_modules/" },
+          file_ignore_patterns = { '^.git/', '^node_modules/' },
           mappings = {
             i = {
-              ["<esc>"] = actions.close,
+              ['<esc>'] = actions.close,
             },
           },
         },
         -- Add the telescope-ui-select extension to Telescope
         extensions = {
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown {}
+          ['ui-select'] = {
+            require('telescope.themes').get_dropdown {}
           }
         }
       }
-      require("telescope").load_extension("ui-select")
+      require('telescope').load_extension('ui-select')
     end,
   },
 }

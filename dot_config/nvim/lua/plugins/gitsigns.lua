@@ -1,5 +1,5 @@
 return {
-  "lewis6991/gitsigns.nvim",
+  'lewis6991/gitsigns.nvim',
   config = function()
     local gitsigns = require('gitsigns')
     gitsigns.setup()
@@ -11,6 +11,6 @@ return {
     vim.keymap.set('n', '<Leader>gS', gitsigns.stage_buffer)
     vim.keymap.set('n', '<Leader>gs', gitsigns.stage_hunk)
     vim.keymap.set('n', '<Leader>gu', gitsigns.undo_stage_hunk)
-    vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = "#999999" })
+    vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', { fg = '#999999' })
   end,
 }

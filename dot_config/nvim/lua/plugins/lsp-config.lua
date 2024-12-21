@@ -1,23 +1,23 @@
 return {
   {
-    "williamboman/mason.nvim",
+    'williamboman/mason.nvim',
     config = function()
-      require "mason".setup()
+      require 'mason'.setup()
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    'williamboman/mason-lspconfig.nvim',
     config = function()
-      require "mason-lspconfig".setup({
-        ensure_installed = { "gopls", "lua_ls", "ts_ls" },
+      require 'mason-lspconfig'.setup({
+        ensure_installed = { 'gopls', 'lua_ls', 'ts_ls' },
       })
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      local lspconfig = require "lspconfig"
+      local lspconfig = require 'lspconfig'
       lspconfig.gopls.setup({
         capabilities = capabilities,
       })
