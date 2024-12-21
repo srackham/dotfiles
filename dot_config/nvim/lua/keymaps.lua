@@ -1,5 +1,7 @@
--- Map Alt+C to enter Visual Block mode
-vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true }) -- Map enter Visual Block mode
+vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true })  -- Turn highlighting off
+vim.keymap.set('n', '/', '/\\v', { noremap = true })                     -- Use "very magic" for searches
+vim.keymap.set('c', 's/', 's/\\v', { noremap = true })                   -- Use "very magic" for substitute
 
 -- Map Ctrl+C to copy to the clipboard
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true })
