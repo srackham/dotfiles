@@ -38,6 +38,12 @@ return {
           { name = "buffer" },
         })
       })
+      local cmp_enabled = true
+      vim.keymap.set('n', '<Leader>at', function()
+        cmp_enabled = not cmp_enabled
+        cmp.setup { enabled = cmp_enabled }
+        vim.notify(cmp_enabled and "Auto-completion enabled" or "Auto-completion disabled", vim.log.levels.INFO)
+      end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
     end,
   },
 }
