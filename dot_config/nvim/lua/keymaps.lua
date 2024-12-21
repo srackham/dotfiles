@@ -18,8 +18,6 @@ vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>c', ':update | bd<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>n', ':enew | w ++p ', { noremap = true, silent = false })
-vim.keymap.set('n', '<Leader>q', ':wqa<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Leader>w', ':wa<CR>', { noremap = true, silent = true })
 vim.keymap.set('i', '<A-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true })
 
 -- Spell checker mappings (https://neovim.io/doc/user/spell.html)
