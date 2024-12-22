@@ -23,6 +23,17 @@ return {
           end
         end)
       end, { desc = 'Telescope filtered find files' })
+      vim.keymap.set('n', 'tG', function()
+        vim.ui.input({ prompt = "Enter file name extension: ", default = ext }, function(input)
+          if input ~= nil and #input > 0 then
+            ext = input
+            builtin.live_grep({
+              prompt_title = "Live Grep ." .. ext .. " Files",
+              glob_pattern = '**/*.' .. ext,
+            })
+          end
+        end)
+      end, { desc = 'Telescope filtered live grep' })
     end,
   },
   {
