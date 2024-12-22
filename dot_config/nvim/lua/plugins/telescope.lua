@@ -7,10 +7,11 @@ return {
     },
     config = function()
       local builtin = require('telescope.builtin')
-      vim.keymap.set('n', 'tf', builtin.find_files, { desc = 'Telescope find files' })
-      vim.keymap.set('n', 'tb', builtin.buffers, { desc = 'Telescope buffers' })
-      vim.keymap.set('n', 'tg', builtin.live_grep, { desc = 'Telescope live grep' })
-      vim.keymap.set('n', 'th', builtin.help_tags, { desc = 'Telescope help tags' })
+      vim.keymap.set('n', '<Leader>tf', builtin.find_files, { desc = 'Telescope find files' })
+      vim.keymap.set('n', '<Leader>tb', builtin.buffers, { desc = 'Telescope buffers' })
+      vim.keymap.set('n', '<Leader>tg', builtin.live_grep, { desc = 'Telescope live grep' })
+      vim.keymap.set('n', '<Leader>th', builtin.help_tags, { desc = 'Telescope help tags' })
+      vim.keymap.set('n', '<Leader>ts', builtin.spell_suggest, { desc = 'Spelling Suggestions' })
 
       local ext = ''
       local function map_extension_filter(cmd, desc, callback)
@@ -24,14 +25,14 @@ return {
         end, { desc = desc })
       end
 
-      map_extension_filter('tF', "Telescope filtered find files", function()
+      map_extension_filter('<Leader>tF', "Telescope filtered find files", function()
         builtin.find_files({
           prompt_title = "Find ." .. ext .. " Files",
           find_command = { 'rg', '--files', '--hidden', '--glob', '**/*.' .. ext }
         })
       end)
 
-      map_extension_filter('tG', "Telescope filtered live grep", function()
+      map_extension_filter('<Leader>tG', "Telescope filtered live grep", function()
         builtin.live_grep({
           prompt_title = "Live Grep ." .. ext .. " Files",
           glob_pattern = '**/*.' .. ext,
