@@ -14,7 +14,7 @@ return {
       local ext = ''
       vim.keymap.set('n', 'tF', function()
         vim.ui.input({ prompt = "Enter file name extension: ", default = ext }, function(input)
-          if input then
+          if input ~= nil and #input > 0 then
             ext = input
             builtin.find_files({
               prompt_title = "Find ." .. ext .. " Files",
