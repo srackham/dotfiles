@@ -11,7 +11,7 @@ return {
       else
         gitsigns.nav_hunk('next')
       end
-    end)
+    end, { desc = "Next hunk" })
 
     vim.keymap.set('n', '[g', function()
       if vim.wo.diff then
@@ -19,7 +19,7 @@ return {
       else
         gitsigns.nav_hunk('prev')
       end
-    end)
+    end, { desc = "Previous hunk" })
 
     -- Actions
     vim.keymap.set('n', '<Leader>gb', gitsigns.toggle_current_line_blame, { desc = "Toggle line blame" })
