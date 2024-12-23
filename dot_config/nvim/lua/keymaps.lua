@@ -22,7 +22,6 @@ vim.keymap.set('i', '<A-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = tru
 
 -- Spell checker mappings (https://neovim.io/doc/user/spell.html)
 vim.keymap.set('n', '<Leader>s', ':set invspell<CR>', { noremap = true, silent = true }) -- Toggle spell checker
-vim.keymap.set('i', '<C-s>', '<Esc>[s1z=`]a', { noremap = true, silent = true })         -- Correct last spell error
 
 -- Latin long vowels
 vim.keymap.set('i', '<C-Bslash>a', 'ā', { noremap = true, silent = true })
