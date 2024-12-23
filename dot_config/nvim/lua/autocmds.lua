@@ -16,3 +16,11 @@ vim.api.nvim_create_autocmd('InsertLeave', {
     vim.opt.timeoutlen = 1500
   end,
 })
+
+-- Enable spell checking for .md and .txt files by default
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.md", "*.txt" },
+  callback = function()
+    vim.opt_local.spell = true
+  end
+})
