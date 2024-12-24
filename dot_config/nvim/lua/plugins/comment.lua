@@ -11,7 +11,7 @@ return {
       else
         api.toggle.linewise.count(count)
       end
-    end, { noremap = true, silent = true, desc = "Toggle line comment (with optional count)" })
+    end, { noremap = true, silent = true, desc = "Toggle line comments (with optional count)" })
   end,
 
   vim.keymap.set('x', '<C-_>', function()
@@ -19,6 +19,6 @@ return {
     local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
     vim.api.nvim_feedkeys(esc, 'nx', false)
     api.toggle.linewise(vim.fn.visualmode())
-  end, { noremap = true, silent = true, desc = "Toggle block comment for selection" })
+  end, { noremap = true, silent = true, desc = "Toggle line comments for selection" })
 
 }
