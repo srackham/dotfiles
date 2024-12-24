@@ -1,20 +1,7 @@
 return {
   'numToStr/Comment.nvim',
   config = function()
-    require('Comment').setup(
-      {
-        -- LHS of toggle mappings in NORMAL mode
-        toggler = {
-          line = '<Leader>cll',  -- Line-comment toggle keymap
-          block = '<Leader>cbb', -- Block-comment toggle keymap
-        },
-        -- LHS of operator-pending mappings in NORMAL and VISUAL mode
-        opleader = {
-          line = '<Leader>cl',  -- Line-comment keymap
-          block = '<Leader>cb', -- Block-comment keymap
-        },
-      }
-    )
+    require('Comment').setup()
 
     vim.keymap.set('n', '<C-_>', function()
       local count = vim.v.count
