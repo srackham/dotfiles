@@ -30,13 +30,20 @@ return {
       lspconfig.gleam.setup({
         capabilities = capabilities,
       })
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references)
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover)
-      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help)
-      vim.keymap.set('n', '<Leader>lr', vim.lsp.buf.rename)
-      vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action)
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover,
+        { desc = "Display documentation for the symbol under the cursor" })
+      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
+        { desc = "Display function signature information" })
+      vim.keymap.set('n', '<Leader>lD', vim.lsp.buf.declaration,
+        { desc = "Jump to the declaration of the symbol" })
+      vim.keymap.set('n', '<Leader>ld', vim.lsp.buf.definition,
+        { desc = "Jump to the definition of the symbol under the cursor" })
+      vim.keymap.set('n', '<Leader>lr', vim.lsp.buf.references,
+        { desc = "List all references to the symbol under the cursor" })
+      vim.keymap.set('n', '<Leader>lR', vim.lsp.buf.rename,
+        { desc = "Rename all references to the symbol under the cursor" })
+      vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action,
+        { desc = "Select a code action available at the current cursor position" })
       vim.keymap.set('n', '<Leader>lf', function()
         vim.lsp.buf.format { async = true }
       end)
