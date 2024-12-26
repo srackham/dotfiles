@@ -9,7 +9,7 @@ return {
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = "Live grep" })
+      vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = "Grep files" })
       vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = "Resume last picker" })
       vim.keymap.set('n', '<Leader>fs', builtin.spell_suggest, { desc = "Show spelling suggestions" })
@@ -42,6 +42,12 @@ return {
           glob_pattern = '**/*.' .. ext,
         })
       end)
+
+      vim.keymap.set('n', '<Leader>fp', function()
+        require('telescope.builtin').live_grep({
+          cwd = vim.fn.stdpath('data') .. '/lazy/'
+        })
+      end, { desc = "Grep plugin files" })
     end,
   },
   {
