@@ -1,7 +1,12 @@
 return {
   'numToStr/Comment.nvim',
   config = function()
-    require('Comment').setup()
+    require('Comment').setup({
+      opleader = {
+        line = '<Leader>cl',  -- Line-comment keymap
+        block = '<Leader>cb', -- Block-comment keymap
+      },
+    })
 
     vim.keymap.set('n', '<C-_>', function()
       local count = vim.v.count
