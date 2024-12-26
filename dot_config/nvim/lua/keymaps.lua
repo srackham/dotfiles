@@ -1,16 +1,14 @@
-vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true }) -- Map enter Visual Block mode
-vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true })  -- Turn highlighting off
-vim.keymap.set('n', '/', '/\\v', { noremap = true })                     -- Use "very magic" for searches
-vim.keymap.set('c', 's/', 's/\\v', { noremap = true })                   -- Use "very magic" for substitute
+vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
+vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true, desc = "Turn highlighing off" })
 
 -- Map Ctrl+C to copy to the clipboard
-vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
 -- Map Ctrl+X to delete to the clipboard
-vim.keymap.set('v', '<C-x>', '"+d', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-x>', '"+d', { noremap = true, silent = true, desc = "Cut selection to clipboard" })
 -- Map Ctrl+V to paste from the clipboard
-vim.keymap.set('n', '<C-v>', '"+Pl', { noremap = true, silent = true })
-vim.keymap.set('v', '<C-v>', 'd"+Pl', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-v>', '"+Pl', { noremap = true, silent = true, desc = "Paste clipboard" })
+vim.keymap.set('v', '<C-v>', 'd"+Pl', { noremap = true, silent = true, desc = "Paste clipboard" })
+vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "Paste clipboard" })
 
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>n', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
@@ -19,7 +17,7 @@ vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 
 -- Spell checker mappings (https://neovim.io/doc/user/spell.html)
-vim.keymap.set('n', '<Leader>s', ':set invspell<CR>', { noremap = true, silent = true }) -- Toggle spell checker
+vim.keymap.set('n', '<Leader>s', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':q<CR>', { noremap = true, silent = false, desc = "Close window" })
