@@ -9,12 +9,13 @@ return {
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = "List LSP diagnostics" })
       vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = "Live grep" })
       vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = "Search documentation" })
-      vim.keymap.set('n', '<Leader>fr', builtin.lsp_references, { desc = "Find LSP references to word under cursor" })
+      vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = "Resume last picker" })
       vim.keymap.set('n', '<Leader>fs', builtin.spell_suggest, { desc = "Show spelling suggestions" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
+      vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List LSP diagnostics" })
+      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "Find LSP references to word under cursor" })
 
       local ext = ''
       local function map_extension_filter(cmd, desc, callback)
