@@ -3,12 +3,12 @@ return {
   config = function()
     require('Comment').setup({
       toggler = {
-        line = '<C-_>',  -- Line-comment toggle keymap
-        block = '<A-/>', -- Block-comment toggle keymap
+        line = '<C-_>',
+        block = '<A-/>',
       },
       opleader = {
-        line = '<C-_>',  -- Line-comment keymap
-        block = '<A-/>', -- Block-comment keymap
+        line = '<C-_>',
+        block = '<A-/>',
       },
     })
   end,
