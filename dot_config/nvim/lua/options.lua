@@ -15,5 +15,3 @@ vim.opt.columns = 120 -- Set text width
 vim.opt.showbreak = '↪ ' -- Characters to indicate wrapped lines
 
 vim.opt.spellsuggest = 'best,9' -- Limit the number os spelling suggestions
-
-vim.opt_local.formatoptions:remove({ 'r', 'o' }) -- Disable magic comment formatting on paste
