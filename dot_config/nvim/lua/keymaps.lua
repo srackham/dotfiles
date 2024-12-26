@@ -17,7 +17,7 @@ vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 
 -- Spell checker mappings (https://neovim.io/doc/user/spell.html)
-vim.keymap.set('n', '<Leader>s', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':q<CR>', { noremap = true, silent = false, desc = "Close window" })
