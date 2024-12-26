@@ -4,9 +4,9 @@ return {
   config = function()
     local resession = require('resession')
     resession.setup()
-    vim.keymap.set('n', '<leader>ss', resession.save)
-    vim.keymap.set('n', '<leader>sl', resession.load)
-    vim.keymap.set('n', '<leader>sd', resession.delete)
+    vim.keymap.set('n', '<Leader>Ss', resession.save, { desc = "Save session" })
+    vim.keymap.set('n', '<Leader>Sl', resession.load, { desc = "Load session" })
+    vim.keymap.set('n', '<Leader>Sd', resession.delete, { desc = "Delete session" })
     -- Create one session per directory
     vim.api.nvim_create_autocmd('VimEnter', {
       callback = function()
