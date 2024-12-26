@@ -15,7 +15,7 @@ return {
       vim.keymap.set('n', '<Leader>fs', builtin.spell_suggest, { desc = "Show spelling suggestions" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List LSP diagnostics" })
-      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "Find LSP references to word under cursor" })
+      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List LSP references to word under cursor" })
 
       local ext = ''
       local function map_extension_filter(cmd, desc, callback)
