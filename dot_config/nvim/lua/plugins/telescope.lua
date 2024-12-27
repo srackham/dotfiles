@@ -12,7 +12,7 @@ return {
       vim.keymap.set('n', '<Leader>fc', builtin.grep_string, { desc = "Find string under cursor or selection" })
       vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = "Search documentation" })
-      vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = "Resume last picker" })
+      vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>fs', builtin.spell_suggest, { desc = "Show spelling suggestions" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List LSP diagnostics" })
