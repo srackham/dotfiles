@@ -21,18 +21,18 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "
 
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':update | bdelete<CR>', { noremap = true, silent = false, desc = "Close window" })
-vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = false, desc = "Maximize window" })
-vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = false, desc = "Only this window" })
-vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = false, desc = "Split window horizontally" })
-vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = false, desc = "Update window" })
-vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = false, desc = "Next window" })
-vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = false, desc = "Equalize window sizes" })
+vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
+vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Only this window" })
+vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
+vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Update window" })
+vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, desc = "Next window" })
+vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
 -- Quickfix commands
-vim.keymap.set('n', '<C-n>', ':cnext<CR>', { noremap = true, silent = false, desc = "Go to next Quickfix" })
-vim.keymap.set('n', '<C-p>', ':cprev<CR>', { noremap = true, silent = false, desc = "Go to previous Quickfix" })
-vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = false, desc = "Close Quickfix window" })
-vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = false, desc = "Open Quickfix window" })
+vim.keymap.set('n', '<C-n>', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
+vim.keymap.set('n', '<C-p>', ':cprev<CR>', { noremap = true, silent = true, desc = "Go to previous Quickfix" })
+vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
+vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
 
 -- Latin long vowels
 vim.keymap.set('i', '<C-Bslash>a', 'ā', { noremap = true, silent = true })
