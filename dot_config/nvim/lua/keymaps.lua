@@ -9,6 +9,7 @@ vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent =
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>x', 'ZZ', { noremap = true, silent = true, desc = "Save current buffer and exit" })
+vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text" })
 
 -- Map Ctrl+C to copy to the clipboard
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
@@ -29,8 +30,8 @@ vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
 -- Quickfix commands
-vim.keymap.set('n', '<C-n>', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
-vim.keymap.set('n', '<C-p>', ':cprev<CR>', { noremap = true, silent = true, desc = "Go to previous Quickfix" })
+vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
+vim.keymap.set('n', '[q', ':cprev<CR>', { noremap = true, silent = true, desc = "Go to previous Quickfix" })
 vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
 vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
 
