@@ -8,7 +8,7 @@ vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
 vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Space>', '<C-b>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Leader>x', 'ZZ', { noremap = true, silent = true, desc = "Save current buffer and exit" })
+vim.keymap.set('n', '<Leader>X', 'ZZ', { noremap = true, silent = true, desc = "Save current buffer and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text" })
 
 -- Map Ctrl+C to copy to the clipboard
