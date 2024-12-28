@@ -26,6 +26,7 @@ vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Only this window" })
 vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Update window" })
+vim.keymap.set('n', '<Leader>W', ':update<CR>', { noremap = true, silent = true, desc = "Update window" })
 vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, desc = "Next window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
