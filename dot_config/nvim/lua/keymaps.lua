@@ -9,7 +9,7 @@ vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent =
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>X', 'ZZ', { noremap = true, silent = true, desc = "Save current buffer and exit" })
-vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text" })
+vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
 -- Map Ctrl+C to copy to the clipboard
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
@@ -23,11 +23,11 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':update | bdelete<CR>', { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
-vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Only this window" })
+vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
-vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Update window" })
-vim.keymap.set('n', '<Leader>W', ':update<CR>', { noremap = true, silent = true, desc = "Update window" })
-vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, desc = "Next window" })
+vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
+vim.keymap.set('n', '<Leader>W', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
+vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, desc = "Go to next window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
 -- Quickfix commands
