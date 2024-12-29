@@ -1,13 +1,13 @@
-vim.keymap.set('n', '<A-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
+vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true, desc = "Turn highlighing off" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>n', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
-vim.keymap.set('i', '<A-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
+vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
-vim.keymap.set('n', '<A-Space>', '<C-b>', { noremap = true, silent = true })
+vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>X', 'ZZ', { noremap = true, silent = true, desc = "Save current buffer and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
@@ -49,7 +49,7 @@ vim.keymap.set('i', '<C-Bslash>h', '…', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>m', '—', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>v', '⋮', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<A-w>', function()
+vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
   if vim.wo.wrap then
     print("Word wrap enabled")
