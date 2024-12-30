@@ -15,8 +15,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require 'options'                -- Load ./lua/options.lua
+-- The following options must be set before LazyVim setup is executed.
+vim.g.mapleader = ','
+vim.g.maplocalleader = '\\'
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
+require 'options'                -- Load ./lua/options.lua
 require 'keymaps'                -- Load ./lua/keymaps.lua
 require 'autocmds'               -- Load ./lua/autocmds.lua
 require 'highlight-text'         -- Load ./lua/highlighting.lua
