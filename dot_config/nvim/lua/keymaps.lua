@@ -9,8 +9,8 @@ vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent =
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
-vim.keymap.set('n', '<Leader>X', ':wqa<CR>',
-  { noremap = true, silent = true, desc = "Write all changed buffers and exit" })
+vim.keymap.set('n', '<Leader>X', ':update | confirm quit<CR>',
+  { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
 -- Map Ctrl+C to copy to the clipboard
@@ -59,7 +59,7 @@ vim.keymap.set('n', '<M-w>', function()
   end
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
--- When a command is executed map its corresponding next and previous actions to n and N
+-- When a command is executed map its corresponding next and previous motions to n and N
 local function next_prev_cmd(cmd, next, prev)
   vim.keymap.set('n', 'n', function() vim.cmd(next) end, { noremap = true, silent = true })
   vim.keymap.set('n', 'N', function() vim.cmd(prev) end, { noremap = true, silent = true })
