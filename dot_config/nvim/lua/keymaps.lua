@@ -8,7 +8,9 @@ vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
 vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Leader>X', 'ZZ', { noremap = true, silent = true, desc = "Save current buffer and exit" })
+vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
+vim.keymap.set('n', '<Leader>X', ':wqa<CR>',
+  { noremap = true, silent = true, desc = "Write all changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
 -- Map Ctrl+C to copy to the clipboard
@@ -26,7 +28,6 @@ vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
-vim.keymap.set('n', '<Leader>W', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
 vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, desc = "Go to next window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
