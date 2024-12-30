@@ -58,27 +58,36 @@ vim.keymap.set('n', '<M-w>', function()
   end
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
--- When a command is executed map the corresponding next and previous actions to <C-n> and <C-p>
+-- When a command is executed map its corresponding next and previous actions to n and N
 local function next_prev_cmd(cmd, next, prev)
-  vim.keymap.set('n', '<C-n>', function() vim.cmd(next) end, { noremap = true, silent = true })
-  vim.keymap.set('n', '<C-p>', function() vim.cmd(prev) end, { noremap = true, silent = true })
+  vim.keymap.set('n', 'n', function() vim.cmd(next) end, { noremap = true, silent = true })
+  vim.keymap.set('n', 'N', function() vim.cmd(prev) end, { noremap = true, silent = true })
   vim.cmd(cmd)
 end
 
--- Next and previous spelling correction
-vim.keymap.set("n", "]s", function() next_prev_cmd('normal! ]s', 'normal! ]s', 'normal! [s') end,
+-- Restore search n and N commands
+vim.api.nvim_create_autocmd('CmdlineEnter', {
+  pattern = '/,\\?',
+  callback = function()
+    vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
+    vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
+  end,
+})
+
+-- Next and previous for spelling correction
+vim.keymap.set('n', ']s', function() next_prev_cmd('normal! ]s', 'normal! ]s', 'normal! [s') end,
   { noremap = true, silent = true })
-vim.keymap.set("n", "[s", function() next_prev_cmd('normal! [s', 'normal! [s', 'normal! ]s') end,
+vim.keymap.set('n', '[s', function() next_prev_cmd('normal! [s', 'normal! [s', 'normal! ]s') end,
   { noremap = true, silent = true })
 
--- Next and previous Git hunk
-vim.keymap.set("n", "]g",
+-- Next and previous for Git hunks
+vim.keymap.set('n', ']g',
   function() next_prev_cmd('Gitsigns next_hunk', 'Gitsigns next_hunk', 'Gitsigns prev_hunk') end,
   { noremap = true, silent = true })
-vim.keymap.set("n", "[g",
+vim.keymap.set('n', '[g',
   function() next_prev_cmd('Gitsigns prev_hunk', 'Gitsigns prev_hunk', 'Gitsigns next_hunk') end,
   { noremap = true, silent = true })
 
--- Next and previous Quickfix
-vim.keymap.set("n", "]q", function() next_prev_cmd('cnext', 'cnext', 'cprev') end, { noremap = true, silent = true })
-vim.keymap.set("n", "[q", function() next_prev_cmd('cprev', 'cprev', 'cnext') end, { noremap = true, silent = true })
+-- Next and previous for Quickfix
+vim.keymap.set('n', ']q', function() next_prev_cmd('cnext', 'cnext', 'cprev') end, { noremap = true, silent = true })
+vim.keymap.set('n', '[q', function() next_prev_cmd('cprev', 'cprev', 'cnext') end, { noremap = true, silent = true })
