@@ -1,3 +1,3 @@
 return {
-  initial_columns = 120,
+  columns = 120,
 }

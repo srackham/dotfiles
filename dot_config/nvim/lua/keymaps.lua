@@ -57,7 +57,7 @@ vim.keymap.set('i', '<C-Bslash>m', '—', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>v', '⋮', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<M-w>', function()
-  local columns = require('globals').initial_columns
+  local columns = require('globals').columns
   if vim.o.columns ~= columns then
     vim.o.columns = columns
     vim.wo.wrap = true
