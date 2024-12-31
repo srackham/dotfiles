@@ -11,27 +11,19 @@ return {
     dapui.setup()
     dapgo.setup()
 
-    dap.listeners.before.attach.dapui_config = function()
-      dapui.open()
-    end
-    dap.listeners.before.launch.dapui_config = function()
-      dapui.open()
-    end
-    dap.listeners.before.event_terminated.dapui_config = function()
-      dapui.close()
-    end
-    dap.listeners.before.event_exited.dapui_config = function()
-      dapui.close()
-    end
-    vim.keymap.set('n', '<Leader>dc', function() dap.continue() end)
-    vim.keymap.set('n', 'Leader>di', function() dap.step_into() end)
+    dap.listeners.before.attach.dapui_config = dapui.open
+    dap.listeners.before.launch.dapui_config = dapui.open
+    dap.listeners.before.event_terminated.dapui_config = dapui.close
+    dap.listeners.before.event_exited.dapui_config = dapui.close
+    vim.keymap.set('n', '<Leader>dc', dap.continue)
+    vim.keymap.set('n', 'Leader>di', dap.step_into)
     vim.keymap.set('n', '<Leader>dd', function()
-      vim.keymap.set('n', 'n', function() dap.step_over() end)
+      vim.keymap.set('n', 'n', dap.step_over)
       dap.step_over()
     end)
-    vim.keymap.set('n', 'Leader>do', function() dap.step_out() end)
-    vim.keymap.set('n', '<Leader>dt', function() dap.toggle_breakpoint() end)
-    vim.keymap.set('n', '<Leader>ds', function() dap.set_breakpoint() end)
-    vim.keymap.set('n', '<Leader>dx', function() dap.terminate() end)
+    vim.keymap.set('n', 'Leader>do', dap.step_out)
+    vim.keymap.set('n', '<Leader>dt', dap.toggle_breakpoint)
+    vim.keymap.set('n', '<Leader>ds', dap.set_breakpoint)
+    vim.keymap.set('n', '<Leader>dx', dap.terminate)
   end,
 }
