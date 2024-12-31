@@ -15,15 +15,21 @@ return {
     dap.listeners.before.launch.dapui_config = dapui.open
     dap.listeners.before.event_terminated.dapui_config = dapui.close
     dap.listeners.before.event_exited.dapui_config = dapui.close
-    vim.keymap.set('n', '<Leader>dc', dap.continue)
-    vim.keymap.set('n', 'Leader>di', dap.step_into)
-    vim.keymap.set('n', '<Leader>dd', function()
-      vim.keymap.set('n', 'n', dap.step_over)
-      dap.step_over()
-    end)
-    vim.keymap.set('n', 'Leader>do', dap.step_out)
-    vim.keymap.set('n', '<Leader>dt', dap.toggle_breakpoint)
-    vim.keymap.set('n', '<Leader>ds', dap.set_breakpoint)
+
+    -- Map `n` to `step_over` when a debug command is executed.
+    local function dap_cmd(cmd)
+      return function()
+        vim.keymap.set('n', 'n', dap.step_over)
+        cmd()
+      end
+    end
+
+    vim.keymap.set('n', '<Leader>dc', dap_cmd(dap.continue))
+    vim.keymap.set('n', '<Leader>dd', dap_cmd(dap.step_over))
+    vim.keymap.set('n', '<Leader>di', dap_cmd(dap.step_into))
+    vim.keymap.set('n', '<Leader>do', dap_cmd(dap.step_out))
+    vim.keymap.set('n', '<Leader>ds', dap_cmd(dap.set_breakpoint))
+    vim.keymap.set('n', '<Leader>dt', dap_cmd(dap.toggle_breakpoint))
     vim.keymap.set('n', '<Leader>dx', dap.terminate)
   end,
 }
