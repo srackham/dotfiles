@@ -1,13 +1,7 @@
 vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true, desc = "Turn highlighing off" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
-vim.keymap.set('n', '<Leader>N', function()
-  local file_path = vim.fn.input("Enter new file path: ")
-  vim.cmd("echo ''") -- Clear the prompt
-  if file_path ~= "" then
-    vim.cmd("enew | w ++p " .. file_path)
-  end
-end, { noremap = true, silent = false, desc = "New file" })
+vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
 vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
