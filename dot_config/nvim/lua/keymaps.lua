@@ -57,7 +57,12 @@ vim.keymap.set('i', '<C-Bslash>m', '—', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>v', '⋮', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<M-w>', function()
-  vim.wo.wrap = not vim.wo.wrap
+  if vim.o.columns ~= 120 then
+    vim.o.columns = 120
+    vim.wo.wrap = true
+  else
+    vim.wo.wrap = not vim.wo.wrap
+  end
   if vim.wo.wrap then
     print("Word wrap enabled")
   else
