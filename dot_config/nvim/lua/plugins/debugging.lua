@@ -25,9 +25,13 @@ return {
     end
     vim.keymap.set('n', '<Leader>dc', function() dap.continue() end)
     vim.keymap.set('n', 'Leader>di', function() dap.step_into() end)
-    vim.keymap.set('n', '<Leader>dd', function() dap.step_over() end)
+    vim.keymap.set('n', '<Leader>dd', function()
+      vim.keymap.set('n', 'n', function() dap.step_over() end)
+      dap.step_over()
+    end)
     vim.keymap.set('n', 'Leader>do', function() dap.step_out() end)
     vim.keymap.set('n', '<Leader>dt', function() dap.toggle_breakpoint() end)
     vim.keymap.set('n', '<Leader>ds', function() dap.set_breakpoint() end)
+    vim.keymap.set('n', '<Leader>dx', function() dap.terminate() end)
   end,
 }
