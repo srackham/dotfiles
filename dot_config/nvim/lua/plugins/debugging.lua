@@ -20,6 +20,7 @@ return {
     local function dap_cmd(cmd)
       return function()
         vim.keymap.set('n', 'n', dap.step_over)
+        vim.keymap.set('n', 'N', dap.continue)
         cmd()
       end
     end
