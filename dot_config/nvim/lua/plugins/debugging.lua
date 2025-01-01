@@ -24,13 +24,13 @@ return {
       end
     end
 
-    vim.keymap.set('n', '<Leader>dc', dap_cmd(dap.continue))
-    vim.keymap.set('n', '<Leader>dd', dap_cmd(dap.step_over))
-    vim.keymap.set('n', '<Leader>di', dap_cmd(dap.step_into))
-    vim.keymap.set('n', '<Leader>do', dap_cmd(dap.step_out))
-    vim.keymap.set('n', '<Leader>ds', dap_cmd(dap.set_breakpoint))
-    vim.keymap.set('n', '<Leader>dt', dap_cmd(dap.toggle_breakpoint))
-    vim.keymap.set('n', '<Leader>du', dapui.toggle)
-    vim.keymap.set('n', '<Leader>dx', dap.terminate)
+    vim.keymap.set('n', '<Leader>dc', dap_cmd(dap.continue), { desc = "Debug continue" })
+    vim.keymap.set('n', '<Leader>dd', dap_cmd(dap.step_over), { desc = "Debug step over" })
+    vim.keymap.set('n', '<Leader>di', dap_cmd(dap.step_into), { desc = "Debug step into" })
+    vim.keymap.set('n', '<Leader>do', dap_cmd(dap.step_out), { desc = "Debug step out" })
+    vim.keymap.set('n', '<Leader>ds', dap_cmd(dap.set_breakpoint), { desc = "Debug set breakpoint" })
+    vim.keymap.set('n', '<Leader>dt', dap_cmd(dap.toggle_breakpoint), { desc = "Debug toggle breakpoint" })
+    vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Debug toggle UI" })
+    vim.keymap.set('n', '<Leader>dx', dap.terminate, { desc = "Debug terminate" })
   end,
 }
