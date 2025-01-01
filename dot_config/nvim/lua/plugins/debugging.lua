@@ -33,5 +33,10 @@ return {
     vim.keymap.set('n', '<Leader>dt', dap_cmd(dap.toggle_breakpoint), { desc = "Debug toggle breakpoint" })
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Debug toggle UI" })
     vim.keymap.set('n', '<Leader>dx', dap.terminate, { desc = "Debug terminate" })
+
+    vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint' })
+    vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = 'red' })
+    vim.fn.sign_define('DapStopped', { text = '▶️', texthl = 'DapStopped' })
+    vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#98c379' })
   end,
 }
