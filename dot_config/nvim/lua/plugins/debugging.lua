@@ -30,6 +30,7 @@ return {
     vim.keymap.set('n', '<Leader>do', dap_cmd(dap.step_out))
     vim.keymap.set('n', '<Leader>ds', dap_cmd(dap.set_breakpoint))
     vim.keymap.set('n', '<Leader>dt', dap_cmd(dap.toggle_breakpoint))
+    vim.keymap.set('n', '<Leader>du', dapui.toggle)
     vim.keymap.set('n', '<Leader>dx', dap.terminate)
   end,
 }
