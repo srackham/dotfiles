@@ -39,7 +39,7 @@ return {
         })
       })
       local cmp_enabled = true
-      vim.keymap.set('n', '<Leader>at', function()
+      vim.keymap.set('n', '<Leader>ct', function()
         cmp_enabled = not cmp_enabled
         cmp.setup { enabled = cmp_enabled }
         vim.notify(cmp_enabled and 'Auto-completion enabled' or 'Auto-completion disabled', vim.log.levels.INFO)
