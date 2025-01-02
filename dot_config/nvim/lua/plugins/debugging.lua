@@ -37,7 +37,7 @@ return {
 
     vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint' })
     vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = 'red' })
-    vim.fn.sign_define('DapStopped', { text = '▶️', texthl = 'DapStopped' })
+    vim.fn.sign_define('DapStopped', { text = '▶️', texthl = 'DapStopped', linehl = 'CursorLine' })
     vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#98c379' })
   end,
 }
