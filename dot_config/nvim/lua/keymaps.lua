@@ -1,3 +1,19 @@
+-- When a command is executed map its corresponding next and previous motions to n and N
+local function next_prev_cmd(cmd, next, prev)
+  vim.keymap.set('n', 'n', function() vim.cmd(next) end, { noremap = true, silent = true })
+  vim.keymap.set('n', 'N', function() vim.cmd(prev) end, { noremap = true, silent = true })
+  vim.cmd(cmd)
+end
+
+-- Restore search n and N commands
+vim.api.nvim_create_autocmd('CmdlineEnter', {
+  pattern = '/,\\?',
+  callback = function()
+    vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
+    vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
+  end,
+})
+
 vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true, desc = "Turn highlighing off" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
@@ -28,8 +44,10 @@ vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
-vim.keymap.set('n', '<Leader>ww', '<C-w>w', { noremap = true, silent = true, desc = "Go to next window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
+vim.keymap.set('n', '<Leader>ww',
+  function() next_prev_cmd('wincmd w', 'wincmd w', 'wincmd W') end,
+  { noremap = true, silent = true, desc = "Go to next window" })
 
 -- Quickfix commands
 vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
@@ -64,22 +82,6 @@ vim.keymap.set('n', '<M-w>', function()
     print("Word wrap disabled")
   end
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
-
--- When a command is executed map its corresponding next and previous motions to n and N
-local function next_prev_cmd(cmd, next, prev)
-  vim.keymap.set('n', 'n', function() vim.cmd(next) end, { noremap = true, silent = true })
-  vim.keymap.set('n', 'N', function() vim.cmd(prev) end, { noremap = true, silent = true })
-  vim.cmd(cmd)
-end
-
--- Restore search n and N commands
-vim.api.nvim_create_autocmd('CmdlineEnter', {
-  pattern = '/,\\?',
-  callback = function()
-    vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
-    vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
-  end,
-})
 
 -- Next and previous for spelling correction
 vim.keymap.set('n', ']s', function() next_prev_cmd('normal! ]s', 'normal! ]s', 'normal! [s') end,
