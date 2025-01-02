@@ -41,13 +41,16 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':update | bdelete<CR>', { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
+vim.keymap.set('n', '<Leader>wn',
+  function() next_prev_cmd('wincmd w', 'wincmd w', 'wincmd W') end,
+  { noremap = true, silent = true, desc = "Go to next window" })
+vim.keymap.set('n', '<Leader>wp',
+  function() next_prev_cmd('wincmd W', 'wincmd W', 'wincmd w') end,
+  { noremap = true, silent = true, desc = "Go to previous window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
-vim.keymap.set('n', '<Leader>ww',
-  function() next_prev_cmd('wincmd w', 'wincmd w', 'wincmd W') end,
-  { noremap = true, silent = true, desc = "Go to next window" })
 
 -- Quickfix commands
 vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
