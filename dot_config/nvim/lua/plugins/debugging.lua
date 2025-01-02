@@ -16,7 +16,7 @@ return {
     dap.listeners.before.event_terminated.dapui_config = dapui.close
     dap.listeners.before.event_exited.dapui_config = dapui.close
 
-    -- Map `n` to `step_over` when a debug command is executed.
+    -- Map `n` and `N` when a debug command is executed.
     local function dap_cmd(cmd)
       return function()
         vim.keymap.set('n', 'n', dap.step_over)
