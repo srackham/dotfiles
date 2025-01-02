@@ -48,7 +48,7 @@ vim.keymap.set('n', '<Leader>wp',
   function() next_prev_cmd('wincmd W', 'wincmd W', 'wincmd w') end,
   { noremap = true, silent = true, desc = "Go to previous window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
-vim.keymap.set('n', '<Leader>ws', ':split', { noremap = true, silent = true, desc = "Split window horizontally" })
+vim.keymap.set('n', '<Leader>ws', ':split<CR>', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
