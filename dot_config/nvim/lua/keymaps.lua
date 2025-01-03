@@ -21,7 +21,7 @@ vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = fa
 vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<Leader>S', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<Leader>Z', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
@@ -87,9 +87,9 @@ vim.keymap.set('n', '<M-w>', function()
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
 -- Next and previous for spelling correction
-vim.keymap.set('n', ']s', function() next_prev_cmd('normal! ]s', 'normal! ]s', 'normal! [s') end,
+vim.keymap.set('n', ']z', function() next_prev_cmd('normal! ]s', 'normal! ]s', 'normal! [s') end,
   { noremap = true, silent = true })
-vim.keymap.set('n', '[s', function() next_prev_cmd('normal! [s', 'normal! [s', 'normal! ]s') end,
+vim.keymap.set('n', '[z', function() next_prev_cmd('normal! [s', 'normal! [s', 'normal! ]s') end,
   { noremap = true, silent = true })
 
 -- Next and previous for Git hunks
