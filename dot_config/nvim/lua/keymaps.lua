@@ -21,11 +21,15 @@ vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = fa
 vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<Leader>Z', ':set invspell<CR>', { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<Leader>Z', function()
+  vim.wo.spell = not vim.wo.spell
+  local status = vim.wo.spell and "enabled" or "disabled"
+  print("Spell checking " .. status)
+end, { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
-vim.keymap.set('n', '<Leader>X', ':update | confirm quit<CR>',
+vim.keymap.set('n', '<Leader>X', ':update | confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
