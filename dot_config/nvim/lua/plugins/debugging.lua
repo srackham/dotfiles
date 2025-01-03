@@ -40,5 +40,13 @@ return {
     vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = 'red' })
     vim.fn.sign_define('DapStopped', { text = '▶️', texthl = 'DapStopped', linehl = 'CursorLine' })
     vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#98c379' })
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "go",
+      callback = function()
+        vim.keymap.set('n', '<Leader>dT', dapgo.debug_test, { desc = "Run Go test at cursor" })
+      end,
+      once = true
+    })
   end,
 }
