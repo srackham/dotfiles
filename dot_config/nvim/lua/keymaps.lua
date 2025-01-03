@@ -59,6 +59,12 @@ vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, des
 -- Tab commands
 vim.keymap.set('n', '<Leader>to', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
 vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
+vim.keymap.set('n', '<Leader>tn',
+  function() next_prev_cmd('tabnext', 'tabnext', 'tabprevious') end,
+  { noremap = true, silent = true, desc = "Go to next tab" })
+vim.keymap.set('n', '<Leader>tp',
+  function() next_prev_cmd('tabprevious', 'tabprevious', 'tabnext') end,
+  { noremap = true, silent = true, desc = "Go to previous tab" })
 
 -- Quickfix commands
 vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
