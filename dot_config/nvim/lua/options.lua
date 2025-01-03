@@ -17,3 +17,5 @@ vim.opt.spellsuggest = 'best,9' -- Limit the number os spelling suggestions
 
 vim.opt.cursorline = true
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#303030' })
+
+vim.opt.swapfile = false
