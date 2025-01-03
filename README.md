@@ -27,7 +27,13 @@ The `exported` directory contains files that are managed manually:
   * Open [Bookmarks Manager](brave://bookmarks/) (C-S-o).
   * Run the _Export bookmarks_ command in the ⋮ menu (vertical ellipsis menu, top right) and save bookmarks file to `~/.local/share/chezmoi/exported/bookmarks.html`.
 
-- _GNOME Desktop key bindings_: Use the dconf load command to restore custom GNOME key binding from the `*.dconf` dump file. See the _Configuring GNOME Settings_ section in `~/doc/distros/nixos-notes.md` for details.
+- _GNOME Desktop key bindings_:
+
+    * Export GNOME custom key bindings with:
+
+            dconf dump /org/gnome/desktop/wm/keybindings/ > gnome-custom-key-bindings.dconf
+
+    * Use the dconf load command to restore custom GNOME key binding from the dump file. See `./exported/post-install-config.sh` for details.
 
 
-- _Vimium Options_: The Vimium browser extension options are in the `vimium-options.json` file, manually restore them with the restore command on the Vimium extension Options page.
+- _Vimium Options_: The Vimium browser extension options are in the `vimium-options.json` file. Manually save and restore them using the backup and restore commands on the _Backup and Restore_ section of the Vimium extension Options page.
