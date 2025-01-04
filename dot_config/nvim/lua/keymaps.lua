@@ -69,6 +69,9 @@ vim.keymap.set('n', '<Leader>tt',
   (function()
     local is_open = false
     return function()
+      if is_open and vim.fn.tabpagenr('$') == 1 then
+        is_open = false -- Reset is_open if it is out of sync
+      end
       vim.cmd(is_open and 'tabclose' or 'tab split')
       print(is_open and "Tab closed" or "Tab opened")
       is_open = not is_open
