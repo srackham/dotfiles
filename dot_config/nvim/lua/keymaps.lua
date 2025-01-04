@@ -65,6 +65,16 @@ vim.keymap.set('n', '<Leader>tn',
 vim.keymap.set('n', '<Leader>tp',
   function() next_prev_cmd('tabprevious', 'tabprevious', 'tabnext') end,
   { noremap = true, silent = true, desc = "Go to previous tab" })
+vim.keymap.set('n', '<Leader>tt',
+  (function()
+    local is_open = false
+    return function()
+      vim.cmd(is_open and 'tabclose' or 'tab split')
+      print(is_open and "Tab closed" or "Tab opened")
+      is_open = not is_open
+    end
+  end)(),
+  { noremap = true, silent = true, desc = "Toggle tab open and closed" })
 
 -- Quickfix commands
 vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
