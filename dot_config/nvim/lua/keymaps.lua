@@ -5,6 +5,13 @@ local function next_prev_cmd(cmd, next, prev)
   vim.cmd(cmd)
 end
 
+-- When a command is executed map its corresponding next and previous motions to n and N
+local function next_prev_func(cmd, next, prev)
+  vim.keymap.set('n', 'n', next, { noremap = true, silent = true })
+  vim.keymap.set('n', 'N', prev, { noremap = true, silent = true })
+  cmd()
+end
+
 -- Restore search n and N commands
 vim.api.nvim_create_autocmd('CmdlineEnter', {
   pattern = '/,\\?',
@@ -30,6 +37,14 @@ vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>X', ':update | confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
+
+-- Diagnostic next/prev
+vim.keymap.set('n', ']d',
+  function() next_prev_func(vim.diagnostic.goto_next, vim.diagnostic.goto_next, vim.diagnostic.goto_prev) end,
+  { noremap = true, silent = true, desc = "Go to next diagnostic" })
+vim.keymap.set('n', '[d',
+  function() next_prev_func(vim.diagnostic.goto_prev, vim.diagnostic.goto_prev, vim.diagnostic.goto_next) end,
+  { noremap = true, silent = true, desc = "Go to previous diagnostic" })
 
 -- Extra miscellaneous commands
 local is_relative = false
