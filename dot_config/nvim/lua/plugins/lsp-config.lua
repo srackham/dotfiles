@@ -9,7 +9,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     config = function()
       require 'mason-lspconfig'.setup({
-        ensure_installed = { 'gopls', 'lua_ls', 'ts_ls' },
+        ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls' },
       })
     end,
   },
@@ -19,6 +19,9 @@ return {
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require 'lspconfig'
       lspconfig.gopls.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.jsonls.setup({
         capabilities = capabilities,
       })
       lspconfig.lua_ls.setup({
