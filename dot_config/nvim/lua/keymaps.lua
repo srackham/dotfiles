@@ -26,8 +26,6 @@ vim.keymap.set('n', '<Leader>Z', function()
   local status = vim.wo.spell and "enabled" or "disabled"
   print("Spell checking " .. status)
 end, { noremap = true, silent = true, desc = "Toggle spell checker" })
-vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
-vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
 vim.keymap.set('n', '<Leader>X', ':update | confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
