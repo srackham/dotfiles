@@ -66,10 +66,10 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':update | bdelete<CR>', { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
-vim.keymap.set('n', '<Leader>wn',
+vim.keymap.set('n', ']w',
   function() next_prev_cmd('wincmd w', 'wincmd w', 'wincmd W') end,
   { noremap = true, silent = true, desc = "Go to next window" })
-vim.keymap.set('n', '<Leader>wp',
+vim.keymap.set('n', '[w',
   function() next_prev_cmd('wincmd W', 'wincmd W', 'wincmd w') end,
   { noremap = true, silent = true, desc = "Go to previous window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
