@@ -31,6 +31,29 @@ vim.keymap.set('n', '<Leader>X', ':update | confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
+-- Extra miscellaneous commands
+local is_relative = false
+local is_numbered = false
+local function set_numbered()
+  if is_numbered then
+    vim.wo.relativenumber = is_relative
+    vim.wo.number = not is_relative
+    print((is_relative and "Relative" or "Absolute") .. " line numbering enabled")
+  else
+    vim.wo.relativenumber = false
+    vim.wo.number = false
+    print("Line numbering disabled")
+  end
+end
+vim.keymap.set('n', '<Leader>xl', function()
+  is_numbered = not is_numbered
+  set_numbered()
+end, { noremap = true, silent = true, desc = "Toggle line numbering" })
+vim.keymap.set('n', '<Leader>xr', function()
+  is_relative = not is_relative
+  set_numbered()
+end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
+
 -- Map Ctrl+C to copy to the clipboard
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
 -- Map Ctrl+X to delete to the clipboard
