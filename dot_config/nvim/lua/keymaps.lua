@@ -1,16 +1,25 @@
--- When a command is executed map its corresponding next and previous motions to n and N
-local function next_prev_cmd(cmd, next, prev)
-  vim.keymap.set('n', 'n', function() vim.cmd(next) end, { noremap = true, silent = true })
-  vim.keymap.set('n', 'N', function() vim.cmd(prev) end, { noremap = true, silent = true })
-  vim.cmd(cmd)
+-- Map contextual next and previous navigation commands
+local function map_next_prev(key, next, prev, desc)
+  local mapped_cmd = function(cmd, prev_cmd)
+    return function()
+      vim.keymap.set('n', 'n', cmd, { noremap = true, silent = true })
+      vim.keymap.set('n', 'N', prev_cmd, { noremap = true, silent = true })
+      cmd()
+    end
+  end
+  local n = type(next) == "string" and function() vim.cmd(next) end or next
+  local p = type(prev) == "string" and function() vim.cmd(prev) end or prev
+  vim.keymap.set('n', ']' .. key, mapped_cmd(n, p), { noremap = true, silent = true, desc = "Go to next " .. desc })
+  vim.keymap.set('n', '[' .. key, mapped_cmd(p, n), { noremap = true, silent = true, desc = "Go to previous " .. desc })
 end
 
--- When a command is executed map its corresponding next and previous motions to n and N
-local function next_prev_func(cmd, next, prev)
-  vim.keymap.set('n', 'n', next, { noremap = true, silent = true })
-  vim.keymap.set('n', 'N', prev, { noremap = true, silent = true })
-  cmd()
-end
+map_next_prev('d', vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic message")
+map_next_prev('g', 'Gitsigns next_hunk', 'Gitsigns prev_hunk', "Git hunk")
+map_next_prev('q', 'cnext', 'cprev', "Quickfix")
+map_next_prev('t', 'tabnext', 'tabprevious', "tab")
+map_next_prev('w', 'wincmd w', 'wincmd W', "window")
+map_next_prev('s', 'normal! ]s', 'normal! [s', "misspelt word") -- Retain original mapping
+map_next_prev('z', 'normal! ]s', 'normal! [s', "misspelt word")
 
 -- Restore search n and N commands
 vim.api.nvim_create_autocmd('CmdlineEnter', {
@@ -37,14 +46,6 @@ vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>X', ':update | confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
-
--- Diagnostic next/prev
-vim.keymap.set('n', ']d',
-  function() next_prev_func(vim.diagnostic.goto_next, vim.diagnostic.goto_next, vim.diagnostic.goto_prev) end,
-  { noremap = true, silent = true, desc = "Go to next diagnostic" })
-vim.keymap.set('n', '[d',
-  function() next_prev_func(vim.diagnostic.goto_prev, vim.diagnostic.goto_prev, vim.diagnostic.goto_next) end,
-  { noremap = true, silent = true, desc = "Go to previous diagnostic" })
 
 -- Extra miscellaneous commands
 local is_relative = false
@@ -81,12 +82,6 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "
 -- Windows commands
 vim.keymap.set('n', '<Leader>wc', ':update | bdelete<CR>', { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
-vim.keymap.set('n', ']w',
-  function() next_prev_cmd('wincmd w', 'wincmd w', 'wincmd W') end,
-  { noremap = true, silent = true, desc = "Go to next window" })
-vim.keymap.set('n', '[w',
-  function() next_prev_cmd('wincmd W', 'wincmd W', 'wincmd w') end,
-  { noremap = true, silent = true, desc = "Go to previous window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>ws', ':split<CR>', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>wu', ':update<CR>', { noremap = true, silent = true, desc = "Save window" })
@@ -95,12 +90,6 @@ vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, des
 -- Tab commands
 vim.keymap.set('n', '<Leader>to', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
 vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
-vim.keymap.set('n', '<Leader>tn',
-  function() next_prev_cmd('tabnext', 'tabnext', 'tabprevious') end,
-  { noremap = true, silent = true, desc = "Go to next tab" })
-vim.keymap.set('n', '<Leader>tp',
-  function() next_prev_cmd('tabprevious', 'tabprevious', 'tabnext') end,
-  { noremap = true, silent = true, desc = "Go to previous tab" })
 vim.keymap.set('n', '<Leader>tt',
   (function()
     local is_open = false
@@ -138,21 +127,3 @@ vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
   print(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
-
--- Next and previous for spelling correction
-vim.keymap.set('n', ']z', function() next_prev_cmd('normal! ]s', 'normal! ]s', 'normal! [s') end,
-  { noremap = true, silent = true })
-vim.keymap.set('n', '[z', function() next_prev_cmd('normal! [s', 'normal! [s', 'normal! ]s') end,
-  { noremap = true, silent = true })
-
--- Next and previous for Git hunks
-vim.keymap.set('n', ']g',
-  function() next_prev_cmd('Gitsigns next_hunk', 'Gitsigns next_hunk', 'Gitsigns prev_hunk') end,
-  { noremap = true, silent = true })
-vim.keymap.set('n', '[g',
-  function() next_prev_cmd('Gitsigns prev_hunk', 'Gitsigns prev_hunk', 'Gitsigns next_hunk') end,
-  { noremap = true, silent = true })
-
--- Next and previous for Quickfix
-vim.keymap.set('n', ']q', function() next_prev_cmd('cnext', 'cnext', 'cprev') end, { noremap = true, silent = true })
-vim.keymap.set('n', '[q', function() next_prev_cmd('cprev', 'cprev', 'cnext') end, { noremap = true, silent = true })
