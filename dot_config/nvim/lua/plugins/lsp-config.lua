@@ -33,6 +33,26 @@ return {
       lspconfig.gleam.setup({
         capabilities = capabilities,
       })
+
+      -- Add rounded borders to LSP hover and signature help
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+        vim.lsp.handlers.hover,
+        { border = "rounded" }
+      )
+
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        { border = "rounded" }
+      )
+
+      -- Add rounded borders to diagnostic float windows
+      vim.diagnostic.config({
+        float = {
+          border = "rounded"
+        }
+      })
+
+      -- LSP key mappings
       vim.keymap.set('n', 'K', vim.lsp.buf.hover,
         { desc = "Display documentation for the symbol under the cursor" })
       vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
