@@ -32,8 +32,7 @@ return {
     vim.keymap.set('n', '<Leader>dj', dap_cmd(dap.focus_frame), { desc = "Jump to debug cursor" })
     vim.keymap.set('n', '<Leader>do', dap_cmd(dap.step_out), { desc = "Debug step out" })
     vim.keymap.set('n', '<Leader>dr', dap_cmd(dap.step_last), { desc = "Restart the debug session" })
-    vim.keymap.set('n', '<Leader>ds', dap_cmd(dap.set_breakpoint), { desc = "Debug set breakpoint" })
-    vim.keymap.set('n', '<Leader>dt', dap_cmd(dap.toggle_breakpoint), { desc = "Debug toggle breakpoint" })
+    vim.keymap.set('n', '<Leader>db', dap_cmd(dap.toggle_breakpoint), { desc = "Debug toggle breakpoint" })
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Debug toggle UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
       { desc = "Open and reinitialize the debug UI" })
@@ -47,7 +46,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "go",
       callback = function()
-        vim.keymap.set('n', '<Leader>dT', dapgo.debug_test, { desc = "Run Go test at cursor" })
+        vim.keymap.set('n', '<Leader>dt', dapgo.debug_test, { desc = "Run Go test at cursor" })
       end,
       once = true
     })
