@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd('InsertLeave', {
   end,
 })
 
+-- Text file options
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'markdown', 'text' },
   callback = function()

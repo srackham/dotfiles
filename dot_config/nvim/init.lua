@@ -27,6 +27,7 @@ require 'highlight-text'         -- Load ./lua/highlighting.lua
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
 if vim.fn.filereadable(project_config_file) == 1 then
+  vim.notify("Loading " .. project_config_file, vim.log.levels.INFO)
   local status_ok, err = pcall(dofile, project_config_file)
   if not status_ok then
     vim.notify("Error loading " .. project_config_file .. ": " .. err, vim.log.levels.ERROR)
