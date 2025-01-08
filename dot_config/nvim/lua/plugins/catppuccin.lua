@@ -18,7 +18,7 @@ return {
     vim.cmd.colorscheme 'catppuccin'
 
     -- Color scheme tweaks
-    vim.api.nvim_set_hl(0, 'Comment', { fg = '#999999' }) -- Comments group color
+    vim.api.nvim_set_hl(0, 'Comment', { fg = '#aaaaaa' }) -- Comments group color
     vim.api.nvim_set_hl(0, 'LineNr', { fg = 'gray' })
     vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'white' })
   end,
