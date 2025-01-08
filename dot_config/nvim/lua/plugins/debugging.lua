@@ -22,7 +22,8 @@ return {
     vim.keymap.set('n', '<Leader>di', dap.step_into, { desc = "Debug step into" })
     vim.keymap.set('n', '<Leader>dj', dap.focus_frame, { desc = "Jump to debug cursor" })
     vim.keymap.set('n', '<Leader>do', dap.step_out, { desc = "Debug step out" })
-    vim.keymap.set('n', '<Leader>dr', dap.restart, { desc = "Restart the debug session" })
+    vim.keymap.set('n', '<Leader>dr', dap.run_to_cursor, { desc = "Run to cursor" })
+    vim.keymap.set('n', '<Leader>dR', dap.restart, { desc = "Restart the debug session" })
     vim.keymap.set('n', '<Leader>db', dap.toggle_breakpoint, { desc = "Debug toggle breakpoint" })
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Debug toggle UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
