@@ -16,3 +16,4 @@ vim.opt.cursorline = true
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#303030' })
 
 vim.opt.swapfile = false
+vim.opt.undofile = true -- Persistent undo across sessions
