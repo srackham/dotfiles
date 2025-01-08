@@ -90,19 +90,6 @@ vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, des
 -- Tab commands
 vim.keymap.set('n', '<Leader>to', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
 vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
-vim.keymap.set('n', '<Leader>tt',
-  (function()
-    local is_open = false
-    return function()
-      if is_open and vim.fn.tabpagenr('$') == 1 then
-        is_open = false -- Reset is_open if it is out of sync
-      end
-      vim.cmd(is_open and 'tabclose' or 'tab split')
-      print(is_open and "Tab closed" or "Tab opened")
-      is_open = not is_open
-    end
-  end)(),
-  { noremap = true, silent = true, desc = "Toggle tab open and closed" })
 
 -- Quickfix commands
 vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
