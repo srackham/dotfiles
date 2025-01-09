@@ -41,13 +41,12 @@ return {
       vim.api.nvim_create_autocmd('FileType', {
         pattern = { 'markdown', 'text' },
         callback = function()
-          cmp.setup { enabled = false }
+          cmp.setup { enabled = function() return false end }
         end,
       })
       vim.keymap.set('n', '<Leader>ct', function()
-        local is_enabled = cmp.get_config().enabled
-        is_enabled = not is_enabled
-        cmp.setup { enabled = is_enabled }
+        local is_enabled = not cmp.get_config().enabled()
+        cmp.get_config().enabled = function() return is_enabled end
         print(is_enabled and "Auto-completion enabled" or "Auto-completion disabled")
       end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
     end,
