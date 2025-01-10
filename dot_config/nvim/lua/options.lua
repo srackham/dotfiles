@@ -17,3 +17,4 @@ vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#303030' })
 
 vim.opt.swapfile = false
 vim.opt.undofile = true -- Persistent undo across sessions
+vim.opt.spellfile = vim.fn.expand('$HOME/doc/nvim/spell/en.utf-8.add')
