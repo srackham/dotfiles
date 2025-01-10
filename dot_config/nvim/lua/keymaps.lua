@@ -93,8 +93,6 @@ vim.keymap.set('n', '<Leader>to', ':tab split<CR>', { noremap = true, silent = t
 vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
 
 -- Quickfix commands
-vim.keymap.set('n', ']q', ':cnext<CR>', { noremap = true, silent = true, desc = "Go to next Quickfix" })
-vim.keymap.set('n', '[q', ':cprev<CR>', { noremap = true, silent = true, desc = "Go to previous Quickfix" })
 vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
 vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
 
