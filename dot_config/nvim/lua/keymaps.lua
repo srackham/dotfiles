@@ -120,6 +120,8 @@ vim.keymap.set('i', '<C-Bslash>d', '†', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>h', '…', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>m', '—', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-Bslash>v', '⋮', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-Bslash>t', '✓', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-Bslash>x', '✗', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
