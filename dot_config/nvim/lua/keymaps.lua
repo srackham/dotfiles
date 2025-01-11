@@ -35,7 +35,6 @@ vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { silent = true, desc = "Tu
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
 vim.keymap.set('i', '<C-l>', '<Esc>[sz=', { noremap = true, silent = true }) -- Correct last error
-vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>Z', function()
@@ -108,14 +107,17 @@ vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = tr
 vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
 vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
 
--- Latin long vowels
+-- Insert date
+vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
+
+-- Insert Latin long vowels
 vim.keymap.set('i', '<M-S-a>', 'ā', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-S-e>', 'ē', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-S-i>', 'ī', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-S-o>', 'ō', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-S-u>', 'ū', { noremap = true, silent = true })
 
--- UTF8 characters
+-- Insert UTF8 characters
 vim.keymap.set('i', '<M-S-c>', '†', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-S-h>', '…', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-S-m>', '—', { noremap = true, silent = true })
