@@ -9,7 +9,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     config = function()
       require 'mason-lspconfig'.setup({
-        ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls' },
+        ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls', 'denols' },
       })
     end,
   },
@@ -29,6 +29,19 @@ return {
       })
       lspconfig.ts_ls.setup({
         capabilities = capabilities,
+        root_dir = function()
+          if lspconfig.util.root_pattern('deno.json', 'deno.jsonc')() then
+            return nil -- If it's a Deno project don't attach the ts_ls LSP
+          else
+            return lspconfig.util.root_pattern('package.json')()
+          end
+        end,
+        single_file_support = false
+      })
+      lspconfig.denols.setup({
+        capabilities = capabilities,
+        root_dir = lspconfig.util.root_pattern('deno.json', 'deno.jsonc'),
+
       })
       lspconfig.gleam.setup({
         capabilities = capabilities,
