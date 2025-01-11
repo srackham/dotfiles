@@ -109,19 +109,19 @@ vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true
 vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
 
 -- Latin long vowels
-vim.keymap.set('i', '<C-Bslash>a', 'ā', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>e', 'ē', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>i', 'ī', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>o', 'ō', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>u', 'ū', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-a>', 'ā', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-e>', 'ē', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-i>', 'ī', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-o>', 'ō', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-u>', 'ū', { noremap = true, silent = true })
 
 -- UTF8 characters
-vim.keymap.set('i', '<C-Bslash>d', '†', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>h', '…', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>m', '—', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>v', '⋮', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>t', '✓', { noremap = true, silent = true })
-vim.keymap.set('i', '<C-Bslash>x', '✗', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-c>', '†', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-h>', '…', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-m>', '—', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-v>', '⋮', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-t>', '✓', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-x>', '✗', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
