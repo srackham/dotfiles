@@ -57,7 +57,7 @@ return {
         { desc = "Go to the definition of the symbol under the cursor" })
       vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
         { desc = "Go to the declaration of the symbol under the cursor" })
-      vim.keymap.set('n', 'gt', vim.lsp.buf.definition,
+      vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition,
         { desc = "Go to the type definition of the symbol under the cursor" })
       vim.keymap.set('n', 'K', vim.lsp.buf.hover,
         { desc = "Display documentation for the symbol under the cursor" })
@@ -69,7 +69,7 @@ return {
         { desc = "Select a code action available at the current cursor position" })
       vim.keymap.set('n', '<Leader>lf', function()
         vim.lsp.buf.format { async = true }
-      end, { desc = "Format document using LSP" })
+      end, { desc = "Format document" })
       local telescope = require('telescope.builtin')
       vim.keymap.set('n', '<Leader>ld', telescope.diagnostics, { desc = "List diagnostics" })
       vim.keymap.set('n', '<Leader>lr', telescope.lsp_references, { desc = "List references to word under cursor" })
