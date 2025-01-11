@@ -81,8 +81,20 @@ vim.keymap.set('v', '<C-v>', 'd"+Pl', { noremap = true, silent = true, desc = "P
 vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "Paste clipboard" })
 
 -- Windows commands
-vim.keymap.set('n', '<Leader>wc', ':close<CR>', { noremap = true, silent = false, desc = "Close window" })
-vim.keymap.set('n', '<Leader>C', ':close<CR>', { noremap = true, silent = false, desc = "Close window" })
+local function close_window()
+  local current_buf_id = vim.api.nvim_get_current_buf()
+  local is_modified = vim.api.nvim_buf_get_option(current_buf_id, 'modified')
+  if is_modified then
+    vim.notify("Cannot close window: buffer has unsaved changes", vim.log.levels.ERROR)
+  else
+    local success = pcall(function() vim.cmd('close') end)
+    if not success then
+      vim.cmd('bdelete')
+    end
+  end
+end
+vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
+vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wC', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
 vim.keymap.set('n', '<Leader>wo', ':split<CR>', { noremap = true, silent = true, desc = "Open new window" })
