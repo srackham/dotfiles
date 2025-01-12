@@ -43,7 +43,7 @@ vim.keymap.set('n', '<Leader>Z', function()
   print("Spell checking " .. status)
 end, { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
-vim.keymap.set('n', '<Leader>X', ':update | confirm quitall<CR>',
+vim.keymap.set('n', '<Leader>X', ':confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 
