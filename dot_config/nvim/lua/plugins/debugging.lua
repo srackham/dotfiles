@@ -24,11 +24,11 @@ return {
     vim.keymap.set('n', '<Leader>do', dap.step_out, { desc = "Debug step out" })
     vim.keymap.set('n', '<Leader>dr', dap.run_to_cursor, { desc = "Run to cursor" })
     vim.keymap.set('n', '<Leader>dR', dap.restart, { desc = "Restart the debug session" })
-    vim.keymap.set('n', '<Leader>db', dap.toggle_breakpoint, { desc = "Debug toggle breakpoint" })
-    vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Debug toggle UI" })
+    vim.keymap.set('n', '<Leader>ds', dap.toggle_breakpoint, { desc = "Toggle debug breakpoint" })
+    vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Toggle debug UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
       { desc = "Open and reinitialize the debug UI" })
-    vim.keymap.set('n', '<Leader>dx', dap.terminate, { desc = "Debug terminate" })
+    vim.keymap.set('n', '<Leader>dx', dap.terminate, { desc = "Terminate debug session" })
 
     vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint' })
     vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = 'red' })
