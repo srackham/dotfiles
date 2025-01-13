@@ -12,7 +12,11 @@ return {
       vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fc', builtin.grep_string, { desc = "Find string under cursor or selection" })
       vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
-      vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = "Live-grep files" })
+      vim.keymap.set('n', '<Leader>fg', function()
+        builtin.live_grep({
+          additional_args = { '--hidden' },
+        })
+      end, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fs', builtin.spell_suggest, { desc = "Show spelling suggestions" })
 
@@ -38,6 +42,7 @@ return {
       map_extension_filter('<Leader>fG', "Telescope filtered live-grep", function()
         builtin.live_grep({
           prompt_title = "Live Live-grep ." .. ext .. " Files",
+          additional_args = { '--hidden' },
           glob_pattern = '**/*.' .. ext,
         })
       end)
@@ -45,6 +50,7 @@ return {
       map_extension_filter('<Leader>fC', "Telescope filtered find string", function()
         builtin.grep_string({
           prompt_title = "Find string in ." .. ext .. " Files",
+          additional_args = { '--hidden' },
           glob_pattern = '**/*.' .. ext,
         })
       end)
