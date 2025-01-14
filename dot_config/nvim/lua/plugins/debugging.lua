@@ -11,16 +11,18 @@ return {
     dapui.setup()
     dapgo.setup()
 
-    -- Deno config (see https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript-deno)
+    -- Deno vscode-js-debug debugger registration
+    -- See https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript-deno)
     dap.adapters['pwa-node'] = {
       type = 'server',
       host = 'localhost',
       port = '${port}',
       executable = {
-        command = 'node',
-        args = { vim.fn.expand('$HOME/.local/share/nvim/js-debug/src/dapDebugServer.js'), '${port}' },
+        command = 'js-debug',
+        args = { '${port}' },
       }
     }
+    -- Deno debugging launch configurations for TypeScript files
     dap.configurations.typescript = {
       {
         type = 'pwa-node',
