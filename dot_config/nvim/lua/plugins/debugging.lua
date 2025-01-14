@@ -11,6 +11,47 @@ return {
     dapui.setup()
     dapgo.setup()
 
+    -- Deno config (see https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript-deno)
+    dap.adapters['pwa-node'] = {
+      type = 'server',
+      host = 'localhost',
+      port = '${port}',
+      executable = {
+        command = 'node',
+        args = { vim.fn.expand('$HOME/.local/share/nvim/js-debug/src/dapDebugServer.js'), '${port}' },
+      }
+    }
+    dap.configurations.typescript = {
+      {
+        type = 'pwa-node',
+        request = 'launch',
+        name = 'Launch Deno Application (current file)',
+        runtimeExecutable = 'deno',
+        runtimeArgs = {
+          'run',
+          '--inspect-wait',
+          '--allow-all'
+        },
+        program = '${file}',
+        cwd = '${workspaceFolder}',
+        attachSimplePort = 9229,
+      },
+      {
+        type = 'pwa-node',
+        request = 'launch',
+        name = 'Launch Deno Tests (current file)',
+        runtimeExecutable = 'deno',
+        runtimeArgs = {
+          'test',
+          '--inspect-wait',
+          '--allow-all'
+        },
+        program = '${file}',
+        cwd = '${workspaceFolder}',
+        attachSimplePort = 9229,
+      },
+    }
+
     dap.listeners.before.attach.dapui_config = dapui.open
     dap.listeners.before.launch.dapui_config = dapui.open
     dap.listeners.before.event_terminated.dapui_config = dapui.close
