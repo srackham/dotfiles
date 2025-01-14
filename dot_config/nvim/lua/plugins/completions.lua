@@ -37,11 +37,19 @@ return {
           { name = 'buffer' },
         })
       })
+      -- Toggle completion for current buffer
       vim.keymap.set('n', '<Leader>xc', function()
-        local is_enabled = not cmp.get_config().enabled()
-        cmp.get_config().enabled = function() return is_enabled end
+        local is_enabled = not cmp.get_config().enabled
+        cmp.setup.buffer { enabled = is_enabled }
         print(is_enabled and "Auto-completion enabled" or "Auto-completion disabled")
       end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
+      -- Disable completion for text files by default
+      vim.api.nvim_create_autocmd({ 'FileType' }, {
+        pattern = { 'markdown', 'text' },
+        callback = function()
+          cmp.setup.buffer { enabled = false }
+        end
+      })
     end,
   },
 }
