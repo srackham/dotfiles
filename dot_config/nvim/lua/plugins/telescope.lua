@@ -12,6 +12,7 @@ return {
       vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fc', builtin.grep_string, { desc = "Find string under cursor or selection" })
       vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
+      vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "Find highlights" })
       vim.keymap.set('n', '<Leader>fg', function()
         builtin.live_grep({
           additional_args = { '--hidden' },
@@ -56,7 +57,7 @@ return {
       end)
 
       vim.keymap.set('n', '<Leader>fp', function()
-        require('telescope.builtin').live_grep({
+        builtin.live_grep({
           cwd = vim.fn.stdpath('data') .. '/lazy/'
         })
       end, { desc = "Live-grep plugin files" })
@@ -70,6 +71,9 @@ return {
         pickers = {
           find_files = {
             hidden = true,
+          },
+          highlights = {
+            layout_strategy = 'vertical',
           },
         },
         defaults = {
