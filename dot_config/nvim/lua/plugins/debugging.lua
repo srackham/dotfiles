@@ -61,7 +61,8 @@ return {
 
     vim.keymap.set('n', '<Leader>dc', dap.continue, { desc = "Debug continue" })
     vim.keymap.set('n', '<Leader>dC', dap.clear_breakpoints, { desc = "Clear all breakpoints" })
-    vim.keymap.set('n', '<Leader>dd', dap.step_over, { desc = "Debug step over" })
+    vim.keymap.set('n', '<Leader>dn', dap.step_over, { desc = "Debug step over" })
+    vim.keymap.set('n', '<C-n>', dap.step_over, { desc = "Debug step over" })
     vim.keymap.set('n', '<Leader>di', dap.step_into, { desc = "Debug step into" })
     vim.keymap.set('n', '<Leader>dj', dap.focus_frame, { desc = "Jump to debug cursor" })
     vim.keymap.set('n', '<Leader>do', dap.step_out, { desc = "Debug step out" })
