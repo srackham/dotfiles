@@ -33,12 +33,9 @@ export RECOLL_CONFDIR="$HOME/.config/recoll"
 #
 
 # User's binaries
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="./node_modules/.bin:$PATH"
 
 # Use Brave instead of Chrome when doing Flutter Web development.
 if which brave >/dev/null; then
