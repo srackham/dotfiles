@@ -46,6 +46,11 @@ vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>X', ':confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
+vim.keymap.set('n', '<Leader>fp', function()
+  local path = vim.fn.expand('%:p')
+  vim.fn.setreg('+', path)
+  print("File path copied to clipboard: " .. path)
+end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 
 -- Extra miscellaneous commands
 local is_relative = false
