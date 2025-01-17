@@ -16,6 +16,6 @@ return {
         position = 'inline',
       },
     })
-    vim.keymap.set('n', '<Leader>mt', render_markdown.toggle, { desc = "Toggle Render Markdown" })
+    vim.keymap.set('n', '<Leader>M', render_markdown.toggle, { desc = "Toggle Render Markdown" })
   end,
 }

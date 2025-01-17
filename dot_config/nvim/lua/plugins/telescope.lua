@@ -10,7 +10,7 @@ return {
       vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>T', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fc', builtin.grep_string, { desc = "Find string under cursor or selection" })
+      vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Find string under cursor or selection" })
       vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "Find highlights" })
       vim.keymap.set('n', '<Leader>fg', function()
@@ -19,7 +19,7 @@ return {
         })
       end, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set('n', '<Leader>fs', builtin.spell_suggest, { desc = "Show spelling suggestions" })
+      vim.keymap.set('n', '<Leader>fz', builtin.spell_suggest, { desc = "Show spelling suggestions" })
 
       local ext = ''
       local function map_extension_filter(cmd, desc, callback)
@@ -48,7 +48,7 @@ return {
         })
       end)
 
-      map_extension_filter('<Leader>fC', "Telescope filtered find string", function()
+      map_extension_filter('<Leader>fS', "Telescope filtered find string", function()
         builtin.grep_string({
           prompt_title = "Find string in ." .. ext .. " Files",
           additional_args = { '--hidden' },
