@@ -30,7 +30,7 @@ return {
       heading = {
         position = 'inline',
         width = { 'full', 'full', 'block', 'block', 'block', 'block' },
-        border = { true, false, false, false, false, false },
+        border = { true, true, false, false, false, false },
       },
     })
     vim.keymap.set('n', '<Leader>M', render_markdown.toggle, { desc = "Toggle Render Markdown" })
