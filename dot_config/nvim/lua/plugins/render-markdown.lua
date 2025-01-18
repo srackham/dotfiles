@@ -19,6 +19,8 @@ return {
       vim.api.nvim_set_hl(0, 'RenderMarkdownH' .. i, { fg = fg, bold = true })
       vim.api.nvim_set_hl(0, 'RenderMarkdownH' .. i .. 'Bg', { bg = bg })
     end
+    vim.api.nvim_set_hl(0, '@markup.quote', { fg = '#F2CDCD' })
+    vim.api.nvim_set_hl(0, 'RenderMarkdownQuote', { fg = '#F2CDCD' })
     render_markdown.setup({
       html = {
         comment = {
