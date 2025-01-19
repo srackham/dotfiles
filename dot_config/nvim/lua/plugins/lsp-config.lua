@@ -83,9 +83,6 @@ return {
       vim.keymap.set('n', '<Leader>lf', function()
         vim.lsp.buf.format { async = true }
       end, { desc = "Format document" })
-      local telescope = require('telescope.builtin')
-      vim.keymap.set('n', '<Leader>ld', telescope.diagnostics, { desc = "List diagnostics" })
-      vim.keymap.set('n', '<Leader>lr', telescope.lsp_references, { desc = "List references to word under cursor" })
     end,
   },
 }
