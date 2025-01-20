@@ -81,7 +81,12 @@ return {
       vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action,
         { desc = "Select a code action available at the current cursor position" })
       vim.keymap.set('n', '<Leader>lf', function()
-        vim.lsp.buf.format { async = true }
+        if vim.bo.filetype == 'markdown' then
+          vim.lsp.buf.format { async = false }
+          vim.cmd('g/^###\\+/+d') -- Delete the blank line following Markdown level 3 and greater headers
+        else
+          vim.lsp.buf.format { async = true }
+        end
       end, { desc = "Format document" })
     end,
   },
