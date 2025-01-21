@@ -45,7 +45,7 @@ vim.keymap.set('n', '<Leader>Z',
     vim.notify("Spell checking " .. status)
   end,
   { noremap = true, silent = true, desc = "Toggle spell checker" })
-vim.keymap.set('n', '<Leader>U',
+vim.keymap.set('n', '<Leader>R',
   function()
     local buffers = vim.api.nvim_list_bufs()
     local msgs = {}
