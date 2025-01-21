@@ -37,11 +37,31 @@ vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = fa
 vim.keymap.set({ 'i', 'n' }, '<C-l>', '<Esc>[sz=', { noremap = true, silent = true }) -- Correct last error
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<Leader>Z', function()
-  vim.wo.spell = not vim.wo.spell
-  local status = vim.wo.spell and "enabled" or "disabled"
-  print("Spell checking " .. status)
-end, { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<Leader>Z',
+  function()
+    vim.wo.spell = not vim.wo.spell
+    local status = vim.wo.spell and "enabled" or "disabled"
+    print("Spell checking " .. status)
+  end,
+  { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<Leader>U',
+  function()
+    local buffers = vim.api.nvim_list_bufs()
+    local msgs = {}
+    for _, bufnr in ipairs(buffers) do
+      if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, 'modified') then
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        vim.api.nvim_buf_call(bufnr, function()
+          vim.cmd('e!')
+        end)
+        table.insert(msgs, "Reloaded buffer: " .. filename)
+      end
+    end
+    if #msgs > 0 then
+      vim.notify(table.concat(msgs, "\n"))
+    end
+  end,
+  { noremap = true, silent = true, desc = "Reload all modified buffers" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write all changed buffers" })
 vim.keymap.set('n', '<Leader>X', ':confirm quitall<CR>',
   { noremap = true, silent = true, desc = "Write changed buffers and exit" })
