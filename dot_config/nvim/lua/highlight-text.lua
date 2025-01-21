@@ -1,6 +1,7 @@
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
   pattern = '*',
   callback = function()
+    -- Colon-suffixed key words
     vim.cmd('syntax match HighlightText-1 /\\<\\(FIXME\\|TODO\\):/')
     vim.api.nvim_set_hl(0, 'HighlightText-1', { bg = 'red', fg = '#ffd700', bold = true })
     vim.cmd('syntax match HighlightText-2 /\\<NOTE:/')
@@ -14,5 +15,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
     vim.cmd('syntax match HighlightText-6 /\\<\\(ATTENTION\\|BUG\\|DEPRECATED\\|DONE\\|???\\|!!!.\\+!!!\\):/')
     vim.cmd('syntax match HighlightText-6 /???\\|!!!.\\+!!!/')
     vim.api.nvim_set_hl(0, 'HighlightText-6', { fg = 'red', bold = true })
+    -- Raw HTTP links
+    vim.cmd([[syntax match @markup.link.label 'https\?://\S\+']])
   end
 })
