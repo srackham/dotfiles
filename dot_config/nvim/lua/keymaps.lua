@@ -42,7 +42,7 @@ vim.keymap.set('n', '<Leader>Z',
   function()
     vim.wo.spell = not vim.wo.spell
     local status = vim.wo.spell and "enabled" or "disabled"
-    print("Spell checking " .. status)
+    vim.notify("Spell checking " .. status)
   end,
   { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Leader>U',
@@ -70,7 +70,7 @@ vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc =
 vim.keymap.set('n', '<Leader>fc', function()
   local path = vim.fn.expand('%:p')
   vim.fn.setreg('+', path)
-  print("File path copied to clipboard: " .. path)
+  vim.notify("File path copied to clipboard: " .. path)
 end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 
 -- Extra miscellaneous commands
@@ -80,11 +80,11 @@ local function set_numbered()
   if is_numbered then
     vim.wo.relativenumber = is_relative
     vim.wo.number = not is_relative
-    print((is_relative and "Relative" or "Absolute") .. " line numbering enabled")
+    vim.notify((is_relative and "Relative" or "Absolute") .. " line numbering enabled")
   else
     vim.wo.relativenumber = false
     vim.wo.number = false
-    print("Line numbering disabled")
+    vim.notify("Line numbering disabled")
   end
 end
 vim.keymap.set('n', '<Leader>ol', function()
@@ -154,5 +154,5 @@ vim.keymap.set('i', '<M-S-x>', '✗', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
-  print(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
+  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })

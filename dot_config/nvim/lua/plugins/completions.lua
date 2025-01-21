@@ -41,7 +41,7 @@ return {
       vim.keymap.set('n', '<Leader>oc', function()
         local is_enabled = not cmp.get_config().enabled
         cmp.setup.buffer { enabled = is_enabled }
-        print(is_enabled and "Auto-completion enabled" or "Auto-completion disabled")
+        vim.notify(is_enabled and "Auto-completion enabled" or "Auto-completion disabled")
       end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
       -- Disable completion for text files by default
       vim.api.nvim_create_autocmd({ 'FileType' }, {
