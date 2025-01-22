@@ -15,7 +15,18 @@ end
 
 map_next_prev('d', vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic message")
 map_next_prev('g', 'Gitsigns next_hunk', 'Gitsigns prev_hunk', "Git hunk")
-map_next_prev('q', 'cnext', 'cprev', "Quickfix")
+map_next_prev('q', function()
+    local success, _ = pcall(vim.cmd, 'cnext')
+    if not success then
+      vim.cmd('cfirst')
+    end
+  end,
+  function()
+    local success, _ = pcall(vim.cmd, 'cprev')
+    if not success then
+      vim.cmd('clast')
+    end
+  end, "Quickfix")
 map_next_prev('t', 'tabnext', 'tabprevious', "tab")
 map_next_prev('w', 'wincmd w', 'wincmd W', "window")
 map_next_prev('s', 'normal! ]s', 'normal! [s', "misspelt word") -- Retain original mapping
