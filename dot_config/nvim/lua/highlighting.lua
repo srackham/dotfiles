@@ -16,6 +16,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
     vim.cmd('syntax match HighlightText-6 /???\\|!!!.\\+!!!/')
     vim.api.nvim_set_hl(0, 'HighlightText-6', { fg = 'red', bold = true })
     -- Raw HTTP links
-    vim.cmd([[syntax match @markup.link.label 'https\?://\S\+']])
+    vim.cmd([[syntax match @markup.link.label 'https\?://\S\+[^).]']])
   end
 })
