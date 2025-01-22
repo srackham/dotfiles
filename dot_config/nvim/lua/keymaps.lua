@@ -33,6 +33,8 @@ vim.api.nvim_create_autocmd('CmdlineEnter', {
 vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
   { silent = true, desc = "Turn highlighing off and clear status line" })
+vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
 vim.keymap.set({ 'i', 'n' }, '<C-l>', '<Esc>[sz=', { noremap = true, silent = true }) -- Correct last error
