@@ -68,8 +68,6 @@ return {
       -- LSP key mappings
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
         { desc = "Go to the definition of the symbol under the cursor" })
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
-        { desc = "Go to the declaration of the symbol under the cursor" })
       vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition,
         { desc = "Go to the type definition of the symbol under the cursor" })
       vim.keymap.set('n', 'K', vim.lsp.buf.hover,
