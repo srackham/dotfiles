@@ -33,13 +33,22 @@ map_next_prev('s', 'normal! ]s', 'normal! [s', "misspelt word") -- Retain origin
 map_next_prev('z', 'normal! ]s', 'normal! [s', "misspelt word")
 
 -- Restore search n and N commands
+local restore_next_prev = function()
+  vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
+  vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
+end
 vim.api.nvim_create_autocmd('CmdlineEnter', {
-  pattern = '/,\\?',
-  callback = function()
-    vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
-    vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
-  end,
+  pattern = { '/', '\\?' },
+  callback = restore_next_prev,
 })
+vim.keymap.set('n', '*', function()
+  restore_next_prev()
+  return '*'
+end, { expr = true })
+vim.keymap.set('n', '#', function()
+  restore_next_prev()
+  return '#'
+end, { expr = true })
 
 vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
