@@ -22,6 +22,9 @@ return {
     vim.api.nvim_set_hl(0, '@markup.quote', { fg = '#F2CDCD' })
     vim.api.nvim_set_hl(0, 'RenderMarkdownQuote', { fg = '#F2CDCD' })
     render_markdown.setup({
+      code = {
+        sign = false,
+      },
       html = {
         comment = {
           conceal = true,
