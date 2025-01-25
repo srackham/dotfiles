@@ -11,6 +11,7 @@ return {
       vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = "List diagnostics" })
       vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fg', function()
+        vim.cmd('wa')
         builtin.live_grep({
           additional_args = { '--hidden' },
         })
@@ -43,6 +44,7 @@ return {
       end)
 
       map_extension_filter('<Leader>fG', "Telescope filtered live-grep", function()
+        vim.cmd('wa')
         builtin.live_grep({
           prompt_title = "Live Live-grep ." .. ext .. " Files",
           additional_args = { '--hidden' },
@@ -51,6 +53,7 @@ return {
       end)
 
       map_extension_filter('<Leader>fS', "Telescope filtered find string", function()
+        vim.cmd('wa')
         builtin.grep_string({
           prompt_title = "Find string in ." .. ext .. " Files",
           additional_args = { '--hidden' },
