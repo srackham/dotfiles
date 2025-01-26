@@ -5,6 +5,7 @@ vim.opt.shiftwidth = 2
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.timeoutlen = 1500
+vim.opt.scrolloff = 5
 
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words
