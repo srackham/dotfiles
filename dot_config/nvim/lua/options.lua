@@ -4,7 +4,7 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.timeoutlen = 1500
+vim.opt.timeoutlen = 10000
 vim.opt.scrolloff = 5
 
 vim.opt.wrap = true -- Enable soft wrapping
