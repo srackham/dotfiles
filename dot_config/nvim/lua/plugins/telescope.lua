@@ -9,7 +9,11 @@ return {
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = "List diagnostics" })
-      vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = "Find files" })
+      vim.keymap.set('n', '<Leader>ff', function()
+        builtin.find_files({
+          find_command = { 'rg', '--files', '--hidden', "--sortr", "modified" }
+        })
+      end, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fg', function()
         vim.cmd('wa')
         builtin.live_grep({
@@ -39,7 +43,7 @@ return {
       map_extension_filter('<Leader>fF', "Telescope filtered find files", function()
         builtin.find_files({
           prompt_title = "Find ." .. ext .. " Files",
-          find_command = { 'rg', '--files', '--hidden', '--glob', '**/*.' .. ext }
+          find_command = { 'rg', '--files', '--hidden', "--sortr", "modified", '--glob', '**/*.' .. ext }
         })
       end)
 
