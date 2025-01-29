@@ -50,7 +50,6 @@ vim.keymap.set('n', '#', function()
   return '#'
 end, { expr = true })
 
-vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
   { silent = true, desc = "Turn highlighing off and clear status line" })
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
@@ -122,6 +121,8 @@ vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Cop
 -- Map Ctrl+X to delete to the clipboard
 vim.keymap.set('v', '<C-x>', '"+d', { noremap = true, silent = true, desc = "Cut selection to clipboard" })
 -- Map Ctrl+V to paste from the clipboard
+vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
+vim.keymap.set('i', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter control character" })
 vim.keymap.set('n', '<C-v>', '"+Pl', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('v', '<C-v>', 'd"+Pl', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "Paste clipboard" })
