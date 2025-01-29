@@ -37,6 +37,12 @@ return {
           { name = 'buffer' },
         })
       })
+      -- Restrict sources for specific file types
+      cmp.setup.filetype('markdown', {
+        sources = {
+          { name = 'luasnip' },
+        },
+      })
       -- Toggle completion for current buffer
       vim.keymap.set('n', '<Leader>oc', function()
         local is_enabled = not cmp.get_config().enabled
@@ -45,7 +51,7 @@ return {
       end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
       -- Disable completion for text files by default
       vim.api.nvim_create_autocmd({ 'FileType' }, {
-        pattern = { 'markdown', 'text' },
+        pattern = { 'text' },
         callback = function()
           cmp.setup.buffer { enabled = false }
         end
