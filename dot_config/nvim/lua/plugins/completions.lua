@@ -50,6 +50,9 @@ return {
           cmp.setup.buffer { enabled = false }
         end
       })
+      -- LuaSnip key mappings
+      local luasnip = require('luasnip')
+      vim.keymap.set({ 'i', 's' }, '<Tab>', function() luasnip.jump(1) end, { silent = true })
     end,
   },
 }
