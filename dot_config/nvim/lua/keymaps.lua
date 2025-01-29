@@ -29,7 +29,6 @@ map_next_prev('q', function()
   end, "Quickfix")
 map_next_prev('t', 'tabnext', 'tabprevious', "tab")
 map_next_prev('w', 'wincmd w', 'wincmd W', "window")
-map_next_prev('s', 'normal! ]s', 'normal! [s', "misspelt word") -- Retain original mapping
 map_next_prev('z', 'normal! ]s', 'normal! [s', "misspelt word")
 
 -- Restore search n and N commands
