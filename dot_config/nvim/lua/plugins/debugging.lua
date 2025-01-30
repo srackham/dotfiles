@@ -75,6 +75,7 @@ return {
       end,
       { desc = "Restart the debug session" })
     vim.keymap.set('n', '<Leader>ds', dap.toggle_breakpoint, { desc = "Toggle debug breakpoint" })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>de', function() dapui.eval() end, { desc = "Evaluate expression" })
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Toggle debug UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
       { desc = "Open and reinitialize the debug UI" })
