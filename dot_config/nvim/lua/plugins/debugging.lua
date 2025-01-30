@@ -56,7 +56,7 @@ return {
 
     -- Configure dap-ui layout
     dapui.setup({
-      icons = { expanded = '▾', collapsed = '▸' },
+      -- icons = { expanded = '▾', collapsed = '▸' },
       mappings = {
         open = 'o',
         remove = 'd',
