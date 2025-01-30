@@ -54,10 +54,41 @@ return {
       },
     }
 
+    -- Configure dap-ui layout
+    dapui.setup({
+      icons = { expanded = '▾', collapsed = '▸' },
+      mappings = {
+        open = 'o',
+        remove = 'd',
+        edit = 'e',
+        repl = 'r',
+        toggle = 't',
+      },
+      layouts = {
+        {
+          elements = {
+            { id = 'scopes', size = 0.25 },
+            'breakpoints',
+            'stacks',
+            'watches',
+          },
+          size = 0.4,
+          position = 'left',
+        },
+        {
+          elements = { 'repl', 'console' },
+          size = 0.25,
+          position = 'bottom',
+        },
+      },
+    })
+
+    -- Attach the UI to `nvim-dap` plugin.
     dap.listeners.before.attach.dapui_config = dapui.open
     dap.listeners.before.launch.dapui_config = dapui.open
     dap.listeners.before.event_terminated.dapui_config = dapui.close
     dap.listeners.before.event_exited.dapui_config = dapui.close
+
     vim.keymap.set('n', '<Leader>dc', function()
       vim.cmd('wa')
       dap.continue()
