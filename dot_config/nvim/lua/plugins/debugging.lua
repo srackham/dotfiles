@@ -93,7 +93,6 @@ return {
       vim.cmd('wa')
       dap.continue()
     end, { desc = "Debug start or continue" })
-    vim.keymap.set('n', '<Leader>dC', dap.clear_breakpoints, { desc = "Clear all breakpoints" })
     vim.keymap.set('n', '<Leader>dn', dap.step_over, { desc = "Debug step over" })
     vim.keymap.set('n', '<C-n>', dap.step_over, { desc = "Debug step over" })
     vim.keymap.set('n', '<Leader>di', dap.step_into, { desc = "Debug step into" })
@@ -101,15 +100,23 @@ return {
     vim.keymap.set('n', '<Leader>do', dap.step_out, { desc = "Debug step out" })
     vim.keymap.set('n', '<Leader>dr', dap.run_to_cursor, { desc = "Run to cursor" })
     vim.keymap.set('n', '<Leader>dR', function()
-        vim.cmd('wa')
-        dap.restart()
-      end,
-      { desc = "Restart the debug session" })
-    vim.keymap.set('n', '<Leader>ds', dap.toggle_breakpoint, { desc = "Toggle debug breakpoint" })
+      vim.cmd('wa')
+      dap.restart()
+    end, { desc = "Restart the debug session" })
+    vim.keymap.set('n', '<Leader>db', dap.toggle_breakpoint, { desc = "Toggle debug breakpoint" })
+    vim.keymap.set('n', '<Leader>dB', dap.clear_breakpoints, { desc = "Clear all breakpoints" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>de', function() dapui.eval() end, { desc = "Evaluate expression" })
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Toggle debug UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
       { desc = "Open and reinitialize the debug UI" })
+    vim.keymap.set('n', '<Leader>ds', function()
+      dapui.float_element('scopes', {
+        width = 200,
+        height = 50,
+        enter = true,
+        position = 'center'
+      })
+    end, { desc = "Open a floating scopes window" })
     vim.keymap.set('n', '<Leader>dx', dap.terminate, { desc = "Terminate debug session" })
 
     vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint' })
