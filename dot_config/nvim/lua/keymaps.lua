@@ -146,6 +146,12 @@ vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>wo', ':split<CR>', { noremap = true, silent = true, desc = "Open new window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
+-- Window navigation with Ctrl + Arrow keys
+vim.keymap.set('n', '<C-Up>', '<C-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Down>', '<C-w>j', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Left>', '<C-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true })
+
 -- Tab commands
 vim.keymap.set('n', '<Leader>to', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
 vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
