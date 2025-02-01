@@ -58,7 +58,8 @@ return {
       })
       -- LuaSnip key mappings
       local luasnip = require('luasnip')
-      vim.keymap.set({ 'i', 's' }, '<Tab>', function() luasnip.jump(1) end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-j>', function() luasnip.jump(1) end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-k>', function() luasnip.jump(-1) end, { silent = true })
     end,
   },
 }

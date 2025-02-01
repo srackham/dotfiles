@@ -72,7 +72,7 @@ return {
         { desc = "Go to the type definition of the symbol under the cursor" })
       vim.keymap.set('n', 'K', vim.lsp.buf.hover,
         { desc = "Display documentation for the symbol under the cursor" })
-      vim.keymap.set({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help,
+      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
         { desc = "Display function signature information for the symbol under the cursor" })
       vim.keymap.set('n', '<Leader>lr', vim.lsp.buf.rename,
         { desc = "Rename all instances of the symbol under the cursor" })
