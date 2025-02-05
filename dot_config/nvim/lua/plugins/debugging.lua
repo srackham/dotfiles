@@ -117,6 +117,14 @@ return {
         position = 'center'
       })
     end, { desc = "Open a floating scopes window" })
+    vim.keymap.set('n', '<Leader>dw', function()
+      dapui.float_element('watches', {
+        width = 200,
+        height = 50,
+        enter = true,
+        position = 'center'
+      })
+    end, { desc = "Open a floating watches window" })
     vim.keymap.set('n', '<Leader>dx', dap.terminate, { desc = "Terminate debug session" })
 
     vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint' })
