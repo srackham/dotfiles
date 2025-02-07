@@ -5,7 +5,7 @@ return {
   },
   opts = {
     show_icons = true,
-    leader_key = ';',        -- File bookmarks
+    leader_key = 'B',        -- File bookmarks
     buffer_leader_key = 'M', -- Buffer bookmarks
     separate_save_and_remove = false,
     mappings = {
