@@ -7,9 +7,11 @@ return {
     },
     config = function()
       local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<Leader>fb', function()
+      local list_buffers = function()
         builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
-      end, { desc = "List buffers" })
+      end
+      vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
+      vim.keymap.set('n', 'B', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = "List diagnostics" })
       vim.keymap.set('n', '<Leader>ff', function()
         builtin.find_files({
@@ -91,7 +93,7 @@ return {
           file_ignore_patterns = { '^.git/', '^node_modules/' },
           mappings = {
             i = {
-              ['<esc>'] = actions.close,
+              ['<Esc>'] = actions.close,
             },
           },
         },
