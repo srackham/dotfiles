@@ -33,6 +33,7 @@ return {
         },
       },
       heading = {
+        enabled = false, -- Disable so that marks.nvim marks are visible in left margin of headings
         position = 'inline',
         width = { 'full', 'full', 'block', 'block', 'block', 'block' },
         border = { true, true, false, false, false, false },
