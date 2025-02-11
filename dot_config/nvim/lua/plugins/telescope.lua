@@ -7,15 +7,13 @@ return {
     },
     config = function()
       local builtin = require('telescope.builtin')
+
       local list_buffers = function()
         builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
       end
-      local marks = function()
-        builtin.marks({ previewer = false })
-      end
+      vim.keymap.set('n', '\\', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', 'B', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', 'M', marks, { desc = "Marks" })
+      vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
       vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = "List diagnostics" })
       vim.keymap.set('n', '<Leader>ff', function()
         builtin.find_files({
