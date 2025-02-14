@@ -104,7 +104,9 @@ return {
       dap.restart()
     end, { desc = "Restart the debug session" })
     vim.keymap.set('n', '<Leader>db', dap.toggle_breakpoint, { desc = "Toggle debug breakpoint" })
-    vim.keymap.set('n', '<Leader>dB', dap.clear_breakpoints, { desc = "Clear all breakpoints" })
+    vim.keymap.set('n', '<Leader>dB', function()
+      dap.clear_breakpoints(); vim.notify("Cleared all breakpoints")
+    end, { desc = "Clear all breakpoints" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>de', function() dapui.eval() end, { desc = "Evaluate expression" })
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Toggle debug UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
