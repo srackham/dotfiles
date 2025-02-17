@@ -51,8 +51,8 @@ end, { expr = true })
 
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
   { silent = true, desc = "Turn highlighing off and clear status line" })
-vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-Space>', '<C-b>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
 vim.keymap.set({ 'i', 'n' }, '<C-l>', '<Esc>[sz=', { noremap = true, silent = true }) -- Correct last error
@@ -142,9 +142,9 @@ local function close_window()
 end
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
-vim.keymap.set('n', '<Leader>wC', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
+vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
-vim.keymap.set('n', '<Leader>wo', ':split<CR>', { noremap = true, silent = true, desc = "Open new window" })
+vim.keymap.set('n', '<Leader>wn', ':split<CR>', { noremap = true, silent = true, desc = "Open new window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 
 -- Window navigation with Ctrl + Arrow keys
@@ -154,7 +154,7 @@ vim.keymap.set('n', '<C-Left>', '<C-w>h', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true })
 
 -- Tab commands
-vim.keymap.set('n', '<Leader>to', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
+vim.keymap.set('n', '<Leader>tn', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
 vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
 
 -- Quickfix commands
