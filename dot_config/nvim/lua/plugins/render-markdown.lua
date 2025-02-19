@@ -27,7 +27,7 @@ return {
       },
       html = {
         comment = {
-          conceal = true,
+          conceal = false,
           text = '▶️',
           highlight = 'RenderMarkdownH3',
         },
