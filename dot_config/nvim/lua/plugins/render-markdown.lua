@@ -3,8 +3,6 @@ return {
   opts = {},
   config = function()
     local render_markdown = require('render-markdown')
-
-
     local header_colors = {
       { '#FFA500', '#2D282C' },
       { '#FFA500', '#2D282C' },
