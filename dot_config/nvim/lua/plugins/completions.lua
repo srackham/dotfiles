@@ -58,8 +58,18 @@ return {
       })
       -- LuaSnip key mappings
       local luasnip = require('luasnip')
-      vim.keymap.set({ 'i', 's' }, '<C-j>', function() luasnip.jump(1) end, { silent = true })
-      vim.keymap.set({ 'i', 's' }, '<C-k>', function() luasnip.jump(-1) end, { silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-j>', function()
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        end
+      end, { desc = "Expand snippet or jump to snippet next field", silent = true })
+      vim.keymap.set({ 'i', 's' }, '<C-k>', function()
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        end
+      end, { desc = "Jump to previous snippet field", silent = true })
+      vim.keymap.set('n', '<Leader>os', require("luasnip.loaders").edit_snippet_files,
+        { noremap = true, desc = "Edit snippets" })
     end,
   },
 }
