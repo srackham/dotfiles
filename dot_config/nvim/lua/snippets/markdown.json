@@ -1,6 +1,6 @@
 {
-  "Insert Error": {
-    "prefix": ["error"],
+  "Example 3": {
+    "prefix": ["example-json-3"],
     "body": "> [!ERROR]\n> ",
     "description": "Insert Error"
   }

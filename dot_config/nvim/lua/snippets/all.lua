@@ -6,11 +6,11 @@ local t = ls.text_node
 
 return {
   -- Available in all buffers
-  s('hello-all-all', {
+  s('example-lua-4', {
     t("Hello All!"),
   }),
   -- Available in markdown buffers
-  s({ filetype = 'markdown', trig = 'hello-all-markdown' }, {
+  s({ filetype = 'markdown', trig = 'example-lua-5' }, {
     t("Hello All Markdown!"),
   }),
 }
