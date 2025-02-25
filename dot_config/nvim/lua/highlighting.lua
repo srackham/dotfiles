@@ -2,6 +2,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
   pattern = '*',
   callback = function()
     -- BUG: 22-Feb-2025: These definitions do not highlight inside quote blocks and I don't want to waste time trying to fix it.
+    --      25-Feb-2025: I spent hours on this to no avail; neither Perplexity.ai, Gemini or ChatGPT was able to solve it.
     -- Colon-suffixed key words
     vim.cmd('syntax match HighlightText-1 /\\<\\(FIXME\\|TODO\\):/')
     vim.api.nvim_set_hl(0, 'HighlightText-1', { bg = 'red', fg = '#ffd700', bold = true })

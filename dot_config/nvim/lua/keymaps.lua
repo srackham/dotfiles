@@ -94,8 +94,8 @@ vim.keymap.set('n', '<Leader>fc', function()
 end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 
 -- Extra miscellaneous commands
-local is_relative = false
-local is_numbered = false
+local is_numbered = false -- Show line numbers
+local is_relative = true  -- Use relative line numbers
 local function set_numbered()
   if is_numbered then
     vim.wo.relativenumber = is_relative
