@@ -3,11 +3,23 @@
 local ls = require 'luasnip'
 local s = ls.snippet
 local t = ls.text_node
+local i = ls.insert_node
+local extras = require 'luasnip.extras'
+local rep = extras.rep
 
 local snippets = {
   -- A minimal example snippet
   s('hello-markdown', {
     t("Hello Markdown!"),
+  }),
+  -- URL wrapped in a markdown link
+  s({
+    trig = 'u',
+    name = 'URL',
+    desc = 'Add URL wrapped in a Markdown link',
+    priority = 1001, -- Default snippet priority is 1000
+  }, {
+    t('['), rep(1), t(']('), i(1), t(')'), i(0),
   }),
 }
 
