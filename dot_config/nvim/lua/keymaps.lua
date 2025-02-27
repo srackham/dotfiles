@@ -129,6 +129,7 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "
 
 -- Windows commands
 local function close_window()
+  -- Close the current window, prompt user to save if it has been modified, if it's the last window delete the buffer.
   local current_buf_id = vim.api.nvim_get_current_buf()
   local is_modified = vim.api.nvim_buf_get_option(current_buf_id, 'modified')
   if is_modified then
@@ -142,6 +143,7 @@ local function close_window()
 end
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
+vim.keymap.set('n', '<Leader>D', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
 vim.keymap.set('n', '<Leader>wn', ':split<CR>', { noremap = true, silent = true, desc = "Open new window" })
