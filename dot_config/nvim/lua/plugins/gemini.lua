@@ -3,7 +3,7 @@ return {
   config = function()
     require('gemini').setup({
       completion = {
-        enabled = true,
+        enabled = false,
         blacklist_filetypes = { 'help', 'json', 'yaml', 'toml' },
         blacklist_filenames = {},
         completion_delay = 1000,
