@@ -54,6 +54,7 @@ alias cryptor="cryptor.arm64"
 {{end}}
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
 alias cryptor-summary="cryptor valuate -currency nzd -confdir ~/bin/.cryptor -no-save -aggregate"
+alias cryptor-plot="cryptor history -confdir ~/bin/.cryptor -portfolio aggregate | plot-history.sh"
 alias dmesg="sudo dmesg --human --color=always"
 alias diff="diff --color=always -u"
 alias drake="deno run -A Drakefile.ts"
