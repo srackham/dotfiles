@@ -74,7 +74,7 @@ return {
         { desc = "Display documentation for the symbol under the cursor" })
       vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
         { desc = "Display function signature information for the symbol under the cursor" })
-      vim.keymap.set('n', '<Leader>lr', vim.lsp.buf.rename,
+      vim.keymap.set('n', '<Leader>lR', vim.lsp.buf.rename,
         { desc = "Rename all instances of the symbol under the cursor" })
       vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action,
         { desc = "Select a code action available at the current cursor position" })

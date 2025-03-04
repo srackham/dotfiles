@@ -13,8 +13,8 @@ return {
       end
       vim.keymap.set('n', '\\', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
-      vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = "List diagnostics" })
+      vim.keymap.set('n', '<Leader>mm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
+      vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostics" })
       vim.keymap.set('n', '<Leader>ff', function()
         builtin.find_files({
           find_command = { 'rg', '--files', '--hidden', "--sortr", "modified" }
@@ -28,7 +28,7 @@ return {
       end, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "Find highlights" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set('n', '<Leader>fr', builtin.lsp_references, { desc = "List references to word under cursor" })
+      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List references to word under cursor" })
       vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Find string under cursor or selection" })
       vim.keymap.set('n', '<Leader>fz', builtin.spell_suggest, { desc = "Show spelling suggestions" })
       vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
