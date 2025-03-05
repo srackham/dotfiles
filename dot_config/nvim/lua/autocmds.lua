@@ -4,9 +4,16 @@ vim.api.nvim_create_autocmd('FocusLost', {
   command = 'silent! wa'
 })
 
--- Text file options
+-- Disable automatic line comment insertion for all filetypes
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'markdown', 'text' },
+  callback = function()
+    vim.cmd('set formatoptions-=ro')
+  end,
+})
+
+-- Text files
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'asciidoc', 'markdown', 'text' },
   callback = function()
     vim.opt_local.spell = true
     -- Soft-wrapped line navigation for markdown and text files
@@ -17,10 +24,10 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end
 })
 
--- Disable automatic line comment insertion
--- See https://stackoverflow.com/questions/76259118/neovim-vim-optremove-doesnt-actually-change-the-option
+-- Markdown and AsciiDoc
 vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'asciidoc', 'markdown' },
   callback = function()
-    vim.cmd('set formatoptions-=ro')
-  end,
+    vim.keymap.set('n', '<M-/>', '/^#.*', { noremap = true, silent = false, desc = "Find section header" })
+  end
 })
