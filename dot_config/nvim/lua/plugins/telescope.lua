@@ -7,32 +7,34 @@ return {
     },
     config = function()
       local builtin = require('telescope.builtin')
-
       local list_buffers = function()
         builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
       end
-      vim.keymap.set('n', '\\', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>mm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
-      vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostics" })
-      vim.keymap.set('n', '<Leader>ff', function()
+      local find_files = function()
         builtin.find_files({
           find_command = { 'rg', '--files', '--hidden', "--sortr", "modified" }
         })
-      end, { desc = "Find files" })
-      vim.keymap.set('n', '<Leader>fg', function()
+      end
+      local live_grep = function()
         vim.cmd('wa')
         builtin.live_grep({
           additional_args = { '--hidden' },
         })
-      end, { desc = "Live-grep files" })
-      vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "Find highlights" })
+      end
+
+      vim.keymap.set('n', '\\', list_buffers, { desc = "List buffers" })
+      vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
+      vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
+      vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
+      vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "List highlights" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List references to word under cursor" })
+      vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
       vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Find string under cursor or selection" })
       vim.keymap.set('n', '<Leader>fz', builtin.spell_suggest, { desc = "Show spelling suggestions" })
-      vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
+      vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostics" })
+      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List references to word under cursor" })
       vim.keymap.set('n', '<Leader>T', builtin.resume, { desc = "Resume last Telescope picker" })
+      vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
 
       local ext = ''
       local function map_extension_filter(cmd, desc, callback)
