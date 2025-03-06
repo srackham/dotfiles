@@ -29,50 +29,13 @@ return {
       vim.keymap.set('n', '<Leader>fH', builtin.highlights, { desc = "List highlights" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
-      vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Find string under cursor or selection" })
+      vim.keymap.set('n', '<Leader>fr', builtin.registers, { desc = "List registers" })
+      vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set('n', '<Leader>fz', builtin.spell_suggest, { desc = "Show spelling suggestions" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostics" })
       vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List references to word under cursor" })
       vim.keymap.set('n', '<Leader>T', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
-
-      local ext = ''
-      local function map_extension_filter(cmd, desc, callback)
-        vim.keymap.set('n', cmd, function()
-          vim.ui.input({ prompt = "Enter file name extension: ", default = ext }, function(input)
-            if input ~= nil and #input > 0 then
-              ext = input
-              callback()
-            end
-          end)
-        end, { desc = desc })
-      end
-
-      map_extension_filter('<Leader>fF', "Telescope filtered find files", function()
-        builtin.find_files({
-          prompt_title = "Find ." .. ext .. " Files",
-          find_command = { 'rg', '--files', '--hidden', "--sortr", "modified", '--glob', '**/*.' .. ext }
-        })
-      end)
-
-      map_extension_filter('<Leader>fG', "Telescope filtered live-grep", function()
-        vim.cmd('wa')
-        builtin.live_grep({
-          prompt_title = "Live Live-grep ." .. ext .. " Files",
-          additional_args = { '--hidden' },
-          glob_pattern = '**/*.' .. ext,
-        })
-      end)
-
-      map_extension_filter('<Leader>fS', "Telescope filtered find string", function()
-        vim.cmd('wa')
-        builtin.grep_string({
-          prompt_title = "Find string in ." .. ext .. " Files",
-          additional_args = { '--hidden' },
-          glob_pattern = '**/*.' .. ext,
-        })
-      end)
-
       vim.keymap.set('n', '<Leader>fp', function()
         builtin.live_grep({
           cwd = vim.fn.stdpath('data') .. '/lazy/'
