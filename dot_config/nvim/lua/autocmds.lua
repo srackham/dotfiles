@@ -23,11 +23,3 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     vim.keymap.set('n', '$', 'g$', { buffer = true })
   end
 })
-
--- Markdown and AsciiDoc
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'asciidoc', 'markdown' },
-  callback = function()
-    vim.keymap.set('n', '<M-/>', '/^#.*', { noremap = true, silent = false, desc = "Find section header" })
-  end
-})
