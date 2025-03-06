@@ -26,7 +26,7 @@ return {
       vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
-      vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "List highlights" })
+      vim.keymap.set('n', '<Leader>fH', builtin.highlights, { desc = "List highlights" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
       vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Find string under cursor or selection" })
@@ -80,11 +80,14 @@ return {
       end, { desc = "Live-grep plugin files" })
     end,
   },
+
+  -- Telescope extensions
   {
     'nvim-telescope/telescope-ui-select.nvim',
     config = function()
+      local telescope = require 'telescope'
       local actions = require('telescope.actions')
-      require('telescope').setup {
+      telescope.setup {
         pickers = {
           find_files = {
             hidden = true,
@@ -101,14 +104,37 @@ return {
             },
           },
         },
-        -- Add the telescope-ui-select extension to Telescope
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown {}
-          }
+          },
         }
       }
-      require('telescope').load_extension('ui-select')
+      require 'telescope'.load_extension('ui-select')
+    end,
+  },
+  {
+    'crispgm/telescope-heading.nvim',
+    config = function()
+      local telescope = require 'telescope'
+      telescope.setup {
+        extensions = {
+          heading = {
+            treesitter = true,
+            picker_opts = {
+              layout_config = {
+                width = 0.9,
+                preview_width = 0.6,
+                preview_cutoff = 100,
+              },
+              sorting_strategy = 'ascending',
+              layout_strategy = 'horizontal',
+            },
+          },
+        }
+      }
+      telescope.load_extension('heading')
+      vim.keymap.set('n', '<Leader>fh', telescope.extensions.heading.heading, { desc = "List headings" })
     end,
   },
 }
