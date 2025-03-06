@@ -6,7 +6,31 @@ return {
       'nvim-lua/plenary.nvim'
     },
     config = function()
+      local telescope = require 'telescope'
       local builtin = require('telescope.builtin')
+
+      telescope.setup({
+        -- Default layout
+        defaults = {
+          layout_strategy = 'horizontal',
+          layout_config = {
+            horizontal = {
+              preview_cutoff = 100,
+              prompt_position = 'bottom',
+              width = { padding = 0 },  -- Use full width
+              height = { padding = 0 }, -- Use full height
+              preview_width = 0.5,      -- Preview width as a fraction of the total width
+            },
+            vertical = {
+              width = { padding = 0 },
+              height = { padding = 0 },
+              preview_height = 0.5,
+            },
+          },
+        },
+      })
+
+      -- Key bindings
       local list_buffers = function()
         builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
       end
@@ -21,7 +45,6 @@ return {
           additional_args = { '--hidden' },
         })
       end
-
       vim.keymap.set('n', '\\', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
@@ -86,12 +109,9 @@ return {
             treesitter = true,
             picker_opts = {
               layout_config = {
-                width = 0.9,
                 preview_width = 0.6,
-                preview_cutoff = 100,
               },
               sorting_strategy = 'ascending',
-              layout_strategy = 'horizontal',
             },
           },
         }
