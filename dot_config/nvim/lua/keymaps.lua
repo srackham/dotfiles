@@ -115,6 +115,9 @@ vim.keymap.set('n', '<Leader>or', function()
   is_relative = not is_relative
   set_numbered()
 end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
+vim.keymap.set('x', '<Leader>on', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
+  { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
+
 
 -- Map Ctrl+C to copy to the clipboard
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
