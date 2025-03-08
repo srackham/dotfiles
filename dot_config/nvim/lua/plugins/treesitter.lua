@@ -15,6 +15,7 @@ return {
         'jsonc',
         'lua',
         'markdown',
+        'markdown_inline',
         'query',
         'rust',
         'typescript',
