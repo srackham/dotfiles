@@ -3,3 +3,6 @@ os:
 
 gui:
   nerdFontsVersion: "3"
+  theme:
+    selectedLineBgColor:
+      - '#404040'
