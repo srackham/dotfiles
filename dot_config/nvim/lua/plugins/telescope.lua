@@ -53,10 +53,9 @@ return {
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
       vim.keymap.set('n', '<Leader>fr', builtin.registers, { desc = "List registers" })
-      vim.keymap.set('n', '<Leader>fs', builtin.grep_string, { desc = "Search files for word or selection" })
+      vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set('n', '<Leader>fz', builtin.spell_suggest, { desc = "Show spelling suggestions" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostics" })
-      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List references to word under cursor" })
       vim.keymap.set('n', '<Leader>T', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>fp', function()
@@ -64,6 +63,23 @@ return {
           cwd = vim.fn.stdpath('data') .. '/lazy/'
         })
       end, { desc = "Live-grep plugin files" })
+      vim.keymap.set('n', '<Leader>lr', builtin.lsp_references, { desc = "List references to word under cursor" })
+      local symbols = {
+        'function',
+        'method',
+        'constructor',
+        'class',
+        'interface',
+        'struct',
+        'enum',
+        'constant',
+        'type', }
+      vim.keymap.set('n', '<Leader>ls', function()
+        require('telescope.builtin').lsp_document_symbols({ symbols = symbols })
+      end, { noremap = true, silent = true, desc = "List LSP document symbols" })
+      vim.keymap.set('n', '<Leader>lS', function()
+        require('telescope.builtin').lsp_dynamic_workspace_symbols({ symbols = symbols })
+      end, { noremap = true, silent = true, desc = "Live-grep LSP workspace symbols" })
     end,
   },
 
