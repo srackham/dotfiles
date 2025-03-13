@@ -191,20 +191,22 @@ vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = tru
 
 -- Insert UTF8 characters
 -- Latin long vowels
-vim.keymap.set('i', '<Leader>ua', 'ā', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>ue', 'ē', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>ui', 'ī', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>uo', 'ō', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>uu', 'ū', { noremap = true, silent = true })
--- Miscelaneous characters
-vim.keymap.set('i', '<Leader>uc', '†', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>uh', '…', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>um', '—', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>un', '≠', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>uv', '⋮', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>ut', '✓', { noremap = true, silent = true })
-vim.keymap.set('i', '<Leader>ux', '✗', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-a>', 'ā', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-e>', 'ē', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-i>', 'ī', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-o>', 'ō', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-u>', 'ū', { noremap = true, silent = true })
 
+-- Miscelaneous characters
+vim.keymap.set('i', '<M-S-c>', '†', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-h>', '…', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-m>', '—', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-n>', '≠', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-v>', '⋮', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-t>', '✓', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-S-x>', '✗', { noremap = true, silent = true })
+
+-- Toggle word-wrap
 vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
