@@ -187,24 +187,23 @@ vim.keymap.set('n', '<Leader>qa', add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
 
 -- Insert date
-vim.keymap.set('i', '<M-S-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
+vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
--- Insert UTF8 characters
+-- Insert UTF8 characters with Alt+U leader
 -- Latin long vowels
-vim.keymap.set('i', '<M-S-a>', 'ā', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-e>', 'ē', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-i>', 'ī', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-o>', 'ō', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-u>', 'ū', { noremap = true, silent = true })
-
+vim.keymap.set('i', '<M-u>a', 'ā', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>e', 'ē', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>i', 'ī', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>o', 'ō', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>u', 'ū', { noremap = true, silent = true })
 -- Miscelaneous characters
-vim.keymap.set('i', '<M-S-c>', '†', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-h>', '…', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-m>', '—', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-n>', '≠', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-v>', '⋮', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-t>', '✓', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-S-x>', '✗', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>c', '†', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>h', '…', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>m', '—', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>n', '≠', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>v', '⋮', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>t', '✓', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>x', '✗', { noremap = true, silent = true })
 
 -- Toggle word-wrap
 vim.keymap.set('n', '<M-w>', function()
