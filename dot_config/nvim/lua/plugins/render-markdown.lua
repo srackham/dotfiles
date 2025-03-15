@@ -37,6 +37,6 @@ return {
         border = { true, true, false, false, false, false },
       },
     })
-    vim.keymap.set('n', '<Leader>om', render_markdown.toggle, { desc = "Toggle Render Markdown" })
+    vim.keymap.set('n', '<Leader>mr', render_markdown.toggle, { desc = "Toggle Render Markdown" })
   end,
 }
