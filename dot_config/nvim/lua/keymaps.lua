@@ -197,12 +197,13 @@ vim.keymap.set('i', '<M-u>i', 'ī', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>o', 'ō', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>u', 'ū', { noremap = true, silent = true })
 -- Miscelaneous characters
+vim.keymap.set('i', '<M-u> ', ' ', { noremap = true, silent = true }) -- Non-breaking space (U+00A0)
 vim.keymap.set('i', '<M-u>c', '†', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>h', '…', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>m', '—', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>n', '≠', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>v', '⋮', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>t', '✓', { noremap = true, silent = true })
+vim.keymap.set('i', '<M-u>v', '⋮', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u>x', '✗', { noremap = true, silent = true })
 
 -- Toggle word-wrap
