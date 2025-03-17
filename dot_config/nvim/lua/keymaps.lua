@@ -118,18 +118,6 @@ end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
 vim.keymap.set('x', '<Leader>mn', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
   { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
 
-
--- Map Ctrl+C to copy to the clipboard
-vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
--- Map Ctrl+X to delete to the clipboard
-vim.keymap.set('v', '<C-x>', '"+d', { noremap = true, silent = true, desc = "Cut selection to clipboard" })
--- Map Ctrl+V to paste from the clipboard
-vim.keymap.set('n', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter visual block mode" })
-vim.keymap.set('i', '<M-v>', '<C-v>', { noremap = true, silent = true, desc = "Enter control character" })
-vim.keymap.set('n', '<C-v>', '"+Pl', { noremap = true, silent = true, desc = "Paste clipboard" })
-vim.keymap.set('v', '<C-v>', 'd"+Pl', { noremap = true, silent = true, desc = "Paste clipboard" })
-vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true, desc = "Paste clipboard" })
-
 -- Windows commands
 local function close_window()
   -- Close the current window, prompt user to save if it has been modified, if it's the last window delete the buffer.
