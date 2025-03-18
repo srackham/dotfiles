@@ -136,4 +136,13 @@ return {
       vim.keymap.set('n', '<Leader>fh', telescope.extensions.heading.heading, { desc = "List headings" })
     end,
   },
+  {
+    'protex/better-digraphs.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = function()
+      vim.keymap.set('i', '<C-k><C-k>', function()
+        require('better-digraphs').digraphs('insert')
+      end, { noremap = true, silent = true, desc = "List digraphs" })
+    end,
+  },
 }
