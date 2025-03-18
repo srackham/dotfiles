@@ -66,7 +66,7 @@ return {
           luasnip.expand_or_jump()
         end
       end, { desc = "Expand snippet or jump to snippet next field", silent = true })
-      vim.keymap.set({ 'i', 's' }, '<C-k>', function()
+      vim.keymap.set({ 'i', 's' }, '<C-M-j>', function()
         if luasnip.jumpable(-1) then
           luasnip.jump(-1)
         end
