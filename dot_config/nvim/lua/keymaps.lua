@@ -178,13 +178,6 @@ vim.keymap.set('n', '<Leader>qa', add_current_location_to_quickfix,
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
 -- Insert UTF8 characters with Alt+U leader
--- Latin long vowels
-vim.keymap.set('i', '<M-u>a', 'ā', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>e', 'ē', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>i', 'ī', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>o', 'ō', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>u', 'ū', { noremap = true, silent = true })
--- Miscelaneous characters
 vim.keymap.set('i', '<M-u> ', ' ', { noremap = true, silent = true, desc = "Non-breaking space (U+00A0)" })
 vim.keymap.set('i', '<M-u>>', '→', { noremap = true, silent = true })
 vim.keymap.set('i', '<M-u><', '←', { noremap = true, silent = true })
