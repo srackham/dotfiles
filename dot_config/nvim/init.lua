@@ -18,6 +18,15 @@ vim.opt.rtp:prepend(lazypath)
 -- The following options must be set before LazyVim setup is executed.
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
+
+-- Add local development paths to module searches
+local function add_to_path(path)
+  vim.opt.runtimepath:prepend(path)
+  package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
+end
+add_to_path('/home/srackham/projects/digraph-picker.nvim/lua')
+
+
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
 require 'options'                -- Load ./lua/options.lua
 require 'keymaps'                -- Load ./lua/keymaps.lua
