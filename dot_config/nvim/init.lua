@@ -24,7 +24,7 @@ local function add_to_path(path)
   -- vim.opt.runtimepath:prepend(path) -- THIS DOESN'T SEEM NECESSARY
   package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
 end
-add_to_path('/home/srackham/projects/digraph-picker.nvim/lua')
+-- add_to_path('/home/srackham/projects/digraph-picker.nvim/lua')
 
 
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
