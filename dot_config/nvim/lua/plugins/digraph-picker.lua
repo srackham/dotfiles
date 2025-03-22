@@ -36,6 +36,10 @@ return {
         { digraph = 'LE', symbol = '≤', name = 'LESS THAN OR EQUAL' },
         { digraph = 'GE', symbol = '≥', name = 'GREATER THAN OR EQUAL' },
         { digraph = 'PP', symbol = '¶', name = 'PILCROW (PARAGRAPH SIGN)' },
+        -- Nerd Font characters (Nerd Fonts must be installed)
+        { digraph = 'RK', symbol = '', name = 'ROCKET' },
+        { digraph = 'IM', symbol = '', name = 'IMAGE' },
+        { digraph = 'DO', symbol = '󰈙', name = 'DOCUMENT' },
       },
     })
     vim.keymap.set('i', '<C-k><C-k>', picker.insert_digraph,
