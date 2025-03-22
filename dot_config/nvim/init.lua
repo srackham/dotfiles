@@ -19,9 +19,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 
--- Add local development paths to module searches
+-- Add local development paths so they can be loaded using `require`
 local function add_to_path(path)
-  vim.opt.runtimepath:prepend(path)
+  -- vim.opt.runtimepath:prepend(path) -- THIS DOESN'T SEEM NECESSARY
   package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
 end
 add_to_path('/home/srackham/projects/digraph-picker.nvim/lua')
