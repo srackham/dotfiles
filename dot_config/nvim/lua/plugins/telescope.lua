@@ -137,12 +137,4 @@ return {
       vim.keymap.set('n', '<Leader>fh', telescope.extensions.heading.heading, { desc = "List headings" })
     end,
   },
-  {
-    'srackham/digraph-picker.nvim',
-    config = function()
-      require('digraph-picker').setup()
-      vim.keymap.set('i', '<C-k><C-k>', require('digraph-picker').insert_digraph,
-        { noremap = true, silent = true, desc = "Digraph picker" })
-    end,
-  },
 }
