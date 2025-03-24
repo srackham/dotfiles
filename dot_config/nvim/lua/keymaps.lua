@@ -177,18 +177,6 @@ vim.keymap.set('n', '<Leader>qa', add_current_location_to_quickfix,
 -- Insert date
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
--- Insert UTF8 characters with Alt+U leader
-vim.keymap.set('i', '<M-u> ', ' ', { noremap = true, silent = true, desc = "Non-breaking space (U+00A0)" })
-vim.keymap.set('i', '<M-u>>', '→', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u><', '←', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>c', '†', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>h', '…', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>m', '—', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>n', '≠', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>t', '✓', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>v', '⋮', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-u>x', '✗', { noremap = true, silent = true })
-
 -- Toggle word-wrap
 vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
