@@ -92,8 +92,12 @@ vim.keymap.set('n', '<Leader>fc', function()
   vim.fn.setreg('+', path)
   vim.notify("File path copied to clipboard: " .. path)
 end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
+vim.keymap.set('c', '<C-w>', function()
+  return vim.fn.expand('<cword>')
+end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
 
--- Extra miscellaneous commands
+
+-- Miscellaneous commands
 local is_numbered = false -- Show line numbers
 local is_relative = true  -- Use relative line numbers
 local function set_numbered()
