@@ -1,6 +1,6 @@
 return {
   'srackham/digraph-picker.nvim',
-  enabled = false,
+  enabled = true,
   dependencies = {
     'nvim-telescope/telescope.nvim',
   },
@@ -13,6 +13,10 @@ return {
         { digraph = 'ht', symbol = '♥', name = 'Heart' },
         { digraph = 'ck', symbol = '✓', name = 'Check mark (tick)' },
         { digraph = 'xx', symbol = '✗', name = 'Cross mark' },
+        { digraph = 'hc', symbol = '✔', name = 'Heavy check mark (tick)' },
+        { digraph = 'hx', symbol = '✘', name = 'Heavy cross mark' },
+        { digraph = 'gc', symbol = '✅', name = 'Green heavy check mark (tick)' },
+        { digraph = 'rx', symbol = '❌', name = 'Red heavy cross mark' },
         { digraph = 'su', symbol = '☀', name = 'Sun' },
         { digraph = 'mn', symbol = '☽', name = 'Moon' },
         { digraph = 'cl', symbol = '☁', name = 'Cloud' },
