@@ -6,7 +6,6 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.timeoutlen = 10000
 vim.opt.scrolloff = 5
-vim.opt.clipboard:append('unnamedplus')
 
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words
