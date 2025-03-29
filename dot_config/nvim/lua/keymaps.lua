@@ -51,6 +51,7 @@ end, { expr = true })
 
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
   { silent = true, desc = "Turn highlighing off and clear status line" })
+vim.keymap.set('n', '<C-r>', '@:', { noremap = true, silent = true, desc = "Repeat the last command" })
 vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
