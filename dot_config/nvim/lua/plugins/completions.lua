@@ -71,7 +71,7 @@ return {
           luasnip.jump(-1)
         end
       end, { desc = "Jump to previous snippet field", silent = true })
-      vim.keymap.set('n', '<Leader>os', require("luasnip.loaders").edit_snippet_files,
+      vim.keymap.set('n', '<Leader>es', require("luasnip.loaders").edit_snippet_files,
         { noremap = true, desc = "Edit snippets" })
     end,
   },

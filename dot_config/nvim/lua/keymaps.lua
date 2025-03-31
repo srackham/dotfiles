@@ -127,6 +127,7 @@ vim.keymap.set('n', '<Leader>or', function()
 end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
 vim.keymap.set('x', '<Leader>mn', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
   { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
+vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
 
 -- Windows commands
 local function close_window()
