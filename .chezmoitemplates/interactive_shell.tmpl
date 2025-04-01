@@ -66,6 +66,7 @@ alias gl="git log --pretty=format:'%h%x09%ad%x09%Cgreen%d%Creset %s' --date=rela
 alias gls="git ls-files"
 alias grep="grep --color=auto"
 alias gst="git status --short 2>/dev/null"
+alias gt="tmux capture-pane -p -S - | rg --color=always"  # grep tmux current pane
 alias gw="./gradlew --console plain"
 {{if eq .chezmoi.osRelease.id "manjaro"}}
 alias hx="helix"
