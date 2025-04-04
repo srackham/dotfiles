@@ -128,6 +128,34 @@ end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
 vim.keymap.set('x', '<Leader>mn', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
   { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
+vim.keymap.set('n', '<M-h>', function()
+  -- Track the last help window and buffer
+  local last_help = vim.w.last_help or { win = nil, buf = nil }
+
+  -- Check if a help window is currently open
+  local help_open = false
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == 'help' then
+      help_open = true
+      last_help.win = win
+      last_help.buf = buf
+      vim.api.nvim_win_close(win, true) -- Close the help window completely
+      vim.w.last_help = last_help       -- Save the state of the help buffer
+      return
+    end
+  end
+
+  -- If no help window is open, restore or create a new one
+  if not help_open then
+    if last_help.buf and vim.api.nvim_buf_is_valid(last_help.buf) then
+      vim.cmd('split')                          -- Open a vertical split for the help window
+      vim.api.nvim_win_set_buf(0, last_help.buf) -- Restore the previous help buffer
+    else
+      vim.cmd('help')                            -- Open a new help window if no previous buffer exists
+    end
+  end
+end, { desc = "Toggle help window (preserve state)" })
 
 -- Windows commands
 local function close_window()
