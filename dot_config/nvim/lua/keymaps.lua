@@ -128,10 +128,12 @@ end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
 vim.keymap.set('x', '<Leader>mn', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
   { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
+
+-- Help commands
+-- Toggle help window
 vim.keymap.set('n', '<M-h>', function()
   -- Track the last help window and buffer
   local last_help = vim.w.last_help or { win = nil, buf = nil }
-
   -- Check if a help window is currently open
   local help_open = false
   for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -145,17 +147,42 @@ vim.keymap.set('n', '<M-h>', function()
       return
     end
   end
-
   -- If no help window is open, restore or create a new one
   if not help_open then
     if last_help.buf and vim.api.nvim_buf_is_valid(last_help.buf) then
-      vim.cmd('split')                          -- Open a vertical split for the help window
+      vim.cmd('split')                           -- Open a vertical split for the help window
       vim.api.nvim_win_set_buf(0, last_help.buf) -- Restore the previous help buffer
     else
       vim.cmd('help')                            -- Open a new help window if no previous buffer exists
     end
   end
-end, { desc = "Toggle help window (preserve state)" })
+end, { desc = "Toggle help window" })
+
+-- Open help for word or selection under cursor
+vim.keymap.set({ 'n', 'v' }, '<C-M-h>', function()
+  local mode = vim.fn.mode()
+  local query = nil
+  if mode == 'n' then
+    -- In normal mode, get the word under the cursor
+    query = vim.fn.expand('<cword>')
+  elseif mode == 'v' then
+    -- In visual mode, get the selected text
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
+    local lines = vim.fn.getline(start_pos[2], end_pos[2])
+    if #lines > 0 then
+      -- Extract the selected text from the first and last lines
+      lines[1] = string.sub(lines[1], start_pos[3], -1)
+      lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
+      query = table.concat(lines, " ")
+    end
+  end
+  if query and query ~= '' then
+    vim.cmd('help ' .. query)
+  else
+    print("No word or selection to search in help!")
+  end
+end, { desc = "Open help for word under cursor or selected text" })
 
 -- Windows commands
 local function close_window()
