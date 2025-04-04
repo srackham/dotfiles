@@ -128,6 +128,14 @@ end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
 vim.keymap.set('x', '<Leader>mn', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
   { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
+vim.keymap.set('n', '<Leader>fl', function()
+  if vim.bo.modified then
+    vim.cmd("write")
+  end
+  local file_path = vim.fn.expand('%:p') -- Get the full path of the current file
+  M = assert(loadfile(file_path))()
+  print("Module loaded into global variable 'M'")
+end, { noremap = true, silent = true, desc = "Load current module file into global variable 'M'" })
 
 -- Help commands
 -- Toggle help window
