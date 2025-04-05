@@ -167,28 +167,50 @@ vim.keymap.set('n', '<M-h>', function()
 end, { desc = "Toggle help window" })
 
 -- Open help for word or selection under cursor
+local function get_visual_selection()
+  -- Save the current register content and mode
+  local original_register = vim.fn.getreg('"')
+  local original_mode = vim.fn.mode()
+
+  -- Yank the selected text into the default register
+  vim.cmd('noau normal! "vy')
+
+  -- Retrieve the yanked text from the default register
+  local selection = vim.fn.getreg('"')
+
+  -- Restore the original register content
+  vim.fn.setreg('"', original_register)
+
+  -- Restore visual mode if it was active
+  if original_mode:match('[vV]') then
+    vim.cmd('normal! gv')
+  end
+
+  return selection
+end
+
+local function execute_help(query)
+  -- Attempt to execute the command with pcall
+  local success, _ = pcall(function()
+    vim.cmd('help ' .. query)
+  end)
+  if not success then
+    vim.notify("Failed to open help for: " .. query, vim.log.levels.ERROR)
+  end
+end
+
 vim.keymap.set({ 'n', 'v' }, '<C-M-h>', function()
   local mode = vim.fn.mode()
   local query = nil
   if mode == 'n' then
-    -- In normal mode, get the word under the cursor
     query = vim.fn.expand('<cword>')
-  elseif mode == 'v' then
-    -- In visual mode, get the selected text
-    local start_pos = vim.fn.getpos("'<")
-    local end_pos = vim.fn.getpos("'>")
-    local lines = vim.fn.getline(start_pos[2], end_pos[2])
-    if #lines > 0 then
-      -- Extract the selected text from the first and last lines
-      lines[1] = string.sub(lines[1], start_pos[3], -1)
-      lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
-      query = table.concat(lines, " ")
-    end
+  elseif mode == 'v' or mode == 'V' then
+    query = get_visual_selection()
   end
   if query and query ~= '' then
-    vim.cmd('help ' .. query)
+    execute_help(query)
   else
-    print("No word or selection to search in help!")
+    vim.notify("No word or selection to search in help", vim.log.levels.ERROR)
   end
 end, { desc = "Open help for word under cursor or selected text" })
 
