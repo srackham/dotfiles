@@ -19,19 +19,15 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 
--- Add local development paths so they can be loaded using `require`
-local function add_to_path(path)
-  -- vim.opt.runtimepath:prepend(path) -- THIS DOESN'T SEEM NECESSARY
-  package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
-end
--- add_to_path('/home/srackham/projects/digraph-picker.nvim/lua')
-
-
+Utils = require 'utils'          -- Load ./lua/utils.lua
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
 require 'options'                -- Load ./lua/options.lua
 require 'keymaps'                -- Load ./lua/keymaps.lua
 require 'autocmds'               -- Load ./lua/autocmds.lua
 require 'highlighting'           -- Load ./lua/highlighting.lua
+
+-- Add local dev directory `require` paths for testing from local development directories
+-- Utils.add_to_path('/home/srackham/projects/digraph-picker.nvim/lua')
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
