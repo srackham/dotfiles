@@ -1,0 +1,13 @@
+#
+# List of project directories opened by ~/bin/ode
+# Path expansion not suppoted (`~` or `$HOME`).
+#
+/home/srackham/doc
+/home/srackham/.local/share/chezmoi
+/home/srackham/nixos-configurations
+/home/srackham/projects/go-utils
+/home/srackham/projects/cryptor
+/home/srackham/projects/ccp
+/home/srackham/projects/xrate
+/home/srackham/projects/digraph-picker.nvim
+/home/srackham/projects/markdown-blocks.nvim
