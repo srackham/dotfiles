@@ -65,7 +65,11 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 
 done < "$CONFIG_FILE"
 
-# Close this window
+# Move to the doc window
+tmux select-window -t:2
+# Resize width of docs editor pane
+tmux resize-pane -x 125 -t:2.1
+# Close this unused window last
 tmux kill-window -t:1
 
 # Exit successfully
