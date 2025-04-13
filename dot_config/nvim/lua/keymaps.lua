@@ -122,6 +122,8 @@ vim.keymap.set('n', '<Leader>fl', function()
   M = assert(loadfile(file_path))()
   print("Module loaded into global variable 'M'")
 end, { noremap = true, silent = true, desc = "Load current module file into global variable 'M'" })
+vim.keymap.set('n', '<Leader>wp', Utils.wrap_paragraph,
+  { noremap = true, silent = true, desc = "Wrap paragraph at the cursor column" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
