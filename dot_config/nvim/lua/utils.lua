@@ -87,4 +87,40 @@ function M.toggle_help_window()
   end
 end
 
+function M.add_current_location_to_quickfix()
+  local current_file = vim.fn.expand('%:p')
+  local current_line = vim.fn.line('.')
+  local current_col = vim.fn.col('.')
+  local current_text = vim.fn.getline('.')
+  local new_item = {
+    filename = current_file,
+    lnum = current_line,
+    col = current_col,
+    text = current_text
+  }
+  local qf_list = vim.fn.getqflist()
+  table.insert(qf_list, new_item)
+  vim.fn.setqflist(qf_list)
+end
+
+-- Delete the current item from the quickfix list.
+-- The cursor remains at the same cursor position, or is moved to the the preceeding item if it was at the last item.
+function M.delete_current_entry_from_quickfix()
+  local ol = vim.fn.line('.')
+  local qf = vim.fn.getqflist()
+  local ls = #qf
+  if ol > 0 and ol <= ls then
+    table.remove(qf, ol)
+    vim.fn.setqflist(qf, 'r')
+    local nls = #qf
+    if nls > 0 then
+      local tl = math.min(ol, nls)
+      vim.cmd('cwindow')
+      pcall(vim.api.nvim_win_set_cursor, 0, { tl, 0 })
+    else
+      vim.cmd('cwindow')
+    end
+  end
+end
+
 return M
