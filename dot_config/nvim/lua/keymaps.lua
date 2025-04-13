@@ -177,7 +177,7 @@ vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = tr
 -- Quickfix commands
 vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
 vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
-vim.keymap.set('n', '<Leader>qd', ':cexpr []<CR>',
+vim.keymap.set('n', '<Leader>qD', ':cexpr []<CR>',
   { noremap = true, silent = true, desc = "Delete all items from quickfix list" })
 
 local function add_current_location_to_quickfix()
@@ -197,6 +197,28 @@ local function add_current_location_to_quickfix()
 end
 vim.keymap.set('n', '<Leader>qa', add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
+
+-- Delete the current item from the quickfix list.
+-- The cursor remains at the same cursor position, or is moved to the the preceeding item if it was at the last item.
+local function delete_current_entry_from_quickfix()
+  local ol = vim.fn.line('.')
+  local qf = vim.fn.getqflist()
+  local ls = #qf
+  if ol > 0 and ol <= ls then
+    table.remove(qf, ol)
+    vim.fn.setqflist(qf, 'r')
+    local nls = #qf
+    if nls > 0 then
+      local tl = math.min(ol, nls)
+      vim.cmd('cwindow')
+      pcall(vim.api.nvim_win_set_cursor, 0, { tl, 0 })
+    else
+      vim.cmd('cwindow')
+    end
+  end
+end
+vim.keymap.set('n', '<Leader>qd', delete_current_entry_from_quickfix,
+  { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
 
 -- Insert date
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
