@@ -188,22 +188,26 @@ function M.set_paragraph(lines, start_line, end_line)
   end
 end
 
-function M.wrap_paragraph()
-  -- Get the cursor column for wrapping
-  local wrap_column = vim.fn.col('.') -- 1-based
-
+function M.map_paragraph(mapfn)
   local lines, start_line, end_line = M.get_paragraph()
   if lines == nil then
     return
   end
+  local mapped_lines = mapfn(lines)
+  M.set_paragraph(mapped_lines, start_line, end_line)
+end
 
-  -- Join all lines into a single string
-  local joined_text = table.concat(lines, ' ')
+function M.wrap_paragraph()
+  -- Get the cursor column for wrapping
+  local wrap_column = vim.fn.col('.') -- 1-based
 
-  -- Split the text at the wrap column into an array of wrapped lines
-  local wrapped_lines = M.wrap_str(joined_text, wrap_column)
+  M.map_paragraph(function(lines)
+    -- Join all lines into a single string
+    local joined_text = table.concat(lines, ' ')
 
-  M.set_paragraph(wrapped_lines, start_line, end_line)
+    -- Split the text at the wrap column into an array of wrapped lines
+    return M.wrap_str(joined_text, wrap_column)
+  end)
 end
 
 return M
