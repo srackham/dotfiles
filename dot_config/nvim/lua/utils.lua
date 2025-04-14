@@ -157,15 +157,12 @@ function M.wrap_str(s, colnr)
   return result
 end
 
-function M.wrap_paragraph()
+function M.get_paragraph()
   -- Check we are not at a blank line
   if vim.api.nvim_get_current_line():match("%S") == nil then
     vim.notify("No paragraph found", vim.log.levels.ERROR)
-    return
+    return nil, 0, 0
   end
-
-  -- Get the cursor column for wrapping
-  local wrap_column = vim.fn.col('.') -- 1-based
 
   -- Get the current paragraph's range
   local start_line = vim.fn.search('^\\s*$', 'bW') + 1 -- Find the start line of the paragraph (1-based)
@@ -177,19 +174,36 @@ function M.wrap_paragraph()
   -- Get all lines in the paragraph
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
 
+  return lines, start_line, end_line
+end
+
+-- `start_line` and `end_line` are 1-based
+function M.set_paragraph(lines, start_line, end_line)
+  -- Replace the original paragraph with wrapped lines
+  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
+
+  if end_line == -1 then
+    -- Move the cursor to the last line, column 0
+    vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(0), 0 })
+  end
+end
+
+function M.wrap_paragraph()
+  -- Get the cursor column for wrapping
+  local wrap_column = vim.fn.col('.') -- 1-based
+
+  local lines, start_line, end_line = M.get_paragraph()
+  if lines == nil then
+    return
+  end
+
   -- Join all lines into a single string
   local joined_text = table.concat(lines, ' ')
 
   -- Split the text at the wrap column into an array of wrapped lines
   local wrapped_lines = M.wrap_str(joined_text, wrap_column)
 
-  -- Replace the original paragraph with wrapped lines
-  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, wrapped_lines)
-
-  if end_line == -1 then
-    -- Move the cursor to the last line, column 0
-    vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(0), 0 })
-  end
+  M.set_paragraph(wrapped_lines, start_line, end_line)
 end
 
 return M
