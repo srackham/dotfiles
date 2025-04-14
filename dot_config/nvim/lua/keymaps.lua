@@ -124,10 +124,12 @@ vim.keymap.set('n', '<Leader>fl', function()
 end, { noremap = true, silent = true, desc = "Load current module file into global variable 'M'" })
 
 -- Paragraph commands
-vim.keymap.set('n', '<Leader>pw', Utils.wrap_paragraph,
-  { noremap = true, silent = true, desc = "Wrap paragraph at the cursor column" })
+vim.keymap.set('n', '<Leader>pb', Utils.break_paragraph,
+  { noremap = true, silent = true, desc = "Add/remove line breaks in the paragraph at the cursor" })
 vim.keymap.set('n', '<Leader>pq', Utils.quote_paragraph,
   { noremap = true, silent = true, desc = "Quote/unquote paragraph at the cursor" })
+vim.keymap.set('n', '<Leader>pw', Utils.wrap_paragraph,
+  { noremap = true, silent = true, desc = "Wrap paragraph at the cursor column" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })

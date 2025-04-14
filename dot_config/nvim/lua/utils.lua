@@ -231,4 +231,29 @@ function M.quote_paragraph()
   end)
 end
 
+-- Add/remove line breaks to/from the current paragraph.
+function M.break_paragraph()
+  M.map_paragraph(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
+    -- Check if the first line ends with '\' preceded by zero or more whitespace characters
+    if lines[1]:match("%s*\\$") then
+      -- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
+      for i, line in ipairs(lines) do
+        if line:match("%s*\\$") then
+          lines[i] = line:gsub("%s*\\$", "") -- Remove '\' and preceding whitespace
+        end
+      end
+    else
+      -- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
+      for i, line in ipairs(lines) do
+        if not line:match("\\$") then
+          lines[i] = line .. " \\"
+        end
+      end
+    end
+    -- Ensure the last element never ends with a backslash or trailing whitespace
+    lines[#lines] = lines[#lines]:gsub("%s*\\$", "") -- Remove '\' and any preceding whitespace from the last element
+    return lines
+  end)
+end
+
 return M
