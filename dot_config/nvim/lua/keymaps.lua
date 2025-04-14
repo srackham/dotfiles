@@ -126,6 +126,8 @@ end, { noremap = true, silent = true, desc = "Load current module file into glob
 -- Paragraph commands
 vim.keymap.set('n', '<Leader>pw', Utils.wrap_paragraph,
   { noremap = true, silent = true, desc = "Wrap paragraph at the cursor column" })
+vim.keymap.set('n', '<Leader>pq', Utils.quote_paragraph,
+  { noremap = true, silent = true, desc = "Quote/unquote paragraph at the cursor" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })

@@ -197,6 +197,7 @@ function M.map_paragraph(mapfn)
   M.set_paragraph(mapped_lines, start_line, end_line)
 end
 
+-- Wraph the current paragraph at the current cursor column position.
 function M.wrap_paragraph()
   -- Get the cursor column for wrapping
   local wrap_column = vim.fn.col('.') -- 1-based
@@ -207,6 +208,26 @@ function M.wrap_paragraph()
 
     -- Split the text at the wrap column into an array of wrapped lines
     return M.wrap_str(joined_text, wrap_column)
+  end)
+end
+
+-- Quote/unquote the current paragraph.
+function M.quote_paragraph()
+  M.map_paragraph(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
+    if lines[1]:match('^>%s*') then
+      -- If the first line starts with '>', remove it along with the whitespace on this and all subsequent lines
+      for i, line in ipairs(lines) do
+        if line:match('^>%s*') then
+          lines[i] = line:gsub('^>%s*', '') -- Remove '>' and any following whitespace
+        end
+      end
+    else
+      -- If the first line does not start with '>', prepend '> ' to every line
+      for i, line in ipairs(lines) do
+        lines[i] = '> ' .. line
+      end
+    end
+    return lines
   end)
 end
 
