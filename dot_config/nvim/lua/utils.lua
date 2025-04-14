@@ -123,18 +123,56 @@ function M.delete_current_entry_from_quickfix()
   end
 end
 
+-- Wrap string `s` at column number `colnr`.
+--
+-- -  Word boundaries are respected.
+-- -  Multiple white-space is replaced by a single space character.
+-- -  Leading and trailing paragraphs white-space is removed.
+--
+function M.wrap_str(s, colnr)
+  local result = {} -- Array to store wrapped lines
+  local line = ""   -- Current line being built
+
+  -- Iterate through words in the string
+  for word in s:gmatch("%S+") do
+    -- Check if adding the word exceeds the column limit
+    if #line + #word + 1 > colnr then
+      table.insert(result, line) -- Save the current line
+      line = word                -- Start a new line with the current word
+    else
+      -- Add the word to the current line (with a space if needed)
+      if #line > 0 then
+        line = line .. " " .. word
+      else
+        line = word
+      end
+    end
+  end
+
+  -- Add any remaining text in the last line to the result
+  if #line > 0 then
+    table.insert(result, line)
+  end
+
+  return result
+end
+
 function M.wrap_paragraph()
-  -- Get the cursor column for wrapping
-  local wrap_column = vim.fn.col('.') - 1 -- Convert to 0-based index
-
-  -- Get the current paragraph's range
-  local start_line = vim.fn.search('^\\s*$', 'bW') + 1 -- Find the start of the paragraph
-  local end_line = vim.fn.search('^\\s*$', 'W')        -- Find the end of the paragraph
-
-  if start_line > end_line then
-    print("No paragraph found")
+  -- Check we are not at a blank line
+  if vim.api.nvim_get_current_line():match("%S") == nil then
+    vim.notify("No paragraph found", vim.log.levels.ERROR)
     return
   end
+
+  -- Get the cursor column for wrapping
+  local wrap_column = vim.fn.col('.') -- 1-based
+
+  -- Get the current paragraph's range
+  local start_line = vim.fn.search('^\\s*$', 'bW') + 1 -- Find the start line of the paragraph (1-based)
+  local end_line = vim.fn.search('^\\s*$', 'W') - 1    -- Find the last line of the paragraph (1-based)
+
+  -- NOTE: `start_line` is 1 if paragraph begins at the start of the buffer;
+  --       `end_line` is -1 if the paragraph is at the end of the buffer.
 
   -- Get all lines in the paragraph
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
@@ -142,29 +180,16 @@ function M.wrap_paragraph()
   -- Join all lines into a single string
   local joined_text = table.concat(lines, ' ')
 
-  -- Initialize variables for wrapping
-  local wrapped_lines = {}
-  local remaining_text = joined_text
+  -- Split the text at the wrap column into an array of wrapped lines
+  local wrapped_lines = M.wrap_str(joined_text, wrap_column)
 
-  while #remaining_text > 0 do
-    -- Get a chunk of text up to the target column
-    local chunk = remaining_text:sub(1, wrap_column + 1)
+  -- Replace the original paragraph with wrapped lines
+  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, wrapped_lines)
 
-    -- Find the last space in the chunk to wrap at a word boundary
-    local last_space = chunk:reverse():find('%s')
-    if last_space then
-      chunk = chunk:sub(1, #chunk - last_space)
-      remaining_text = remaining_text:sub(#chunk + 2) -- Skip the space
-    else
-      -- If no spaces are found, break at the column limit
-      remaining_text = remaining_text:sub(wrap_column + 2)
-    end
-
-    table.insert(wrapped_lines, chunk)
+  if end_line == -1 then
+    -- Move the cursor to the last line, column 0
+    vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(0), 0 })
   end
-
-  -- Replace the original paragraph with wrapped lines (including last line)
-  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line - 1, false, wrapped_lines)
 end
 
 return M

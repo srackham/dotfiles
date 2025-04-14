@@ -120,9 +120,11 @@ vim.keymap.set('n', '<Leader>fl', function()
   end
   local file_path = vim.fn.expand('%:p') -- Get the full path of the current file
   M = assert(loadfile(file_path))()
-  print("Module loaded into global variable 'M'")
+  vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Load current module file into global variable 'M'" })
-vim.keymap.set('n', '<Leader>wp', Utils.wrap_paragraph,
+
+-- Paragraph commands
+vim.keymap.set('n', '<Leader>pw', Utils.wrap_paragraph,
   { noremap = true, silent = true, desc = "Wrap paragraph at the cursor column" })
 
 -- Help commands
