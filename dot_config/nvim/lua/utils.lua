@@ -221,7 +221,7 @@ function M.set_lines(lines, start_line, end_line)
   vim.api.nvim_win_set_cursor(0, { cursor_line, 0 })
 end
 
-function M.map_lines(mapfn)
+function M.map_block(mapfn)
   local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
   local lines, start_line, end_line
   if is_visual_mode then
@@ -241,7 +241,7 @@ function M.wrap_block()
   -- Get the cursor column for wrapping
   local wrap_column = vim.fn.col('.') -- 1-based
 
-  M.map_lines(function(lines)
+  M.map_block(function(lines)
     -- Join all lines into a single string
     local joined_text = table.concat(lines, ' ')
 
@@ -252,12 +252,12 @@ end
 
 -- Quote/unquote the current paragraph.
 function M.quote_block()
-  M.map_lines(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
-    if lines[1]:match('^>%s*') then
+  M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
+    if lines[1]:match('^%s*>%s*') then
       -- If the first line starts with '>', remove it along with the whitespace on this and all subsequent lines
       for i, line in ipairs(lines) do
-        if line:match('^>%s*') then
-          lines[i] = line:gsub('^>%s*', '') -- Remove '>' and any following whitespace
+        if line:match('^%s*>%s*') then
+          lines[i] = line:gsub('^%s*>%s*', '') -- Remove '>' and any following whitespace
         end
       end
     else
@@ -274,7 +274,7 @@ end
 function M.break_block()
   local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
 
-  M.map_lines(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
+  M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
     -- Check if the first line ends with '\' preceded by zero or more whitespace characters
     if lines[1]:match("%s*\\$") then
       -- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
