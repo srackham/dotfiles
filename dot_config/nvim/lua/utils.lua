@@ -157,6 +157,40 @@ function M.wrap_str(s, colnr)
   return result
 end
 
+-- Returns three values:
+--
+-- 1. A Lua string array containing the lines spanned by the selection
+-- 2. The selection start line number
+-- 3. The selection end line number
+function M.get_selected_lines()
+  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+  if not is_visual_mode then
+    vim.notify('This function must be executed in visual mode', vim.log.levels.ERROR)
+    return nil, 0, 0
+  end
+
+  -- Exit visual mode (synchronously) to set `<` and `>` marks.
+  vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes('<Esc>', true, false, true))
+
+  -- Get the current buffer
+  local buf = vim.api.nvim_get_current_buf()
+
+  -- Get the start and end marks of the visual selection
+  local start_line = vim.api.nvim_buf_get_mark(buf, '<')[1] -- '<' is the start of the visual selection
+  local end_line = vim.api.nvim_buf_get_mark(buf, '>')[1]   -- '>' is the end of the visual selection
+
+  -- Get the lines in the selected range
+  local selected_lines = vim.api.nvim_buf_get_lines(buf, start_line - 1, end_line, false)
+
+  -- Return values in the new order: selected_lines, start_line, end_line
+  return selected_lines, start_line, end_line
+end
+
+-- Returns three values:
+--
+-- 1. A Lua string array containing the paragraph lines
+-- 2. The paragraph start line number
+-- 3. The paragraph end line number
 function M.get_paragraph()
   -- Check we are not at a blank line
   if vim.api.nvim_get_current_line():match("%S") == nil then
@@ -178,31 +212,36 @@ function M.get_paragraph()
 end
 
 -- `start_line` and `end_line` are 1-based
-function M.set_paragraph(lines, start_line, end_line)
+function M.set_lines(lines, start_line, end_line)
   -- Replace the original paragraph with wrapped lines
   vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
 
-  if end_line == -1 then
-    -- Move the cursor to the last line, column 0
-    vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(0), 0 })
-  end
+  -- Set cursor end position on the last line of the block.
+  local cursor_line = start_line + #lines - 1
+  vim.api.nvim_win_set_cursor(0, { cursor_line, 0 })
 end
 
-function M.map_paragraph(mapfn)
-  local lines, start_line, end_line = M.get_paragraph()
+function M.map_lines(mapfn)
+  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+  local lines, start_line, end_line
+  if is_visual_mode then
+    lines, start_line, end_line = M.get_selected_lines()
+  else
+    lines, start_line, end_line = M.get_paragraph()
+  end
   if lines == nil then
     return
   end
   local mapped_lines = mapfn(lines)
-  M.set_paragraph(mapped_lines, start_line, end_line)
+  M.set_lines(mapped_lines, start_line, end_line)
 end
 
 -- Wraph the current paragraph at the current cursor column position.
-function M.wrap_paragraph()
+function M.wrap_block()
   -- Get the cursor column for wrapping
   local wrap_column = vim.fn.col('.') -- 1-based
 
-  M.map_paragraph(function(lines)
+  M.map_lines(function(lines)
     -- Join all lines into a single string
     local joined_text = table.concat(lines, ' ')
 
@@ -212,8 +251,8 @@ function M.wrap_paragraph()
 end
 
 -- Quote/unquote the current paragraph.
-function M.quote_paragraph()
-  M.map_paragraph(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
+function M.quote_block()
+  M.map_lines(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
     if lines[1]:match('^>%s*') then
       -- If the first line starts with '>', remove it along with the whitespace on this and all subsequent lines
       for i, line in ipairs(lines) do
@@ -232,8 +271,10 @@ function M.quote_paragraph()
 end
 
 -- Add/remove line breaks to/from the current paragraph.
-function M.break_paragraph()
-  M.map_paragraph(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
+function M.break_block()
+  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+
+  M.map_lines(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
     -- Check if the first line ends with '\' preceded by zero or more whitespace characters
     if lines[1]:match("%s*\\$") then
       -- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
@@ -250,8 +291,10 @@ function M.break_paragraph()
         end
       end
     end
-    -- Ensure the last element never ends with a backslash or trailing whitespace
-    lines[#lines] = lines[#lines]:gsub("%s*\\$", "") -- Remove '\' and any preceding whitespace from the last element
+    -- Ensure the last line of a paragraph does not get a break
+    if not is_visual_mode then
+      lines[#lines] = lines[#lines]:gsub("%s*\\$", "") -- Remove '\' and any preceding whitespace from the last element
+    end
     return lines
   end)
 end

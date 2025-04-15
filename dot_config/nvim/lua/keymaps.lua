@@ -123,13 +123,13 @@ vim.keymap.set('n', '<Leader>fl', function()
   vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Load current module file into global variable 'M'" })
 
--- Paragraph commands
-vim.keymap.set('n', '<Leader>pb', Utils.break_paragraph,
-  { noremap = true, silent = true, desc = "Add/remove line breaks in the paragraph at the cursor" })
-vim.keymap.set('n', '<Leader>pq', Utils.quote_paragraph,
-  { noremap = true, silent = true, desc = "Quote/unquote paragraph at the cursor" })
-vim.keymap.set('n', '<Leader>pw', Utils.wrap_paragraph,
-  { noremap = true, silent = true, desc = "Wrap paragraph at the cursor column" })
+-- Block commands
+vim.keymap.set({ 'n', 'v' }, '<Leader>mb', Utils.break_block,
+  { noremap = true, silent = true, desc = "Add/remove line breaks in the paragraph/selection at the cursor" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>mq', Utils.quote_block,
+  { noremap = true, silent = true, desc = "Quote/unquote paragraph/selection at the cursor" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>mw', Utils.wrap_block,
+  { noremap = true, silent = true, desc = "Wrap paragraph/selection at the cursor column" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
