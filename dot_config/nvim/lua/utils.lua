@@ -21,7 +21,7 @@ function M.reload_modified_buffers()
     end
   end
   if #msgs > 0 then
-    vim.notify(table.concat(msgs, "\n"))
+    vim.notify(table.concat(msgs, '\n'))
   end
 end
 
@@ -137,10 +137,10 @@ end
 --
 function M.wrap_str(s, wrap_column)
   local result = {} -- Array to store wrapped lines
-  local line = ""   -- Current line being built
+  local line = ''   -- Current line being built
 
   -- Iterate through words in the string
-  for word in s:gmatch("%S+") do
+  for word in s:gmatch('%S+') do
     -- Check if adding the word exceeds the column limit
     if #line + #word + 1 > wrap_column then
       table.insert(result, line) -- Save the current line
@@ -148,7 +148,7 @@ function M.wrap_str(s, wrap_column)
     else
       -- Add the word to the current line (with a space if needed)
       if #line > 0 then
-        line = line .. " " .. word
+        line = line .. ' ' .. word
       else
         line = word
       end
@@ -178,10 +178,10 @@ function M.wrap_paragraphs(lines, wrap_column)
     local joined_text = table.concat(paragraph, ' ')
 
     -- Split the text at the wrap column into an array of wrapped lines
-    local wrapped_lines = M.wrap_str(joined_text, wrap_column)
+    local indent = joined_text:match('^(%s*)')
+    local wrapped_lines = M.wrap_str(joined_text, wrap_column - #indent)
 
     -- Indent all lines with the same indent as the first line
-    local indent = joined_text:match('^(%s*)')
     M.indent_lines(wrapped_lines, indent)
 
     -- Append wrapped paragraph to result
@@ -240,7 +240,7 @@ end
 -- 3. The paragraph end line number
 function M.get_paragraph()
   -- Check we are not at a blank line
-  if vim.api.nvim_get_current_line():match("%S") == nil then
+  if vim.api.nvim_get_current_line():match('%S') == nil then
     vim.notify("No paragraph found", vim.log.levels.ERROR)
     return nil, 0, 0
   end
@@ -319,24 +319,24 @@ function M.break_block()
 
   M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
     -- Check if the first line ends with '\' preceded by zero or more whitespace characters
-    if lines[1]:match("%s*\\$") then
+    if lines[1]:match('%s*\\$') then
       -- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
       for i, line in ipairs(lines) do
-        if line:match("%s*\\$") then
-          lines[i] = line:gsub("%s*\\$", "") -- Remove '\' and preceding whitespace
+        if line:match('%s*\\$') then
+          lines[i] = line:gsub('%s*\\$', '') -- Remove '\' and preceding whitespace
         end
       end
     else
       -- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
       for i, line in ipairs(lines) do
-        if not line:match("\\$") then
-          lines[i] = line .. " \\"
+        if not line:match('\\$') then
+          lines[i] = line .. ' \\'
         end
       end
     end
     -- Ensure the last line of a paragraph does not get a break
     if not is_visual_mode then
-      lines[#lines] = lines[#lines]:gsub("%s*\\$", "") -- Remove '\' and any preceding whitespace from the last element
+      lines[#lines] = lines[#lines]:gsub('%s*\\$', '') -- Remove '\' and any preceding whitespace from the last element
     end
     return lines
   end)
