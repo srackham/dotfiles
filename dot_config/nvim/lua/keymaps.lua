@@ -51,6 +51,8 @@ vim.keymap.set('n', '#', function()
   return '#'
 end, { expr = true })
 
+
+-- Miscellaneous commands
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
   { silent = true, desc = "Turn highlighing off and clear status line" })
 vim.keymap.set('n', '<C-r>', '@:', { noremap = true, silent = true, desc = "Repeat the last command" })
@@ -87,9 +89,8 @@ end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 vim.keymap.set('c', '<C-w>', function()
   return vim.fn.expand('<cword>')
 end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
+vim.keymap.set('n', '<C-d>', 'dd', { noremap = true, silent = true, desc = "Delete line" })
 
-
--- Miscellaneous commands
 local is_numbered = false -- Show line numbers
 local is_relative = true  -- Use relative line numbers
 local function set_numbered()
@@ -193,7 +194,13 @@ vim.keymap.set('n', '<Leader>qd', Utils.delete_current_entry_from_quickfix,
   { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
 vim.keymap.set('n', '<Leader>qw', [[:execute 'vimgrep /' .. expand('<cword>') .. '/ %' | copen<CR>]],
   { noremap = true, silent = true, desc = "Open locations containing the word under the cursor in the quickfix list" })
-
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  callback = function()
+    vim.keymap.set('n', '<C-d>', Utils.delete_current_entry_from_quickfix,
+      { buffer = true, noremap = true, silent = true, desc = "Delete current item from quickfix list" })
+  end,
+})
 
 -- Insert date
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
