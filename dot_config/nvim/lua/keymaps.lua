@@ -191,6 +191,9 @@ vim.keymap.set('n', '<Leader>qa', Utils.add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
 vim.keymap.set('n', '<Leader>qd', Utils.delete_current_entry_from_quickfix,
   { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
+vim.keymap.set('n', '<Leader>qw', [[:execute 'vimgrep /' .. expand('<cword>') .. '/ %' | copen<CR>]],
+  { noremap = true, silent = true, desc = "Open locations containing the word under the cursor in the quickfix list" })
+
 
 -- Insert date
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
