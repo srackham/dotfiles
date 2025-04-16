@@ -123,6 +123,12 @@ function M.delete_current_entry_from_quickfix()
   end
 end
 
+function M.indent_lines(lines, indent)
+  for i, line in ipairs(lines) do
+    lines[i] = indent .. line
+  end
+end
+
 -- Wrap string `s` at column number `colnr`.
 --
 -- -  Word boundaries are respected.
@@ -246,7 +252,12 @@ function M.wrap_block()
     local joined_text = table.concat(lines, ' ')
 
     -- Split the text at the wrap column into an array of wrapped lines
-    return M.wrap_str(joined_text, wrap_column)
+    local wrapped_lines = M.wrap_str(joined_text, wrap_column)
+
+    -- Indent all lines with the same indent as the first line
+    local indent = joined_text:match('^(%s*)')
+    M.indent_lines(wrapped_lines, indent)
+    return wrapped_lines
   end)
 end
 
