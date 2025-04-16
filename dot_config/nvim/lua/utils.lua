@@ -129,20 +129,20 @@ function M.indent_lines(lines, indent)
   end
 end
 
--- Wrap string `s` at column number `colnr`.
+-- Wrap string `s` at column number `wrap_column`.
 --
 -- -  Word boundaries are respected.
 -- -  Multiple white-space is replaced by a single space character.
 -- -  Leading and trailing paragraphs white-space is removed.
 --
-function M.wrap_str(s, colnr)
+function M.wrap_str(s, wrap_column)
   local result = {} -- Array to store wrapped lines
   local line = ""   -- Current line being built
 
   -- Iterate through words in the string
   for word in s:gmatch("%S+") do
     -- Check if adding the word exceeds the column limit
-    if #line + #word + 1 > colnr then
+    if #line + #word + 1 > wrap_column then
       table.insert(result, line) -- Save the current line
       line = word                -- Start a new line with the current word
     else
@@ -160,6 +160,47 @@ function M.wrap_str(s, colnr)
     table.insert(result, line)
   end
 
+  return result
+end
+
+-- Wrap each paragraph in the `lines` array and return the updated lines
+function M.wrap_paragraphs(lines, wrap_column)
+  local result = {}
+  local paragraph = {}
+
+  -- Wrap `paragraph` and append to `result`
+  local function wrap_paragraph()
+    if #paragraph == 0 then
+      return
+    end
+
+    -- Join all lines into a single string
+    local joined_text = table.concat(paragraph, ' ')
+
+    -- Split the text at the wrap column into an array of wrapped lines
+    local wrapped_lines = M.wrap_str(joined_text, wrap_column)
+
+    -- Indent all lines with the same indent as the first line
+    local indent = joined_text:match('^(%s*)')
+    M.indent_lines(wrapped_lines, indent)
+
+    -- Append wrapped paragraph to result
+    for _, line in ipairs(wrapped_lines) do
+      table.insert(result, line)
+    end
+
+    paragraph = {}
+  end
+
+  for _, line in ipairs(lines) do
+    if line == '' then -- Paragraph break
+      wrap_paragraph()
+      table.insert(result, line)
+    else
+      table.insert(paragraph, line)
+    end
+  end
+  wrap_paragraph()
   return result
 end
 
@@ -246,17 +287,8 @@ end
 function M.wrap_block()
   -- Get the cursor column for wrapping
   local wrap_column = vim.fn.col('.') -- 1-based
-
   M.map_block(function(lines)
-    -- Join all lines into a single string
-    local joined_text = table.concat(lines, ' ')
-
-    -- Split the text at the wrap column into an array of wrapped lines
-    local wrapped_lines = M.wrap_str(joined_text, wrap_column)
-
-    -- Indent all lines with the same indent as the first line
-    local indent = joined_text:match('^(%s*)')
-    M.indent_lines(wrapped_lines, indent)
+    local wrapped_lines = M.wrap_paragraphs(lines, wrap_column)
     return wrapped_lines
   end)
 end
