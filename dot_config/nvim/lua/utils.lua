@@ -293,7 +293,7 @@ function M.wrap_block()
   end)
 end
 
--- Quote/unquote the current paragraph.
+-- Quote/unquote the current block.
 function M.quote_block()
   M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
     if lines[1]:match('^%s*>%s*') then
@@ -313,31 +313,110 @@ function M.quote_block()
   end)
 end
 
--- Add/remove line breaks to/from the current paragraph.
-function M.break_block()
-  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
-
-  M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
-    -- Check if the first line ends with '\' preceded by zero or more whitespace characters
-    if lines[1]:match('%s*\\$') then
-      -- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
-      for i, line in ipairs(lines) do
-        if line:match('%s*\\$') then
-          lines[i] = line:gsub('%s*\\$', '') -- Remove '\' and preceding whitespace
-        end
-      end
-    else
-      -- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
-      for i, line in ipairs(lines) do
-        if not line:match('\\$') then
-          lines[i] = line .. ' \\'
-        end
+-- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
+-- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
+function M.toggle_line_breaks(lines)
+  -- Check if the first line ends with '\' preceded by zero or more whitespace characters
+  if lines[1]:match('%s*\\$') then
+    -- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
+    for i, line in ipairs(lines) do
+      if line:match('%s*\\$') then
+        lines[i] = line:gsub('%s*\\$', '') -- Remove '\' and preceding whitespace
       end
     end
+  else
+    -- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
+    for i, line in ipairs(lines) do
+      if not line:match('\\$') then
+        lines[i] = line .. ' \\'
+      end
+    end
+  end
+end
+
+-- Add/remove line breaks to/from the current block.
+function M.break_block()
+  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+  M.map_block(function(lines)
+    M.toggle_line_breaks(lines)
     -- Ensure the last line of a paragraph does not get a break
     if not is_visual_mode then
       lines[#lines] = lines[#lines]:gsub('%s*\\$', '') -- Remove '\' and any preceding whitespace from the last element
     end
+    return lines
+  end)
+end
+
+-- `number_lines` numbers all unnumbered non-indented lines sequentially; non-indented lines that are already numbered are renumbered.
+function M.number_lines(lines)
+  local item_number = 1
+  for i, line in ipairs(lines) do
+    if line:match('^%d+%.%s') then -- Renumber the current line
+      lines[i] = line:gsub('^%d+%.%s+(.*)$', string.format('%-4s', item_number .. '.') .. '%1')
+      item_number = item_number + 1
+    elseif line:match('^%S') then -- Prepend a line number to the current line
+      lines[i] = item_number .. '. ' .. line
+      item_number = item_number + 1
+    end
+  end
+end
+
+-- `unnumber_lines` deletes line numbers from numbered non-indented lines
+function M.unnumber_lines(lines)
+  for i, line in ipairs(lines) do
+    if line:match('^%d+%.%s') then
+      lines[i] = line:gsub('^%d+%.%s+(.*)$', '%1')
+    end
+  end
+end
+
+-- `renumber_lines` iterates `lines` and renumbers existing ordered lists with sequential ascending numbers:
+--
+--  - Uses a `list_numbers` table which contains item number counters indexed by list indent (this allows it to renumber nested ordered lists).
+--  - `list_numbers` item numbers are reset back to 1 when a list is discontinued.
+function M.renumber_lines(lines)
+  local list_numbers = {}
+  for i, line in ipairs(lines) do
+    local indent, text = line:match('^(%s*)(.*)$')
+    if text == '' then -- Skip blank lines
+      goto continue
+    end
+    -- indent = indent:gsub('\t', '    ') -- Expand indent tabs to 4 spaces
+    -- Discontinue lists whose indent is encroached into by the current line
+    for list_indent, _ in pairs(list_numbers) do
+      if #indent < #list_indent then
+        list_numbers[list_indent] = 1
+      end
+    end
+    if text:match('^%d+%.%s') then
+      if list_numbers[indent] == nil then -- First occurence of a list at this indent
+        list_numbers[indent] = 1
+      end
+      lines[i] = text:gsub('^%d+%.%s+(.*)$', indent .. string.format('%-4s', list_numbers[indent] .. '.') .. '%1')
+      list_numbers[indent] = list_numbers[indent] + 1
+    end
+    ::continue::
+  end
+end
+
+-- Number/unnumber non-indented lines in the current block.
+-- If the first line is numbered delete list item numbers from non-indented lines.
+-- If the first line is not numbered add/update list item numbers from non-indented lines.
+function M.number_block()
+  M.map_block(function(lines)
+    if lines[1]:match('^%s*%d+%.%s') then
+      M.unnumber_lines(lines)
+    else
+      M.number_lines(lines)
+    end
+    return lines
+  end)
+end
+
+-- Squentially renumber ordered lists in the current block.
+function M.renumber_block()
+  M.map_block(function(lines)
+    M.renumber_lines(lines)
     return lines
   end)
 end

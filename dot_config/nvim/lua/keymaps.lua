@@ -112,8 +112,6 @@ vim.keymap.set('n', '<Leader>or', function()
   is_relative = not is_relative
   set_numbered()
 end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
-vim.keymap.set('x', '<Leader>mr', [[:s/^\d\+\./\=line('.') - line("'<") + 1 . '.'<CR>]],
-  { silent = true, noremap = true, desc = "Renumber selected Markdown list" })
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
 vim.keymap.set('n', '<Leader>fl', function()
   if vim.bo.modified then
@@ -131,6 +129,10 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>mq', Utils.quote_block,
   { noremap = true, silent = true, desc = "Quote/unquote paragraph/selection at the cursor" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mw', Utils.wrap_block,
   { noremap = true, silent = true, desc = "Wrap paragraph/selection at the cursor column" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>mn', Utils.number_block,
+  { silent = true, noremap = true, desc = "Number/unnumber non-indented lines" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>mr', Utils.renumber_block,
+  { silent = true, noremap = true, desc = "Renumber numbered lines" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
