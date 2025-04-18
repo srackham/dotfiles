@@ -1,6 +1,11 @@
 -- Module initialisation
 local M = {}
 
+-- Escape Vim special regular expression special characters plus the `/` character.
+function M.escape_regexp(s)
+  return vim.fn.escape(s, '\\/.*$^~[]')
+end
+
 -- Add local development paths so they can be loaded using `require`
 function M.add_to_path(path)
   -- vim.opt.runtimepath:prepend(path) -- THIS DOESN'T SEEM NECESSARY
