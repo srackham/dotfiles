@@ -139,14 +139,8 @@ vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help win
 
 -- Open help for word or selection under cursor
 vim.keymap.set({ 'n', 'v' }, '<C-M-h>', function()
-  local mode = vim.fn.mode()
-  local query = nil
-  if mode == 'n' then
-    query = vim.fn.expand('<cword>')
-  elseif mode == 'v' or mode == 'V' then
-    query = Utils.get_visual_selection()
-  end
-  if query and query ~= '' then
+  local query = Utils.get_selection_or_word()
+  if query ~= '' then
     Utils.find_help(query)
   else
     vim.notify("No word or selection to search in help", vim.log.levels.ERROR)
@@ -194,14 +188,23 @@ vim.keymap.set('n', '<Leader>qa', Utils.add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
 vim.keymap.set('n', '<Leader>qd', Utils.delete_current_entry_from_quickfix,
   { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
-vim.keymap.set('n', '<Leader>qw', function()
-    local word = Utils.escape_regexp(vim.fn.expand('<cword>'))
-    vim.cmd('vimgrep /\\<' .. word .. '\\>/ % | copen')
+vim.keymap.set({ 'n', 'v' }, '<Leader>qm', function()
+    local visual_mode = Utils.is_visual_mode()
+    local query = Utils.get_selection_or_word()
+    if query ~= '' then
+      query = Utils.escape_regexp(query)
+      if not visual_mode then
+        query = '\\<' .. query .. '\\>' -- Search for whole word
+      end
+      vim.cmd('vimgrep /' .. query .. '/ % | copen')
+    else
+      vim.notify("No word or selection at cursor", vim.log.levels.ERROR)
+    end
   end,
   {
     noremap = true,
     silent = true,
-    desc = "Open quickfix list with locations matching the word under the cursor in the current buffer"
+    desc = "Open quickfix list with current buffer locations matching the word or selection under the cursor"
   })
 
 vim.api.nvim_create_autocmd('FileType', {

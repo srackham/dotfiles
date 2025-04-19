@@ -1,6 +1,10 @@
 -- Module initialisation
 local M = {}
 
+function M.is_visual_mode()
+  return vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+end
+
 -- Escape Vim special regular expression special characters plus the `/` character.
 function M.escape_regexp(s)
   return vim.fn.escape(s, '\\/.*$^~[]')
@@ -51,6 +55,18 @@ function M.get_visual_selection()
   end
 
   return selection
+end
+
+-- `get_selection_or_word` returns a string containing the selection (if in visual mode) or the word at the cursor (if in normal mode)
+function M.get_selection_or_word()
+  local mode = vim.fn.mode()
+  local result = ''
+  if mode == 'n' then
+    result = vim.fn.expand('<cword>')
+  elseif mode == 'v' or mode == 'V' then
+    result = Utils.get_visual_selection()
+  end
+  return result
 end
 
 -- `find_help` searches for help on the `query` string.
@@ -215,8 +231,7 @@ end
 -- 2. The selection start line number
 -- 3. The selection end line number
 function M.get_selected_lines()
-  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
-  if not is_visual_mode then
+  if not M.is_visual_mode() then
     vim.notify('This function must be executed in visual mode', vim.log.levels.ERROR)
     return nil, 0, 0
   end
@@ -274,9 +289,8 @@ function M.set_lines(lines, start_line, end_line)
 end
 
 function M.map_block(mapfn)
-  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
   local lines, start_line, end_line
-  if is_visual_mode then
+  if M.is_visual_mode() then
     lines, start_line, end_line = M.get_selected_lines()
   else
     lines, start_line, end_line = M.get_paragraph()
@@ -341,11 +355,11 @@ end
 
 -- Add/remove line breaks to/from the current block.
 function M.break_block()
-  local is_visual_mode = vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+  local visual_mode = M.is_visual_mode()
   M.map_block(function(lines)
     M.toggle_line_breaks(lines)
     -- Ensure the last line of a paragraph does not get a break
-    if not is_visual_mode then
+    if not visual_mode then
       lines[#lines] = lines[#lines]:gsub('%s*\\$', '') -- Remove '\' and any preceding whitespace from the last element
     end
     return lines
