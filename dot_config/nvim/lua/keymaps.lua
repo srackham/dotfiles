@@ -162,13 +162,14 @@ local function close_window()
     end
   end
 end
-vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
-vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>D', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
+vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
+vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
-vim.keymap.set('n', '<Leader>wn', ':split<CR>', { noremap = true, silent = true, desc = "Open new window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
+vim.keymap.set('n', '<Leader>wv', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
+vim.keymap.set('n', '<Leader>ws', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
 
 -- Window navigation with Ctrl + Arrow keys
 vim.keymap.set('n', '<C-Up>', '<C-w>k', { noremap = true, silent = true })
