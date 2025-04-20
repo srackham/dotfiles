@@ -4,8 +4,8 @@
 #
 
 usage() {
-    echo "Usage: $(basename "$0") [-g | --git] [-h | --help] [<dir>]"
-    echo "  <dir>           Working directory (default: current directory)"
+    echo "Usage: $(basename "$0") [-g | --git] [-h | --help] <dir>"
+    echo "  <dir>           Working directory"
     echo "  -g, --git       Open lazygit in third pane if the working directory is a git repo"
     echo "  -h, --help      Display this help message"
 }
@@ -37,7 +37,10 @@ while (( $# > 0 )); do
 done
 
 if [ -z "$rootdir" ]; then
-    rootdir="$(pwd)"
+    echo "Missing working directory."
+    echo ""
+    usage
+    exit 1
 fi
 
 if [[ ! -d "$rootdir" ]]; then
