@@ -149,14 +149,15 @@ end, { desc = "Open help for word under cursor or selected text" })
 
 -- Windows commands
 local function close_window()
-  -- Close the current window, prompt user to save if it has been modified, if it's the last window delete the buffer.
-  local current_buf_id = vim.api.nvim_get_current_buf()
-  local is_modified = vim.api.nvim_buf_get_option(current_buf_id, 'modified')
-  if is_modified then
-    vim.notify("Cannot close window: buffer has unsaved changes", vim.log.levels.ERROR)
-  else
-    local success = pcall(function() vim.cmd('close') end)
-    if not success then
+  -- Close the current window. If the `close` command fails (it won't close the last window on a buffer) then,
+  -- after checking the buffer hasn't been modified, close the window by deleting the buffer.
+  local success = pcall(function() vim.cmd('close') end)
+  if not success then
+    local current_buf_id = vim.api.nvim_get_current_buf()
+    local is_modified = vim.api.nvim_buf_get_option(current_buf_id, 'modified')
+    if is_modified then
+      vim.notify("Cannot close window: buffer has unsaved changes", vim.log.levels.ERROR)
+    else
       vim.cmd('bdelete')
     end
   end
