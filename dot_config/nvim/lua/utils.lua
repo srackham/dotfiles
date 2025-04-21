@@ -344,9 +344,11 @@ function M.toggle_line_breaks(lines)
       end
     end
   else
-    -- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
+    -- The first line does not end with '\' so append ' \' line breaks skipping blank lines and lines preceeding blank lines
     for i, line in ipairs(lines) do
-      if not line:match('\\$') then
+      -- Don't break blank lines or lines followed by a blank line or lines that are already broken
+      local skip = line == '' or (i < #lines and lines[i + 1] == '') or line:match('\\$')
+      if not skip then
         lines[i] = line .. ' \\'
       end
     end
