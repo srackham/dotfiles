@@ -1,22 +1,41 @@
 Utils = require 'utils' -- Load ./lua/utils.lua
 
--- Map contextual next and previous navigation commands
+-- Map custom next/previous navigation commands.
 local function map_next_prev(next_key, next_cmd, prev_key, prev_cmd, desc)
-  local map_n = function(next, prev)
+  local execute_cmd_and_map_n = function(cmd1, cmd2)
     return function()
-      vim.keymap.set('n', 'n', next, { noremap = true, silent = true })
-      vim.keymap.set('n', 'N', prev, { noremap = true, silent = true })
-      next()
+      vim.keymap.set('n', 'n', cmd1, { noremap = true, silent = true })
+      vim.keymap.set('n', 'N', cmd2, { noremap = true, silent = true })
+      cmd1()
     end
   end
   local n = type(next_cmd) == 'string' and function() vim.cmd(next_cmd) end or next_cmd
   local p = type(prev_cmd) == 'string' and function() vim.cmd(prev_cmd) end or prev_cmd
-  vim.keymap.set('n', next_key, map_n(n, p),
+  vim.keymap.set('n', next_key, execute_cmd_and_map_n(n, p),
     { noremap = true, silent = true, desc = "Go to next " .. desc })
-  vim.keymap.set('n', prev_key, map_n(p, n),
+  vim.keymap.set('n', prev_key, execute_cmd_and_map_n(p, n),
     { noremap = true, silent = true, desc = "Go to previous " .. desc })
 end
 
+-- Restore native n and N commands prior to the execution of search commands `/`, `*` and `#`.
+local restore_next_prev = function()
+  vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
+  vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
+end
+vim.api.nvim_create_autocmd('CmdlineEnter', {
+  pattern = { '/', '\\?' },
+  callback = restore_next_prev,
+})
+vim.keymap.set('n', '*', function()
+  restore_next_prev()
+  return '*'
+end, { expr = true })
+vim.keymap.set('n', '#', function()
+  restore_next_prev()
+  return '#'
+end, { expr = true })
+
+-- Install custom next/previous commands.
 map_next_prev(']d', vim.diagnostic.goto_next, '[d', vim.diagnostic.goto_prev, "diagnostic message")
 map_next_prev(']g', 'Gitsigns next_hunk', '[g', 'Gitsigns prev_hunk', "Git hunk")
 map_next_prev(
@@ -35,8 +54,7 @@ map_next_prev(
 map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
 map_next_prev(']z', 'normal! ]s', '[z', 'normal! [s', "misspelt word")
-
--- Builtin markdown section navigation commands have to be explicitly deleted from the current buffer.
+-- Builtin markdown section navigation commands have first to be explicitly deleted from the current buffer.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   callback = function()
@@ -48,24 +66,6 @@ vim.api.nvim_create_autocmd('FileType', {
       "markdown section")
   end
 })
-
--- Restore search n and N commands
-local restore_next_prev = function()
-  vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
-  vim.keymap.set('n', 'N', 'N', { noremap = true, silent = true })
-end
-vim.api.nvim_create_autocmd('CmdlineEnter', {
-  pattern = { '/', '\\?' },
-  callback = restore_next_prev,
-})
-vim.keymap.set('n', '*', function()
-  restore_next_prev()
-  return '*'
-end, { expr = true })
-vim.keymap.set('n', '#', function()
-  restore_next_prev()
-  return '#'
-end, { expr = true })
 
 
 -- Miscellaneous commands
