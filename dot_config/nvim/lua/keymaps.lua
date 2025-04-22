@@ -36,6 +36,19 @@ map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
 map_next_prev(']z', 'normal! ]s', '[z', 'normal! [s', "misspelt word")
 
+-- Builtin markdown section navigation commands have to be explicitly deleted from the current buffer.
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    pcall(vim.keymap.del, 'n', ']]', { buffer = 0 })
+    pcall(vim.keymap.del, 'n', '[[', { buffer = 0 })
+    map_next_prev(
+      ']]', function() vim.fn.search('^#\\{1,5}\\s\\+\\S', 'W') end,
+      '[[', function() vim.fn.search('^#\\{1,5}\\s\\+\\S', 'Wb') end,
+      "markdown section")
+  end
+})
+
 -- Restore search n and N commands
 local restore_next_prev = function()
   vim.keymap.set('n', 'n', 'n', { noremap = true, silent = true })
