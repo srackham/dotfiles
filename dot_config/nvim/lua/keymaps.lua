@@ -1,37 +1,40 @@
 Utils = require 'utils' -- Load ./lua/utils.lua
 
 -- Map contextual next and previous navigation commands
-local function map_next_prev(key, next, prev, desc)
-  local mapped_cmd = function(cmd, prev_cmd)
+local function map_next_prev(next_key, next_cmd, prev_key, prev_cmd, desc)
+  local map_n = function(next, prev)
     return function()
-      vim.keymap.set('n', 'n', cmd, { noremap = true, silent = true })
-      vim.keymap.set('n', 'N', prev_cmd, { noremap = true, silent = true })
-      cmd()
+      vim.keymap.set('n', 'n', next, { noremap = true, silent = true })
+      vim.keymap.set('n', 'N', prev, { noremap = true, silent = true })
+      next()
     end
   end
-  local n = type(next) == "string" and function() vim.cmd(next) end or next
-  local p = type(prev) == "string" and function() vim.cmd(prev) end or prev
-  vim.keymap.set('n', ']' .. key, mapped_cmd(n, p), { noremap = true, silent = true, desc = "Go to next " .. desc })
-  vim.keymap.set('n', '[' .. key, mapped_cmd(p, n), { noremap = true, silent = true, desc = "Go to previous " .. desc })
+  local n = type(next_cmd) == 'string' and function() vim.cmd(next_cmd) end or next_cmd
+  local p = type(prev_cmd) == 'string' and function() vim.cmd(prev_cmd) end or prev_cmd
+  vim.keymap.set('n', next_key, map_n(n, p),
+    { noremap = true, silent = true, desc = "Go to next " .. desc })
+  vim.keymap.set('n', prev_key, map_n(p, n),
+    { noremap = true, silent = true, desc = "Go to previous " .. desc })
 end
 
-map_next_prev('d', vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic message")
-map_next_prev('g', 'Gitsigns next_hunk', 'Gitsigns prev_hunk', "Git hunk")
-map_next_prev('q', function()
+map_next_prev(']d', vim.diagnostic.goto_next, '[d', vim.diagnostic.goto_prev, "diagnostic message")
+map_next_prev(']g', 'Gitsigns next_hunk', '[g', 'Gitsigns prev_hunk', "Git hunk")
+map_next_prev(
+  ']q', function()
     local success, _ = pcall(vim.cmd, 'cnext')
     if not success then
       vim.cmd('cfirst')
     end
   end,
-  function()
+  '[q', function()
     local success, _ = pcall(vim.cmd, 'cprev')
     if not success then
       vim.cmd('clast')
     end
   end, "Quickfix")
-map_next_prev('t', 'tabnext', 'tabprevious', "tab")
-map_next_prev('w', 'wincmd w', 'wincmd W', "window")
-map_next_prev('z', 'normal! ]s', 'normal! [s', "misspelt word")
+map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
+map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
+map_next_prev(']z', 'normal! ]s', '[z', 'normal! [s', "misspelt word")
 
 -- Restore search n and N commands
 local restore_next_prev = function()
