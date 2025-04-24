@@ -278,19 +278,28 @@ function M.get_paragraph()
   return lines, start_line, end_line
 end
 
--- `start_line` and `end_line` are 1-based
+-- Replace from `start_line` to `end_line` with `lines` in the current buffer.
+-- Set cursor position to the start of the last line.
+-- `start_line` and `end_line` are 1-based.
 function M.set_lines(lines, start_line, end_line)
-  -- Replace the original paragraph with wrapped lines
   vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
-
-  -- Set cursor end position on the last line of the block.
   local cursor_line = start_line + #lines - 1
   vim.api.nvim_win_set_cursor(0, { cursor_line, 0 })
 end
 
+-- Selects lines from start_line to end_line (inclusive) using
+-- Visual Line mode ('V'). Assumes 1-based line numbering.
+--
+-- @param start_line (number) The 1-based starting line number.
+-- @param end_line (number) The 1-based ending line number.
+function M.set_selection(start_line, end_line)
+  local cmd = string.format('normal! %dGV%dG', start_line, end_line)
+  vim.api.nvim_exec(cmd, false)
+end
+
 --- Checks if a given line number marks the end of a paragraph
 --- @param line_number number 1-based line number to check
---- @return boolean true if line ends a paragraph (last line or followed by blank)
+--- @return boolean true if line ends a paragraph (last line or followed by blank line)
 local function is_end_of_paragraph(line_number)
   local total_lines = vim.api.nvim_buf_line_count(0)
 
