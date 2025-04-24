@@ -288,6 +288,27 @@ function M.set_lines(lines, start_line, end_line)
   vim.api.nvim_win_set_cursor(0, { cursor_line, 0 })
 end
 
+--- Checks if a given line number marks the end of a paragraph
+--- @param line_number number 1-based line number to check
+--- @return boolean true if line ends a paragraph (last line or followed by blank)
+local function is_end_of_paragraph(line_number)
+  local total_lines = vim.api.nvim_buf_line_count(0)
+
+  -- Case 1: Already at last line
+  if line_number == total_lines then
+    return true
+  end
+
+  -- Case 2: Check next line for blankness
+  local next_line = vim.api.nvim_buf_get_lines(
+    0,               -- current buffer
+    line_number,     -- 0-based start (next line in 1-based)
+    line_number + 1, -- 0-based end (exclusive)
+    false            -- strict indexing
+  )[1] or ''         -- handle missing lines gracefully
+  return next_line == ''
+end
+
 function M.map_block(mapfn)
   local lines, start_line, end_line
   if M.is_visual_mode() then
@@ -298,7 +319,7 @@ function M.map_block(mapfn)
   if lines == nil then
     return
   end
-  local mapped_lines = mapfn(lines)
+  local mapped_lines = mapfn(lines, { end_of_paragraph = is_end_of_paragraph(end_line) })
   M.set_lines(mapped_lines, start_line, end_line)
 end
 
@@ -357,11 +378,10 @@ end
 
 -- Add/remove line breaks to/from the current block.
 function M.break_block()
-  local visual_mode = M.is_visual_mode()
-  M.map_block(function(lines)
+  M.map_block(function(lines, opts)
     M.toggle_line_breaks(lines)
     -- Ensure the last line of a paragraph does not get a break
-    if not visual_mode then
+    if opts.end_of_paragraph then
       lines[#lines] = lines[#lines]:gsub('%s*\\$', '') -- Remove '\' and any preceding whitespace from the last element
     end
     return lines
