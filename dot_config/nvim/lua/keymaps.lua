@@ -139,11 +139,15 @@ end, { noremap = true, silent = true, desc = "Load current module file into glob
 
 -- Block commands
 vim.keymap.set({ 'n', 'v' }, '<Leader>mb', Utils.break_block,
-  { noremap = true, silent = true, desc = "Add/remove line breaks in the paragraph/selection at the cursor" })
+  { noremap = true, silent = true, desc = "Break/unbreak the paragraph/selection at the cursor" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mq', Utils.quote_block,
   { noremap = true, silent = true, desc = "Quote/unquote paragraph/selection at the cursor" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mw', Utils.wrap_block,
   { noremap = true, silent = true, desc = "Wrap paragraph/selection at the cursor column" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>mW', function()
+  local col = tonumber(vim.fn.input('Wrap at column: '))
+  if col then Utils.wrap_block(col) end
+end, { noremap = true, silent = true, desc = "Prompted wrap paragraph/selection" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mn', Utils.number_block,
   { silent = true, noremap = true, desc = "Number/unnumber non-indented lines" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mr', Utils.renumber_block,

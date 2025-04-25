@@ -332,12 +332,12 @@ function M.map_block(mapfn)
   M.set_lines(mapped_lines, start_line, end_line)
 end
 
--- Wraph the current paragraph at the current cursor column position.
-function M.wrap_block()
+-- Wraph the current paragraph at the 1-based `column_number` or at the current cursor column position if nil `column_number`.
+function M.wrap_block(column_number)
   -- Get the cursor column for wrapping
-  local wrap_column = vim.fn.col('.') -- 1-based
+  local col = column_number or vim.fn.col('.')
   M.map_block(function(lines)
-    local wrapped_lines = M.wrap_paragraphs(lines, wrap_column)
+    local wrapped_lines = M.wrap_paragraphs(lines, col)
     return wrapped_lines
   end)
 end
