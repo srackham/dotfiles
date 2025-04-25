@@ -148,6 +148,8 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>mW', function()
   local col = tonumber(vim.fn.input('Wrap at column: '))
   if col then Utils.wrap_block(col) end
 end, { noremap = true, silent = true, desc = "Prompted wrap paragraph/selection" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>mu', Utils.unwrap_block,
+  { noremap = true, silent = true, desc = "Unwrap paragraph/selection" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mn', Utils.number_block,
   { silent = true, noremap = true, desc = "Number/unnumber non-indented lines" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>mr', Utils.renumber_block,

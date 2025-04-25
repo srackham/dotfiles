@@ -184,8 +184,15 @@ function M.wrap_str(s, wrap_column)
   return result
 end
 
--- Wrap each paragraph in the `lines` array and return the updated lines
-function M.wrap_paragraphs(lines, wrap_column)
+-- Wrap/unwrap each paragraph in the `lines` array and return the updated lines.
+--
+-- @param opts options table (defaults to {}).
+-- @param opts.column_number the wrap column number (defaults to 0).
+-- @param opts.unwrap unwrap instead of wrapping (defaults to false).
+function M.wrap_paragraphs(lines, opts)
+  opts = opts or {}
+  local column_number = opts.column_number or 0
+  local unwrap = opts.unwrap or false
   local result = {}
   local paragraph = {}
 
@@ -197,13 +204,17 @@ function M.wrap_paragraphs(lines, wrap_column)
 
     -- Join all lines into a single string
     local joined_text = table.concat(paragraph, ' ')
+    local wrapped_lines
+    if unwrap then
+      wrapped_lines = { joined_text }
+    else
+      -- Split the text at the wrap column into an array of wrapped lines
+      local indent = joined_text:match('^(%s*)')
+      wrapped_lines = M.wrap_str(joined_text, column_number - #indent)
 
-    -- Split the text at the wrap column into an array of wrapped lines
-    local indent = joined_text:match('^(%s*)')
-    local wrapped_lines = M.wrap_str(joined_text, wrap_column - #indent)
-
-    -- Indent all lines with the same indent as the first line
-    M.indent_lines(wrapped_lines, indent)
+      -- Indent all lines with the same indent as the first line
+      M.indent_lines(wrapped_lines, indent)
+    end
 
     -- Append wrapped paragraph to result
     for _, line in ipairs(wrapped_lines) do
@@ -337,8 +348,15 @@ function M.wrap_block(column_number)
   -- Get the cursor column for wrapping
   local col = column_number or vim.fn.col('.')
   M.map_block(function(lines)
-    local wrapped_lines = M.wrap_paragraphs(lines, col)
+    local wrapped_lines = M.wrap_paragraphs(lines, { column_number = col })
     return wrapped_lines
+  end)
+end
+
+function M.unwrap_block()
+  M.map_block(function(lines)
+    local joined_lines = M.wrap_paragraphs(lines, { unwrap = true })
+    return joined_lines
   end)
 end
 
