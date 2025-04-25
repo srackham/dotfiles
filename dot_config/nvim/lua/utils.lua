@@ -402,7 +402,7 @@ function M.number_lines(lines)
   local item_number = 1
   for i, line in ipairs(lines) do
     if line:match('^%d+%.%s') then -- Renumber the current line
-      lines[i] = line:gsub('^%d+%.%s+(.*)$', string.format('%-4s', item_number .. '.') .. '%1')
+      lines[i] = line:gsub('^%d+%.%s+(.*)$', item_number .. '. ' .. '%1')
       item_number = item_number + 1
     elseif line:match('^%S') then -- Prepend a line number to the current line
       lines[i] = item_number .. '. ' .. line
