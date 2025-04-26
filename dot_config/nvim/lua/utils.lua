@@ -1,22 +1,30 @@
--- Module initialisation
+--- Module initialisation
 local M = {}
 
+--- Checks if the current Vim mode is Visual ('v' or 'V').
+--- @return boolean true if in visual mode, false otherwise.
 function M.is_visual_mode()
   return vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
 end
 
--- Escape Vim special regular expression special characters plus the `/` character.
+--- Escapes Vim special regular expression characters plus the `/` character.
+--- @param s string The string to escape.
+--- @return string The escaped string.
 function M.escape_regexp(s)
   return vim.fn.escape(s, '\\/.*$^~[]')
 end
 
--- Add local development paths so they can be loaded using `require`
+--- Adds a local path to Lua's `package.path` for `require`.
+--- Allows requiring Lua modules located in the specified directory.
+--- @param path string The directory path to prepend to `package.path`.
 function M.add_to_path(path)
   -- vim.opt.runtimepath:prepend(path) -- THIS DOESN'T SEEM NECESSARY
   package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
 end
 
--- `reload_modified_buffers` reloads all modified buffers from disk restoring the buffer to the last saved state.
+--- Reloads all modified buffers from disk.
+--- This discards any unsaved changes in those buffers, restoring them
+--- to their last saved state. Notifies the user about reloaded files.
 function M.reload_modified_buffers()
   local buffers = vim.api.nvim_list_bufs()
   local msgs = {}
@@ -34,7 +42,10 @@ function M.reload_modified_buffers()
   end
 end
 
--- `get_visual_selection` returns a string containing selected text.
+--- Gets the text currently selected in Visual mode.
+--- Temporarily yanks the selection to the default register, retrieves it,
+--- and then restores the original register content and visual selection state.
+--- @return string The visually selected text.
 function M.get_visual_selection()
   -- Save the current register content and mode
   local original_register = vim.fn.getreg('"')
@@ -57,20 +68,26 @@ function M.get_visual_selection()
   return selection
 end
 
--- `get_selection_or_word` returns a string containing the selection (if in visual mode) or the word at the cursor (if in normal mode)
+--- Gets the current visual selection or the word under the cursor.
+--- If in Visual mode (v or V), returns the selection using `M.get_visual_selection`.
+--- If in Normal mode (n), returns the word under the cursor (`<cword>`).
+--- Returns an empty string in other modes or if `M.get_visual_selection` fails.
+--- @return string The selected text or the word under the cursor.
 function M.get_selection_or_word()
   local mode = vim.fn.mode()
   local result = ''
   if mode == 'n' then
     result = vim.fn.expand('<cword>')
   elseif mode == 'v' or mode == 'V' then
-    result = Utils.get_visual_selection()
+    result = M.get_visual_selection()
   end
   return result
 end
 
--- `find_help` searches for help on the `query` string.
--- If found then open it in a help window, if not print and error message.
+--- Searches for and opens Vim help for a given query.
+--- Executes `:help query`. If the command fails (e.g., help topic not found),
+--- it shows an error notification.
+--- @param query string The help topic to search for.
 function M.find_help(query)
   -- Attempt to execute the command with pcall
   local success, _ = pcall(function()
@@ -81,6 +98,11 @@ function M.find_help(query)
   end
 end
 
+--- Toggles the Vim help window.
+--- If a help window (`'filetype' == 'help'`) is open, it closes it,
+--- remembering the buffer. If no help window is open, it reopens the
+--- previously closed help buffer in a split, or opens the default
+--- help page (`:help`) if no help buffer was previously remembered.
 function M.toggle_help_window()
   -- Track the last help window and buffer
   local last_help = vim.w.last_help or { win = nil, buf = nil }
@@ -108,6 +130,9 @@ function M.toggle_help_window()
   end
 end
 
+--- Adds the current cursor location to the quickfix list.
+--- Captures the current filename, line number, column number, and line text
+--- and appends it as a new entry to the quickfix list.
 function M.add_current_location_to_quickfix()
   local current_file = vim.fn.expand('%:p')
   local current_line = vim.fn.line('.')
@@ -124,8 +149,10 @@ function M.add_current_location_to_quickfix()
   vim.fn.setqflist(qf_list)
 end
 
--- Delete the current item from the quickfix list.
--- The cursor remains at the same cursor position, or is moved to the the preceeding item if it was at the last item.
+--- Deletes the quickfix entry corresponding to the current cursor line in the quickfix window.
+--- Removes the item from the quickfix list and updates the list.
+--- Attempts to keep the cursor on the same line number or moves it to the
+--- preceding item if the last item was deleted. Opens the quickfix window.
 function M.delete_current_entry_from_quickfix()
   local ol = vim.fn.line('.')
   local qf = vim.fn.getqflist()
@@ -144,18 +171,23 @@ function M.delete_current_entry_from_quickfix()
   end
 end
 
+--- Prepends an indentation string to each line in a table of strings.
+--- Modifies the input table `lines` in place.
+--- @param lines table An array of strings representing lines of text.
+--- @param indent string The string to prepend to each line.
 function M.indent_lines(lines, indent)
   for i, line in ipairs(lines) do
     lines[i] = indent .. line
   end
 end
 
--- Wrap string `s` at column number `wrap_column`.
---
--- -  Word boundaries are respected.
--- -  Multiple white-space is replaced by a single space character.
--- -  Leading and trailing paragraphs white-space is removed.
---
+--- Wraps a string `s` at a specified column width.
+--- Respects word boundaries. Multiple whitespace characters are collapsed
+--- into a single space between words. Effectively trims leading/trailing
+--- whitespace from the input string during processing.
+--- @param s string The string to wrap.
+--- @param wrap_column number The maximum column width for the wrapped lines.
+--- @return table An array of strings representing the wrapped lines.
 function M.wrap_str(s, wrap_column)
   local result = {} -- Array to store wrapped lines
   local line = ''   -- Current line being built
@@ -184,11 +216,13 @@ function M.wrap_str(s, wrap_column)
   return result
 end
 
--- Wrap/unwrap each paragraph in the `lines` array and return the updated lines.
---
--- @param opts options table (defaults to {}).
--- @param opts.column_number the wrap column number (defaults to 0).
--- @param opts.unwrap unwrap instead of wrapping (defaults to false).
+--- @diagnostic disable: undefined-doc-param
+--- Wraps/unwraps each paragraph in the lines array and returns the updated lines.
+--- @param lines string[] The lines to wrap/unwrap.
+--- @param opts table Options table with fields:
+--- @param opts.column_number number The wrap column number (defaults to 0).
+--- @param opts.unwrap boolean Unwrap instead of wrapping (defaults to false).
+--- @return string[] The wrapped/unwrapped lines.
 function M.wrap_paragraphs(lines, opts)
   opts = opts or {}
   local column_number = opts.column_number or 0
@@ -236,11 +270,13 @@ function M.wrap_paragraphs(lines, opts)
   return result
 end
 
--- Returns three values:
---
--- 1. A Lua string array containing the lines spanned by the selection
--- 2. The selection start line number
--- 3. The selection end line number
+--- Gets the lines spanned by the most recent visual selection.
+--- Must be called while in visual mode or immediately after exiting it
+--- (it exits visual mode itself to set the '< and '> marks).
+--- Shows an error notification if not currently in visual mode.
+--- @return table|nil lines An array of strings containing the selected lines, or nil on error.
+--- @return number start_line The 1-based start line number of the selection, or 0 on error.
+--- @return number end_line The 1-based end line number of the selection, or 0 on error.
 function M.get_selected_lines()
   if not M.is_visual_mode() then
     vim.notify('This function must be executed in visual mode', vim.log.levels.ERROR)
@@ -264,11 +300,12 @@ function M.get_selected_lines()
   return selected_lines, start_line, end_line
 end
 
--- Returns three values:
---
--- 1. A Lua string array containing the paragraph lines
--- 2. The paragraph start line number
--- 3. The paragraph end line number
+--- Gets the lines belonging to the paragraph under the cursor.
+--- A paragraph is defined as consecutive non-blank lines surrounded by blank lines
+--- or buffer boundaries. Shows an error if the cursor is currently on a blank line.
+--- @return table|nil lines An array of strings containing the paragraph lines, or nil on error.
+--- @return number start_line The 1-based start line number of the paragraph, or 0 on error.
+--- @return number end_line The 1-based end line number of the paragraph, or 0 on error.
 function M.get_paragraph()
   -- Check we are not at a blank line
   if vim.api.nvim_get_current_line():match('%S') == nil then
@@ -280,8 +317,11 @@ function M.get_paragraph()
   local start_line = vim.fn.search('^\\s*$', 'bW') + 1 -- Find the start line of the paragraph (1-based)
   local end_line = vim.fn.search('^\\s*$', 'W') - 1    -- Find the last line of the paragraph (1-based)
 
-  -- NOTE: `start_line` is 1 if paragraph begins at the start of the buffer;
-  --       `end_line` is -1 if the paragraph is at the end of the buffer.
+  -- NOTE: vim.fn.search returns 0 if a match is not found (start_line=1, end_line=-1).
+  if end_line == -1 then
+    end_line = vim.api.nvim_buf_line_count(0) -- Correct end_line
+  end
+
 
   -- Get all lines in the paragraph
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
@@ -289,28 +329,33 @@ function M.get_paragraph()
   return lines, start_line, end_line
 end
 
--- Replace from `start_line` to `end_line` with `lines` in the current buffer.
--- Set cursor position to the start of the last line.
--- `start_line` and `end_line` are 1-based.
+--- Replaces a range of lines in the current buffer with new lines.
+--- Replaces the lines from `start_line` to `end_line` (inclusive, 1-based)
+--- with the content of the `lines` table. Sets the cursor position to the
+--- beginning of the last inserted line.
+--- @param lines table An array of strings to insert.
+--- @param start_line number The 1-based starting line number of the range to replace.
+--- @param end_line number The 1-based ending line number of the range to replace.
 function M.set_lines(lines, start_line, end_line)
   vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
   local cursor_line = start_line + #lines - 1
   vim.api.nvim_win_set_cursor(0, { cursor_line, 0 })
 end
 
--- Selects lines from start_line to end_line (inclusive) using
--- Visual Line mode ('V'). Assumes 1-based line numbering.
---
--- @param start_line (number) The 1-based starting line number.
--- @param end_line (number) The 1-based ending line number.
+--- Selects a range of lines in Visual Line mode ('V').
+--- Assumes 1-based line numbering.
+--- @param start_line number The 1-based starting line number to select.
+--- @param end_line number The 1-based ending line number to select.
 function M.set_selection(start_line, end_line)
   local cmd = string.format('normal! %dGV%dG', start_line, end_line)
   vim.api.nvim_exec(cmd, false)
 end
 
---- Checks if a given line number marks the end of a paragraph
---- @param line_number number 1-based line number to check
---- @return boolean true if line ends a paragraph (last line or followed by blank line)
+--- Checks if a given line number marks the end of a paragraph.
+--- A line is considered the end of a paragraph if it's the last line
+--- in the buffer or if the next line is blank.
+--- @param line_number number The 1-based line number to check.
+--- @return boolean true if the line is the end of a paragraph, false otherwise.
 local function is_end_of_paragraph(line_number)
   local total_lines = vim.api.nvim_buf_line_count(0)
 
@@ -329,6 +374,13 @@ local function is_end_of_paragraph(line_number)
   return next_line == ''
 end
 
+--- Applies a mapping function to the current block (visual selection or paragraph).
+--- Determines the block (visual selection if active, otherwise the paragraph
+--- under the cursor). Retrieves the lines of the block. Calls `mapfn` with
+--- the lines and an options table `{ end_of_paragraph = boolean }`.
+--- If end_of_paragraph=true then the last line is the last line of a paragraph.
+--- Replaces the original lines in the buffer with the lines returned by `mapfn`.
+--- @param mapfn function The function to apply. It receives two parameters (lines, options) and must return a table of strings (the modified lines).
 function M.map_block(mapfn)
   local lines, start_line, end_line
   if M.is_visual_mode() then
@@ -343,7 +395,11 @@ function M.map_block(mapfn)
   M.set_lines(mapped_lines, start_line, end_line)
 end
 
--- Wraph the current paragraph at the 1-based `column_number` or at the current cursor column position if nil `column_number`.
+--- Wraps the current block (visual selection or paragraph).
+--- Uses the specified `column_number` or the current cursor column if
+--- `column_number` is nil. Preserves indentation of the first line of
+--- each paragraph within the block.
+--- @param column_number number|nil The 1-based column number to wrap at. Defaults to the current cursor column.
 function M.wrap_block(column_number)
   -- Get the cursor column for wrapping
   local col = column_number or vim.fn.col('.')
@@ -353,6 +409,9 @@ function M.wrap_block(column_number)
   end)
 end
 
+--- Unwraps the current block (visual selection or paragraph).
+--- Joins lines within each paragraph of the block into single lines,
+--- separated by spaces.
 function M.unwrap_block()
   M.map_block(function(lines)
     local joined_lines = M.wrap_paragraphs(lines, { unwrap = true })
@@ -360,7 +419,10 @@ function M.unwrap_block()
   end)
 end
 
--- Quote/unquote the current block.
+--- Toggles quoting (prefix '> ') for the current block (visual selection or paragraph).
+--- If the first line of the block starts with '> ' (possibly indented),
+--- it removes the '> ' prefix from all lines that have it.
+--- Otherwise, it prepends '> ' to every line in the block.
 function M.quote_block()
   M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
     if lines[1]:match('^%s*>%s*') then
@@ -380,8 +442,13 @@ function M.quote_block()
   end)
 end
 
--- If the first line ends with '\', remove it and the whitespace on this and all subsequent lines
--- If the first line does not end with '\', append ' \' to lines that do not already end with '\'
+--- Toggles trailing backslash line continuation markers (` \`) on lines in a table.
+--- If the first line ends with ` \` (ignoring trailing whitespace), it removes
+--- the ` \` from all lines ending with it.
+--- Otherwise, it appends ` \` to lines, skipping blank lines, lines already
+--- ending in `\`, and lines immediately preceding a blank line.
+--- Modifies the input table `lines` in place.
+--- @param lines table An array of strings representing lines of text.
 function M.toggle_line_breaks(lines)
   -- Check if the first line ends with '\' preceded by zero or more whitespace characters
   if lines[1]:match('%s*\\$') then
@@ -403,7 +470,11 @@ function M.toggle_line_breaks(lines)
   end
 end
 
--- Add/remove line breaks to/from the current block.
+--- Toggles line continuation markers (` \`) for the current block (visual selection or paragraph).
+--- Adds or removes trailing ` \` based on the state of the first line.
+--- Does not add a marker to blank lines, lines already ending in `\`, or the
+--- line immediately preceding a blank line. Ensures the very last line of
+--- a paragraph block does not end with ` \`.
 function M.break_block()
   M.map_block(function(lines, opts)
     M.toggle_line_breaks(lines)
@@ -415,7 +486,13 @@ function M.break_block()
   end)
 end
 
--- `number_lines` numbers all unnumbered non-indented lines sequentially; non-indented lines that are already numbered are renumbered.
+--- Numbers or renumbers non-indented list items in a table of lines.
+--- Affects lines starting with non-whitespace.
+--- If a line already starts with `digits.` + whitespace, it's renumbered sequentially.
+--- If a line starts with non-whitespace but not a number pattern, `N. ` is prepended.
+--- Indented lines are skipped. Renumbering is sequential across affected lines.
+--- Modifies the input table `lines` in place.
+--- @param lines table An array of strings representing lines of text.
 function M.number_lines(lines)
   local item_number = 1
   for i, line in ipairs(lines) do
@@ -429,7 +506,10 @@ function M.number_lines(lines)
   end
 end
 
--- `unnumber_lines` deletes line numbers from numbered non-indented lines
+--- Removes list numbering (`N. `) from the start of lines in a table.
+--- Affects lines starting with the pattern `digits.` + whitespace.
+--- Modifies the input table `lines` in place.
+--- @param lines table An array of strings representing lines of text.
 function M.unnumber_lines(lines)
   for i, line in ipairs(lines) do
     if line:match('^%d+%.%s') then
@@ -438,10 +518,12 @@ function M.unnumber_lines(lines)
   end
 end
 
--- `renumber_lines` iterates `lines` and renumbers existing ordered lists with sequential ascending numbers:
---
---  - Uses a `list_numbers` table which contains item number counters indexed by list indent (this allows it to renumber nested ordered lists).
---  - `list_numbers` item numbers are reset back to 1 when a list is discontinued.
+--- Sequentially renumbers existing ordered list items (`N. `) in a table of lines.
+--- Resets numbering for each indentation level independently. Handles nested lists.
+--- Only affects lines that already match the `indent digits.` + whitespace pattern.
+--- Formats the number part like `N.   ` (padded/aligned).
+--- Modifies the input table `lines` in place.
+--- @param lines table An array of strings representing lines of text.
 function M.renumber_lines(lines)
   local list_numbers = {}
   for i, line in ipairs(lines) do
@@ -481,7 +563,9 @@ function M.number_block()
   end)
 end
 
--- Squentially renumber ordered lists in the current block.
+--- Sequentially renumbers existing ordered list items (`N. `) in the current block.
+--- Affects the visual selection or the paragraph under the cursor.
+--- Respects indentation levels to handle nested lists correctly, using `M.renumber_lines`.
 function M.renumber_block()
   M.map_block(function(lines)
     M.renumber_lines(lines)
