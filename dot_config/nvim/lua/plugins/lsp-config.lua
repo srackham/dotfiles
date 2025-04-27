@@ -81,6 +81,9 @@ return {
       vim.keymap.set('n', '<Leader>lf', function()
         vim.lsp.buf.format { async = true }
       end, { desc = "Format document" })
+      vim.keymap.set('n', '<Leader>ld', function()
+        vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
+      end, { silent = true, noremap = true, desc = "Toggle on-screen diagnostic messages" })
     end,
   },
 }

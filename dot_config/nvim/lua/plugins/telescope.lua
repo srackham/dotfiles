@@ -57,7 +57,7 @@ return {
       vim.keymap.set('n', '<Leader>fR', builtin.reloader, { desc = "Telescope module reloader" })
       vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set('n', '<Leader>fz', builtin.spell_suggest, { desc = "Show spelling suggestions" })
-      vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostics" })
+      vim.keymap.set('n', '<Leader>lD', builtin.diagnostics, { desc = "List diagnostic messages with Telescope" })
       vim.keymap.set('n', '<Leader>T', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>fp', function()
@@ -78,10 +78,10 @@ return {
         'type', }
       vim.keymap.set('n', '<Leader>ls', function()
         require('telescope.builtin').lsp_document_symbols({ symbols = symbols })
-      end, { noremap = true, silent = true, desc = "List LSP document symbols" })
+      end, { noremap = true, silent = true, desc = "List symbols" })
       vim.keymap.set('n', '<Leader>lS', function()
         require('telescope.builtin').lsp_dynamic_workspace_symbols({ symbols = symbols })
-      end, { noremap = true, silent = true, desc = "Live-grep LSP workspace symbols" })
+      end, { noremap = true, silent = true, desc = "Live-grep workspace symbols" })
     end,
   },
 
