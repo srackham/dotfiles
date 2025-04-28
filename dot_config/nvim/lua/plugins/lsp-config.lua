@@ -26,6 +26,11 @@ return {
       })
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
+        settings = {
+          Lua = {
+            diagnostics = { globals = { 'vim' } } -- Suppress undefined global 'vim' warnings
+          }
+        }
       })
       lspconfig.ts_ls.setup({
         capabilities = capabilities,
