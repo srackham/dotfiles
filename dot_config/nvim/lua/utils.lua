@@ -420,17 +420,15 @@ function M.unwrap_block()
 end
 
 --- Toggles quoting (prefix '> ') for the current block (visual selection or paragraph).
---- If the first line of the block starts with '> ' (possibly indented),
+--- If the first line of the block starts with '> ' then
 --- it removes the '> ' prefix from all lines that have it.
 --- Otherwise, it prepends '> ' to every line in the block.
 function M.quote_block()
-  M.map_block(function(lines) -- Check if the first line starts with '>' followed by zero or more whitespace characters
-    if lines[1]:match('^%s*>%s*') then
-      -- If the first line starts with '>', remove it along with the whitespace on this and all subsequent lines
+  M.map_block(function(lines)
+    if lines[1]:match('^>%s') then
+      -- If the first line starts with '> ', remove it from this and from any subsequent lines
       for i, line in ipairs(lines) do
-        if line:match('^%s*>%s*') then
-          lines[i] = line:gsub('^%s*>%s*', '') -- Remove '>' and any following whitespace
-        end
+        lines[i] = line:gsub('^>%s', '')   -- Remove '> '
       end
     else
       -- If the first line does not start with '>', prepend '> ' to every line
