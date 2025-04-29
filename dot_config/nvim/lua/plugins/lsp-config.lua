@@ -81,7 +81,10 @@ return {
         vim.lsp.buf.format { async = true }
       end, { desc = "Format buffer" })
       vim.keymap.set('n', '<Leader>ld', function()
-        vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
+        local virtual_text = vim.diagnostic.config().virtual_text
+        vim.diagnostic.config({ virtual_text = not virtual_text })
+        local status = not virtual_text and "enabled" or "disabled"
+        vim.notify("Diagnostics virtual text " .. status)
       end, { silent = true, noremap = true, desc = "Toggle on-screen diagnostic messages" })
 
       -- Popup (floating) window mappings
