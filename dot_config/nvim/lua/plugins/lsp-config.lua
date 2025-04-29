@@ -52,22 +52,20 @@ return {
         capabilities = capabilities,
       })
 
+      local border_style = 'rounded' -- floating window border style
+
       -- Add rounded borders to LSP hover and signature help
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover,
-        { border = 'rounded' }
+        vim.lsp.handlers.hover, { border = border_style }
       )
 
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help,
-        { border = 'rounded' }
+        vim.lsp.handlers.signature_help, { border = border_style }
       )
 
       -- Add rounded borders to diagnostic float windows
       vim.diagnostic.config({
-        float = {
-          border = 'rounded'
-        }
+        float = { border = border_style }
       })
 
       -- LSP key mappings
@@ -75,20 +73,24 @@ return {
         { desc = "Go to the definition of the symbol under the cursor" })
       vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition,
         { desc = "Go to the type definition of the symbol under the cursor" })
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover,
-        { desc = "Display documentation for the symbol under the cursor" })
-      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
-        { desc = "Display function signature information for the symbol under the cursor" })
       vim.keymap.set('n', '<Leader>lR', vim.lsp.buf.rename,
         { desc = "Rename all instances of the symbol under the cursor" })
       vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action,
         { desc = "Select a code action available at the current cursor position" })
       vim.keymap.set('n', '<Leader>lf', function()
         vim.lsp.buf.format { async = true }
-      end, { desc = "Format document" })
+      end, { desc = "Format buffer" })
       vim.keymap.set('n', '<Leader>ld', function()
         vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
       end, { silent = true, noremap = true, desc = "Toggle on-screen diagnostic messages" })
+
+      -- Popup (floating) window mappings
+      vim.keymap.set('n', '<Leader>pd', vim.lsp.buf.hover,
+        { desc = "Show documentation popup for the symbol under the cursor" })
+      vim.keymap.set('n', '<Leader>ps', vim.lsp.buf.signature_help,
+        { desc = "Show function signature popup" })
+      vim.keymap.set('n', '<Leader>pe', vim.diagnostic.open_float,
+        { desc = "Show diagnostic message popup" })
     end,
   },
 }
