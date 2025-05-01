@@ -131,7 +131,7 @@ end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
 vim.keymap.set('n', '<Leader>fl', function()
   if vim.bo.modified then
-    vim.cmd("write")
+    vim.cmd('write')
   end
   local file_path = vim.fn.expand('%:p') -- Get the full path of the current file
   M = assert(loadfile(file_path))()
@@ -229,3 +229,19 @@ vim.keymap.set('n', '<M-w>', function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
+
+vim.keymap.set('n', '<leader>xr', function()
+    local target_term_pane = '2' -- Terminal pane index
+    local target_nvim_pane = '1' -- nvim pane index
+    -- Save all buffers
+    vim.cmd('silent! wa')
+    vim.fn.system('sleep 0.1') -- Give NFS a moment
+    -- Construct and run the tmux commands
+    local tmux_cmd = string.format(
+      "tmux select-pane -Z -t %s ; tmux run-shell 'sync' ; tmux run-shell 'sleep 0.1' ; tmux send-keys -t %s Up Enter ; tmux select-pane -Z -t %s",
+      target_term_pane, target_term_pane, target_nvim_pane
+    )
+    -- Run in background so Neovim doesn't block
+    vim.fn.system(tmux_cmd .. ' &')
+  end,
+  { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
