@@ -231,11 +231,19 @@ vim.keymap.set('n', '<M-w>', function()
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
 -- Terminal execution commands
+--[[
+These commands same modified buffers and then execute CLI commands in the tmux terminal pane.
+The `send_keys_to_terminal` function resolves potential save/execute race conditions.
+The core problem is that the Neovim `wa` command might return control before the
+data has actually been fully written to the disk and propagated through the NFS
+client's cache, and potentially acknowledged/visible via the NFS server.
+]]
 
 ---@class SendKeysOptions
 ---@field editor_pane_id? number The tmux pane ID of the Neovim editor (default: 1).
 ---@field terminal_pane_id? number The tmux pane ID of the target terminal (default: 2).
 ---@field focus_pane_id? number The tmux pane ID to focus after sending keys (default: editor_pane_id).
+
 --- Saves modified buffers and executes specified keys in a target tmux terminal pane.
 ---
 --- 1. Saves all modified Neovim buffers (`:wa`).
