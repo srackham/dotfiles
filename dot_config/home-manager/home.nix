@@ -1,8 +1,12 @@
+#
+# Nix Single-user Home Manager configuration.
+#
+
 { config, pkgs, ... }:
 
 {
-  home.username = "super";
-  home.homeDirectory = "/home/super";
+  home.username = builtins.getEnv "USER";
+  home.homeDirectory = builtins.getEnv "HOME";
   home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
