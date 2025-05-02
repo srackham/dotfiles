@@ -2,6 +2,7 @@
 
 #
 # Shared environment variables.
+# Included in .bashrc and .zshrc
 #
 
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
@@ -25,6 +26,11 @@ export EDITOR=nvim
 
 # Secrets
 export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
+
+# Configure Nix environment for single-user Home Manager
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
+    source ~/.nix-profile/etc/profile.d/nix.sh
+fi
 
 #
 # Shared aliases
