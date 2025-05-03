@@ -28,8 +28,8 @@ export EDITOR=nvim
 export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
 
 # Configure Nix environment for single-user Home Manager
-if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
-    source ~/.nix-profile/etc/profile.d/nix.sh
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+    source $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
 
 #
