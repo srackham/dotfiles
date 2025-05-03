@@ -231,50 +231,8 @@ vim.keymap.set('n', '<M-w>', function()
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
 -- Terminal execution commands
---[[
-These commands same modified buffers and then execute CLI commands in the tmux terminal pane.
-The `send_keys_to_terminal` function resolves potential save/execute race conditions.
-The core problem is that the Neovim `wa` command might return control before the
-data has actually been fully written to the disk and propagated through the NFS
-client's cache, and potentially acknowledged/visible via the NFS server.
-]]
-
----@class SendKeysOptions
----@field editor_pane_id? number The tmux pane ID of the Neovim editor (default: 1).
----@field terminal_pane_id? number The tmux pane ID of the target terminal (default: 2).
----@field focus_pane_id? number The tmux pane ID to focus after sending keys (default: editor_pane_id).
-
---- Saves modified buffers and executes specified keys in a target tmux terminal pane.
----
---- 1. Saves all modified Neovim buffers (`:wa`).
---- 2. Pauses briefly to allow NFS time to potentially sync after the save.
---- 3. Constructs and executes a series of tmux commands:
----    - Switches focus to the specified terminal pane (`terminal_pane_id`).
----    - Runs `sync` command to flush filesystem buffers.
----    - Pauses briefly again.
----    - Sends the provided `keys` string to the terminal pane.
----    - Switches focus back to the `focus_pane_id` (defaults to the editor pane).
---- 4. The tmux command sequence is run in the background (`&`) so Neovim remains responsive.
----@param keys string The literal keys to send to the terminal pane via `tmux send-keys`. Escape special characters as needed for `tmux send-keys`.
----@param opts? SendKeysOptions Optional configuration options table.
-local function send_keys_to_terminal(keys, opts)
-  opts = opts or {}
-  local editor_pane_id = opts.editor_pane_id or 1 -- nvim pane ID
-  local term_pane_id = opts.terminal_pane_id or 2 -- Terminal pane ID
-  local focus_pane_id = opts.focus_pane_id or editor_pane_id
-  -- Save all buffers
-  vim.cmd('silent! wa')
-  vim.fn.system('sleep 0.1') -- Give NFS a moment
-  -- Construct and run the tmux commands
-  local tmux_cmd = string.format(
-    "tmux select-pane -Z -t %d ; tmux run-shell 'sync' ; tmux run-shell 'sleep 0.1' ; tmux send-keys -t %d %s ; tmux select-pane -Z -t %d",
-    term_pane_id, term_pane_id, keys, focus_pane_id
-  )
-  -- Run in background so Neovim doesn't block
-  vim.fn.system(tmux_cmd .. ' &')
-end
-
-vim.keymap.set('n', '<leader>xx', function() send_keys_to_terminal('Up Enter') end,
+-- These commands save modified buffers and then execute CLI commands in the tmux terminal pane.
+vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
-vim.keymap.set('n', '<leader>xg', function() send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
+vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
