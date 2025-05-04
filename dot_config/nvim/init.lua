@@ -29,12 +29,15 @@ require 'highlighting'           -- Load ./lua/highlighting.lua
 -- Add local dev directory `require` paths for testing from local development directories
 -- Utils.add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
 
--- Persistent abbreviations
--- vim.cmd [[
---   iab <expr> dd strftime('%d-%b-%Y')        " Insert date: 'dd-mmm-yyyy' format
---   iab <expr> tt strftime('%H:%M')           " Insert time: 'hh:mm' format (24-hour)
---   iab <expr> dt strftime('%d-%b-%Y %H:%M')  " Insert date and time: 'dd-mmm-yyyy hh:mm' format
--- ]]
+-- Add custom user abbreviations here.
+local user_abbreviations = {
+  { "<expr> dd", "strftime('%d-%b-%Y')" },
+  { "<expr> tt", "strftime('%H:%M')" },
+  { "<expr> dt", "strftime('%d-%b-%Y %H:%M')" },
+}
+
+-- Load auto spell correction abbreviations along with user abbreviations.
+require('typos').load(user_abbreviations)
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
