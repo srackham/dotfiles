@@ -47,7 +47,7 @@ return {
         },
       })
       -- Toggle completion for current buffer
-      vim.keymap.set('n', '<Leader>oc', function()
+      vim.keymap.set('n', '<Leader>ct', function()
         local is_enabled = not cmp.get_config().enabled
         cmp.setup.buffer { enabled = is_enabled }
         vim.notify(is_enabled and "Auto-completion enabled" or "Auto-completion disabled")
