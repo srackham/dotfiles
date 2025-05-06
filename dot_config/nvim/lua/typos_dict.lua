@@ -1,3 +1,4 @@
+-- From the nistake.nvim plugin: https://github.com/ck-zhang/mistake.nvim/blob/main/lua/mistake/dict.lua
 return {
 	{"fo","of"},
 	{"authorixation","authorization"},

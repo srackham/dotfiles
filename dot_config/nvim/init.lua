@@ -31,13 +31,17 @@ require 'highlighting'           -- Load ./lua/highlighting.lua
 
 -- Add custom user abbreviations here.
 local user_abbreviations = {
+  { "btc",       "Bitcoin" },
+  { "eth",       "Ethereum" },
   { "<expr> dd", "strftime('%d-%b-%Y')" },
   { "<expr> tt", "strftime('%H:%M')" },
   { "<expr> dt", "strftime('%d-%b-%Y %H:%M')" },
 }
 
 -- Load auto spell correction abbreviations along with user abbreviations.
-require('typos').load(user_abbreviations)
+local abbreviations = require('typos')
+-- abbreviations.typos_dict = {} -- Don't include the builtin typos dictionary
+abbreviations.load(user_abbreviations)
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
