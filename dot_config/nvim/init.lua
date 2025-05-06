@@ -39,8 +39,8 @@ local user_abbreviations = {
 }
 
 -- Load auto spell correction abbreviations along with user abbreviations.
-local abbreviations = require('typos')
--- abbreviations.typos_dict = {} -- Don't include the builtin typos dictionary
+local abbreviations = require('abbreviations')
+-- abbreviations.typos_dict = {} -- Don't load the builtin typos dictionary
 abbreviations.load(user_abbreviations)
 
 -- Lastly load .nvimrc.lua file from root directory

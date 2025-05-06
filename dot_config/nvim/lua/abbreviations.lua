@@ -21,9 +21,9 @@ NOTE: Ultimately I think the answer to spelling/grammar correction will come fro
   "Abbreviations loaded"
   Implemented with a `last_chunk` flag.
 
-- Set `M.typos_dict = {}`to exclude the builtin typos dictionary abbreviations
+- The builtin typos abbreviations are optional: set `M.typos_dict = {}`to exclude the builtin typos dictionary abbreviations.`
 
-- Is the mistake.nvim typos dictionary optimal? Here's a list of some other: https://titan.dcs.bbk.ac.uk/~ROGER/corpora.html
+- Here's a list of some other: https://titan.dcs.bbk.ac.uk/~ROGER/corpora.html
 
 Config:
 
