@@ -236,3 +236,5 @@ vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Ent
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
 vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
+vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+  { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
