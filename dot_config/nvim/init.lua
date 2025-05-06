@@ -42,6 +42,8 @@ local user_abbreviations = {
 local abbreviations = require('abbreviations')
 -- abbreviations.typos_dict = {} -- Don't load the builtin typos dictionary
 abbreviations.load(user_abbreviations)
+vim.keymap.set('n', '<Leader>al', function() abbreviations.load(user_abbreviations) end,
+  { noremap = true, silent = true, desc = "Load abbreviations" })
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
