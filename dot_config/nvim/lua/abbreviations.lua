@@ -57,7 +57,8 @@ local function concat_tables(t1, t2)
   return result
 end
 
-function M.load(user_dict)
+function M.load(user_dict, opts)
+  opts = opts or {}
   user_dict = user_dict or {}
   local chunk_size = 100
   local chunks = {}
@@ -78,7 +79,9 @@ function M.load(user_dict)
   end
 
   -- Schedule each chunk with increasing delay
-  vim.notify("Loading abbreviations...", vim.log.levels.INFO)
+  if opts.notify then
+    vim.notify("Loading abbreviations...", vim.log.levels.INFO)
+  end
   for i, chunk in ipairs(chunks) do
     local delay_ms = (i - 1) * 10 -- 10ms delay between chunks
     vim.defer_fn(function()
@@ -86,7 +89,7 @@ function M.load(user_dict)
         local typo, correction = pair[1], pair[2]
         vim.cmd('iabbrev ' .. typo .. ' ' .. correction)
       end
-      if i == #chunks then
+      if opts.notify and i == #chunks then
         vim.notify(#abbreviations .. " abbreviations loaded", vim.log.levels.INFO)
       end
     end, delay_ms)

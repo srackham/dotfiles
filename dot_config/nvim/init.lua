@@ -29,21 +29,24 @@ require 'highlighting'           -- Load ./lua/highlighting.lua
 -- Add local dev directory `require` paths for testing from local development directories
 -- Utils.add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
 
--- Add custom user abbreviations here.
+-- Custom user abbreviations
 local user_abbreviations = {
+  { "tsp",       "teaspoon" },
+  { "tbsp",      "tablespoon" },
+  { "tblsp",     "tablespoon" },
   { "btc",       "Bitcoin" },
   { "eth",       "Ethereum" },
   { "<expr> dd", "strftime('%d-%b-%Y')" },
   { "<expr> tt", "strftime('%H:%M')" },
   { "<expr> dt", "strftime('%d-%b-%Y %H:%M')" },
 }
-
 -- Load auto spell correction abbreviations along with user abbreviations.
 local abbreviations = require('abbreviations')
 -- abbreviations.typos_dict = {} -- Don't load the builtin typos dictionary
 abbreviations.load(user_abbreviations)
-vim.keymap.set('n', '<Leader>al', function() abbreviations.load(user_abbreviations) end,
-  { noremap = true, silent = true, desc = "Load abbreviations" })
+vim.keymap.set('n', '<Leader>al', function()
+  abbreviations.load(user_abbreviations, { notify = true })
+end, { noremap = true, silent = true, desc = "Load abbreviations" })
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
