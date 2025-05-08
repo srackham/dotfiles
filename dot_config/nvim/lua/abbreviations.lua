@@ -41,6 +41,8 @@ end
 
 local M = {}
 
+M.dict = {}
+M.user_dict = {}
 M.typos_dict = require('typos_dict')
 
 local function concat_tables(t1, t2)
@@ -57,15 +59,33 @@ local function concat_tables(t1, t2)
   return result
 end
 
-function M.load(user_dict, opts)
+function M.setup(opts)
   opts = opts or {}
-  user_dict = user_dict or {}
+  M.user_dict = opts.user_dict or {}
+end
+
+function M.clear()
+  vim.cmd('iabclear')
+  M.dict = {}
+  vim.notify("Abbreviations cleared", vim.log.levels.INFO)
+end
+
+function M.toggle()
+  if #M.dict > 0 then
+    M.clear()
+  else
+    M.load({ notify = true })
+  end
+end
+
+function M.load(opts)
+  opts = opts or {}
   local chunk_size = 100
   local chunks = {}
   local current_chunk = {}
 
-  local abbreviations = concat_tables(M.typos_dict, user_dict)
-  for i, pair in ipairs(abbreviations) do
+  M.dict = concat_tables(M.typos_dict, M.user_dict)
+  for i, pair in ipairs(M.dict) do
     table.insert(current_chunk, pair)
     if i % chunk_size == 0 then
       table.insert(chunks, current_chunk)
@@ -89,8 +109,10 @@ function M.load(user_dict, opts)
         local typo, correction = pair[1], pair[2]
         vim.cmd('iabbrev ' .. typo .. ' ' .. correction)
       end
-      if opts.notify and i == #chunks then
-        vim.notify(#abbreviations .. " abbreviations loaded", vim.log.levels.INFO)
+      if i == #chunks then -- Last chunk
+        if opts.notify then
+          vim.notify(#M.dict .. " abbreviations loaded", vim.log.levels.INFO)
+        end
       end
     end, delay_ms)
   end
