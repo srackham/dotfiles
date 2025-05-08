@@ -45,7 +45,8 @@ abbreviations.setup({
   }
 })
 -- abbreviations.typos_dict = {} -- Disable the builtin typos dictionary
-abbreviations.load() -- Load abbreviations at startup
+-- Very slow to load on nuc2, maybe not a good idea to load at startup.
+-- abbreviations.load() -- Load abbreviations at startup
 vim.keymap.set('n', '<Leader>al', function()
   abbreviations.load({ notify = true })
 end, { noremap = true, silent = true, desc = "Load abbreviations" })
