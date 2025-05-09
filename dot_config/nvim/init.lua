@@ -44,9 +44,8 @@ abbreviations.setup({
     { "<expr> dt", "strftime('%d-%b-%Y %H:%M')" },
   }
 })
--- abbreviations.typos_dict = {} -- Disable the builtin typos dictionary
--- Very slow to load on nuc2, maybe not a good idea to load at startup.
--- abbreviations.load() -- Load abbreviations at startup
+abbreviations.typos_dict = {} -- Disable the builtin typos dictionary because loading abbreviations is very slow to load on nuc2
+abbreviations.load()
 vim.keymap.set('n', '<Leader>al', function()
   abbreviations.load({ notify = true })
 end, { noremap = true, silent = true, desc = "Load abbreviations" })
