@@ -94,7 +94,7 @@ vim.keymap.set('n', '<Leader>R', Utils.reload_modified_buffers,
   { noremap = true, silent = true, desc = "Reload modified buffers" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>Q', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<Leader>X', ':confirm quitall<CR>',
+vim.keymap.set('n', '<Leader>X', ':wqa<CR>',
   { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 vim.keymap.set('n', '<Leader>fn', function()
