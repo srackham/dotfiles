@@ -68,7 +68,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Miscellaneous commands
-vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>:echo<CR>',
+vim.keymap.set('n', ';;', ':nohlsearch<CR>:echo<CR>',
   { silent = true, desc = "Turn highlighing off and clear status line" })
 vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
