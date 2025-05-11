@@ -25,7 +25,7 @@ home-manager switch
 # Install my dotfiles with Chezmoi
 # Create local repo, pull from Github, then update dotfiles with a single command
 # Clones repo to `$HOME/.local/share/chezmoi`
-# NOTE: If there is an existing Chezmoi repo delete or move it first
+# NOTE: If there is an existing Chezmoi repo delete or move it first e.g. mv .local/share/chezmoi .local/share/chezmoi.OLD
 chezmoi init https://github.com/srackham/dotfiles.git
 
 # Get the non-repo secrets file
@@ -35,7 +35,9 @@ scp srackham@nixos1:/home/srackham/.local/share/chezmoi/.chezmoidata/secrets.tom
 # Install the dotfiles
 chezmoi apply
 
-# Logout and log back in.
-
-# Start nvim and wait for all the plugin updates to complete
-# NOTE: Wait for all the Neovim plugins to install, don't quit do anything until complete (may take a couple of minutes), just keep an eye on the Neovim status messages line.
+echo "Install completed successfully."
+echo
+echo "1. Logout and log back in."
+echo "2. Start nvim and wait for all the plugin updates to complete."
+echo
+echo "NOTE: Wait for all the Neovim plugins to install, don't quit do anything until complete (may take a couple of minutes), just keep an eye on the Neovim status messages line."
