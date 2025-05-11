@@ -19,7 +19,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 
-Utils = require 'utils'          -- Load ./lua/utils.lua
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
 require 'options'                -- Load ./lua/options.lua
 require 'keymaps'                -- Load ./lua/keymaps.lua
@@ -27,21 +26,31 @@ require 'autocmds'               -- Load ./lua/autocmds.lua
 require 'highlighting'           -- Load ./lua/highlighting.lua
 
 -- Add local dev directory `require` paths for testing from local development directories
--- Utils.add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
+-- require('utils').add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
 
 -- Load auto spell correction abbreviations along with user abbreviations.
 local abbreviations = require('abbreviations')
 abbreviations.setup({
   -- Custom user abbreviations
   user_dict = {
-    { "tsp",       "teaspoon" },
-    { "tbsp",      "tablespoon" },
-    { "tblsp",     "tablespoon" },
+    { "app",       "application" },
+    { "apps",      "applications" },
     { "btc",       "Bitcoin" },
     { "eth",       "Ethereum" },
+    { "eu",        "European Union" },
     { "<expr> dd", "strftime('%d-%b-%Y')" },
-    { "<expr> tt", "strftime('%H:%M')" },
     { "<expr> dt", "strftime('%d-%b-%Y %H:%M')" },
+    { "<expr> tt", "strftime('%H:%M')" },
+    { "hm",        "Home Manager" },
+    { "lo",        "LibreOffice" },
+    { "nv",        "Neovim" },
+    { "potus",     "the president of the United States of America" },
+    { "repo",      "repository" },
+    { "tblsp",     "tablespoon" },
+    { "tbsp",      "tablespoon" },
+    { "tsp",       "teaspoon" },
+    { "uk",        "United Kingdom" },
+    { "usa",       "United States of America" },
   }
 })
 abbreviations.typos_dict = {} -- Disable the builtin typos dictionary because loading abbreviations is very slow to load on nuc2
