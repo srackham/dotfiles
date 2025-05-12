@@ -10,6 +10,7 @@ delete_chezmoi=false
 
 # Check for ~/.nix-profile directory
 if [ -d "$HOME/.nix-profile" ]; then
+    echo
     echo "Directory ~/.nix-profile exists: Nix home-manager appears to be installed."
     echo "If you continue the home-manager configuration will be erased."
     read -p "Do you want to continue? (y/n): " -r
@@ -22,6 +23,7 @@ fi
 
 # Check for ~/.local/share/chezmoi directory
 if [ -d "$HOME/.local/share/chezmoi" ]; then
+    echo
     echo "Directory ~/.local/share/chezmoi exists: Chezmoi appears to be installed."
     echo "If you continue the Chezmoi configuration will be erased."
     read -p "Do you want to continue? (y/n): " -r
@@ -47,11 +49,13 @@ if $delete_home_manager || $delete_chezmoi; then
         rm -rf ~/.local/state/nix
         rm -rf ~/.local/state/home-manager
         rm -rf ~/.nix-*
+        echo
         echo "home-manager configuration deleted."
     fi
 
     if $delete_chezmoi; then
         rm -rf ~/.local/share/chezmoi
+        echo
         echo "Chezmoi configuration deleted."
     fi
 fi
