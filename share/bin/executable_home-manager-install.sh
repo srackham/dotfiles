@@ -13,7 +13,7 @@ if [ -d "$HOME/.nix-profile" ]; then
     echo
     echo "Directory ~/.nix-profile exists: Nix home-manager appears to be installed."
     echo "If you continue the home-manager configuration will be erased."
-    read -p "Do you want to continue? (y/n): " -r
+    read -p "Do you want to continue? (y/n): " -r </dev/tty
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         delete_home_manager=true
     else
@@ -26,7 +26,7 @@ if [ -d "$HOME/.local/share/chezmoi" ]; then
     echo
     echo "Directory ~/.local/share/chezmoi exists: Chezmoi appears to be installed."
     echo "If you continue the Chezmoi configuration will be erased."
-    read -p "Do you want to continue? (y/n): " -r
+    read -p "Do you want to continue? (y/n): " -r </dev/tty
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         delete_chezmoi=true
     else
@@ -38,7 +38,7 @@ fi
 if $delete_home_manager || $delete_chezmoi; then
     echo
     echo "About to permanently delete existing home-manager and Chezmoi configurations."
-    read -p "Do you want to continue? (y/n): " -r
+    read -p "Do you want to continue? (y/n): " -r </dev/tty
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         exit 1
     fi
