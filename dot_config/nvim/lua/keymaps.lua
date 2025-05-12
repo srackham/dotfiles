@@ -69,7 +69,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- Miscellaneous commands
 vim.keymap.set('n', ';;', ':nohlsearch<CR>:echo<CR>',
-  { silent = true, desc = "Turn highlighing off and clear status line" })
+  { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
@@ -105,7 +105,7 @@ end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 vim.keymap.set('c', '<C-w>', function()
   return vim.fn.expand('<cword>')
 end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
-vim.keymap.set('n', '<C-d>', 'dd', { noremap = true, silent = true, desc = "Delete line" })
+vim.keymap.set('n', '<C-d>', 'dd', { noremap = true, silent = true, desc = "Delete line (for Quickfix list compatiblity)" })
 
 local is_numbered = false -- Show line numbers
 local is_relative = true  -- Use relative line numbers
@@ -217,6 +217,8 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function()
     vim.keymap.set('n', '<C-d>', Utils.delete_current_entry_from_quickfix,
+      { buffer = true, noremap = true, silent = true, desc = "Delete current item from quickfix list" })
+    vim.keymap.set('n', 'dd', Utils.delete_current_entry_from_quickfix,
       { buffer = true, noremap = true, silent = true, desc = "Delete current item from quickfix list" })
   end,
 })
