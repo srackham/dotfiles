@@ -1,5 +1,6 @@
 return {
   'meinside/gmn.nvim',
+  enabled = false,
   dependencies = { { 'nvim-lua/plenary.nvim' } },
   config = function()
     require 'gmn'.setup {
