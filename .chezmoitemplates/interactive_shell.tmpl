@@ -25,7 +25,9 @@ export BAT_THEME="Dracula"
 export EDITOR=nvim
 
 # Secrets
+{{ if and .secrets (hasKey .secrets "gemini_api_key") }}
 export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
+{{ end }}
 
 # Configure Nix environment for single-user Home Manager
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
