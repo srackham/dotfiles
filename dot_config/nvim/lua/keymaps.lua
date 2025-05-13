@@ -243,10 +243,16 @@ vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', 
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
 
 -- Abbreviations commands
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = vim.g.vim_init_file,
+  command = "source <afile>",
+  desc = "Source init.vim on save"
+})
+
 vim.keymap.set('n', '<Leader>al', function()
   vim.cmd('source ' .. vim.g.vim_init_file)
   vim.notify("Abbreviations loaded")
-end, { expr = true, noremap = true, desc = "Load abbreviations.vim" })
+end, { expr = true, noremap = true, desc = "Load init.vim" })
 vim.keymap.set('n', '<Leader>ae', function()
   vim.cmd('edit ' .. vim.g.vim_init_file)
-end, { noremap = true, desc = "Edit abbreviations.vim" })
+end, { noremap = true, desc = "Edit init.vim" })
