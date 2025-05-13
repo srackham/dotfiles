@@ -4,6 +4,10 @@ set -e
 #
 # Single-user homa-manager install
 #
+# Execute this script with:
+#
+#   curl -fsSL https://raw.githubusercontent.com/srackham/dotfiles/main/share/bin/executable_home-manager-install.sh | bash
+#
 
 delete_home_manager=false
 delete_chezmoi=false
