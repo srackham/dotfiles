@@ -19,7 +19,10 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 vim.g.editorconfig = false -- Disable .editorconfig files globally
-vim.g.abbreviations_file = vim.fn.stdpath('config') .. '/abbreviations.vim'
+vim.g.vim_init_file = vim.fn.stdpath('config') .. '/init.vim'
+
+-- Load abbreviations et al
+vim.cmd('source ' .. vim.g.vim_init_file)
 
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
 require 'options'                -- Load ./lua/options.lua
@@ -29,9 +32,6 @@ require 'highlighting'           -- Load ./lua/highlighting.lua
 
 -- Add local dev directory `require` paths for testing from local development directories
 -- require('utils').add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
-
--- Load abbreviations
-vim.cmd('source ' .. vim.g.abbreviations_file)
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'

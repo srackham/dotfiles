@@ -1,5 +1,5 @@
 "
-" Edit this file to manage persistant abbreviations; source it to load them.
+" Edit this file to manage persistant abbreviations et al; source it to load them.
 "
 :iab admin administrative
 :iab app application
@@ -15,6 +15,9 @@
 :iab <expr> tt strftime('%H:%M')
 :iab hm Home Manager
 :iab lo LibreOffice
+:iab loc LibreOffice Calc
+:iab lod LibreOffice Draw
+:iab low LibreOffice Writer
 :iab nv Neovim
 :iab potus the president of the United States of America
 :iab repo repository

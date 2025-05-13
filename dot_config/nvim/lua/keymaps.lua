@@ -244,9 +244,9 @@ vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', 
 
 -- Abbreviations commands
 vim.keymap.set('n', '<Leader>al', function()
-  vim.cmd('source ' .. vim.g.abbreviations_file)
+  vim.cmd('source ' .. vim.g.vim_init_file)
   vim.notify("Abbreviations loaded")
 end, { expr = true, noremap = true, desc = "Load abbreviations.vim" })
 vim.keymap.set('n', '<Leader>ae', function()
-  vim.cmd('edit ' .. vim.g.abbreviations_file)
+  vim.cmd('edit ' .. vim.g.vim_init_file)
 end, { noremap = true, desc = "Edit abbreviations.vim" })
