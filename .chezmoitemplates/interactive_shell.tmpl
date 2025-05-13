@@ -113,10 +113,8 @@ alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1
 {{else if eq .chezmoi.osRelease.id "nixos"}}
 alias pkgs-upgrade="sudo nix-collect-garbage --delete-old && sudo nix-store --optimise && sudo nix-channel --update && sudo nix-channel --update unstable && mknixos boot --upgrade"
 {{end}}
-{{if .chezmoi.hostname | hasPrefix "nuc"}}
 {{/* Update user Home Manager packages */}}
-alias pkgs-upgrade="nix-collect-garbage --delete-old && nix-store --optimise && nix-channel --update && home-manager switch"
-{{end}}
+alias home-manager-upgrade="nix-collect-garbage --delete-old && nix-store --optimise && nix-channel --update && home-manager switch"
 
 alias mknixos="sudo nixos-rebuild -I nixos-config=$HOME/nixos-configurations/$HOST-configuration.nix"
 alias paste-text="xclip -selection clipboard -o -t text/plain"   # Copy clipboard text to stdout
