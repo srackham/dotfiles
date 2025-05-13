@@ -105,7 +105,8 @@ end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 vim.keymap.set('c', '<C-w>', function()
   return vim.fn.expand('<cword>')
 end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
-vim.keymap.set('n', '<C-d>', 'dd', { noremap = true, silent = true, desc = "Delete line (for Quickfix list compatiblity)" })
+vim.keymap.set('n', '<C-d>', 'dd',
+  { noremap = true, silent = true, desc = "Delete line (for Quickfix list compatiblity)" })
 
 local is_numbered = false -- Show line numbers
 local is_relative = true  -- Use relative line numbers
@@ -240,3 +241,12 @@ vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygi
   { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
 vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
+
+-- Abbreviations commands
+vim.keymap.set('n', '<Leader>al', function()
+  vim.cmd('source ' .. vim.g.abbreviations_file)
+  vim.notify("Abbreviations loaded")
+end, { expr = true, noremap = true, desc = "Load abbreviations.vim" })
+vim.keymap.set('n', '<Leader>ae', function()
+  vim.cmd('edit ' .. vim.g.abbreviations_file)
+end, { noremap = true, desc = "Edit abbreviations.vim" })

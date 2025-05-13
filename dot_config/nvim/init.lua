@@ -15,9 +15,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- The following options must be set before LazyVim setup is executed.
+-- Set the following options before LazyVim setup is executed.
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
+vim.g.editorconfig = false -- Disable .editorconfig files globally
+vim.g.abbreviations_file = vim.fn.stdpath('config') .. '/abbreviations.vim'
 
 require('lazy').setup('plugins') -- Load ./lua/plugins/*.lua
 require 'options'                -- Load ./lua/options.lua
@@ -28,38 +30,8 @@ require 'highlighting'           -- Load ./lua/highlighting.lua
 -- Add local dev directory `require` paths for testing from local development directories
 -- require('utils').add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
 
--- Load auto spell correction abbreviations along with user abbreviations.
-local abbreviations = require('abbreviations')
-abbreviations.setup({
-  -- Custom user abbreviations
-  user_dict = {
-    { "app",       "application" },
-    { "apps",      "applications" },
-    { "btc",       "Bitcoin" },
-    { "eth",       "Ethereum" },
-    { "eu",        "European Union" },
-    { "<expr> dd", "strftime('%d-%b-%Y')" },
-    { "<expr> dt", "strftime('%d-%b-%Y %H:%M')" },
-    { "<expr> tt", "strftime('%H:%M')" },
-    { "hm",        "Home Manager" },
-    { "lo",        "LibreOffice" },
-    { "nv",        "Neovim" },
-    { "potus",     "the president of the United States of America" },
-    { "repo",      "repository" },
-    { "tblsp",     "tablespoon" },
-    { "tbsp",      "tablespoon" },
-    { "tsp",       "teaspoon" },
-    { "uk",        "United Kingdom" },
-    { "usa",       "United States of America" },
-  }
-})
-abbreviations.typos_dict = {} -- Disable the builtin typos dictionary because loading abbreviations is very slow to load on nuc2
-abbreviations.load()
-vim.keymap.set('n', '<Leader>al', function()
-  abbreviations.load({ notify = true })
-end, { noremap = true, silent = true, desc = "Load abbreviations" })
-vim.keymap.set('n', '<Leader>at', abbreviations.toggle,
-  { noremap = true, silent = true, desc = "Toggle abbreviations" })
+-- Load abbreviations
+vim.cmd('source ' .. vim.g.abbreviations_file)
 
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
