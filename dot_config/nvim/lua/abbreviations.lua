@@ -1,41 +1,65 @@
 --[[
-TODO:
 05-May-2025: TLDR: Nice idea but it misses so many of my spelling errors. Maybe I need to wait for an AI powered grammar/spelling checker.
-
-05-May-2025: This module was inspired by [mistake.nvim: a spelling auto correct plugin for Neovim including over 20k entries](https://github.com/ck-zhang/mistake.nvim/tree/main?tab=readme-ov-file) but it's has a number of limitations (see ## Todo at start of neovim-notes.md).
-
-NOTE: Ultimately I think the answer to spelling/grammar correction will come from AI because it can understand both context and grammar.
+Ultimately I think the answer to spelling/grammar correction will come from AI because it can understand both context and grammar.
 
 - AI plugins like this are really promising: [AdrianMosnegutu/docscribe.nvim: A Neovim plugin for generating inline documentation for your functions using LLMs.](https://github.com/AdrianMosnegutu/docscribe.nvim?tab=readme-ov-file)
 
+05-May-2025: This module was inspired by [mistake.nvim: a spelling auto correct plugin for Neovim including over 20k entries](https://github.com/ck-zhang/mistake.nvim/tree/main?tab=readme-ov-file) but it's has a number of limitations (see ## Todo at start of neovim-notes.md).
 
-- Change name to abbreviations.nvim (typos.nvim is taken).
+TODO:
+09-May-2025: This should be turned into a Telescope-based function M.pick() that allows you to select abbreviations.
+M.pick() would be used by M.edit() and M.delete() to edit and delete the selected abbreviation (Enter to edit, Del to delete, Esc to cancel).
+A M.create() function that prompts you to create an abbreviation.
+Input facilitated by https://github.com/liangxianzhe/floating-input.nvim
+Maybe something simple with inputs like:
+
+  hm Home Manager     # Create/update
+  hm                  # Delete hm or warn if does not exist
+
+Store persistent abbreviation data in `vim.fn.stdpath('data') .. '/abbreviations.nvim' (` ~/.local/share/nvim/abbreviations.nvim`) with the following `write_table` function:
+
+```lua
+function write_table(tbl, filename)
+    local file, err = io.open(filename, "w")
+    if not file then error(err) end
+    file:write("return {\n")
+    for _, pair in ipairs(tbl) do
+        file:write(string.format('  {%q, %q},\n', pair[1], pair[2]))
+    end
+    file:write("}\n")
+    file:close()
+end
+```
+
+### Example Usage
+
+```lua
+local data = {
+    {"fo","of"},
+    {"authorixation","authorization"},
+    {"liek","like"},
+}
+write_table(data, "mytable.lua")
+-- Now you can: local t2 = require("mytable")
+```
+
+Here’s how to read the table back again:
+
+```lua
+local path = vim.fn.stdpath('data') .. '/abbreviations.lua'
+local abbreviations = dofile(path)
+```
+This will load the table exactly as it was written, because dofile executes the file and returns the value after return. No manual parsing or string manipulation is needed.
+
+Interim:
+
+- Add `dicts` setup option to load builtin dictionaries M.dicts e.g. setup({dicts={'typos'}}) requires typos.lua (require('abbreviations.typos)).
+- The M.load function can override setup dicts e.g. load({dicts={'typos'}})
 - Once it's all finished turn it into a plugin
-- Add `,at` `,aT` and `,al` commands to toggle and load abbreviations (`,aT` toggles abbreviations and spell checking).
-- Maybe the commands should include enabling/disabling spell checking.
-- Setup should optionally load (you may want to explicitly load).
-- Load(abbreviations,opts) opts is options table.
-
-- opts.notify boolean Display status messages while loading cf. <Leader>ct.
-  "Abbreviations loading..."
-  "Abbreviations loaded"
-  Implemented with a `last_chunk` flag.
-
+- Add `,aT` command to toggle and load abbreviations as well as spell checking???.
 - The builtin typos abbreviations are optional: set `M.typos_dict = {}`to exclude the builtin typos dictionary abbreviations.`
 
-- Here's a list of some other: https://titan.dcs.bbk.ac.uk/~ROGER/corpora.html
-
-Config:
-
-function toggle_abbrviations()
-  if loaded then
-    vim.cmd('abclear')
-  else
-    typos.load(user_abbrevs)
-  end
-  loaded = not loaded
-end
-
+- Here's a list of some other typos databases: https://titan.dcs.bbk.ac.uk/~ROGER/corpora.html
 
 ]]
 
