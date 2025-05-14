@@ -10,7 +10,7 @@ return {
     vim.keymap.set({ 'n', 'v' }, '<Leader>mq', mb.quote_block,
       { noremap = true, silent = true, desc = "Quote/unquote paragraph/selection at the cursor" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mw', function()
-      require('floating-input').input({ prompt = "Wrap column number: ", default = tostring(wrap_column) }, function(col)
+      require('floating-input').input({ prompt = "Wrap at column number: ", default = tostring(wrap_column) }, function(col)
         col = tonumber(col)
         if col then
           mb.wrap_block(col)
