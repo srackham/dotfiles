@@ -43,6 +43,7 @@
     tesseract
     tmux
     tree
+    unixtools.fdisk
     unzip
     xclip
     zoxide
