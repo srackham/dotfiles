@@ -53,7 +53,7 @@ map_next_prev(
   end, "Quickfix")
 map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
-map_next_prev(']z', 'normal! ]s', '[z', 'normal! [s', "misspelt word")
+map_next_prev(']s', 'normal! ]s', '[s', 'normal! [s', "misspelt word")
 -- Builtin markdown section navigation commands have first to be explicitly deleted from the current buffer.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
@@ -74,8 +74,6 @@ vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
-vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>[sz=', { noremap = true, silent = true })   -- Correct last misspelt word
-vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>]sz=', { noremap = true, silent = true }) -- Correct next misspelt word
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<F9>', ':b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('i', '<F9>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
@@ -84,13 +82,6 @@ vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank 
 vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
 vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
-vim.keymap.set('n', '<Leader>Z',
-  function()
-    vim.wo.spell = not vim.wo.spell
-    local status = vim.wo.spell and "enabled" or "disabled"
-    vim.notify("Spell checking " .. status)
-  end,
-  { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<Leader>R', Utils.reload_modified_buffers,
   { noremap = true, silent = true, desc = "Reload modified buffers" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
@@ -152,6 +143,21 @@ vim.keymap.set({ 'n', 'v' }, '<C-M-h>', function()
     vim.notify("No word or selection to search in help", vim.log.levels.ERROR)
   end
 end, { desc = "Open help for word under cursor or selected text" })
+
+-- Spelling commands
+vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>[sz=', { noremap = true, silent = true, desc = "Correct last misspelt word" })
+vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>]sz=',
+  { noremap = true, silent = true, desc = "Correct next misspelt word" })
+vim.keymap.set('n', '<Leader>se', 'z=', { noremap = true, silent = true, desc = "Correct misspelt word under cursor" })
+vim.keymap.set('n', '<Leader>sg', 'zg',
+  { noremap = true, silent = true, desc = "Add correctly spelt under cursor word to spelling dictionary" })
+vim.keymap.set('n', '<Leader>S',
+  function()
+    vim.wo.spell = not vim.wo.spell
+    local status = vim.wo.spell and "enabled" or "disabled"
+    vim.notify("Spell checking " .. status)
+  end,
+  { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Windows commands
 local function close_window()
