@@ -68,13 +68,14 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Miscellaneous commands
-vim.keymap.set('n', ';;', ':nohlsearch<CR>:echo<CR>',
+vim.keymap.set('n', ';;', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
-vim.keymap.set({ 'i', 'n' }, '<C-l>', '<Esc>[sz=', { noremap = true, silent = true }) -- Correct last error
+vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>[sz=', { noremap = true, silent = true })   -- Correct last misspelt word
+vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>]sz=', { noremap = true, silent = true }) -- Correct next misspelt word
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<F9>', ':b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('i', '<F9>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
