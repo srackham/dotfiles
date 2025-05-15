@@ -95,6 +95,7 @@ echo "Install completed successfully."
 echo
 echo "1. Logout and log back in."
 echo "2. Start nvim and wait for all the plugin updates to complete."
+echo "3.  Prepend the Nix binary path '$HOME/.nix-profile/bin' to 'secure_path' in '/etc/sudoers'"
 echo
 echo "NOTE: Wait for all the Neovim plugins to install, don't quit do anything until complete (may take a couple of minutes), just keep an eye on the Neovim status messages line."
 echo ""
