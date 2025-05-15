@@ -41,7 +41,7 @@
     prettierd
     ripgrep
     sd
-    smartctl
+    smartmontools
     tesseract
     tmux
     tree
