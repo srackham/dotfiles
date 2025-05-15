@@ -16,6 +16,7 @@
     deno
     eza
     fd
+    fio
     fzf
     gcc
     gh
@@ -40,6 +41,7 @@
     prettierd
     ripgrep
     sd
+    smartctl
     tesseract
     tmux
     tree
