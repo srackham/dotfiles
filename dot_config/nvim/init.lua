@@ -19,7 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 vim.g.editorconfig = false -- Disable .editorconfig files globally
-vim.g.vim_init_file = vim.fn.stdpath('config') .. '/init.vim'
+vim.g.vim_init_file = vim.fn.stdpath('config') .. '/vim/init.vim'
 
 -- Load abbreviations et al
 vim.cmd('source ' .. vim.g.vim_init_file)
