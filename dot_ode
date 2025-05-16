@@ -9,6 +9,6 @@
 /home/srackham/projects/cryptor
 /home/srackham/projects/ccp
 /home/srackham/projects/xrate
-/home/srackham/projects/digraph-picker.nvim
-/home/srackham/projects/markdown-blocks.nvim
+/home/srackham/.local/share/nvim/lazy/digraph-picker.nvim
+/home/srackham/.local/share/nvim/lazy/markdown-blocks.nvim
 /home/srackham/.local/share/nvim/lazy/floating-input.nvim

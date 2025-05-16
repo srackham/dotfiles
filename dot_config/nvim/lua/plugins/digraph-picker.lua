@@ -4,7 +4,7 @@ return {
   dependencies = {
     'nvim-telescope/telescope.nvim',
   },
-  version = '*', -- Install latest tagged version
+  -- version = '*', -- Install latest tagged version
   config = function()
     local picker = require('digraph-picker')
     picker.setup({
