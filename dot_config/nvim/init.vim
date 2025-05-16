@@ -4,6 +4,7 @@
 :iab admin administrative
 :iab app application
 :iab apps applications
+:iab bk Bitcoin Knots
 :iab btc Bitcoin
 :iab conf configuration
 :iab confs configurations
