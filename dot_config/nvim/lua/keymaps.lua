@@ -68,7 +68,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Miscellaneous commands
-vim.keymap.set('n', ';;', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
+vim.keymap.set('n', '<M-;>', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', '<C-Space>', '<C-f>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true })
@@ -145,12 +145,26 @@ vim.keymap.set({ 'n', 'v' }, '<C-M-h>', function()
 end, { desc = "Open help for word under cursor or selected text" })
 
 -- Spelling commands
-vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>[sz=', { noremap = true, silent = true, desc = "Correct last misspelt word" })
+local spellfile_path = vim.fn.expand(vim.opt.spellfile:get()[1])
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = spellfile_path,
+  command = 'mkspell! ' .. spellfile_path, -- Automatically reloads in all buffers with spelling enabled
+  desc = "Recompile the spelling word list file on save"
+})
+
+vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>[sz=',
+  { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
-vim.keymap.set('n', '<Leader>se', 'z=', { noremap = true, silent = true, desc = "Correct misspelt word under cursor" })
+vim.keymap.set('n', '<Leader>se', function()
+  vim.cmd('edit ' .. spellfile_path)
+end, { noremap = true, desc = "Edit spelling word list file" })
+vim.keymap.set('n', '<Leader>ss', 'z=',
+  { noremap = true, silent = true, desc = "Correct misspelt word under cursor" })
 vim.keymap.set('n', '<Leader>sg', 'zg',
-  { noremap = true, silent = true, desc = "Add correctly spelt under cursor word to spelling dictionary" })
+  { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as correct" })
+vim.keymap.set('n', '<Leader>sw', 'zw',
+  { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as wrong" })
 vim.keymap.set('n', '<Leader>S',
   function()
     vim.wo.spell = not vim.wo.spell
