@@ -390,4 +390,83 @@ function M.send_keys_to_terminal(keys, opts)
   vim.fn.system(tmux_cmd .. ' &')
 end
 
+--- Parse a CSV line into fields, handling optional double-quoted fields.
+-- Handles commas and escaped quotes inside quoted fields according to standard CSV rules.
+-- @param line string: The CSV line to parse.
+-- @return table: An array of parsed fields as strings.
+local function parse_csv_line(line)
+  local res = {}
+  local i = 1
+  local len = #line
+  while i <= len do
+    local c = line:sub(i, i)
+    local field = ""
+    if c == '"' then
+      -- Quoted field
+      i = i + 1
+      while i <= len do
+        c = line:sub(i, i)
+        if c == '"' then
+          if line:sub(i + 1, i + 1) == '"' then
+            -- Escaped quote
+            field = field .. '"'
+            i = i + 2
+          else
+            -- End of quoted field
+            i = i + 1
+            break
+          end
+        else
+          field = field .. c
+          i = i + 1
+        end
+      end
+      -- Skip comma after quoted field, if present
+      if line:sub(i, i) == ',' then
+        i = i + 1
+      end
+    else
+      -- Unquoted field
+      while i <= len and line:sub(i, i) ~= ',' do
+        field = field .. line:sub(i, i)
+        i = i + 1
+      end
+      -- Skip comma after field, if present
+      if line:sub(i, i) == ',' then
+        i = i + 1
+      end
+      -- Trim whitespace
+      field = field:match("^%s*(.-)%s*$")
+    end
+    table.insert(res, field)
+  end
+  return res
+end
+
+--- Convert a CSV string to a Markdown table.
+-- Assumes the first line contains headers. Handles fields optionally quoted with double quotes.
+-- @param csv string: The CSV data as a string.
+-- @return string: The resulting Markdown table as a string.
+function M.csv_to_markdown(csv)
+  local lines = {}
+  for line in csv:gmatch("[^\r\n]+") do
+    table.insert(lines, line)
+  end
+
+  if #lines == 0 then
+    return ""
+  end
+
+  local header = parse_csv_line(lines[1])
+  local markdown = "| " .. table.concat(header, " | ") .. " |\n"
+  markdown = markdown .. "|" .. string.rep("---|", #header) .. "\n"
+
+  for i = 2, #lines do
+    local row = parse_csv_line(lines[i])
+    markdown = markdown .. "| " .. table.concat(row, " | ") .. " |\n"
+  end
+
+  return markdown
+end
+
 return M
