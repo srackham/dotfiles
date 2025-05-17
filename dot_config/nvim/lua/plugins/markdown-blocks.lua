@@ -23,9 +23,11 @@ return {
       { noremap = true, silent = true, desc = "Unwrap paragraph/selection" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mn', mb.number_block,
       { silent = true, noremap = true, desc = "Number/unnumber non-indented lines" })
-    vim.keymap.set({ 'n', 'v' }, '<Leader>mr', mb.renumber_block,
+    vim.keymap.set({ 'n', 'v' }, '<Leader>mN', mb.renumber_block,
       { silent = true, noremap = true, desc = "Renumber numbered lines" })
-    -- vim.keymap.set({ 'n', 'v' }, '<Leader>ms', mb.rulers_block,
-    --   { silent = true, noremap = true, desc = "Surroun paragraph/selection with rulers" })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>mr', mb.ruled_block,
+      { silent = true, noremap = true, desc = "Surround paragraph/selection with rulers" })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>mc', mb.csv_to_markdown_table,
+      { silent = true, noremap = true, desc = "Convert CSV paragraph/selection to a Markdown table" })
   end,
 }
