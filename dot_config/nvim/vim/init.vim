@@ -19,6 +19,7 @@
 :iab loc LibreOffice Calc
 :iab lod LibreOffice Draw
 :iab low LibreOffice Writer
+:iab md Markdown
 :iab nv Neovim
 :iab potus the president of the United States of America
 :iab repo repository
