@@ -60,7 +60,7 @@ alias l="bat --style=plain"
 {{if eq .chezmoi.arch "arm64"}}
 alias cryptor="cryptor.arm64"
 {{end}}
-alias chezmoi-add-modified="chezmoi add ~/.config/nvim/lazy-lock.json && chezmoi add ~/.config/nvim/init.vim"
+alias chezmoi-add-modified="chezmoi add ~/.config/nvim/lazy-lock.json && chezmoi add ~/.config/nvim/vim/init.vim"
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
 alias cryptor-summary="cryptor valuate -currency nzd -confdir ~/bin/.cryptor -aggregate-only"
 alias cryptor-plot="cryptor history -confdir ~/bin/.cryptor -portfolio aggregate | plot-history.sh"
