@@ -152,10 +152,10 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   desc = "Recompile the spelling word list file on save"
 })
 
-vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>[sz=',
-  { noremap = true, silent = true, desc = "Correct previous misspelt word" })
-vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>]sz=',
+vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
+vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>[sz=',
+  { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set('n', '<Leader>se', function()
   vim.cmd('edit ' .. spellfile_path)
 end, { noremap = true, desc = "Edit spelling word list file" })
