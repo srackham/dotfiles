@@ -549,6 +549,7 @@ function M.url_to_markdown_link(url, text)
 end
 
 --- Paste the clipboard (`+` register) as a Markdown link at the cursor.
+-- Disables abbreviation expansion during insertion, restores it after.
 -- Switches to insert mode if not already, inserts the link, and leaves you in insert mode.
 -- @param text string|nil: The link text (optional).
 function M.paste_clipboard_as_markdown_link(text)
@@ -560,15 +561,26 @@ function M.paste_clipboard_as_markdown_link(text)
 
   local link = M.url_to_markdown_link(url, text)
 
+  -- Save current 'paste' setting
+  local paste_was_on = vim.o.paste
+  -- Enable 'paste' to disable abbreviations
+  vim.o.paste = true
+
+  local function restore_paste()
+    vim.o.paste = paste_was_on
+  end
+
   if vim.fn.mode() ~= "i" then
     -- Enter insert mode, then schedule the insertion for after the mode change
     vim.api.nvim_feedkeys("i", "n", false)
     vim.schedule(function()
       vim.api.nvim_feedkeys(link, "i", false)
+      restore_paste()
     end)
   else
     -- Already in insert mode, just insert the link
     vim.api.nvim_feedkeys(link, "i", false)
+    restore_paste()
   end
 end
 
