@@ -514,6 +514,40 @@ function M.markdown_to_csv(md)
   return table.concat(csv_lines, "\n")
 end
 
+--- Extract the base name from a URL according to custom rules.
+-- Rules:
+--   1. If the URL ends with '/', strip it.
+--   2. If the remaining text starts with 'http://' or 'https://', strip it and return the remaining text immediately.
+--   3. If the remaining text contains a '/', strip everything up to and including the last '/'.
+--   4. If the remaining text ends with '.md', strip it.
+-- @param url string: The input URL.
+-- @return string: The extracted base name.
+function M.url_base_name(url)
+  -- Strip trailing slash if present
+  if url:sub(-1) == '/' then
+    url = url:sub(1, -2)
+  end
+
+  -- If starts with http:// or https://, strip and return immediately
+  local stripped = url:match('^https?://(.+)$')
+  if stripped then
+    return stripped
+  end
+
+  -- Strip text up to and including last slash if slash exists
+  local last_slash = url:match('.*/')
+  if last_slash then
+    url = url:sub(#last_slash + 1)
+  end
+
+  -- If ends with .md, strip it
+  if url:sub(-3) == '.md' then
+    url = url:sub(1, -4)
+  end
+
+  return url
+end
+
 --- Converts a URL and optional link text to a Markdown link string.
 -- If `text` is nil or empty, the URL itself is used as the link text.
 --
@@ -528,7 +562,7 @@ end
 -- @return string: The formatted Markdown link.
 function M.url_to_markdown_link(url, text)
   if text == nil or text == "" then
-    text = url
+    text = M.url_base_name(url)
   end
 
   if string.sub(url, 1, 1) == "/" then
