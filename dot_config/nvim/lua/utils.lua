@@ -514,4 +514,62 @@ function M.markdown_to_csv(md)
   return table.concat(csv_lines, "\n")
 end
 
+--- Converts a URL and optional link text to a Markdown link string.
+-- If `text` is nil or empty, the URL itself is used as the link text.
+--
+-- Rules:
+--  * If `url` starts with '/', returns `[text](file://url)`
+--  * If `url` starts with '~', replaces '~' with $HOME and returns `[text](file://expanded_url)`
+--  * If `url` starts with 'http:' or 'https:', returns `[text](url)`
+--  * Otherwise, returns `[text](https://url)`
+--
+-- @param url string: The URL or path to link to.
+-- @param text string|nil: The link text (optional).
+-- @return string: The formatted Markdown link.
+function M.url_to_markdown_link(url, text)
+  if text == nil or text == "" then
+    text = url
+  end
+
+  if string.sub(url, 1, 1) == "/" then
+    return string.format("[%s](file://%s)", text, url)
+  end
+
+  if string.sub(url, 1, 1) == "~" then
+    local home = os.getenv("HOME") or "~"
+    local expanded_url = home .. string.sub(url, 2)
+    return string.format("[%s](file://%s)", text, expanded_url)
+  end
+
+  if string.sub(url, 1, 5) == "http:" or string.sub(url, 1, 6) == "https:" then
+    return string.format("[%s](%s)", text, url)
+  end
+
+  return string.format("[%s](https://%s)", text, url)
+end
+
+--- Paste the clipboard (`+` register) as a Markdown link at the cursor.
+-- Switches to insert mode if not already, inserts the link, and leaves you in insert mode.
+-- @param text string|nil: The link text (optional).
+function M.paste_clipboard_as_markdown_link(text)
+  local url = vim.fn.getreg("+")
+  if url == nil or url == "" then
+    vim.notify("Clipboard is empty!", vim.log.levels.WARN)
+    return
+  end
+
+  local link = M.url_to_markdown_link(url, text)
+
+  if vim.fn.mode() ~= "i" then
+    -- Enter insert mode, then schedule the insertion for after the mode change
+    vim.api.nvim_feedkeys("i", "n", false)
+    vim.schedule(function()
+      vim.api.nvim_feedkeys(link, "i", false)
+    end)
+  else
+    -- Already in insert mode, just insert the link
+    vim.api.nvim_feedkeys(link, "i", false)
+  end
+end
+
 return M
