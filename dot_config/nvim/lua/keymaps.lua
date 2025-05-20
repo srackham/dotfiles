@@ -79,6 +79,7 @@ vim.keymap.set('n', '<F9>', ':b#<CR>', { noremap = true, silent = true, desc = "
 vim.keymap.set('i', '<F9>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
 vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
+vim.keymap.set('i', '<C-p>', '<C-o>p', { noremap = true, silent = false, desc = "Insert mode put command" })
 vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
 vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
