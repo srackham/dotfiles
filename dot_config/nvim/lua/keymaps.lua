@@ -77,13 +77,6 @@ vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = fa
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<F9>', ':b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('i', '<F9>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
-vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
-vim.keymap.set('i', '<C-p>', '<C-o>p', { noremap = true, silent = false, desc = "Insert mode p command" })
-vim.keymap.set('i', '<C-M-p>', '<C-o>P', { noremap = true, silent = false, desc = "Insert mode P command" })
-vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
-vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
-vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('n', '<Leader>R', Utils.reload_modified_buffers,
   { noremap = true, silent = true, desc = "Reload modified buffers" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
@@ -135,6 +128,15 @@ end, { noremap = true, silent = true, desc = "Load current module file into vari
 vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
   Utils.convert_clipboard_url_to_markdown_link()
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
+
+-- Clipboard copy and paste commands
+vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
+vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
+vim.keymap.set('i', '<C-p>', '<C-o>p', { noremap = true, silent = false, desc = "Insert mode p command" })
+vim.keymap.set('i', '<C-M-p>', '<C-o>P', { noremap = true, silent = false, desc = "Insert mode P command" })
+vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
+vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
+vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
