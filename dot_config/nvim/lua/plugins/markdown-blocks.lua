@@ -10,14 +10,15 @@ return {
     vim.keymap.set({ 'n', 'v' }, '<Leader>mq', mb.quote_block,
       { noremap = true, silent = true, desc = "Quote/unquote paragraph/selection at the cursor" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mw', function()
-      require('floating-input').input({ prompt = "Wrap at column number: ", default = tostring(wrap_column) },
-        function(col)
-          col = tonumber(col)
-          if col then
-            mb.wrap_block(col)
-            wrap_column = col
-          end
-        end, {})
+      local col = vim.fn.input("Wrap at column number: ", tostring(wrap_column))
+      if col == '' then
+        return
+      end
+      col = tonumber(col)
+      if col then
+        mb.wrap_block(col)
+        wrap_column = col
+      end
     end, { noremap = true, silent = true, desc = "Wrap paragraph/selection" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mu', mb.unwrap_block,
       { noremap = true, silent = true, desc = "Unwrap paragraph/selection" })
