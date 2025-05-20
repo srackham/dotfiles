@@ -55,7 +55,7 @@ return {
       end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
       -- Disable completion for text files by default
       vim.api.nvim_create_autocmd({ 'FileType' }, {
-        pattern = { 'text' },
+        pattern = { "markdown", "text" },
         callback = function()
           cmp.setup.buffer { enabled = false }
         end
