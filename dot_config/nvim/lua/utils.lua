@@ -588,19 +588,23 @@ end
 
 --- Converts a URL on the clipboard to a Markdown link string.
 function M.convert_clipboard_url_to_markdown_link()
-  local str = M.trim(vim.fn.getreg('+'))
-  if str == '' then
+  local url = M.trim(vim.fn.getreg('+'))
+  if url == '' then
     vim.notify("Clipboard is empty", vim.log.levels.ERROR)
     return
   end
-  if string.sub(str, 1, 1) == '[' then
+  if string.sub(url, 1, 1) == '[' then
     vim.notify("There is already is a link on the clipboard", vim.log.levels.ERROR)
     return
   end
-  str = M.url_to_markdown_link(str)
-  vim.fn.setreg('+', str)
-  vim.fn.setreg('"', str)
-  print("Clipboard URL converted to Markdown link")
+  local link_text = M.url_base_name(url)
+  link_text = vim.fn.input("Link text: ", link_text)
+  if link_text == '' then
+    return
+  end
+  local md_link = M.url_to_markdown_link(url, link_text)
+  vim.fn.setreg('+', md_link)
+  vim.fn.setreg('"', md_link)
 end
 
 return M
