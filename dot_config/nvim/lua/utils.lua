@@ -582,49 +582,25 @@ function M.url_to_markdown_link(url, text)
   return string.format("[%s](https://%s)", text, url)
 end
 
---- Paste the clipboard (`+` register) as a Markdown link at the cursor.
--- Disables abbreviation expansion during insertion, restores it after.
--- Switches to insert mode if not already, inserts the link, and leaves you in insert mode.
--- @param text string|nil: The link text (optional).
-function M.paste_clipboard_as_markdown_link(text)
-  local url = vim.fn.getreg("+")
-  if url == nil or url == "" then
-    vim.notify("Clipboard is empty!", vim.log.levels.WARN)
+function M.trim(s)
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+--- Converts a URL on the clipboard to a Markdown link string.
+function M.convert_clipboard_url_to_markdown_link()
+  local str = M.trim(vim.fn.getreg('+'))
+  if str == '' then
+    vim.notify("Clipboard is empty", vim.log.levels.ERROR)
     return
   end
-
-  local link = M.url_to_markdown_link(url, text)
-
-  -- Save current 'paste' setting
-  local paste_was_on = vim.o.paste
-  -- Enable 'paste' to disable abbreviations
-  vim.o.paste = true
-
-  local function restore_paste()
-    vim.o.paste = paste_was_on
+  if string.sub(str, 1, 1) == '[' then
+    vim.notify("There is already is a link on the clipboard", vim.log.levels.ERROR)
+    return
   end
-
-  local insert_link = function()
-    vim.api.nvim_feedkeys(link, "n", false)
-    vim.schedule(function()
-      vim.schedule(function()
-        vim.defer_fn(restore_paste, 10)
-      end)
-    end)
-  end
-
-  if vim.fn.mode() ~= "i" then
-    -- Enable 'paste' before entering insert mode
-    vim.o.paste = true
-    -- Enter insert mode, then insert link after the mode change
-    vim.api.nvim_feedkeys("i", "n", false)
-    insert_link()
-  else
-    -- Already in insert mode: must exit to set paste, insert, then restore
-    vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes('<Esc>', true, false, true))
-    vim.o.paste = true
-    insert_link()
-  end
+  str = M.url_to_markdown_link(str)
+  vim.fn.setreg('+', str)
+  vim.fn.setreg('"', str)
+  print("Clipboard URL converted to Markdown link")
 end
 
 return M

@@ -131,8 +131,8 @@ vim.keymap.set('n', '<Leader>fl', function()
   vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Load current module file into variable 'M'" })
 vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
-  Utils.paste_clipboard_as_markdown_link()
-end, { noremap = true, silent = true, desc = "Paste clipboard URL as Markdown link" })
+  Utils.convert_clipboard_url_to_markdown_link()
+end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
