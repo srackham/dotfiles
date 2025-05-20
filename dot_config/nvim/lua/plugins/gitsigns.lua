@@ -22,6 +22,11 @@ return {
     end, { desc = "Previous hunk" })
 
     -- Actions
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'markdown',
+      callback = function() gitsigns.toggle_signs(false) end,
+      desc = "Turn Git signs off by default for Markdown files",
+    })
     vim.keymap.set('n', '<Leader>gb', gitsigns.toggle_current_line_blame, { desc = "Toggle line blame" })
     vim.keymap.set('n', '<Leader>gd', gitsigns.toggle_deleted, { desc = "Toggle deleted lines" })
     vim.keymap.set('n', '<Leader>gp', gitsigns.preview_hunk, { desc = "Preview hunk" })
