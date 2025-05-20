@@ -21,6 +21,7 @@
 :iab low LibreOffice Writer
 :iab md Markdown
 :iab nv Neovim
+:iab ob Obsidian
 :iab potus the president of the United States of America
 :iab repo repository
 :iab tblsp tablespoon
