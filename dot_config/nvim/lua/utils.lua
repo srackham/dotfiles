@@ -604,17 +604,26 @@ function M.paste_clipboard_as_markdown_link(text)
     vim.o.paste = paste_was_on
   end
 
-  if vim.fn.mode() ~= "i" then
-    -- Enter insert mode, then schedule the insertion for after the mode change
-    vim.api.nvim_feedkeys("i", "n", false)
+  local insert_link = function()
+    vim.api.nvim_feedkeys(link, "n", false)
     vim.schedule(function()
-      vim.api.nvim_feedkeys(link, "i", false)
-      restore_paste()
+      vim.schedule(function()
+        vim.defer_fn(restore_paste, 10)
+      end)
     end)
+  end
+
+  if vim.fn.mode() ~= "i" then
+    -- Enable 'paste' before entering insert mode
+    vim.o.paste = true
+    -- Enter insert mode, then insert link after the mode change
+    vim.api.nvim_feedkeys("i", "n", false)
+    insert_link()
   else
-    -- Already in insert mode, just insert the link
-    vim.api.nvim_feedkeys(link, "i", false)
-    restore_paste()
+    -- Already in insert mode: must exit to set paste, insert, then restore
+    vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes('<Esc>', true, false, true))
+    vim.o.paste = true
+    insert_link()
   end
 end
 
