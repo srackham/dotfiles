@@ -11,8 +11,8 @@
 :iab cz Chezmoi
 :iab eth Ethereum
 :iab eu European Union
-:iab <expr> dd strftime('%d-%b-%Y')
-:iab <expr> dt strftime('%d-%b-%Y %H:%M')
+:iab <expr> dd strftime('%Y-%m-%d')
+:iab <expr> dt strftime('%Y-%m-%d %H:%M')
 :iab <expr> tt strftime('%H:%M')
 :iab hm Home Manager
 :iab lo LibreOffice
@@ -27,5 +27,7 @@
 :iab tblsp tablespoon
 :iab tbsp tablespoon
 :iab tsp teaspoon
+:iab tsk - [ ] dd
+:iab <expr> tsk "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated task
 :iab uk United Kingdom
 :iab usa United States of America
