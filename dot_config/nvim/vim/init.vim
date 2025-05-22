@@ -30,3 +30,5 @@
 :iab <expr> tsk "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated task
 :iab uk United Kingdom
 :iab usa United States of America
+:iab t ✔
+:iab x ✘
