@@ -27,7 +27,6 @@
 :iab tblsp tablespoon
 :iab tbsp tablespoon
 :iab tsp teaspoon
-:iab tsk - [ ] dd
 :iab <expr> tsk "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated task
 :iab uk United Kingdom
 :iab usa United States of America
