@@ -116,7 +116,6 @@ vim.keymap.set('n', '<Leader>nr', function()
   is_relative = not is_relative
   set_numbered()
 end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
-vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>', { noremap = true, silent = true, desc = "Delete blank lines" })
 vim.keymap.set('n', '<Leader>fl', function()
   if vim.bo.modified then
     vim.cmd('write')
@@ -137,6 +136,12 @@ vim.keymap.set('i', '<C-M-p>', '<C-o>P', { noremap = true, silent = false, desc 
 vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
 vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
+
+-- Edit commands
+vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>',
+  { noremap = true, silent = true, desc = "Delete blank lines in selection" })
+vim.keymap.set('n', '<Leader>et', ':%s/\\s\\+$//e<CR>',
+  { noremap = true, silent = true, desc = "Trim spaces from the ends of lines" })
 
 -- Help commands
 vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
