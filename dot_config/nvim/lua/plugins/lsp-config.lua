@@ -53,6 +53,8 @@ return {
       lspconfig.gleam.setup({
         capabilities = capabilities,
       })
+      lspconfig.marksman.setup({
+      })
 
       local border_style = 'rounded' -- floating window border style
 
