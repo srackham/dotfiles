@@ -1,6 +1,19 @@
 "
 " Edit this file to manage persistant abbreviations et al; source it to load them.
 "
+:iab t ✔
+:iab x ✘
+:iab -- —
+:iab a: > [!ATTENTION]
+:iab b: > [!BUG]
+:iab e: > [!ERROR]
+:iab faq: > [!FAQ]
+:iab i: > [!IMPORTANT]
+:iab n: > [!NOTE]
+:iab tip: > [!TIP]
+:iab tldr: > [!TLDR]
+:iab w: > [!WARNING]
+
 :iab admin administrative
 :iab app application
 :iab apps applications
@@ -30,5 +43,3 @@
 :iab <expr> tsk "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated task
 :iab uk United Kingdom
 :iab usa United States of America
-:iab t ✔
-:iab x ✘
