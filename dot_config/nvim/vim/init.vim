@@ -1,18 +1,17 @@
 "
 " Edit this file to manage persistant abbreviations et al; source it to load them.
 "
-:iab t ✔
-:iab x ✘
-:iab -- —
-:iab a: > [!ATTENTION]
-:iab b: > [!BUG]
-:iab e: > [!ERROR]
-:iab faq: > [!FAQ]
-:iab i: > [!IMPORTANT]
-:iab n: > [!NOTE]
-:iab tip: > [!TIP]
-:iab tldr: > [!TLDR]
-:iab w: > [!WARNING]
+
+:autocmd FileType markdown iab -- —
+:autocmd FileType markdown iab a: > [!ATTENTION]
+:autocmd FileType markdown iab b: > [!BUG]
+:autocmd FileType markdown iab e: > [!ERROR]
+:autocmd FileType markdown iab faq: > [!FAQ]
+:autocmd FileType markdown iab i: > [!IMPORTANT]
+:autocmd FileType markdown iab n: > [!NOTE]
+:autocmd FileType markdown iab tip: > [!TIP]
+:autocmd FileType markdown iab tldr: > [!TLDR]
+:autocmd FileType markdown iab w: > [!WARNING]
 
 :iab admin administrative
 :iab app application
