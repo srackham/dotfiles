@@ -28,6 +28,11 @@ return {
       { silent = true, noremap = true, desc = "Renumber numbered lines" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mr', mb.ruled_block,
       { silent = true, noremap = true, desc = "Surround paragraph/selection with rulers" })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>mf', function()
+        local lang = vim.fn.input("Language: ")
+        mb.code_block(lang)
+      end,
+      { silent = true, noremap = true, desc = "Surround paragraph/selection with code fences" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mc', mb.csv_to_markdown_table,
       { silent = true, noremap = true, desc = "Convert CSV paragraph/selection to a Markdown table" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mC', mb.markdown_table_to_csv,
