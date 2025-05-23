@@ -54,6 +54,7 @@ return {
         capabilities = capabilities,
       })
       lspconfig.marksman.setup({
+        capabilities = capabilities,
       })
 
       local border_style = 'rounded' -- floating window border style
