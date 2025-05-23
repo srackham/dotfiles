@@ -13,6 +13,12 @@
 :autocmd FileType markdown iab tldr: > [!TLDR]
 :autocmd FileType markdown iab w: > [!WARNING]
 
+:iab <expr> dd strftime('%Y-%m-%d')
+:iab <expr> dt strftime('%Y-%m-%d %H:%M')
+:iab <expr> tt strftime('%H:%M')
+:autocmd FileType markdown iab <expr> do: "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated todo
+:autocmd FileType markdown iab <expr> le: "### " .. strftime("%d-%b-%Y")              " Log entry
+
 :iab admin administrative
 :iab app application
 :iab apps applications
@@ -23,9 +29,6 @@
 :iab cz Chezmoi
 :iab eth Ethereum
 :iab eu European Union
-:iab <expr> dd strftime('%Y-%m-%d')
-:iab <expr> dt strftime('%Y-%m-%d %H:%M')
-:iab <expr> tt strftime('%H:%M')
 :iab hm Home Manager
 :iab lo LibreOffice
 :iab loc LibreOffice Calc
@@ -39,6 +42,5 @@
 :iab tblsp tablespoon
 :iab tbsp tablespoon
 :iab tsp teaspoon
-:iab <expr> tsk "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated task
 :iab uk United Kingdom
 :iab usa United States of America
