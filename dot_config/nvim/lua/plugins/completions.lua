@@ -41,6 +41,8 @@ return {
           { name = 'buffer' },
         })
       })
+
+    -- 24-May-2025: TODO: drop unused code
       -- -- Restrict sources for specific file types
       -- cmp.setup.filetype('markdown', {
       --   sources = {
@@ -48,6 +50,7 @@ return {
       --   },
       -- })
 
+    -- 24-May-2025: TODO: drop unused code
       -- -- Disable completion for text files by default
       -- vim.api.nvim_create_autocmd({ 'FileType' }, {
       --   pattern = { "markdown", "text" },
