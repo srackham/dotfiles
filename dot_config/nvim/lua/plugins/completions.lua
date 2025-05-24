@@ -41,25 +41,28 @@ return {
           { name = 'buffer' },
         })
       })
-      -- Restrict sources for specific file types
-      cmp.setup.filetype('markdown', {
-        sources = {
-          { name = 'luasnip' },
-        },
-      })
+      -- -- Restrict sources for specific file types
+      -- cmp.setup.filetype('markdown', {
+      --   sources = {
+      --     { name = 'luasnip' },
+      --   },
+      -- })
+
+      -- -- Disable completion for text files by default
+      -- vim.api.nvim_create_autocmd({ 'FileType' }, {
+      --   pattern = { "markdown", "text" },
+      --   callback = function()
+      --     cmp.setup.buffer { enabled = false }
+      --   end
+      -- })
+
       -- Toggle completion for current buffer
       vim.keymap.set('n', '<Leader>ct', function()
         local is_enabled = not cmp.get_config().enabled
         cmp.setup.buffer { enabled = is_enabled }
         vim.notify(is_enabled and "Auto-completion enabled" or "Auto-completion disabled")
       end, { noremap = true, silent = true, desc = "Toggle auto-completion" })
-      -- Disable completion for text files by default
-      vim.api.nvim_create_autocmd({ 'FileType' }, {
-        pattern = { "markdown", "text" },
-        callback = function()
-          cmp.setup.buffer { enabled = false }
-        end
-      })
+
       -- LuaSnip key mappings
       local luasnip = require('luasnip')
       vim.keymap.set({ 'i', 's' }, '<C-j>', function()
