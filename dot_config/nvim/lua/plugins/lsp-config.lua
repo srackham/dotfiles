@@ -1,14 +1,14 @@
 return {
   {
     'williamboman/mason.nvim',
-    version = '^1.0.0', -- Pinned to latest v1.x version
+    -- version = '^1.0.0', -- Pinned to latest v1.x version
     config = function()
       require 'mason'.setup()
     end,
   },
   {
     'williamboman/mason-lspconfig.nvim',
-    version = '^1.0.0', -- Pinned to latest v1.x version
+    -- version = '^1.0.0', -- Pinned to latest v1.x version
     config = function()
       require 'mason-lspconfig'.setup({
         ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls', 'denols' },
