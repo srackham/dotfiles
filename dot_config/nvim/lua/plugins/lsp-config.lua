@@ -30,7 +30,9 @@ return {
         capabilities = capabilities,
         settings = {
           Lua = {
-            diagnostics = { globals = { 'vim' } } -- Suppress undefined global 'vim' warnings
+            diagnostics = {
+              globals = { 'vim' } -- Suppress undefined global 'vim' warnings
+            },
           }
         }
       })
