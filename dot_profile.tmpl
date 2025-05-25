@@ -27,12 +27,6 @@ export GNC_CONFIG_HOME="$DOCUMENTS_DIR/business/accounting/gnucash5/.config/gnuc
 
 export RECOLL_CONFDIR="$HOME/.config/recoll"
 
-# If X is running set Pause and CapLock to Escape
-if xset q &>/dev/null; then
-    xmodmap -e "keycode 127 = Escape" # Pause key
-    xmodmap -e "keycode 9 = Escape"   # CapsLock key
-fi
-
 #
 # Build the PATH env variable:
 #

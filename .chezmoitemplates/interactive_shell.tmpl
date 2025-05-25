@@ -34,6 +34,12 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
     source $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
 
+# If X is running set Pause and CapLock to Escape
+if xset q &>/dev/null; then
+    xmodmap -e "keycode 127 = Escape" # Pause key
+    xmodmap -e "keycode 9 = Escape"   # CapsLock key
+fi
+
 #
 # Shared aliases
 #
