@@ -1,26 +1,33 @@
 return {
-  {
-    -- Completions won't work without pulling this in despite having its own plugin config file
-    'hrsh7th/nvim-lspconfig',
-  },
+
+  -- Install completion source plugins
   {
     'hrsh7th/cmp-nvim-lsp',
+    config = function() end,
   },
   {
     'hrsh7th/cmp-buffer',
+    config = function() end,
   },
   {
     'hrsh7th/cmp-path',
+    config = function() end,
   },
   {
     'L3MON4D3/LuaSnip',
     dependencies = {
       'saadparwaiz1/cmp_luasnip',
       'rafamadriz/friendly-snippets',
-    }
+    },
+    config = function() end,
   },
+
+  -- Install completion engine
   {
     'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/nvim-lspconfig', -- Ensure nvim_lspconfig is installed and loaded first
+    },
     config = function()
       local cmp = require 'cmp'
       local snippets_dir = vim.fn.stdpath('config') .. '/lua/snippets'
