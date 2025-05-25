@@ -72,7 +72,9 @@ return {
 
       -- Add rounded borders to diagnostic float windows
       vim.diagnostic.config({
-        float = { border = border_style }
+        -- float = { border = border_style },
+        virtual_lines = { current_line = true },
+        -- virtual_text = true,
       })
 
       -- LSP key mappings
@@ -87,20 +89,6 @@ return {
       vim.keymap.set('n', '<Leader>lf', function()
         vim.lsp.buf.format { async = true }
       end, { desc = "Format buffer" })
-      vim.keymap.set('n', '<Leader>ld', function()
-        local enable = not vim.diagnostic.config().virtual_text
-        vim.diagnostic.config({ virtual_text = enable })
-        local status = enable and "enabled" or "disabled"
-        vim.notify("Diagnostics virtual text " .. status)
-      end, { silent = true, noremap = true, desc = "Toggle on-screen diagnostic messages" })
-
-      -- Popup (floating) window mappings
-      vim.keymap.set('n', '<Leader>pd', vim.lsp.buf.hover,
-        { desc = "Show documentation popup for the symbol under the cursor" })
-      vim.keymap.set('n', '<Leader>ps', vim.lsp.buf.signature_help,
-        { desc = "Show function signature popup" })
-      vim.keymap.set('n', '<Leader>pe', vim.diagnostic.open_float,
-        { desc = "Show diagnostic message popup" })
     end,
   },
 }
