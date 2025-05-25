@@ -13,11 +13,11 @@
 :autocmd FileType markdown iab tldr: > [!TLDR]
 :autocmd FileType markdown iab w: > [!WARNING]
 
-:iab <expr> dd strftime('%Y-%m-%d')
-:iab <expr> dt strftime('%Y-%m-%d %H:%M')
+:iab <expr> dd strftime('%Y-%m-%d-%a')
+:iab <expr> dt strftime('%Y-%m-%d-%a %H:%M')
 :iab <expr> tt strftime('%H:%M')
-:autocmd FileType markdown iab <expr> do: "- [ ] " .. strftime("%Y-%m-%d") .. ":"     " Dated todo
-:autocmd FileType markdown iab <expr> le: "### " .. strftime("%d-%b-%Y")              " Log entry
+:autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
+:autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
 :iab admin administrative
 :iab app application
@@ -27,8 +27,16 @@
 :iab conf configuration
 :iab confs configurations
 :iab cz Chezmoi
+:iab dir directory
+:iab dirs directories
 :iab eth Ethereum
 :iab eu European Union
+:iab h1 #
+:iab h2 ##
+:iab h3 ###
+:iab h4 ####
+:iab h5 #####
+:iab h6 ######
 :iab hm Home Manager
 :iab lo LibreOffice
 :iab loc LibreOffice Calc
