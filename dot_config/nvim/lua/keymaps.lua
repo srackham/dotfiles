@@ -36,7 +36,10 @@ vim.keymap.set('n', '#', function()
 end, { expr = true })
 
 -- Install custom next/previous commands.
-map_next_prev(']d', vim.diagnostic.goto_next, '[d', vim.diagnostic.goto_prev, "diagnostic message")
+map_next_prev(
+  ']d', function() vim.diagnostic.goto_next({ float = false }) end,
+  '[d', function() vim.diagnostic.goto_prev({ float = false }) end,
+  "diagnostic message")
 map_next_prev(']g', 'Gitsigns next_hunk', '[g', 'Gitsigns prev_hunk', "Git hunk")
 map_next_prev(
   ']q', function()
