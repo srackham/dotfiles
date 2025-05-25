@@ -10,10 +10,6 @@ return {
     config = function() end,
   },
   {
-    'hrsh7th/cmp-path',
-    config = function() end,
-  },
-  {
     'L3MON4D3/LuaSnip',
     dependencies = {
       'saadparwaiz1/cmp_luasnip',
@@ -52,31 +48,12 @@ return {
           ['<CR>'] = cmp.mapping.confirm({ select = true }),
         }),
 
-        -- Ordered by priority
+        -- Ordered by sources declaration order
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
-          { name = 'buffer',  keyword_length = 3 },
+          { name = 'buffer',  keyword_length = 5 },
         })
-      })
-
-      -- `/` cmdline setup.
-      cmp.setup.cmdline('/', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
-      })
-
-      -- `:` cmdline setup.
-      cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        }),
-        matching = { disallow_symbol_nonprefix_matching = false }
       })
 
       -- 24-May-2025: TODO: drop unused code
