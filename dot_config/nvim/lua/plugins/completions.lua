@@ -1,6 +1,16 @@
 return {
   {
+    -- Completions won't work without pulling this in despite having its own plugin config file
+    'hrsh7th/nvim-lspconfig',
+  },
+  {
     'hrsh7th/cmp-nvim-lsp',
+  },
+  {
+    'hrsh7th/cmp-buffer',
+  },
+  {
+    'hrsh7th/cmp-path',
   },
   {
     'L3MON4D3/LuaSnip',
@@ -8,9 +18,6 @@ return {
       'saadparwaiz1/cmp_luasnip',
       'rafamadriz/friendly-snippets',
     }
-  },
-  {
-    'hrsh7th/cmp-buffer',
   },
   {
     'hrsh7th/nvim-cmp',
@@ -30,16 +37,39 @@ return {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
+
         mapping = cmp.mapping.preset.insert({
-          ['<C-p>'] = cmp.config.disable,
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<CR>'] = cmp.mapping.confirm({ select = true }),
         }),
+
+        -- Ordered by priority
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
-          { name = 'buffer' },
+          { name = 'buffer',  keyword_length = 3 },
         })
+      })
+
+      -- `/` cmdline setup.
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+
+      -- `:` cmdline setup.
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          { name = 'cmdline' }
+        }),
+        matching = { disallow_symbol_nonprefix_matching = false }
       })
 
       -- 24-May-2025: TODO: drop unused code

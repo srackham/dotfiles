@@ -1,14 +1,18 @@
 return {
   {
     'williamboman/mason.nvim',
+    -- 24-May-2025: TODO: drop unused code
     -- version = '^1.0.0', -- Pinned to latest v1.x version
+    version = '*', -- Pinned to latest tagged version
     config = function()
       require 'mason'.setup()
     end,
   },
   {
     'williamboman/mason-lspconfig.nvim',
+    -- 24-May-2025: TODO: drop unused code
     -- version = '^1.0.0', -- Pinned to latest v1.x version
+    version = '*', -- Pinned to latest tagged version
     config = function()
       require 'mason-lspconfig'.setup({
         ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls', 'denols' },
@@ -17,6 +21,7 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
+    version = '*', -- Pinned to latest tagged version
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require 'lspconfig'
