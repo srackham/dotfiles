@@ -7,7 +7,7 @@
 {
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
-  home.stateVersion = "25.11";
+  home.stateVersion = "25.05";
 
   home.packages = with pkgs; [
     bat
