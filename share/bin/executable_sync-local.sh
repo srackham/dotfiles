@@ -13,5 +13,6 @@ top_level_dirs=$(find "$SRC" -maxdepth 1 -type d -printf '%P\n' | grep -v '^$')
 
 # Sync each top-level directory individually
 for dir in $top_level_dirs; do
+    echo rsync -avz --delete "$SRC/$dir/" "$DEST/$dir/"
     rsync -avz --delete "$SRC/$dir/" "$DEST/$dir/"
 done
