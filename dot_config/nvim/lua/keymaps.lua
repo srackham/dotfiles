@@ -123,13 +123,22 @@ vim.keymap.set('n', '<Leader>fl', function()
   if vim.bo.modified then
     vim.cmd('write')
   end
+
   local file_path = vim.fn.expand('%:p') -- Get the full path of the current file
   M = assert(loadfile(file_path))()
   vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Load current module file into variable 'M'" })
+
 vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
   Utils.convert_clipboard_url_to_markdown_link()
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
+
+-- Preview Markdown files in the browser with the Chrome Markdown Viewer extension
+-- https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk
+vim.keymap.set('n', ',mp', function()
+  -- Open current file in browser, suppressing all output
+  os.execute('brave "' .. vim.fn.expand('%:p') .. '" > /dev/null 2>&1 &')
+end, { desc = 'Open current file in Brave browser' })
 
 -- Clipboard copy and paste commands
 vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
