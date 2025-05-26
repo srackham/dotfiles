@@ -4,6 +4,7 @@ return {
     -- 24-May-2025: TODO: drop unused code
     -- version = '^1.0.0', -- Pinned to latest v1.x version
     version = '*', -- Pinned to latest tagged version
+    -- TODO: Use opts = {} instead of:
     config = function()
       require 'mason'.setup()
     end,
@@ -13,6 +14,7 @@ return {
     -- 24-May-2025: TODO: drop unused code
     -- version = '^1.0.0', -- Pinned to latest v1.x version
     version = '*', -- Pinned to latest tagged version
+    -- TODO: Use opts = {...} instead of:
     config = function()
       require 'mason-lspconfig'.setup({
         ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls', 'denols' },
@@ -23,16 +25,12 @@ return {
     'neovim/nvim-lspconfig',
     version = '*', -- Pinned to latest tagged version
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require 'lspconfig'
       lspconfig.gopls.setup({
-        capabilities = capabilities,
       })
       lspconfig.jsonls.setup({
-        capabilities = capabilities,
       })
       lspconfig.lua_ls.setup({
-        capabilities = capabilities,
         settings = {
           Lua = {
             diagnostics = {
@@ -42,7 +40,6 @@ return {
         }
       })
       lspconfig.ts_ls.setup({
-        capabilities = capabilities,
         root_dir = function()
           if lspconfig.util.root_pattern('deno.json', 'deno.jsonc')() then
             return nil -- If it's a Deno project don't attach the ts_ls LSP
@@ -53,15 +50,12 @@ return {
         single_file_support = false
       })
       lspconfig.denols.setup({
-        capabilities = capabilities,
         root_dir = lspconfig.util.root_pattern('deno.json', 'deno.jsonc'),
 
       })
       lspconfig.gleam.setup({
-        capabilities = capabilities,
       })
       lspconfig.marksman.setup({
-        capabilities = capabilities,
       })
 
       local border_style = 'rounded' -- floating window border style

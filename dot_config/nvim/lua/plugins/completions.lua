@@ -3,12 +3,15 @@ return {
   -- Install completion source plugins
   {
     "hrsh7th/cmp-nvim-lsp",
+    enabled = false,
   },
   {
     "hrsh7th/cmp-buffer",
+    enabled = false,
   },
   {
     "L3MON4D3/LuaSnip",
+    enabled = false,
     dependencies = {
       "saadparwaiz1/cmp_luasnip",
       "rafamadriz/friendly-snippets",
@@ -18,6 +21,7 @@ return {
   -- Install completion engine
   {
     "hrsh7th/nvim-cmp",
+    enabled = false,
     dependencies = {
       "hrsh7th/nvim-lspconfig", -- Ensure nvim_lspconfig is installed and loaded first
     },
