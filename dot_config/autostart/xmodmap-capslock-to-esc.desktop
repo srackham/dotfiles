@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=xmodmap -e "keycode 9 = Escape"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Remap CapsLock to Escape
+Comment=Remap CapsLock key to Escape using xmodmap
