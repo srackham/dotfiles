@@ -7,7 +7,10 @@ return {
 
   -- See https://cmp.saghen.dev/installation.html for options
   opts = {
-    keymap = { preset = 'default' },
+    keymap = {
+      preset = 'default',
+      ["<C-Space>"] = { "select_and_accept" },
+    },
 
     appearance = {
       nerd_font_variant = 'mono'
