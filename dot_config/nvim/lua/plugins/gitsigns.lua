@@ -29,7 +29,11 @@ return {
     vim.keymap.set('n', '<Leader>gr', gitsigns.reset_hunk, { desc = "Reset hunk" })
     vim.keymap.set('n', '<Leader>gS', gitsigns.stage_buffer, { desc = "Stage all hunks in current buffer" })
     vim.keymap.set('n', '<Leader>gs', gitsigns.stage_hunk, { desc = "Stage hunk" })
-    vim.keymap.set('n', '<Leader>gt', gitsigns.toggle_signs, { desc = "Toggle Git signs" })
+    vim.keymap.set('n', '<Leader>gt', function()
+      local enabled = gitsigns.toggle_signs()
+      local status = enabled and "enabled" or "disabled"
+      vim.notify("Git signs " .. status)
+    end, { desc = "Toggle Git signs" })
     vim.keymap.set('n', '<Leader>gu', gitsigns.undo_stage_hunk, { desc = "Undo staged hunk" })
 
     vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', { fg = '#999999' })
