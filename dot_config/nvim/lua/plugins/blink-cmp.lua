@@ -5,8 +5,9 @@ return {
   -- use a release tag to download pre-built binaries
   version = '1.*',
 
+  -- See https://cmp.saghen.dev/installation.html for options
   opts = {
-    keymap = { preset = 'enter' },
+    keymap = { preset = 'default' },
 
     appearance = {
       nerd_font_variant = 'mono'
