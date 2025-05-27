@@ -13,9 +13,10 @@
 :autocmd FileType markdown iab tldr: > [!TLDR]
 :autocmd FileType markdown iab w: > [!WARNING]
 
-:iab <expr> dd strftime('%Y-%m-%d-%a')
-:iab <expr> dt strftime('%Y-%m-%d-%a %H:%M')
-:iab <expr> tt strftime('%H:%M')
+:iab <expr> d strftime('%Y-%m-%d')          " Date
+:iab <expr> dd strftime('%Y-%m-%d-%a')      " Date with day
+:iab <expr> t strftime('%H:%M')             " Time
+:iab <expr> dt strftime('%Y-%m-%d %H:%M')   " Date and time
 :autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
 :autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
@@ -37,6 +38,8 @@
 :iab h4 ####
 :iab h5 #####
 :iab h6 ######
+:iab lh left hand
+:iab lhs left hand side
 :iab hm Home Manager
 :iab lo LibreOffice
 :iab loc LibreOffice Calc
@@ -47,6 +50,8 @@
 :iab ob Obsidian
 :iab potus the president of the United States of America
 :iab repo repository
+:iab rh right hand
+:iab rhs right hand side
 :iab tblsp tablespoon
 :iab tbsp tablespoon
 :iab tsp teaspoon
