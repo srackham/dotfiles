@@ -47,15 +47,6 @@ return {
         root_dir = lspconfig.util.root_pattern('deno.json', 'deno.jsonc'),
       }
 
-      -- Add rounded borders to LSP hover and signature help
-      local border_style = 'rounded'
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover, { border = border_style }
-      )
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help, { border = border_style }
-      )
-
       -- Configure diagnostic message UI
       vim.diagnostic.config {
         -- float = { border = border_style },
