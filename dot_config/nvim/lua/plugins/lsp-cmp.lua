@@ -81,20 +81,38 @@ return {
     version = '1.*',
 
     -- See https://cmp.saghen.dev/installation.html for options
-    opts = {
-      keymap = {
-        preset = 'default',
-        ["<C-Space>"] = { "select_and_accept" },
-      },
-      appearance = {
-        nerd_font_variant = 'mono'
-      },
-      completion = { documentation = { auto_show = true } },
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
-      fuzzy = { implementation = 'prefer_rust_with_warning' }
-    },
-    opts_extend = { 'sources.default' }
+    config = function()
+      local cmp = require('blink.cmp')
+      local cmp_enabled = true
+
+      cmp.setup {
+        keymap = {
+          preset = 'default',
+          ["<C-Space>"] = { "select_and_accept" },
+        },
+        appearance = {
+          nerd_font_variant = 'mono'
+        },
+        completion = { documentation = { auto_show = true } },
+        sources = {
+          default = { 'lsp', 'path', 'snippets', 'buffer' },
+        },
+        fuzzy = { implementation = 'prefer_rust_with_warning' },
+        enabled = function()
+          return cmp_enabled
+        end,
+      }
+
+      vim.keymap.set("n", "<leader>ct", function()
+        cmp_enabled = not cmp_enabled
+        vim.notify("Completions " .. (cmp_enabled and "enabled" or "disabled"))
+      end, { noremap = true, silent = true, desc = "Toggle completions" })
+
+      -- TODO:
+      -- vim.keymap.set("n", "<leader>es", require("luasnip.loaders").edit_snippet_files,
+      --   { noremap = true, desc = "Edit snippets" })
+    end,
+
+    opts_extend = { 'sources.default' },
   },
 }
