@@ -3,6 +3,14 @@
 # This script is run as root from the OMV server, it extracts backup
 # activity from system log files relating to the various cron jobs.
 
+SERVER="nuc1"
+DATE="date +%Y-%m-%d-%a\ %H:%M:%S"
+
+if [ "$(hostname)" != "nuc1" ]; then
+    echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
+    exit 1
+fi
+
 logfiles="/var/log/messages.1 /var/log/messages"
 
 echo RSNAPSHOT BACKUPS
