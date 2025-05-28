@@ -43,6 +43,7 @@ return {
         { digraph = 'um', symbol = '☂', name = 'Umbrella' },
         { digraph = 've', symbol = '⋮', name = 'Vertical ellipsis' },
         { digraph = 'wr', symbol = '✎', name = 'Pencil' },
+        { digraph = 'xr', symbol = '☧', name = 'Chi Rho' },
         { digraph = 'xx', symbol = '✗', name = 'Cross mark' },
         -- Nerd Font characters (Nerd Fonts must be installed)
         { digraph = 'rk', symbol = '', name = 'Rocket' },

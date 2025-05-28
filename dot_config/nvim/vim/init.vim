@@ -20,6 +20,8 @@
 :autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
 :autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
+:iab ap AI prompt
+:iab ar AI response
 :iab admin administrative
 :iab app application
 :iab apps applications
