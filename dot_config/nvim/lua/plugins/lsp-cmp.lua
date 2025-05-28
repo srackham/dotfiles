@@ -20,10 +20,7 @@ return {
       local lspconfig = require 'lspconfig'
 
       -- Configure LSP servers
-      lspconfig.gopls.setup {}
-      lspconfig.jsonls.setup {}
-      lspconfig.gleam.setup {}
-      lspconfig.marksman.setup {}
+      lspconfig.marksman.setup {} -- Marksman is not managed by Mason so needs explicit default setup
       lspconfig.lua_ls.setup {
         settings = {
           Lua = {
