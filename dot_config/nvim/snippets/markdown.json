@@ -1,7 +1,112 @@
 {
-  "Example 3": {
-    "prefix": ["example-json-3"],
+  "Insert Abstract": {
+    "prefix": "abstract-callout",
+    "body": "> [!ABSTRACT]\n> ",
+    "description": "Insert Abstract"
+  },
+  "Insert Attention": {
+    "prefix": "attention-callout",
+    "body": "> [!ATTENTION]\n> ",
+    "description": "Insert Attention"
+  },
+  "Insert Bug": {
+    "prefix": "bug-callout",
+    "body": "> [!BUG]\n> ",
+    "description": "Insert Bug"
+  },
+  "Insert Check": {
+    "prefix": "check-callout",
+    "body": "> [!CHECK]\n> ",
+    "description": "Insert Check"
+  },
+  "Insert Cite": {
+    "prefix": "cite-callout",
+    "body": "> [!CITE]\n> ",
+    "description": "Insert Cite"
+  },
+  "Insert Danger": {
+    "prefix": "danger-callout",
+    "body": "> [!DANGER]\n> ",
+    "description": "Insert Danger"
+  },
+  "Insert Done": {
+    "prefix": "done-callout",
+    "body": "> [!DONE]\n> ",
+    "description": "Insert Done"
+  },
+  "Insert Error": {
+    "prefix": "error-callout",
     "body": "> [!ERROR]\n> ",
     "description": "Insert Error"
+  },
+  "Insert Example": {
+    "prefix": "example-callout",
+    "body": "> [!EXAMPLE]\n> ",
+    "description": "Insert Example"
+  },
+  "Insert Fail": {
+    "prefix": "fail-callout",
+    "body": "> [!FAIL]\n> ",
+    "description": "Insert Fail"
+  },
+  "Insert Failure": {
+    "prefix": "failure-callout",
+    "body": "> [!FAILURE]\n> ",
+    "description": "Insert Failure"
+  },
+  "Insert Faq": {
+    "prefix": "faq-callout",
+    "body": "> [!FAQ]\n> ",
+    "description": "Insert Faq"
+  },
+  "Insert Help": {
+    "prefix": "help-callout",
+    "body": "> [!HELP]\n> ",
+    "description": "Insert Help"
+  },
+  "Insert Hint": {
+    "prefix": "hint-callout",
+    "body": "> [!HINT]\n> ",
+    "description": "Insert Hint"
+  },
+  "Insert Info": {
+    "prefix": "info-callout",
+    "body": "> [!INFO]\n> ",
+    "description": "Insert Info"
+  },
+  "Insert Missing": {
+    "prefix": "missing-callout",
+    "body": "> [!MISSING]\n> ",
+    "description": "Insert Missing"
+  },
+  "Insert Question": {
+    "prefix": "question-callout",
+    "body": "> [!QUESTION]\n> ",
+    "description": "Insert Question"
+  },
+  "Insert Quote": {
+    "prefix": "quote-callout",
+    "body": "> [!QUOTE]\n> ",
+    "description": "Insert Quote"
+  },
+  "Insert Success": {
+    "prefix": "success-callout",
+    "body": "> [!SUCCESS]\n> ",
+    "description": "Insert Success"
+  },
+  "Insert Summary": {
+    "prefix": "summary-callout",
+    "body": "> [!SUMMARY]\n> ",
+    "description": "Insert Summary"
+  },
+  "Insert Tldr": {
+    "prefix": "tldr-callout",
+    "body": "> [!TLDR]\n> ",
+    "description": "Insert Tldr"
+  },
+  "Insert Todo": {
+    "prefix": "todo-callout",
+    "body": "> [!TODO]\n> ",
+    "description": "Insert Todo"
   }
 }
