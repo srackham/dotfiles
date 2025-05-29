@@ -4,7 +4,7 @@ return {
   -- version = '*', -- Install latest tagged version
   config = function()
     local mb = require('markdown-blocks')
-    local wrap_column = 50
+    local wrap_column = 100
     vim.keymap.set({ 'n', 'v' }, '<Leader>mb', mb.break_block,
       { noremap = true, silent = true, desc = "Break/unbreak the paragraph/selection at the cursor" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mq', mb.quote_block,
