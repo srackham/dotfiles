@@ -7,3 +7,21 @@ gui:
   theme:
     selectedLineBgColor:
       - "#404040"
+
+customCommands:
+
+  # # NOTE: As of Lazygit v0.41 (and earlier), there is no official configuration option to suppress
+  # # the Press enter to return to lazygit prompt after running a custom command with subprocess: false
+  # # (the default).
+  # - key: "O"
+  #   context: "files"
+  #   description: "Open selected file in the editor pane"
+  #   command: 'nvim-open.sh "{{.SelectedFile.Name}}"'
+  #   subprocess: true
+
+  #   # NOTE: Does not exit LazyVim and there is currently no way to exit from a custom command.
+  # - key: "Q"
+  #   description: "Quit LazyGit and return to editor pane"
+  #   context: "global"
+  #   command: "tmux select-pane -Z -t:.1; exit"
+  #   subprocess: true
