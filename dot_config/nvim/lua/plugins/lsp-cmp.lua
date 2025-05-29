@@ -1,4 +1,25 @@
--- Combined LSP and completions plugin configurations file
+--[[
+
+# Combined LSP, completions and snippets plugin configurations file
+
+## Snippets
+Aside from the `friendly-snippets` dependency there's nothing to set up.
+
+Blink uses the `vim.snippet` API by default for expanding and navigating snippets. The built-in
+`snippets` source will load [friendly-snippets](https://github.com/rafamadriz/friendly-snippets), if
+available, and load any snippets found at `~/.config/nvim/snippets/`.
+
+By default, the snippets source will check ~/.config/nvim/snippets for your custom snippets, but you
+may add additional folders via sources.providers.snippets.opts.search_paths. Currently, only VSCode
+style snippets are supported, but you may look into Luasnip if you'd like more advanced
+functionality.
+
+See:
+
+- https://cmp.saghen.dev/configuration/snippets.html
+
+]]
+
 
 return {
   -- Mason LSP server manager
@@ -75,10 +96,11 @@ return {
   -- Completion engine: blink.cmp
   {
     'saghen/blink.cmp',
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    version = '1.*', -- Use a release tag to download pre-built binaries
 
-    -- use a release tag to download pre-built binaries
-    version = '1.*',
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+    },
 
     -- See https://cmp.saghen.dev/installation.html for options
     config = function()
@@ -107,10 +129,6 @@ return {
         cmp_enabled = not cmp_enabled
         vim.notify("Completions " .. (cmp_enabled and "enabled" or "disabled"))
       end, { noremap = true, silent = true, desc = "Toggle completions" })
-
-      -- TODO:
-      -- vim.keymap.set("n", "<leader>es", require("luasnip.loaders").edit_snippet_files,
-      --   { noremap = true, desc = "Edit snippets" })
     end,
 
     opts_extend = { 'sources.default' },
