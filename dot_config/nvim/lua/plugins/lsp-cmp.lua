@@ -117,7 +117,25 @@ return {
         },
         completion = { documentation = { auto_show = true } },
         sources = {
-          default = { 'lsp', 'path', 'snippets', 'buffer' },
+          default = { 'lsp', 'path', 'snippets', 'buffer', 'cmdline' },
+          providers = {
+            snippets = {
+              min_keyword_length = 2,
+              score_offset = 4,
+            },
+            lsp = {
+              min_keyword_length = 3,
+              score_offset = 3,
+            },
+            path = {
+              min_keyword_length = 3,
+              score_offset = 2,
+            },
+            buffer = {
+              min_keyword_length = 5,
+              score_offset = 1,
+            },
+          },
         },
         fuzzy = { implementation = 'prefer_rust_with_warning' },
         enabled = function()
