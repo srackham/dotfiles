@@ -50,6 +50,8 @@
 :iab md Markdown
 :iab nv Neovim
 :iab ob Obsidian
+:iab ot Old Testament
+:iab nt New Testament
 :iab potus the president of the United States of America
 :iab repo repository
 :iab rh right hand
@@ -59,3 +61,4 @@
 :iab tsp teaspoon
 :iab uk United Kingdom
 :iab usa United States of America
+:iab vsc VSCode
