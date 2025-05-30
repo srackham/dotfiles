@@ -3,22 +3,13 @@
 "
 
 :autocmd FileType markdown iab -- —
-:autocmd FileType markdown iab a: > [!ATTENTION]
-:autocmd FileType markdown iab b: > [!BUG]
-:autocmd FileType markdown iab e: > [!ERROR]
-:autocmd FileType markdown iab faq: > [!FAQ]
-:autocmd FileType markdown iab i: > [!IMPORTANT]
-:autocmd FileType markdown iab n: > [!NOTE]
-:autocmd FileType markdown iab tip: > [!TIP]
-:autocmd FileType markdown iab tldr: > [!TLDR]
-:autocmd FileType markdown iab w: > [!WARNING]
+:autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
+:autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
 :iab <expr> d strftime('%Y-%m-%d')          " Date
 :iab <expr> dd strftime('%Y-%m-%d-%a')      " Date with day
 :iab <expr> t strftime('%H:%M')             " Time
 :iab <expr> dt strftime('%Y-%m-%d %H:%M')   " Date and time
-:autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
-:autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
 :iab ap AI prompt
 :iab ar AI response
