@@ -9,6 +9,8 @@ return {
       { noremap = true, silent = true, desc = "Break/unbreak the paragraph/selection at the cursor" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mq', mb.quote_block,
       { noremap = true, silent = true, desc = "Quote/unquote paragraph/selection at the cursor" })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>ml', mb.list_block,
+      { noremap = true, silent = true, desc = "Toggle list item bullets in paragraph/selection at the cursor" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mw', function()
       local col = vim.fn.input("Wrap at column number: ", tostring(wrap_column))
       if col == '' then
