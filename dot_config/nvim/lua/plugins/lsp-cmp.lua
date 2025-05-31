@@ -41,7 +41,6 @@ return {
       local lspconfig = require 'lspconfig'
 
       -- Configure LSP servers
-      lspconfig.marksman.setup {} -- Marksman is not managed by Mason so needs explicit default setup
       lspconfig.lua_ls.setup {
         settings = {
           Lua = {
