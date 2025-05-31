@@ -24,5 +24,9 @@ return {
       blink = true,  -- Enables completion using blink.cmp
       min_chars = 0, -- Trigger completion at 2 chars.
     },
+    daily_notes = {
+      folder = "daily",
+      workdays_only = false,
+    },
   },
 }
