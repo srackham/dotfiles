@@ -5,18 +5,24 @@ return {
   ft = "markdown",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    'nvim-telescope/telescope.nvim', -- Optional, for search and quick-switch functionality.
+    'nvim-telescope/telescope.nvim',
   },
   opts = {
     workspaces = {
       {
+        -- PKM notes
+        name = "notes",
+        path = "~/share/notes",
+      },
+      {
+        -- Legacy and non-PKM relates documents
         name = "doc",
         path = "~/share/doc",
       },
     },
     completion = {
       blink = true,  -- Enables completion using blink.cmp
-      min_chars = 2, -- Trigger completion at 2 chars.
+      min_chars = 0, -- Trigger completion at 2 chars.
     },
   },
 }

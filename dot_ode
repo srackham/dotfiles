@@ -2,6 +2,7 @@
 # List of project directories opened by ~/bin/ode
 # Path expansion not suppoted (`~` or `$HOME`).
 #
+/home/srackham/notes
 /home/srackham/doc
 /home/srackham/.local/share/chezmoi
 /home/srackham/nixos-configurations
