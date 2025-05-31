@@ -93,8 +93,6 @@ end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
 vim.keymap.set('c', '<C-w>', function()
   return vim.fn.expand('<cword>')
 end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
-vim.keymap.set('n', '<C-d>', 'dd',
-  { noremap = true, silent = true, desc = "Delete line (for Quickfix list compatiblity)" })
 
 local is_numbered = false -- Show line numbers
 local is_relative = true  -- Use relative line numbers
@@ -282,11 +280,17 @@ end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 -- modified files might not be saved prior to the execution of tmux terminal pane commands.
 vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
+vim.keymap.set('n', '<M-e>', function() Utils.send_keys_to_terminal('Up Enter') end,
+  { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
+
 vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
-vim.keymap.set('n', '<F9>', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
+vim.keymap.set('n', '<M-g>', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
+
 vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+  { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
+vim.keymap.set('n', '<M-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
 
 -- Abbreviations commands

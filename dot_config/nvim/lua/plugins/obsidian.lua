@@ -1,6 +1,6 @@
 return {
   "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
-  version = "*",                 -- recommended, use latest release instead of latest commit
+  version = "*",                 -- Use latest release instead of latest commit
   lazy = true,
   ft = "markdown",
   dependencies = {

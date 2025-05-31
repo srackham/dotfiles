@@ -142,10 +142,14 @@ return {
         end,
       }
 
-      vim.keymap.set("n", "<leader>ct", function()
+      local function toggle_completions()
         cmp_enabled = not cmp_enabled
         vim.notify("Completions " .. (cmp_enabled and "enabled" or "disabled"))
-      end, { noremap = true, silent = true, desc = "Toggle completions" })
+      end
+      vim.keymap.set("n", "<leader>ct", toggle_completions,
+        { noremap = true, silent = true, desc = "Toggle completions" })
+      vim.keymap.set("n", "<C-M-Space>", toggle_completions,
+        { noremap = true, silent = true, desc = "Toggle completions" })
     end,
 
     opts_extend = { 'sources.default' },

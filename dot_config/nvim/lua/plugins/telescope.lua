@@ -49,7 +49,9 @@ return {
       vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fc', builtin.command_history, { desc = "List command history" })
       vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
+      vim.keymap.set('n', 'ff', find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
+      vim.keymap.set('n', 'fg', live_grep, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fH', builtin.highlights, { desc = "List highlights" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
@@ -135,7 +137,8 @@ return {
         }
       }
       telescope.load_extension('heading')
-      vim.keymap.set('n', '<Leader>fh', telescope.extensions.heading.heading, { desc = "List headings" })
+      vim.keymap.set('n', '<Leader>fh', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
+      vim.keymap.set('n', 'gh', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
     end,
   },
 }
