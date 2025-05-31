@@ -76,8 +76,8 @@ vim.keymap.set('n', '<M-;>', ':nohlsearch<CR>:echo<CR>', -- Turn of search highl
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<F9>', ':b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('i', '<F9>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
+vim.keymap.set('n', '<C-\\>', ':b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
+vim.keymap.set('i', '<C-\\>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>R', Utils.reload_modified_buffers,
   { noremap = true, silent = true, desc = "Reload modified buffers" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
@@ -278,9 +278,13 @@ end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
 -- Terminal execution commands
 -- These commands save modified buffers and then execute CLI commands in the tmux terminal pane.
+-- NOTE: These command should logically reside in tmux but, due to Neovim async behaviour,
+-- modified files might not be saved prior to the execution of tmux terminal pane commands.
 vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
 vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
+  { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
+vim.keymap.set('n', '<F9>', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
 vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
