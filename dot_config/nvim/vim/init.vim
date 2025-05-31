@@ -6,9 +6,9 @@
 :autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
 :autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
-:iab <expr> d strftime('%Y-%m-%d')          " Date
+:iab <expr> dt strftime('%Y-%m-%d')         " Date
 :iab <expr> dd strftime('%Y-%m-%d-%a')      " Date with day
-:iab <expr> t strftime('%H:%M')             " Time
+:iab <expr> tm strftime('%H:%M')            " Time
 :iab <expr> dt strftime('%Y-%m-%d %H:%M')   " Date and time
 
 :iab ap AI prompt
@@ -38,9 +38,10 @@
 :iab loc LibreOffice Calc
 :iab lod LibreOffice Draw
 :iab low LibreOffice Writer
-:iab md Markdown
+:iab mk Markdown
 :iab nv Neovim
 :iab ob Obsidian
+:iab pkm Personal Knowledge Management (PKM)
 :iab ot Old Testament
 :iab nt New Testament
 :iab potus the president of the United States of America
