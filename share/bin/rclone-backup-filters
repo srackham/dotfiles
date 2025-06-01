@@ -1,6 +1,8 @@
 # Used by ~/bin/rclone-backup.sh to backup NAS server.
 # Runs as scheduled job on NAS server.
 
+# IMPORTANT: Filter ordering is significant.
+
 - *.bak
 - *.BAK
 - *.iso
@@ -24,21 +26,21 @@
 + /public/prs2k_methods/**
 + /public/prs_docs/**
 
-+ /users/srackham/backups/**
-- /users/srackham/backups/google-takeout/**
-+ /users/srackham/bin/**
-+ /users/srackham/doc/**
-+ /users/srackham/local/projects/**
 - /users/srackham/local/projects/bioinformatics/**
++ /users/srackham/local/projects/**
++ /users/srackham/bin/**
+- /users/srackham/backups/google-takeout/**
++ /users/srackham/backups/**
++ /users/srackham/doc/**
++ /users/srackham/notes/**
 + /users/srackham/mail/**
-+ /users/srackham/methods/prs/**
-- /users/srackham/methods/prs/{prs2k_81*,releases,prs_training_videos}/**
 + /users/srackham/music/{banjo-ben-clark,eli-gilbert,mike-hedding}/**
 + /users/srackham/music/cds/**
-+ /users/srackham/notes/**
-+ /users/srackham/photos/**
 - /users/srackham/photos/Google Photos/**
++ /users/srackham/photos/**
 + /users/srackham/projects/**
+- /users/srackham/methods/prs/{prs2k_81*,releases,prs_training_videos}/**
++ /users/srackham/methods/prs/**
 + /users/srackham/webs/**
 
 #########
