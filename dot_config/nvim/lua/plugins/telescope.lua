@@ -45,7 +45,7 @@ return {
           additional_args = { '--hidden' },
         })
       end
-      vim.keymap.set('n', '\\', list_buffers, { desc = "List buffers" })
+      vim.keymap.set('n', '<C-\\>', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
       vim.keymap.set('n', '<Leader>fc', builtin.command_history, { desc = "List command history" })
       vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
