@@ -1,0 +1,51 @@
+# Used by ~/bin/rclone-backup.sh to backup NAS server.
+# Runs as scheduled job on NAS server.
+
+- *.bak
+- *.BAK
+- *.iso
+- *.log
+- .mypy_cache/
+- .pytest_cache/
+- node_modules/
+- .scala-build/
+# Rust and Scala project build directories.
+- target/
+- *.pyc
+- *.pyo
+- *.swp
+
+#- **/.hg/**
+#- **/.git/**
+
+- /users/peggy/backups/google-takeout/**
++ /users/peggy/backups/**
++ /public/licmgr/**
++ /public/prs2k_methods/**
++ /public/prs_docs/**
+
++ /users/srackham/backups/**
+- /users/srackham/backups/google-takeout/**
++ /users/srackham/bin/**
++ /users/srackham/doc/**
++ /users/srackham/local/projects/**
+- /users/srackham/local/projects/bioinformatics/**
++ /users/srackham/mail/**
++ /users/srackham/methods/prs/**
+- /users/srackham/methods/prs/{prs2k_81*,releases,prs_training_videos}/**
++ /users/srackham/music/{banjo-ben-clark,eli-gilbert,mike-hedding}/**
++ /users/srackham/music/cds/**
++ /users/srackham/notes/**
++ /users/srackham/photos/**
+- /users/srackham/photos/Google Photos/**
++ /users/srackham/projects/**
++ /users/srackham/webs/**
+
+#########
+# Testing
+#########
+#+ /users/srackham/doc/blogs/**
+#+ /users/srackham/doc/poems/**
+#+ /users/srackham/doc/www/**
+
+- *
