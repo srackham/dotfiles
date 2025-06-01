@@ -23,6 +23,7 @@
 :iab cz Chezmoi
 :iab dir directory
 :iab dirs directories
+:iab esp especially
 :iab eth Ethereum
 :iab eu European Union
 :iab h1 #
@@ -35,9 +36,6 @@
 :iab lhs left hand side
 :iab hm Home Manager
 :iab lo LibreOffice
-:iab loc LibreOffice Calc
-:iab lod LibreOffice Draw
-:iab low LibreOffice Writer
 :iab mk Markdown
 :iab nv Neovim
 :iab ob Obsidian
