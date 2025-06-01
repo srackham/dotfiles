@@ -115,8 +115,9 @@ return {
           nerd_font_variant = 'mono'
         },
         completion = { documentation = { auto_show = true } },
+        cmdline = { enabled = false },
         sources = {
-          default = { 'lsp', 'path', 'snippets', 'buffer', 'cmdline' },
+          default = { 'lsp', 'path', 'snippets', 'buffer' },
           providers = {
             snippets = {
               min_keyword_length = 2,
