@@ -178,8 +178,6 @@ vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>[sz=',
 vim.keymap.set('n', '<Leader>se', function()
   vim.cmd('edit ' .. spellfile_path)
 end, { noremap = true, desc = "Edit spelling word list file" })
-vim.keymap.set('n', '<Leader>ss', 'z=',
-  { noremap = true, silent = true, desc = "Correct misspelt word under cursor" })
 vim.keymap.set('n', '<Leader>sg', 'zg',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as correct" })
 vim.keymap.set('n', '<Leader>sw', 'zw',
