@@ -61,7 +61,6 @@ return {
       vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set('n', '<Leader>ss', builtin.spell_suggest, { desc = "Spelling suggestions" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostic messages with Telescope" })
-      vim.keymap.set('n', '<Leader>ft', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>T', builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set('n', '<Leader>H', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>fp', function()
