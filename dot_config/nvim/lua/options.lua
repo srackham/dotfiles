@@ -6,6 +6,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.timeoutlen = 10000
 vim.opt.scrolloff = 5
+vim.opt.cmdwinheight = 30
+vim.api.nvim_create_autocmd("FileType", { pattern = "qf", command = "resize 30", })
 
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words

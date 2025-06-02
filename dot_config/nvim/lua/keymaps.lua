@@ -208,6 +208,7 @@ local function close_window()
   end
 end
 vim.keymap.set('n', '<Leader>D', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
+vim.keymap.set('n', '<M-w>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
@@ -268,7 +269,7 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
 -- Toggle word-wrap
-vim.keymap.set('n', '<M-w>', function()
+vim.keymap.set('n', '<Leader>ew', function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
