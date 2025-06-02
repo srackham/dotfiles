@@ -208,7 +208,7 @@ local function close_window()
   end
 end
 vim.keymap.set('n', '<Leader>D', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
-vim.keymap.set('n', '<M-w>', close_window, { noremap = true, silent = false, desc = "Close window" })
+vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
@@ -280,7 +280,6 @@ end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 -- modified files might not be saved prior to the execution of tmux terminal pane commands.
 vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
-vim.keymap.set('n', '<M-e>', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
 
 vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
