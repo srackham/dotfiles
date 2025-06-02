@@ -278,8 +278,8 @@ end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 -- These commands save modified buffers and then execute CLI commands in the tmux terminal pane.
 -- NOTE: These command should logically reside in tmux but, due to Neovim async behaviour,
 -- modified files might not be saved prior to the execution of tmux terminal pane commands.
+
 vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
   { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
 
 vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,

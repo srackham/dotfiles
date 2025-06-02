@@ -37,12 +37,5 @@ return {
     vim.keymap.set('n', '<Leader>gu', gitsigns.undo_stage_hunk, { desc = "Undo staged hunk" })
 
     vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', { fg = '#999999' })
-
-    -- 24-May-2025: TODO: drop unused code
-    -- -- Turn Git signs off by default for Markdown files
-    -- vim.api.nvim_create_autocmd('FileType', {
-    --   pattern = 'markdown',
-    --   callback = function() gitsigns.toggle_signs(false) end,
-    -- })
   end,
 }
