@@ -3,7 +3,7 @@
 "
 
 :autocmd FileType markdown iab -- —
-:autocmd FileType markdown iab <expr> td: "- [ ] " .. strftime("%Y-%m-%d-%a") .. ":"  " Dated todo
+:autocmd FileType markdown iab <expr> td: "- [ ] _" .. strftime("%Y-%m-%d-%a") .. "_:"  " Dated todo
 :autocmd FileType markdown iab <expr> le: "### " .. strftime("%Y-%m-%d-%a")           " Log entry
 
 :iab <expr> dt strftime('%Y-%m-%d')         " Date
@@ -52,3 +52,4 @@
 :iab uk United Kingdom
 :iab usa United States of America
 :iab vsc VSCode
+:iab wrt with respect to 
