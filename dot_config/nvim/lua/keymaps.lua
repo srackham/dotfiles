@@ -74,17 +74,16 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.keymap.set('n', '<M-;>', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
-vim.keymap.set('n', '<Leader>N', ':enew | w ++p ', { noremap = true, silent = false, desc = "New file" })
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '\\', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<Leader>R', Utils.reload_modified_buffers,
-  { noremap = true, silent = true, desc = "Reload modified buffers" })
 vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<M-w>', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>Q', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set('n', '<M-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>X', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<M-x>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
+vim.keymap.set('n', '<M-a>', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 vim.keymap.set('n', '<Leader>fn', function()
   local path = vim.fn.expand('%:p')
   vim.fn.setreg('+', path)
@@ -139,9 +138,11 @@ end, { desc = 'Open current file in Brave browser' })
 -- Clipboard copy and paste commands
 vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
 vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
-vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
-vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
-vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
+vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard after cursor" })
+vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
+vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
+vim.keymap.set({ 'n', 'i' }, '<C-M-p>', '<Esc>o<Esc>"+p',
+  { noremap = true, silent = true, desc = "Paste clipboard line-wise" })
 
 -- Edit commands
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>',
@@ -172,7 +173,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
-vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>[sz=',
+vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>[sz=',
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set('n', '<Leader>s=', 'z=',
   { noremap = true, silent = true, desc = "Correct misspelt word under cursor" })
@@ -183,13 +184,13 @@ vim.keymap.set('n', '<Leader>sg', 'zg',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as correct" })
 vim.keymap.set('n', '<Leader>sw', 'zw',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as wrong" })
-vim.keymap.set('n', '<Leader>S',
-  function()
-    vim.wo.spell = not vim.wo.spell
-    local status = vim.wo.spell and "enabled" or "disabled"
-    vim.notify("Spell checking " .. status)
-  end,
-  { noremap = true, silent = true, desc = "Toggle spell checker" })
+local function toggle_spell_checker()
+  vim.wo.spell = not vim.wo.spell
+  local status = vim.wo.spell and "enabled" or "disabled"
+  vim.notify("Spell checking " .. status)
+end
+vim.keymap.set('n', '<Leader>S', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<M-s>', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Windows commands
 local function close_window()
@@ -207,6 +208,7 @@ local function close_window()
   end
 end
 vim.keymap.set('n', '<Leader>D', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
+vim.keymap.set('n', '<M-d>', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
