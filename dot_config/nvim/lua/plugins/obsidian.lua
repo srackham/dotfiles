@@ -15,14 +15,25 @@ return {
         path = "~/share/notes",
       },
       {
-        -- Legacy and non-PKM relates documents
+        -- Legacy and non-PKM-related documents
         name = "doc",
         path = "~/share/doc",
       },
     },
+    attachments = {
+      img_folder = "attachments",
+      img_name_func = function()
+        return "" -- No default file name
+      end,
+    },
+    templates = {
+      folder = "templates",
+      date_format = "%Y-%m-%d-%a",
+      time_format = "%H:%M",
+    },
     completion = {
       blink = true,  -- Enables completion using blink.cmp
-      min_chars = 0, -- Trigger completion at 2 chars.
+      min_chars = 0, -- Completion trigger length
     },
     daily_notes = {
       folder = "daily",
