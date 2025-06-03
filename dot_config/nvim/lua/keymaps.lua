@@ -151,10 +151,10 @@ vim.keymap.set('n', '<Leader>et', ':%s/\\s\\+$//e<CR>',
   { noremap = true, silent = true, desc = "Trim spaces from the ends of lines" })
 
 -- Help commands
-vim.keymap.set('n', '<M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
+vim.keymap.set('n', '<Leader>ht', Utils.toggle_help_window, { desc = "Toggle help window" })
 
 -- Open help for word or selection under cursor
-vim.keymap.set({ 'n', 'v' }, '<C-M-h>', function()
+vim.keymap.set({ 'n', 'v' }, '<Leader>hw', function()
   local query = Utils.get_selection_or_word()
   if query ~= '' then
     Utils.find_help(query)
