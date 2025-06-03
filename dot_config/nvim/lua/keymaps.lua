@@ -139,8 +139,6 @@ end, { desc = 'Open current file in Brave browser' })
 -- Clipboard copy and paste commands
 vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
 vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
-vim.keymap.set('i', '<C-p>', '<C-o>p', { noremap = true, silent = false, desc = "Insert mode p command" })
-vim.keymap.set('i', '<C-M-p>', '<C-o>P', { noremap = true, silent = false, desc = "Insert mode P command" })
 vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard" })
 vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard" })
 vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard" })
