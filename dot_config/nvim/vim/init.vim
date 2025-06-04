@@ -13,13 +13,12 @@
 
 :iab ap AI prompt
 :iab ar AI response
-:iab admin administrative
 :iab app application
 :iab apps applications
 :iab bk Bitcoin Knots
 :iab btc Bitcoin
-:iab conf configuration
-:iab confs configurations
+:iab config configuration
+:iab configs configurations
 :iab cz Chezmoi
 :iab dir directory
 :iab dirs directories
@@ -39,6 +38,7 @@
 :iab mk Markdown
 :iab nv Neovim
 :iab ob Obsidian
+:iab omv OpenMediaVault
 :iab pkm Personal Knowledge Management (PKM)
 :iab ot Old Testament
 :iab nt New Testament
