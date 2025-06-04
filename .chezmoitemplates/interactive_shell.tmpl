@@ -85,6 +85,7 @@ alias h="history"
 {{/* 04-Jun-2025: Server-specific aliases */}}
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
 alias bitcoin-cli="/files/bitcoin/bin/bitcoin-cli -conf=/files/bitcoin/bitcoin.conf"
+alias bitcoind="/files/bitcoin/bin/bitcoind -conf=/files/bitcoin/bitcoin.conf"
 {{end}}
 
 alias ls="eza"
