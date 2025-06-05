@@ -76,13 +76,14 @@ vim.keymap.set('n', '<M-;>', ':nohlsearch<CR>:echo<CR>', -- Turn of search highl
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '\\', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<Leader>W', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
+vim.keymap.set('n', '<Leader>ew', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<M-w>', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set('n', '<Leader>Q', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set('n', '<Leader>eq', ':qa!<CR>',
+  { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<M-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<Leader>X', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<Leader>ex', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<M-x>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set('n', '<Leader>A', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
+vim.keymap.set('n', '<Leader>sa', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 vim.keymap.set('n', '<M-a>', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 vim.keymap.set('n', '<Leader>fn', function()
   local path = vim.fn.expand('%:p')
@@ -189,7 +190,7 @@ local function toggle_spell_checker()
   local status = vim.wo.spell and "enabled" or "disabled"
   vim.notify("Spell checking " .. status)
 end
-vim.keymap.set('n', '<Leader>S', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
+vim.keymap.set('n', '<Leader>st', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 vim.keymap.set('n', '<M-s>', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Windows commands
@@ -207,11 +208,10 @@ local function close_window()
     end
   end
 end
-vim.keymap.set('n', '<Leader>D', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
+vim.keymap.set('n', '<Leader>wd', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<M-d>', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
-vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
-vim.keymap.set('n', '<Leader>C', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
+vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
@@ -270,7 +270,7 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
 -- Toggle word-wrap
-vim.keymap.set('n', '<Leader>ew', function()
+vim.keymap.set('n', '<Leader>ww', function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
@@ -280,13 +280,15 @@ end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 -- NOTE: These command should logically reside in tmux but, due to Neovim async behaviour,
 -- modified files might not be saved prior to the execution of tmux terminal pane commands.
 
-vim.keymap.set('n', '<leader>xx', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Save and run last terminal pane command" })
+vim.keymap.set('n', '<leader>xe', function() Utils.send_keys_to_terminal('Up Enter') end,
+  { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
+vim.keymap.set('n', '<M-e>', function() Utils.send_keys_to_terminal('Up Enter') end,
+  { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
 
 vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
+  { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
 vim.keymap.set('n', '<M-g>', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Save and run lazygit in the terminal pane" })
+  { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
 
 vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })

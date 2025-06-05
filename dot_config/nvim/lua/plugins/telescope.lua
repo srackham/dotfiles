@@ -52,7 +52,7 @@ return {
       vim.keymap.set('n', '<C-M-\\>', find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fH', builtin.highlights, { desc = "List highlights" })
-      vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
+      vim.keymap.set('n', '<Leader>hk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
       vim.keymap.set('n', '<Leader>fr', builtin.registers, { desc = "List registers" })
       vim.keymap.set('n', '<Leader>fR', builtin.reloader, { desc = "Telescope module reloader" })
@@ -60,7 +60,7 @@ return {
       vim.keymap.set('n', '<Leader>ss', builtin.spell_suggest, { desc = "Spelling suggestions" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostic messages with Telescope" })
       vim.keymap.set('n', '<Leader>ft', builtin.resume, { desc = "Resume last Telescope picker" })
-      vim.keymap.set('n', '<Leader>hf', builtin.help_tags, { desc = "Search documentation" })
+      vim.keymap.set('n', '<Leader>hs', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>fp', function()
         builtin.live_grep({
           cwd = vim.fn.stdpath('data') .. '/lazy/'
