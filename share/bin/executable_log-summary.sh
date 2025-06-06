@@ -47,5 +47,5 @@ echo
 # echo
 
 echo GOOGLE DRIVE BACKUPS
-tail -8 /files/public/tmp/rclone-backup.log
+tail -8 /tmp/rclone-backup.log
 echo
