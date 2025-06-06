@@ -52,15 +52,15 @@ return {
       vim.keymap.set('n', '<C-M-\\>', find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
       vim.keymap.set('n', '<Leader>fH', builtin.highlights, { desc = "List highlights" })
-      vim.keymap.set('n', '<Leader>hk', builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set('n', '<Leader>fm', function() builtin.marks({ previewer = false }) end, { desc = "List marks" })
-      vim.keymap.set('n', '<Leader>fr', builtin.registers, { desc = "List registers" })
+      vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set('n', '<Leader>fR', builtin.reloader, { desc = "Telescope module reloader" })
       vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set('n', '<Leader>ss', builtin.spell_suggest, { desc = "Spelling suggestions" })
       vim.keymap.set('n', '<Leader>ld', builtin.diagnostics, { desc = "List diagnostic messages with Telescope" })
       vim.keymap.set('n', '<Leader>ft', builtin.resume, { desc = "Resume last Telescope picker" })
-      vim.keymap.set('n', '<Leader>hs', builtin.help_tags, { desc = "Search documentation" })
+      vim.keymap.set('n', '<M-t>', builtin.resume, { desc = "Resume last Telescope picker" })
+      vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = "Search documentation" })
+      vim.keymap.set('n', '<M-h>', builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set('n', '<Leader>fp', function()
         builtin.live_grep({
           cwd = vim.fn.stdpath('data') .. '/lazy/'
@@ -136,7 +136,8 @@ return {
         }
       }
       telescope.load_extension('heading')
-      vim.keymap.set('n', '<Leader>fh', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
+      vim.keymap.set('n', '<Leader>fm', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
+      vim.keymap.set('n', '<M-m>', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
     end,
   },
 }

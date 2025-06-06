@@ -57,6 +57,7 @@ map_next_prev(
 map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
 map_next_prev(']s', 'normal! ]s', '[s', 'normal! [s', "misspelt word")
+map_next_prev('g,', 'normal! g,', 'g;', 'normal! g;', "change")
 -- Builtin markdown section navigation commands have first to be explicitly deleted from the current buffer.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
@@ -153,6 +154,7 @@ vim.keymap.set('n', '<Leader>et', ':%s/\\s\\+$//e<CR>',
 
 -- Help commands
 vim.keymap.set('n', '<Leader>ht', Utils.toggle_help_window, { desc = "Toggle help window" })
+vim.keymap.set('n', '<C-M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
 
 -- Open help for word or selection under cursor
 vim.keymap.set({ 'n', 'v' }, '<Leader>hw', function()
@@ -176,15 +178,9 @@ vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>[sz=',
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
-vim.keymap.set('n', '<Leader>s=', 'z=',
-  { noremap = true, silent = true, desc = "Correct misspelt word under cursor" })
 vim.keymap.set('n', '<Leader>se', function()
   vim.cmd('edit ' .. spellfile_path)
 end, { noremap = true, desc = "Edit spelling word list file" })
-vim.keymap.set('n', '<Leader>sg', 'zg',
-  { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as correct" })
-vim.keymap.set('n', '<Leader>sw', 'zw',
-  { noremap = true, silent = true, desc = "Mark the spelling of the word under the cursor as wrong" })
 local function toggle_spell_checker()
   vim.wo.spell = not vim.wo.spell
   local status = vim.wo.spell and "enabled" or "disabled"
