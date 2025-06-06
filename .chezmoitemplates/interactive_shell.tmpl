@@ -8,12 +8,6 @@
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
 # Fix Remmina invisible cursor over SSH issue.
 export PROMPT=$'%{\e]12;green\a%}\n%B%F{green}%n@%m %F{yellow}%~%f%b\n$ '
-# Use system commands instead of Home Manager busybox commands
-alias crontab="/usr/bin/crontab"
-alias reboot="/sbin/reboot"
-alias reboot="/sbin/poweroff"
-alias reboot="/sbin/halt"
-alias reboot="/sbin/shutdown"
 {{else}}
 export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 {{end}}
@@ -50,6 +44,15 @@ fi
 #
 # Shared aliases
 #
+
+{{if .chezmoi.hostname | hasPrefix "nuc"}}
+# Use system commands instead of Home Manager busybox commands
+alias crontab="/usr/bin/crontab"
+alias reboot="/sbin/reboot"
+alias reboot="/sbin/poweroff"
+alias reboot="/sbin/halt"
+alias reboot="/sbin/shutdown"
+{{end}}
 
 {{/*
 Shared bash and zsh configuration settings for interactive shells.
