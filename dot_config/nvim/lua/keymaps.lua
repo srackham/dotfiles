@@ -127,7 +127,17 @@ vim.keymap.set('n', '<Leader>fl', function()
 end, { noremap = true, silent = true, desc = "Load current module file into variable 'M'" })
 
 vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
-  Utils.convert_clipboard_url_to_markdown_link()
+  local md_link = Utils.convert_clipboard_url_to_markdown_link()
+  if md_link ~= '' then
+    vim.fn.setreg('+', md_link)
+    vim.fn.setreg('"', md_link)
+    if vim.fn.mode() == 'i' then
+      local keys = vim.api.nvim_replace_termcodes("<C-o>p", true, false, true)
+      vim.api.nvim_feedkeys(keys, "i", false)
+    else
+      vim.cmd('normal! p')
+    end
+  end
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
 -- Preview Markdown files in the browser with the Chrome Markdown Viewer extension

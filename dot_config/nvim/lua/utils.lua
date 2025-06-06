@@ -586,12 +586,13 @@ function M.trim(s)
   return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
---- Converts a URL on the clipboard to a Markdown link string.
+--- Converts a URL on the clipboard to a Markdown link string and returns it.
+-- Returns "" if conversion failed.
 function M.convert_clipboard_url_to_markdown_link()
   local url = M.trim(vim.fn.getreg('+'))
   if url == '' then
     vim.notify("Clipboard is empty", vim.log.levels.ERROR)
-    return
+    return ''
   end
   if string.sub(url, 1, 1) == '[' then
     vim.notify("There is already is a link on the clipboard", vim.log.levels.ERROR)
@@ -600,11 +601,9 @@ function M.convert_clipboard_url_to_markdown_link()
   local link_text = M.url_base_name(url)
   link_text = vim.fn.input("Link text: ", link_text)
   if link_text == '' then
-    return
+    return ''
   end
-  local md_link = M.url_to_markdown_link(url, link_text)
-  vim.fn.setreg('+', md_link)
-  vim.fn.setreg('"', md_link)
+  return M.url_to_markdown_link(url, link_text)
 end
 
 return M
