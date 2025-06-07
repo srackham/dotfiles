@@ -29,13 +29,6 @@ export EDITOR=nvim
 export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
 {{ end }}
 
-# NO LONGER NESSESARY (done in ~/.config/autostart/ scripts)
-# # If X is running set Pause and CapLock to Escape
-# if xset q &>/dev/null; then
-#     xmodmap -e "keycode 127 = Escape" # Pause key
-#     xmodmap -e "keycode 9 = Escape"   # CapsLock key
-# fi
-
 #
 # Shared aliases
 #
@@ -81,7 +74,6 @@ alias gw="./gradlew --console plain"
 alias hx="helix"
 {{end}}
 alias h="history"
-alias sudo="sudo "  # To allow sudo to recognize and expand aliases
 
 alias ls="eza"
 alias ll="eza -lHg"
