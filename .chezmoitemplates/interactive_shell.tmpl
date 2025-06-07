@@ -48,10 +48,6 @@ fi
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
 # Use system commands instead of Home Manager busybox commands
 alias crontab="/usr/bin/crontab"
-alias reboot="/sbin/reboot"
-alias reboot="/sbin/poweroff"
-alias reboot="/sbin/halt"
-alias reboot="/sbin/shutdown"
 {{end}}
 
 {{/*

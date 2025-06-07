@@ -38,6 +38,8 @@ export PATH="./node_modules/.bin:$PATH"
 # Source Nix Package Manager if it's installed.
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
   . $HOME/.nix-profile/etc/profile.d/nix.sh
+  # Use system binaries instead of the ones installed by the Home Manager busybox package
+  export PATH="/sbin:$PATH"
 fi
 
 # Use Brave instead of Chrome when doing Flutter Web development.
