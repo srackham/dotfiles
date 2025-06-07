@@ -34,8 +34,11 @@ export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
 #
 
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
-# Use system commands instead of Home Manager busybox commands
-alias crontab="/usr/bin/crontab"
+{{/* Workarounds for using system commands installed by Home Manager */}}
+alias crontab="/usr/bin/crontab"                # Use system crontab instead of busybox crontab
+alias sudo="sudo "                              # To allow alias expansion before invoking sudo
+alias iotop="$HOME/.nix-profile/bin/iotop"      # So `sudo iotop` works
+alias nethogs="$HOME/.nix-profile/bin/nethogs"  # So `sudo nethogs` works
 {{end}}
 
 {{/*
