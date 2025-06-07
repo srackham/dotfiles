@@ -29,11 +29,13 @@
     gotests
     gotools
     htop
+    iotop
     jq
     lazygit
     lua
     marksman
     neovim
+    nethogs
     nil
     nixfmt-rfc-style
     nodejs
