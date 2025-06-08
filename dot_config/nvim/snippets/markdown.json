@@ -108,5 +108,10 @@
     "prefix": "todo-callout",
     "body": "> [!TODO]\n> ",
     "description": "Insert Todo"
+  },
+  "Insert Memorization Narrataive": {
+    "prefix": "memorization-callout",
+    "body": "> [!TIP]Memorization narrative:\n> ",
+    "description": "Insert memorization narrative"
   }
 }
