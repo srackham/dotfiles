@@ -16,7 +16,7 @@ CMD=$(basename $0 .sh)
 # Do not use the $HOME env variable (the script is run by root).
 BIN=/files/users/srackham/bin
 CONFIG=/home/super/.config/rclone/rclone.conf
-LOGFILE=/tmp/$CMD.log
+LOGFILE=/var/log/$CMD.log
 FILTERS=$BIN/rclone-backup-filters
 SRC=/files
 #REMOTE=gdrive     # Google remote drive (default rclone client).
