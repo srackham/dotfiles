@@ -113,5 +113,15 @@
     "prefix": "memorization-callout",
     "body": "> [!TIP]Memorization narrative:\n> ",
     "description": "Insert memorization narrative"
+  },
+  "Insert Discarded": {
+    "prefix": "discarded-callout",
+    "body": "> [!ERROR] Discarded: ",
+    "description": "Insert discarded"
+  },
+  "Insert Completed": {
+    "prefix": "completed-callout",
+    "body": "> [!DONE] Completed: ",
+    "description": "Insert completed"
   }
 }
