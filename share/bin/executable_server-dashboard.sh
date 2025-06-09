@@ -26,11 +26,6 @@ fi
 # Otherwise, create a tmux session called `dashboard`
 tmux new-session -d -s "$SESSION" -n "$WINDOW"
 
-# Wait until the window is available
-while ! tmux list-windows -t "$SESSION" | grep -q "$WINDOW"; do
-  sleep 0.1
-done
-
 # Split the session window into 3 equal-width vertical panes
 tmux split-window -h -t "$SESSION:$WINDOW"           # Pane 1 (right)
 tmux split-window -h -t "$SESSION:$WINDOW".1         # Pane 2 (middle)
