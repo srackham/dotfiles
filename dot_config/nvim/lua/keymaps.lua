@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Miscellaneous commands
-vim.keymap.set('n', '<M-;>', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
+vim.keymap.set('n', '<Leader>eh', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
