@@ -25,9 +25,7 @@ return {
     vim.keymap.set({ 'n', 'v' }, '<Leader>mu', mb.unwrap_block,
       { noremap = true, silent = true, desc = "Unwrap paragraph/selection" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mn', mb.number_block,
-      { silent = true, noremap = true, desc = "Number/unnumber non-indented lines" })
-    vim.keymap.set({ 'n', 'v' }, '<Leader>mN', mb.renumber_block,
-      { silent = true, noremap = true, desc = "Renumber numbered lines" })
+      { silent = true, noremap = true, desc = "Toggle numbering non-indented lines" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mr', mb.ruled_block,
       { silent = true, noremap = true, desc = "Surround paragraph/selection with rulers" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mf', mb.code_block,
