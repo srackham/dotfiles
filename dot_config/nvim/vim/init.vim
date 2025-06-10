@@ -31,6 +31,7 @@
 :iab h4 ####
 :iab h5 #####
 :iab h6 ######
+:iab id identifier
 :iab lh left hand
 :iab lhs left hand side
 :iab hm Home Manager
