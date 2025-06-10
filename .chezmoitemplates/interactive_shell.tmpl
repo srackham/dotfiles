@@ -105,7 +105,6 @@ alias paste-text="xclip -selection clipboard -o -t text/plain"   # Copy clipboar
 alias paste-image="xclip -selection clipboard -o -t image/png"   # Copy clipboard image to stdout
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser
 alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
-alias tde="tmux kill-server; tmux new-session ode"  # Open development environment in tmux
 
 
 #
