@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-SESSION="tde"
-
 print_help() {
     cat <<'EOF'
 NAME
@@ -15,27 +13,27 @@ SYNOPSIS
 DESCRIPTION
     Opens project directories, one per tmux window:
 
-    - Checks if a tmux session called 'tde' exists, if yes then attach it and exit.
+    - PROJECT_DIR arguments are a list of project directories.
     - If no PROJECT_DIR arguments are given then project directories are read, one per line, from the $HOME/.tde file.
     - Blank lines and lines beginning with a '#' character in the .tde file are skipped.
-    - Creates a tmux session called 'tde'
+    - If one or more project directories do not exist print an error message and exit.
+    - If there are no PROJECT_DIR arguments then check if a session named 'tde' exists, if yes attach it and exit.
+    - If there are PROJECT_DIR arguments then create a new tmux session with the automatically assigned session name,
+      if not create a tmux session with the session name 'tde'.
     - For each project directory:
 
         1. Set the working directory to the project directory.
-        2. Create a tmux window named with the project directory's base name.
+        2. Create a tmux window named with the project directory's base name minus its file name extension
+           with remaining period characters replaced with hyphens.
         3. Split the window into two vertical panes.
-        4. If the window name is 'notes' or 'doc' set the width of the left-hand pane to 125 characters.
-        5. Execute the 'nvim' command in the left-hand pane.
+        4. Execute the 'nvim' command in the left-hand pane.
+        5. Select the left-hand pane.
 
-    - Select the first 'tde' session window and attach the 'tde' session.
-
-ADDITIONAL REQUIREMENT
-    - If after gathering project directories one or more directories do not exist,
-      print their name in an error message and exit.
+    - Select the first session window and attach the session.
 EOF
 }
 
-# Function to compute a window name from a directory path
+# Function to generate window name from directory
 window_name() {
     local dir="$1"
     local basename win_name
@@ -55,25 +53,22 @@ if [[ $# -gt 0 ]]; then
     esac
 fi
 
-# Check if tmux session exists
-if tmux has-session -t "$SESSION" 2>/dev/null; then
-    tmux attach-session -t "$SESSION"
-    exit 0
-fi
+tmux set-option -g base-index 1
+tmux set-window-option -g pane-base-index 1
 
-# Gather project directories
+PROJECT_DIRS=()
 if [[ $# -gt 0 ]]; then
+    # PROJECT_DIR arguments provided
     PROJECT_DIRS=("$@")
 else
-    PROJECT_DIRS=()
+    # Read from $HOME/.tde
     while IFS= read -r line; do
-        # Skip blank lines and comments
         [[ -z "$line" || "$line" =~ ^# ]] && continue
         PROJECT_DIRS+=("$line")
     done < "$HOME/.tde"
 fi
 
-# Check for non-existent directories
+# Check for missing directories
 MISSING=()
 for DIR in "${PROJECT_DIRS[@]}"; do
     if [[ ! -d "$DIR" ]]; then
@@ -89,41 +84,55 @@ if [[ ${#MISSING[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Create new tmux session (detached)
-FIRST_WIN_NAME="$(window_name "${PROJECT_DIRS[0]}")"
-tmux new-session -d -s "$SESSION" -c "${PROJECT_DIRS[0]}" -n "$FIRST_WIN_NAME"
+if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
+    echo "Error: No project directories specified or found in \$HOME/.tde" >&2
+    exit 1
+fi
+
+if [[ $# -eq 0 ]]; then
+    # No PROJECT_DIR arguments: check for 'tde' session, attach if exists, else create 'tde' session
+    SESSION="tde"
+    if tmux has-session -t "$SESSION" 2>/dev/null; then
+        tmux attach-session -t "$SESSION"
+        exit 0
+    fi
+else
+    # PROJECT_DIR arguments provided: create session with auto-assigned name
+    SESSION=""
+fi
+
+# Create new tmux session
+FIRST_DIR="${PROJECT_DIRS[0]}"
+FIRST_WIN_NAME="$(window_name "$FIRST_DIR")"
+if [[ -n "$SESSION" ]]; then
+    tmux new-session -d -s "$SESSION" -c "$FIRST_DIR" -n "$FIRST_WIN_NAME"
+    SESSION_ID="$SESSION"
+else
+    SESSION_ID=$(tmux new-session -d -P -F '#S' -c "$FIRST_DIR" -n "$FIRST_WIN_NAME")
+fi
 
 for idx in "${!PROJECT_DIRS[@]}"; do
     DIR="${PROJECT_DIRS[$idx]}"
     WIN_NAME="$(window_name "$DIR")"
 
-    echo $DIR
-    echo $WIN_NAME
-
     if [[ $idx -eq 0 ]]; then
-        # Rename first window if necessary
-        tmux rename-window -t "$SESSION:1" "$WIN_NAME"
+        tmux rename-window -t "$SESSION_ID:1" "$WIN_NAME"
     else
-        tmux new-window -t "$SESSION:" -c "$DIR" -n "$WIN_NAME"
+        tmux new-window -t "$SESSION_ID:" -c "$DIR" -n "$WIN_NAME"
     fi
 
-    WIN_TARGET="$SESSION:$WIN_NAME"
+    WIN_TARGET="$SESSION_ID:$WIN_NAME"
 
-    # Split window vertically (left/right)
+    # Split window into two vertical panes (left/right)
     tmux split-window -h -t "$WIN_TARGET" -c "$DIR"
 
-    # If window name is 'notes' or 'doc', resize left pane to 125 columns
-    if [[ "$WIN_NAME" == "notes" || "$WIN_NAME" == "doc" ]]; then
-        tmux select-pane -t "$WIN_TARGET".1
-        # BUG: When running tmux resize-pane commands in a detached session pane sizes often do not behave as expected
-        # tmux resize-pane -t "$WIN_TARGET".1 -x 125
-    fi
-
-    # Run nvim in left pane and select it
+    # Execute nvim in the left-hand pane, then select it
+    # Pane numbers may depend on tmux config; by default, after split-window -h:
+    # - left pane is .1, right pane is .2 (pane-base-index is set to 1 in my tmux.conf)
     tmux send-keys -t "$WIN_TARGET".1 "nvim" C-m
     tmux select-pane -t "$WIN_TARGET".1
 done
 
-tmux select-window -t "$SESSION:$FIRST_WIN_NAME"
-tmux attach-session -t "$SESSION"
+tmux select-window -t "$SESSION_ID:1"
+tmux attach-session -t "$SESSION_ID"
 
