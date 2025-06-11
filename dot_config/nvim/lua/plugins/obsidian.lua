@@ -51,13 +51,14 @@ return {
         workdays_only = false,
       },
     }
+    vim.keymap.set('n', '<Leader>ns', "<Cmd>ObsidianTOC<CR>", { desc = "Markdown section headers picker" })
     vim.keymap.set('n', '<Leader>nd', "<Cmd>ObsidianToday<CR>", { desc = "New daily note for today" })
     vim.keymap.set('n', '<Leader>ni', "<Cmd>ObsidianPasteImg<CR>", { desc = "Insert image from clipboard" })
     vim.keymap.set('n', '<Leader>nn', "<Cmd>ObsidianNew<CR>", { desc = "New note" })
+    vim.keymap.set('n', '<Leader>nN', "<Cmd>ObsidianTemplate<CR>", { desc = "New note from template" })
     vim.keymap.set('n', '<Leader>no', "<Cmd>ObsidianOpen<CR>", { desc = "Open note in Obsidian application" })
     vim.keymap.set('n', '<Leader>nf', "<Cmd>ObsidianQuickSwitch<CR>", { desc = "Notes file picker" })
     vim.keymap.set('n', '<Leader>ng', "<Cmd>ObsidianSearch<CR>", { desc = "Search notes files with ripgrep" })
-    vim.keymap.set('n', '<Leader>nt', "<Cmd>ObsidianTemplate<CR>", { desc = "New note from template" })
     -- Links related commands
     vim.keymap.set('n', '<Leader>ll', "<Cmd>ObsidianLinks<CR>", { desc = "Links picker" })
     vim.keymap.set('n', '<Leader>lb', "<Cmd>ObsidianBacklinks<CR>", { desc = "Backlinks picker" })

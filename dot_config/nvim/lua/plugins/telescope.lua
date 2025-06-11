@@ -136,8 +136,7 @@ return {
         }
       }
       telescope.load_extension('heading')
-      vim.keymap.set('n', '<Leader>fm', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
-      vim.keymap.set('n', '<M-m>', telescope.extensions.heading.heading, { desc = "List Markdown headings" })
+      vim.keymap.set('n', '<Leader>ms', telescope.extensions.heading.heading, { desc = "Markdown section headers picker" })
     end,
   },
 }
