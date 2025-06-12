@@ -4,23 +4,37 @@ MAN_PAGE_SPEC="NAME
     commit-notes - Commit notes \$HOME/notes directory
 
 SYNOPSIS
-    commit-notes -h | --help
+    commit-notes [OPTION...]
 
 DESCRIPTION
     Commit any changes in the \$HOME/notes Git repository since the last commit with a dated
-    commit message like the following example:
+    commit message,
 
-        Updates to 01-Jun-2025
-
-    Log the action to stdout (if there are no changes since the last commit log \"No changes since the
-    last commit\" to stdout and exit.
+OPTIONS
+    --dry-run, -n   print what would be done without doing anything
+    --help, -h      print this text
 "
 
-# Show help if requested
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-    echo "$MAN_PAGE_SPEC"
-    exit 0
-fi
+DRY_RUN=0
+
+# Parse options
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            echo "$MAN_PAGE_SPEC"
+            exit 0
+            ;;
+        -n|--dry-run)
+            DRY_RUN=1
+            shift
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "$MAN_PAGE_SPEC"
+            exit 1
+            ;;
+    esac
+done
 
 NOTES_DIR="$HOME/notes"
 cd "$NOTES_DIR" || { echo "Directory $NOTES_DIR not found."; exit 1; }
@@ -31,11 +45,18 @@ if git diff --quiet && git diff --cached --quiet; then
     exit 0
 fi
 
+DATE_STR=$(date +"%Y-%m-%d-%a")
+
+if [[ $DRY_RUN -eq 1 ]]; then
+    echo "Would commit with message: Updates to $DATE_STR"
+    echo "Files that would be committed:"
+    git status --porcelain | awk '{print $2}'
+    exit 0
+fi
+
 # Stage all changes
 git add -A
 
-# Commit with dated message
-DATE_STR=$(date +"%d-%b-%Y")
 git commit -m "Updates to $DATE_STR"
 
 echo "Committed changes with message: Updates to $DATE_STR"
