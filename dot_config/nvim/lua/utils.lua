@@ -606,4 +606,36 @@ function M.convert_clipboard_url_to_markdown_link()
   return M.url_to_markdown_link(url, link_text)
 end
 
+--- Slugifies a title and ensures a unique filename in the specified directory.
+-- Converts the given `title` to a URL- and filename-safe slug, following these rules:
+--   - Spaces are replaced with hyphens.
+--   - All non-alphanumeric and non-hyphen characters are removed.
+--   - The result is converted to lowercase.
+--   - If a file with the resulting name exists in `dir`, appends `-2`, `-3`, etc., until unique.
+-- @param title string: The title to slugify.
+-- @param dir string: The directory to check for existing files.
+-- @param ext string: The file extension (with dot).
+-- @return string: The unique slugified string.
+function M.slugify(title, dir, ext)
+  local slug = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+  local fname = slug .. ext
+  local i = 2
+
+  local function file_exists(path)
+    local f = io.open(path, "r")
+    if f then
+      f:close()
+      return true
+    else return false end
+  end
+
+  while file_exists(dir .. "/" .. fname) do
+    slug = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower() .. "-" .. tostring(i)
+    fname = slug .. ext
+    i = i + 1
+  end
+
+  return slug
+end
+
 return M

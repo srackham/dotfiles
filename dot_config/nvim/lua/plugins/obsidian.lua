@@ -52,7 +52,9 @@ return {
       },
       note_id_func = function(title)
         if title ~= nil then
-          return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-_]", ""):lower()
+          local current_dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
+          local id = Utils.slugify(title, current_dir, ".md")
+          return id
         end
       end,
     }
