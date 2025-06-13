@@ -50,6 +50,11 @@ return {
         folder = "daily",
         workdays_only = false,
       },
+      note_id_func = function(title)
+        if title ~= nil then
+          return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-_]", ""):lower()
+        end
+      end,
     }
     vim.keymap.set('n', '<Leader>os', "<Cmd>ObsidianTOC<CR>", { desc = "Markdown section headers picker" })
     vim.keymap.set('n', '<Leader>od', "<Cmd>ObsidianToday<CR>", { desc = "New daily note for today" })
