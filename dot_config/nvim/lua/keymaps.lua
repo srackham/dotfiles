@@ -303,7 +303,7 @@ vim.keymap.set('n', '<M-r>', function() Utils.send_keys_to_terminal('C-r', { foc
 
 -- Abbreviations commands
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.g.vim_init_file,
+  pattern = vim.fn.stdpath("config") .. "/vim/init.vim",
   command = "abc | source <afile>",
   desc = "Source init.vim on save"
 })
