@@ -53,9 +53,6 @@ if [[ $# -gt 0 ]]; then
     esac
 fi
 
-tmux set-option -g base-index 1
-tmux set-window-option -g pane-base-index 1
-
 PROJECT_DIRS=()
 if [[ $# -gt 0 ]]; then
     # PROJECT_DIR arguments provided
@@ -110,6 +107,9 @@ if [[ -n "$SESSION" ]]; then
 else
     SESSION_ID=$(tmux new-session -d -P -F '#S' -c "$FIRST_DIR" -n "$FIRST_WIN_NAME")
 fi
+
+tmux set-option -g base-index 1
+tmux set-window-option -g pane-base-index 1
 
 for idx in "${!PROJECT_DIRS[@]}"; do
     DIR="${PROJECT_DIRS[$idx]}"
