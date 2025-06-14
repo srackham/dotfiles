@@ -48,7 +48,7 @@ fi
 DATE_STR=$(date +"%Y-%m-%d-%a")
 
 if [[ $DRY_RUN -eq 1 ]]; then
-    echo "Would commit with message: Updates to $DATE_STR"
+    echo "Would commit with message: updates to $DATE_STR"
     echo "Files that would be committed:"
     git status --porcelain | awk '{print $2}'
     exit 0
@@ -57,7 +57,7 @@ fi
 # Stage all changes
 git add -A
 
-git commit -m "Updates to $DATE_STR"
+git commit -m "updates to $DATE_STR"
 
-echo "Committed changes with message: Updates to $DATE_STR"
+echo "Committed changes with message: updates to $DATE_STR"
 
