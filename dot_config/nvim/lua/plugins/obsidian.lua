@@ -1,6 +1,6 @@
 return {
   "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
-  version = "*",                 -- Use latest release instead of latest commit
+  -- version = "*",                 -- Use latest release instead of latest commit
   lazy = true,
   ft = "markdown",
   dependencies = {
@@ -57,6 +57,10 @@ return {
           return id
         end
       end,
+      picker = {
+        -- Set preferred picker. Can be one of 'telescope.nvim' (default), 'fzf-lua', 'mini.pick' or 'snacks.pick'.
+        name = "telescope.nvim",
+      },
     }
     vim.keymap.set('n', '<Leader>os', "<Cmd>ObsidianTOC<CR>", { desc = "Markdown section headers picker" })
     vim.keymap.set('n', '<Leader>od', "<Cmd>ObsidianToday<CR>", { desc = "New daily note for today" })
