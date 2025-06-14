@@ -243,7 +243,7 @@ vim.keymap.set('n', '<Leader>qa', Utils.add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
 vim.keymap.set('n', '<Leader>qd', Utils.delete_current_entry_from_quickfix,
   { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
-vim.keymap.set({ 'n', 'v' }, '<Leader>qm', function()
+vim.keymap.set({ 'n', 'v' }, '<Leader>qw', function()
     local visual_mode = Utils.is_visual_mode()
     local query = Utils.get_selection_or_word()
     if query ~= '' then

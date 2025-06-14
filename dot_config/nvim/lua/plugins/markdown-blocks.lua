@@ -28,6 +28,8 @@ return {
       { silent = true, noremap = true, desc = "Toggle numbering non-indented lines" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mr', mb.ruled_block,
       { silent = true, noremap = true, desc = "Surround paragraph/selection with rulers" })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>mQ', mb.blockquote_block,
+      { silent = true, noremap = true, desc = "Surround paragraph/selection with HTML blockquote" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mf', mb.code_block,
       { silent = true, noremap = true, desc = "Surround paragraph/selection with code fence" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mF', function()
