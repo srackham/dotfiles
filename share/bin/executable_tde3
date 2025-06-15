@@ -97,6 +97,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+SESSION_ID="tde"
+
 INSIDE_TMUX=0
 if [[ -n "${TMUX:-}" ]]; then
     INSIDE_TMUX=1
@@ -104,10 +106,26 @@ fi
 
 if [[ $INSIDE_TMUX -eq 1 ]]; then
     if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
-        echo "Project directories must be specified when appending to the current tmux session" >&2
+        echo "No project directories have been specified to add to the '$SESSION_ID' tmux session" >&2
         exit 1
     fi
+
+    if [[ "$(tmux display-message -p '#S')" != "$SESSION_ID" ]]; then
+        echo "Project directories can only be added from inside the '$SESSION_ID' tmux session" >&2
+        exit 1
+    fi
+
 else
+    if [[ ${#PROJECT_DIRS[@]} -gt 0 ]]; then
+        echo "Project directories can only be added from inside the '$SESSION_ID' tmux session" >&2
+        exit 1
+    fi
+
+    if tmux has-session -t tde 2>/dev/null; then
+        echo "The '$SESSION_ID' session is already running" >&2
+        exit 1
+    fi
+
     # Only read from $HOME/.tde if no PROJECT_DIR arguments were given
     if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
         while IFS= read -r line; do
@@ -142,13 +160,6 @@ fi
 NEW_WINDOWS=()
 
 if [[ $INSIDE_TMUX -eq 1 ]]; then
-    SESSION_ID="$(tmux display-message -p '#S')"
-
-    if [[ "$SESSION_ID" != "tde" ]]; then
-        echo "The current tmux session name must be 'tde'" >&2
-        exit 1
-    fi
-
     # Set base indexes to 1
     tmux_cmd set-option -t "$SESSION_ID" -g base-index 1
     tmux_cmd set-window-option -t "$SESSION_ID" -g pane-base-index 1
@@ -166,11 +177,6 @@ if [[ $INSIDE_TMUX -eq 1 ]]; then
     tmux_cmd select-window -t "$SESSION_ID:${NEW_WINDOWS[0]}"
 else
     # Not inside tmux
-
-    if tmux has-session -t tde 2>/dev/null; then
-        echo "A session named 'tde' is already running" >&2
-        exit 1
-    fi
 
     # Create new session named 'tde'
     FIRST_DIR="${PROJECT_DIRS[0]}"
