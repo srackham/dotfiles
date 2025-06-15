@@ -1,0 +1,207 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+print_help() {
+    cat <<'EOF'
+NAME
+    tde - open project workspaces
+
+SYNOPSIS
+    tde [OPTION...] [PROJECT_DIR...]
+
+OPTIONS
+    --dry-run, -n   print tmux commands without doing anything
+    --help, -h      print this text
+
+DESCRIPTION
+    Opens project directories, one per tmux window in a new session or, if run within an
+    existing session, adds project windows to the current session.
+
+    - PROJECT_DIR arguments are a list of project directories.
+    - If executing inside a tmux session then:
+
+        * If no project directories were specified then exit with the error message:
+          "project directories must be specified when executing in a tmux session"
+        * Else skip to the "For each project directory" step.
+
+    - If no PROJECT_DIR arguments are given then project directories are read, one per line,
+      from the $HOME/.tde file.
+    - Blank lines and lines beginning with a '#' character in the .tde file are skipped.
+    - If one or more project directories do not exist print an error message and exit.
+    - If there are no PROJECT_DIR arguments then check if a session named 'tde' exists,
+      if yes attach it and exit.
+    - If there are PROJECT_DIR arguments then create a new tmux session with the automatically
+      assigned session name, if not create a tmux session with the session name 'tde'.
+
+    - For each project directory:
+
+        1. Create a tmux window with the start directory set to the project directory and the
+           window named with the project directory's base name minus its file name extension
+           and with remaining period characters replaced with hyphens.
+        2. Split the window into two vertical panes.
+        3. Execute the 'nvim' command in the left-hand pane.
+        4. Select the left-hand pane.
+
+    - Select the first newly created project windows and if a new session was also created
+      attach the session.
+
+    Additional requirements:
+
+    - As soon as `tmux` has started set the `tmux` window and pane base indexes to 1.
+    - The shebang line should use the `env` command to start `bash`.
+    - The `-h` and `--help` command options print this man page specification.
+EOF
+}
+
+# Utility: Print or execute tmux commands
+tmux_cmd() {
+    if [[ "$DRY_RUN" == 1 ]]; then
+        echo "tmux $*"
+    else
+        tmux "$@"
+    fi
+}
+
+# Utility: Generate window name from directory
+window_name() {
+    local dir="$1"
+    local basename win_name
+    basename="$(basename "$dir")"
+    win_name="${basename%%.*}"
+    win_name="${win_name//./-}"
+    echo "$win_name"
+}
+
+# Parse options
+DRY_RUN=0
+PROJECT_DIRS=()
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dry-run|-n)
+            DRY_RUN=1
+            shift
+            ;;
+        --help|-h)
+            print_help
+            exit 0
+            ;;
+        -*)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+        *)
+            PROJECT_DIRS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+INSIDE_TMUX=0
+if [[ -n "${TMUX:-}" ]]; then
+    INSIDE_TMUX=1
+fi
+
+if [[ $INSIDE_TMUX -eq 1 ]]; then
+    if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
+        echo "Project directories must be specified when appending to the current tmux session" >&2
+        exit 1
+    fi
+else
+    # Only read from $HOME/.tde if no PROJECT_DIR arguments were given
+    if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
+        while IFS= read -r line; do
+            [[ -z "$line" || "$line" =~ ^# ]] && continue
+            PROJECT_DIRS+=("$line")
+        done < "$HOME/.tde"
+    fi
+fi
+
+if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
+    echo "No project directories specified or found in \$HOME/.tde" >&2
+    exit 1
+fi
+
+# Check for missing directories
+MISSING=()
+for DIR in "${PROJECT_DIRS[@]}"; do
+    if [[ ! -d "$DIR" ]]; then
+        MISSING+=("$DIR")
+    fi
+done
+
+if [[ ${#MISSING[@]} -gt 0 ]]; then
+    echo "The following project directories do not exist:" >&2
+    for DIR in "${MISSING[@]}"; do
+        echo "  $DIR" >&2
+    done
+    exit 1
+fi
+
+# Collect window names for later selection
+NEW_WINDOWS=()
+
+if [[ $INSIDE_TMUX -eq 1 ]]; then
+    SESSION_ID="$(tmux display-message -p '#S')"
+
+    if [[ "$SESSION_ID" != "tde" ]]; then
+        echo "The current tmux session name must be 'tde'" >&2
+        exit 1
+    fi
+
+    # Set base indexes to 1
+    tmux_cmd set-option -t "$SESSION_ID" -g base-index 1
+    tmux_cmd set-window-option -t "$SESSION_ID" -g pane-base-index 1
+
+    # Add windows to current session
+    for DIR in "${PROJECT_DIRS[@]}"; do
+        WIN_NAME="$(window_name "$DIR")"
+        tmux_cmd new-window -t "$SESSION_ID" -c "$DIR" -n "$WIN_NAME"
+        tmux_cmd split-window -h -t "$SESSION_ID:$WIN_NAME" -c "$DIR"
+        tmux_cmd send-keys -t "$SESSION_ID:$WIN_NAME.1" "nvim" C-m
+        tmux_cmd select-pane -t "$SESSION_ID:$WIN_NAME.1"
+        NEW_WINDOWS+=("$WIN_NAME")
+    done
+    # Select the first new window
+    tmux_cmd select-window -t "$SESSION_ID:${NEW_WINDOWS[0]}"
+else
+    # Not inside tmux
+
+    if tmux has-session -t tde 2>/dev/null; then
+        echo "A session named 'tde' is already running" >&2
+        exit 1
+    fi
+
+    # Create new session named 'tde'
+    FIRST_DIR="${PROJECT_DIRS[0]}"
+    FIRST_WIN_NAME="$(window_name "$FIRST_DIR")"
+    if [[ "$DRY_RUN" == 0 ]]; then
+        tmux_cmd new-session -d -s "$SESSION_ID" -c "$FIRST_DIR" -n "$FIRST_WIN_NAME"
+    fi
+
+    # Set base indexes to 1
+    tmux_cmd set-option -t "$SESSION_ID" -g base-index 1
+    tmux_cmd set-window-option -t "$SESSION_ID" -g pane-base-index 1
+
+    # First window already created
+    tmux_cmd split-window -h -t "$SESSION_ID:$FIRST_WIN_NAME" -c "$FIRST_DIR"
+    tmux_cmd send-keys -t "$SESSION_ID:$FIRST_WIN_NAME.1" "nvim" C-m
+    tmux_cmd select-pane -t "$SESSION_ID:$FIRST_WIN_NAME.1"
+    NEW_WINDOWS+=("$FIRST_WIN_NAME")
+
+    # Remaining project windows
+    for DIR in "${PROJECT_DIRS[@]:1}"; do
+        WIN_NAME="$(window_name "$DIR")"
+        tmux_cmd new-window -t "$SESSION_ID:" -c "$DIR" -n "$WIN_NAME"
+        tmux_cmd set-window-option -t "$SESSION_ID:$WIN_NAME" pane-base-index 1
+        tmux_cmd split-window -h -t "$SESSION_ID:$WIN_NAME" -c "$DIR"
+        tmux_cmd send-keys -t "$SESSION_ID:$WIN_NAME.1" "nvim" C-m
+        tmux_cmd select-pane -t "$SESSION_ID:$WIN_NAME.1"
+        NEW_WINDOWS+=("$WIN_NAME")
+    done
+
+    # Select the first new window and attach
+    tmux_cmd select-window -t "$SESSION_ID:${NEW_WINDOWS[0]}"
+    tmux_cmd attach-session -t "$SESSION_ID"
+fi
+
