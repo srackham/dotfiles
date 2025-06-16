@@ -86,8 +86,6 @@ vim.keymap.set('n', '<Leader>eq', ':qa!<CR>',
 vim.keymap.set('n', '<M-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>ex', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<M-x>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set('n', '<Leader>sa', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
-vim.keymap.set('n', '<M-a>', 'ggVG', { noremap = true, silent = true, desc = "Select all text in current buffer" })
 vim.keymap.set('n', '<Leader>fn', function()
   local path = vim.fn.expand('%:p')
   vim.fn.setreg('+', path)
