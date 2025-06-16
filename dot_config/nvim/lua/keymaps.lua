@@ -86,6 +86,9 @@ vim.keymap.set('n', '<Leader>eq', ':qa!<CR>',
 vim.keymap.set('n', '<M-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>ex', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<M-x>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<Leader>md', ':delmarks!<CR>', { silent = true, desc = "Delete local marks" })
+vim.keymap.set('n', '<Leader>mD', ':delmarks!<Bar>delmarks A-Z0-9<CR>',
+  { silent = true, desc = "Delete global and local marks" })
 vim.keymap.set('n', '<Leader>fn', function()
   local path = vim.fn.expand('%:p')
   vim.fn.setreg('+', path)
