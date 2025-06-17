@@ -30,18 +30,22 @@ return {
           { noremap = true, silent = true, desc = "Unwrap paragraph/selection" })
         vim.keymap.set({ 'n', 'v' }, '<Leader>mn', mb.number_block,
           { silent = true, noremap = true, desc = "Toggle numbering non-indented lines" })
-        vim.keymap.set({ 'n', 'v' }, '<Leader>mr', mb.ruled_block,
+        vim.keymap.set({ 'n', 'v' }, '<Leader>mr', function() mb.delimit_block('___', '___') end,
           { silent = true, noremap = true, desc = "Surround paragraph/selection with rulers" })
-        vim.keymap.set({ 'n', 'v' }, '<Leader>mQ', mb.blockquote_block,
+        vim.keymap.set({ 'n', 'v' }, '<Leader>mQ', function() mb.delimit_block('<blockquote>', '</blockquote>') end,
           { silent = true, noremap = true, desc = "Surround paragraph/selection with HTML blockquote" })
-        vim.keymap.set({ 'n', 'v' }, '<Leader>mf', mb.code_block,
+        vim.keymap.set({ 'n', 'v' }, '<Leader>mf', function() mb.delimit_block('```', '```') end,
           { silent = true, noremap = true, desc = "Surround paragraph/selection with code fence" })
         vim.keymap.set({ 'n', 'v' }, '<Leader>mF', function()
             local lang = vim.fn.input("Language: ")
-            mb.code_block(lang)
+            mb.delimit_block('```' .. lang, '```')
           end,
-          { silent = true, noremap = true, desc =
-          "Surround paragraph/selection with code fence (prompt for language code)" })
+          {
+            silent = true,
+            noremap = true,
+            desc =
+            "Surround paragraph/selection with code fence (prompt for language code)"
+          })
         vim.keymap.set({ 'n', 'v' }, '<Leader>mc', mb.csv_to_markdown_table,
           { silent = true, noremap = true, desc = "Convert CSV paragraph/selection to a Markdown table" })
         vim.keymap.set({ 'n', 'v' }, '<Leader>mC', mb.markdown_table_to_csv,
