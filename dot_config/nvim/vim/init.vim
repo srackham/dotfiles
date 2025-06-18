@@ -11,14 +11,14 @@
 :iab <expr> Tm strftime('%H:%M')            " Time
 :iab <expr> Dt strftime('%Y-%m-%d %H:%M')   " Date and time
 
-:iab Ap AI prompt
-:iab Ar AI response
+:iab Aip AI prompt
+:iab Air AI response
 :iab App application
 :iab Apps applications
 :iab Bk Bitcoin Knots
 :iab Btc Bitcoin
-:iab Config configuration
-:iab Configs configurations
+:iab Conf configuration
+:iab Confs configurations
 :iab Cz Chezmoi
 :iab Dir directory
 :iab Dirs directories
@@ -32,6 +32,7 @@
 :iab H5 #####
 :iab H6 ######
 :iab Id identifier
+:iab Lg LazyGit
 :iab Lh left hand
 :iab Lhs left hand side
 :iab Hm Home Manager
