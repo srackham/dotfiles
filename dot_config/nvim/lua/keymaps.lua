@@ -187,6 +187,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   desc = "Recompile the spelling word list file on save"
 })
 
+vim.keymap.set('n', '<Leader>ss', 'z=', { desc = "Correct misspelt word under the cursor" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>[sz=',
