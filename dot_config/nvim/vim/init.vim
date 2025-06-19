@@ -2,7 +2,6 @@
 " Edit this file to manage persistant abbreviations et al; source it to load them.
 "
 
-:autocmd FileType markdown iab -- —
 :autocmd FileType markdown iab <expr> Td "- [ ] _" .. strftime("%d-%b-%Y") .. "_:"  " Dated todo
 :autocmd FileType markdown iab <expr> Le "### " .. strftime("%d-%b-%Y")             " Log entry
 
