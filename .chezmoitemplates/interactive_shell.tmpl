@@ -117,7 +117,8 @@ Recursively find file names that match regular expression REGEXP in PATHS.
 
 - If REGEXP is \"\" then every file will be matched.
 - Interactively narrow down the list using fzf.
-- Open the selected file in VSCode."
+- Enter opens the selected files in the appopriate application.
+- Ctrl-y yanks the selected file to the clipboard and exits."
 open_file_cmd="$HOME/bin/nvim-open.sh"
 
 function ff() {
@@ -127,9 +128,8 @@ function ff() {
     fi
     fd --type f --hidden --color always "$2" "$1" |
     fzf --preview 'bat --color=always {}' \
+        --bind "ctrl-y:execute-silent(echo -n {} | xclip -selection clipboard)+accept" \
         --bind "enter:become($open_file_cmd {1})"
-        # --bind 'enter:become(code --goto {+})'
-        # --bind 'enter:become(vim {+})'
 }
 
 ft_manpage="Usage: ft PATH REGEXP
@@ -140,7 +140,8 @@ Recursively grep the files in PATH for text matching REGEXP.
 - List top 40 files in ascending match count order (the file with the
   most matches is listed last).
 - Interactively narrow down the list using fzf.
-- Open the selected files in VSCode."
+- Enter opens the selected files in the appopriate application.
+- Ctrl-y yanks the selected file to the clipboard and exits."
 
 function ft() {
     if [ "$#" -ne 2 ]; then
@@ -153,9 +154,8 @@ function ft() {
     | tac \
     | fzf --preview 'bat --color=always {1}' \
         --delimiter : \
+        --bind "ctrl-y:execute-silent(echo -n {} | xclip -selection clipboard)+accept" \
         --bind "enter:become($open_file_cmd {1})"
-        # --bind 'enter:become(code {+1})'
-        # --bind 'enter:become(vim {+1})'
 }
 
 ds_manpage="Usage: sd QUERY
@@ -166,7 +166,8 @@ Recursively grep the files in PATH for words matching REGEXP.
 - List top 40 files in ascending match order (the file with the
   best match is listed last).
 - Interactively narrow down the list using fzf.
-- Open the selected files in VSCode."
+- Enter opens the selected files in the appopriate application.
+- Ctrl-y yanks the selected file to the clipboard and exits."
 # Recoll document search, lists file names that match query.
 # Usage: ds query
 function ds() {
@@ -176,9 +177,8 @@ function ds() {
         | head -n 40 \
         | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|' \
         | fzf --preview 'bat --color=always {}' \
+        --bind "ctrl-y:execute-silent(echo -n {} | xclip -selection clipboard)+accept" \
         --bind "enter:become($open_file_cmd {1})"
-            # --bind 'enter:become(code {+})'
-            # --bind 'enter:become(vim {+})'
     else
         echo $ds_manpage >&2
         return 1
