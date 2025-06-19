@@ -80,7 +80,7 @@ vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo 
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '\\', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>ew', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set('n', '<M-w>', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
+vim.keymap.set('n', '<C-s>', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eq', ':qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<M-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
@@ -192,7 +192,7 @@ vim.keymap.set('n', '<Leader>sg', 'zg',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as good" })
 vim.keymap.set('n', '<Leader>sw', 'zw',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as wrong" })
-vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Esc>]sz=',
+vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>[sz=',
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
@@ -205,7 +205,6 @@ local function toggle_spell_checker()
   vim.notify("Spell checking " .. status)
 end
 vim.keymap.set('n', '<Leader>st', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
-vim.keymap.set('n', '<M-s>', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Windows commands
 local function close_window()
