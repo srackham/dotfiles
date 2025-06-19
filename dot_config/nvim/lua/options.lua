@@ -14,6 +14,7 @@ vim.opt.linebreak = true -- Prevent breaking words
 vim.opt.showbreak = '↪ ' -- Characters to indicate wrapped lines
 
 vim.opt.spellsuggest = 'best,9' -- Limit the number os spelling suggestions
+vim.opt.spellcapcheck = "" -- Disable the check for capitalization at the start of a sentence
 
 vim.opt.cursorline = true
 vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#303030' })
