@@ -51,11 +51,9 @@ return {
         workdays_only = false,
       },
       note_id_func = function(title)
-        if title ~= nil then
-          local current_dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
-          local id = Utils.slugify(title, current_dir, ".md")
-          return id
-        end
+        local current_dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
+        local id = Utils.slugify(title or "untitled", current_dir, ".md")
+        return id
       end,
       picker = {
         -- Set preferred picker. Can be one of 'telescope.nvim' (default), 'fzf-lua', 'mini.pick' or 'snacks.pick'.
