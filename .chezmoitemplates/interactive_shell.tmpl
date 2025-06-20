@@ -119,7 +119,7 @@ Recursively find file names that match regular expression REGEXP in PATHS.
 - Interactively narrow down the list using fzf.
 - Enter opens the selected files in the appopriate application.
 - Ctrl-y yanks the selected file to the clipboard and exits."
-open_file_cmd="$HOME/bin/nvim-open.sh"
+open_file_cmd="$HOME/bin/file-open.sh"
 
 function ff() {
     if [ "$#" -ne 2 ]; then
