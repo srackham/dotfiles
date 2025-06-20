@@ -81,11 +81,11 @@ vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, de
 vim.keymap.set('n', '\\', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>ew', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<C-s>', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set('n', '<Leader>eq', ':qa!<CR>',
+vim.keymap.set('n', '<Leader>eQ', ':qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<M-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<Leader>ex', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set('n', '<M-x>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<M-S-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set('n', '<Leader>eq', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<M-q>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<Leader>md', ':delmarks!<CR>', { silent = true, desc = "Delete local marks" })
 vim.keymap.set('n', '<Leader>mD', ':delmarks!<Bar>delmarks A-Z0-9<CR>',
   { silent = true, desc = "Delete global and local marks" })
