@@ -79,8 +79,8 @@ vim.keymap.set('n', '<Leader>eh', ':nohlsearch<CR>:echo<CR>', -- Turn of search 
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '\\', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<Leader>ew', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set('n', '<C-s>', ':wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
+vim.keymap.set({ 'i', 'n' }, '<C-s>', function() Utils.execute_ex_command('wa') end,
+  { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', ':qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<M-S-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })

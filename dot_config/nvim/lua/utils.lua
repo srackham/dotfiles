@@ -638,4 +638,31 @@ function M.slugify(title, dir, ext)
   return slug
 end
 
+--- Executes an Ex command, preserving and restoring the user's editing mode.
+-- 
+-- If called from insert mode, exits to normal mode, runs the given Ex command,
+-- and returns to insert mode at the same cursor position. If called from normal
+-- mode (or any other mode), simply executes the Ex command.
+--
+-- @param ex_cmd string The Ex command to execute (without the leading ':').
+function M.execute_ex_command(ex_cmd)
+  -- Detect current mode
+  local mode = vim.api.nvim_get_mode().mode
+  local return_to_insert = (mode == "i" or mode == "ic" or mode == "ix")
+
+  if return_to_insert then
+    -- Exit insert mode
+    local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+    vim.api.nvim_feedkeys(esc, "n", false)
+    vim.schedule(function()
+      vim.cmd(ex_cmd)
+      -- Return to insert mode at the cursor position
+      local a = vim.api.nvim_replace_termcodes("a", true, false, true)
+      vim.api.nvim_feedkeys(a, "n", false)
+    end)
+  else
+    -- Already in normal mode (or other), just execute the Ex command
+    vim.cmd(ex_cmd)
+  end
+end
 return M
