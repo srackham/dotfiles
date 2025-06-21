@@ -74,20 +74,20 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Miscellaneous commands
 vim.keymap.set('n', '<Space>', '<C-f>', { noremap = true, silent = true, desc = "Page down" })
 vim.keymap.set('n', '<M-Space>', '<C-b>', { noremap = true, silent = true, desc = "Page up" })
-vim.keymap.set('n', '<Leader>eh', ':nohlsearch<CR>:echo<CR>', -- Turn of search highlighting and clear status line
+vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>', -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
-vim.keymap.set('i', '<C-^>', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '\\', '<Esc>:b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
+vim.keymap.set('i', '<C-^>', '<Esc><Cmd>b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
+vim.keymap.set('n', '\\', '<Cmd>b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', function() Utils.execute_ex_command('wa') end,
   { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set('n', '<Leader>eQ', ':qa!<CR>',
+vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<M-S-q>', ':qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<Leader>eq', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set('n', '<M-q>', ':wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set('n', '<Leader>md', ':delmarks!<CR>', { silent = true, desc = "Delete local marks" })
-vim.keymap.set('n', '<Leader>mD', ':delmarks!<Bar>delmarks A-Z0-9<CR>',
+vim.keymap.set('n', '<M-S-q>', '<Cmd>qa!<CR>', { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set('n', '<Leader>eq', '<Cmd>wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<M-q>', '<Cmd>wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<Leader>md', '<Cmd>delmarks!<CR>', { silent = true, desc = "Delete local marks" })
+vim.keymap.set('n', '<Leader>mD', '<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>',
   { silent = true, desc = "Delete global and local marks" })
 vim.keymap.set('n', '<Leader>fn', function()
   local path = vim.fn.expand('%:p')
@@ -160,9 +160,9 @@ vim.keymap.set({ 'n', 'i' }, '<C-M-p>', '<Esc>o<Esc>"+p',
   { noremap = true, silent = true, desc = "Paste clipboard line-wise" })
 
 -- Edit commands
-vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>',
+vim.keymap.set('v', '<Leader>ed', '<Cmd>s/^\\s*$\\n//g<CR>',
   { noremap = true, silent = true, desc = "Delete blank lines in selection" })
-vim.keymap.set('n', '<Leader>et', ':%s/\\s\\+$//e<CR>',
+vim.keymap.set('n', '<Leader>et', '<Cmd>%s/\\s\\+$//e<CR>',
   { noremap = true, silent = true, desc = "Trim spaces from the ends of lines" })
 
 -- Help commands
@@ -221,8 +221,8 @@ local function close_window()
     end
   end
 end
-vim.keymap.set('n', '<Leader>wd', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
-vim.keymap.set('n', '<M-d>', ':bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
+vim.keymap.set('n', '<Leader>wd', '<Cmd>bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
+vim.keymap.set('n', '<M-d>', '<Cmd>bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
@@ -238,13 +238,13 @@ vim.keymap.set('n', '<C-Left>', '<C-w>h', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true })
 
 -- Tab commands
-vim.keymap.set('n', '<Leader>tn', ':tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
-vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
+vim.keymap.set('n', '<Leader>tn', '<Cmd>tab split<CR>', { noremap = true, silent = true, desc = "Open buffer in new tab" })
+vim.keymap.set('n', '<Leader>tc', '<Cmd>tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
 
 -- Quickfix commands
-vim.keymap.set('n', '<Leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
-vim.keymap.set('n', '<Leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
-vim.keymap.set('n', '<Leader>qD', ':cexpr []<CR>',
+vim.keymap.set('n', '<Leader>qc', '<Cmd>cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
+vim.keymap.set('n', '<Leader>qo', '<Cmd>copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
+vim.keymap.set('n', '<Leader>qD', '<Cmd>cexpr []<CR>',
   { noremap = true, silent = true, desc = "Delete all items from quickfix list" })
 vim.keymap.set('n', '<Leader>qa', Utils.add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
