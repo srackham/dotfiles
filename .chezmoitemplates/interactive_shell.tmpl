@@ -16,7 +16,7 @@ export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
+export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,up,60%,border-bottom'"
 export FZF_DEFAULT_COMMAND="fd --type f"
 
 export BAT_THEME="Dracula"
@@ -111,54 +111,8 @@ alias resize-image="mogrify -quality 25 -resize 800"             # Resize and co
 # Shared functions
 #
 
-ff_manpage="Usage: ff PATH REGEXP
-
-Recursively find file names that match regular expression REGEXP in PATHS.
-
-- If REGEXP is \"\" then every file will be matched.
-- Interactively narrow down the list using fzf.
-- Enter opens the selected files in the appopriate application.
-- Ctrl-y yanks the selected file to the clipboard and exits."
 open_file_cmd="$HOME/bin/file-open.sh"
-
-function ff() {
-    if [ "$#" -ne 2 ]; then
-        echo $ff_manpage >&2
-        return 1
-    fi
-    fd --type f --hidden --color always "$2" "$1" |
-    fzf --preview 'bat --color=always {}' \
-        --bind "ctrl-y:execute-silent(echo -n {} | xclip -selection clipboard)+accept" \
-        --bind "enter:become($open_file_cmd {1})"
-}
-
-ft_manpage="Usage: ft PATH REGEXP
-
-Recursively grep the files in PATH for text matching REGEXP.
-
-- Display the file name and the match count.
-- List top 40 files in ascending match count order (the file with the
-  most matches is listed last).
-- Interactively narrow down the list using fzf.
-- Enter opens the selected files in the appopriate application.
-- Ctrl-y yanks the selected file to the clipboard and exits."
-
-function ft() {
-    if [ "$#" -ne 2 ]; then
-        echo $ft_manpage >&2
-        return 1
-    fi
-    rg --color=always --count-matches --smart-case --type=all --type-not=pdf "$2" "$1" \
-    | sort -t ':' -k2n \
-    | tail -40 \
-    | tac \
-    | fzf --preview 'bat --color=always {1}' \
-        --delimiter : \
-        --bind "ctrl-y:execute-silent(echo -n {} | xclip -selection clipboard)+accept" \
-        --bind "enter:become($open_file_cmd {1})"
-}
-
-ds_manpage="Usage: sd QUERY
+ds_manpage="Usage: ds QUERY
 
 Full text document search for files whose contents that match the Recoll QUERY.
 Recursively grep the files in PATH for words matching REGEXP.
@@ -166,8 +120,8 @@ Recursively grep the files in PATH for words matching REGEXP.
 - List top 40 files in ascending match order (the file with the
   best match is listed last).
 - Interactively narrow down the list using fzf.
-- Enter opens the selected files in the appopriate application.
-- Ctrl-y yanks the selected file to the clipboard and exits."
+- Ctrl-o opens the selected file in the appopriate application.
+- Enter yanks the selected file to the clipboard, prints the file path, and exits."
 # Recoll document search, lists file names that match query.
 # Usage: ds query
 function ds() {
@@ -175,10 +129,10 @@ function ds() {
         recoll -t -q $*  2>/dev/null \
         | tail -n +3 \
         | head -n 40 \
-        | perl -pe 's|^.*\[file:\/\/(.*?)\].*$|\1|' \
-        | fzf --preview 'bat --color=always {}' \
-        --bind "ctrl-y:execute-silent(echo -n {} | xclip -selection clipboard)+accept" \
-        --bind "enter:become($open_file_cmd {1})"
+        | perl -pe "s|^.*\[file:\/\/(.*?)\].*$|\1|" \
+        | fzf --preview "bat --color=always {}" \
+        --bind "enter:become(echo {} | tee >(head -c -1 | xclip -selection clipboard))" \
+        --bind "ctrl-o:become($open_file_cmd {1})"
     else
         echo $ds_manpage >&2
         return 1
