@@ -72,9 +72,9 @@ return {
     -- Links related commands
     vim.keymap.set('n', '<Leader>ll', "<Cmd>ObsidianLinks<CR>", { desc = "Links picker" })
     vim.keymap.set('n', '<Leader>lb', "<Cmd>ObsidianBacklinks<CR>", { desc = "Backlinks picker" })
-    vim.keymap.set('v', '<Leader>le', "<Cmd>ObsidianLink<CR>",
+    vim.keymap.set('v', '<Leader>le', ":ObsidianLink<CR>",
       { desc = "Replace selected note ID, path or alias with a link to an existing note" })
-    vim.keymap.set('v', '<Leader>ln', "<Cmd>ObsidianLinkNew<CR>",
+    vim.keymap.set('v', '<Leader>ln', ":ObsidianLinkNew<CR>",
       { desc = "Replace selected note title of with a link to a new note" })
   end,
 }
