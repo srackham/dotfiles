@@ -1,4 +1,9 @@
 {
+  "HTML Image": {
+    "prefix": "html-img",
+    "body": "<img src=\"${1}\" alt=\"${2:alt text}\" width=\"${3:100%}\">",
+    "description": "HTML image element with src, alt (default to src), and width (default to 100%)"
+  },
   "Insert Abstract": {
     "prefix": "abstract-callout",
     "body": "> [!ABSTRACT]\n> ",
