@@ -3,11 +3,12 @@ return {
   enabled = true,
   -- version = '*', -- Install latest tagged version
   config = function()
-    -- Enable mappings only in Markdown buffers
+    local mb = require('markdown-blocks')
+
+    -- Markdown mappings
     vim.api.nvim_create_autocmd('FileType', {
       pattern = 'markdown',
       callback = function()
-        local mb = require('markdown-blocks')
         local wrap_column = 100
         vim.keymap.set({ 'n', 'v' }, '<Leader>mb', mb.line_breaks_toggle,
           { noremap = true, silent = true, desc = "Break/unbreak the paragraph/selection at the cursor" })
@@ -47,6 +48,8 @@ return {
             desc =
             "Toggle code fence delimiters with language code"
           })
+        vim.keymap.set({ 'n', 'v' }, '<M-/>', function() mb.delimiters_toggle('<!--', '-->') end,
+          { silent = true, noremap = true, desc = "Toggle HTML block comment delimiters" })
         vim.keymap.set({ 'n', 'v' }, '<Leader>mc', mb.csv_to_markdown_table,
           { silent = true, noremap = true, desc = "Convert CSV paragraph/selection to a Markdown table" })
         vim.keymap.set({ 'n', 'v' }, '<Leader>mC', mb.markdown_table_to_csv,
