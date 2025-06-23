@@ -251,8 +251,6 @@ vim.keymap.set('n', '<Leader>qD', '<Cmd>cexpr []<CR>',
   { noremap = true, silent = true, desc = "Delete all items from quickfix list" })
 vim.keymap.set('n', '<Leader>qa', Utils.add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" })
-vim.keymap.set('n', '<Leader>qd', Utils.delete_current_entry_from_quickfix,
-  { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>qw', function()
     local visual_mode = Utils.is_visual_mode()
     local query = Utils.get_selection_or_word()
@@ -271,14 +269,12 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>qw', function()
     silent = true,
     desc = "Open quickfix list with current buffer locations matching the word or selection under the cursor"
   })
-
 vim.api.nvim_create_autocmd('FileType', {
+  -- Commands that only work inside the Quickfix list
   pattern = 'qf',
   callback = function()
-    vim.keymap.set('n', '<C-d>', Utils.delete_current_entry_from_quickfix,
-      { buffer = true, noremap = true, silent = true, desc = "Delete current item from quickfix list" })
-    vim.keymap.set('n', 'dd', Utils.delete_current_entry_from_quickfix,
-      { buffer = true, noremap = true, silent = true, desc = "Delete current item from quickfix list" })
+    vim.keymap.set('n', '<Leader>qd', Utils.delete_current_entry_from_quickfix,
+      { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
   end,
 })
 
