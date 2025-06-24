@@ -292,17 +292,17 @@ end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 -- NOTE: These command should logically reside in tmux but, due to Neovim async behaviour,
 -- modified files might not be saved prior to the execution of tmux terminal pane commands.
 
-vim.keymap.set('n', '<leader>xe', function() Utils.send_keys_to_terminal('Up Enter') end,
+vim.keymap.set('n', '<leader>te', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
 vim.keymap.set('n', '<M-e>', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
 
-vim.keymap.set('n', '<leader>xg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
+vim.keymap.set('n', '<leader>tg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
 vim.keymap.set('n', '<M-g>', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
 
-vim.keymap.set('n', '<leader>xr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
 vim.keymap.set('n', '<M-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
