@@ -48,12 +48,10 @@ return {
             desc =
             "Toggle code fence delimiters with language code"
           })
-        vim.keymap.set({ 'n', 'v' }, '<M-/>', function() mb.delimiters_toggle('<!--', '-->') end,
+        vim.keymap.set({ 'n', 'v' }, '<Leader>mh', function() mb.delimiters_toggle('<!--', '-->') end,
           { silent = true, noremap = true, desc = "Toggle HTML block comment delimiters" })
-        vim.keymap.set({ 'n', 'v' }, '<Leader>mc', mb.csv_to_markdown_table,
-          { silent = true, noremap = true, desc = "Convert CSV paragraph/selection to a Markdown table" })
-        vim.keymap.set({ 'n', 'v' }, '<Leader>mC', mb.markdown_table_to_csv,
-          { silent = true, noremap = true, desc = "Convert Markdown table paragraph/selection to a CSV" })
+        vim.keymap.set({ 'n', 'v' }, '<Leader>mc', mb.toggle_csv_to_table,
+          { silent = true, noremap = true, desc = "Toggle between Markdown table and CSV" })
       end,
     })
   end,

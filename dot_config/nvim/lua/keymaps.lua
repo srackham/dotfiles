@@ -285,7 +285,7 @@ vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true,
 vim.keymap.set('n', '<Leader>ww', function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
-end, { noremap = true, silent = true, desc = "Toggle word wrap" })
+end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
 -- Terminal execution commands
 -- These commands save modified buffers and then execute CLI commands in the tmux terminal pane.
