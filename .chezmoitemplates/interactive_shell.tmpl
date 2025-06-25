@@ -16,7 +16,7 @@ export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,up,60%,border-bottom'"
+export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
 export FZF_DEFAULT_COMMAND="fd --type f"
 
 export BAT_THEME="Dracula"
@@ -122,15 +122,14 @@ Recursively grep the files in PATH for words matching REGEXP.
 - Interactively narrow down the list using fzf.
 - Ctrl-o opens the selected file in the appopriate application.
 - Enter yanks the selected file to the clipboard, prints the file path, and exits."
-# Recoll document search, lists file names that match query.
-# Usage: ds query
 function ds() {
     if [ "$*" ]; then
         recoll -t -q $*  2>/dev/null \
         | tail -n +3 \
         | head -n 40 \
         | perl -pe "s|^.*\[file:\/\/(.*?)\].*$|\1|" \
-        | fzf --preview "bat --color=always {}" \
+        | FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS/,hidden/}" \
+        fzf --preview "bat --color=always {}" \
         --bind "enter:become(echo {} | tee >(head -c -1 | xclip -selection clipboard))" \
         --bind "ctrl-o:become($open_file_cmd {1})"
     else
