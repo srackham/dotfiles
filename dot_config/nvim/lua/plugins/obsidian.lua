@@ -1,4 +1,5 @@
 return {
+  -- "srackham/obsidian.nvim",
   "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
   -- version = "*",                 -- Use latest release instead of latest commit
   lazy = true,
@@ -47,7 +48,7 @@ return {
         min_chars = 0, -- Completion trigger length
       },
       daily_notes = {
-        folder = "daily",
+        folder = "journal",
         workdays_only = false,
       },
       note_id_func = function(title)
@@ -61,7 +62,7 @@ return {
       },
     }
     vim.keymap.set('n', '<Leader>os', "<Cmd>ObsidianTOC<CR>", { desc = "Markdown section headers picker" })
-    vim.keymap.set('n', '<Leader>od', "<Cmd>ObsidianToday<CR>", { desc = "New daily note for today" })
+    vim.keymap.set('n', '<Leader>oj', "<Cmd>ObsidianToday<CR>", { desc = "Open today's journal note" })
     vim.keymap.set('n', '<Leader>oi', "<Cmd>ObsidianPasteImg<CR>", { desc = "Insert image from clipboard" })
     vim.keymap.set('n', '<Leader>on', "<Cmd>ObsidianNew<CR>", { desc = "New note" })
     vim.keymap.set('n', '<Leader>oN', "<Cmd>ObsidianTemplate<CR>", { desc = "New note from template" })
