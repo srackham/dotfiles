@@ -18,6 +18,7 @@
 :iab Btc Bitcoin
 :iab Conf configuration
 :iab Confs configurations
+:iab Cwd current working directory
 :iab Cz Chezmoi
 :iab Dir directory
 :iab Dirs directories
@@ -31,14 +32,17 @@
 :iab H5 #####
 :iab H6 ######
 :iab Id identifier
-:iab Lg LazyGit
+:iab Ids identifiers
 :iab Lh left hand
 :iab Lhs left hand side
 :iab Hm Home Manager
 :iab Lo LibreOffice
+:iab Lg Lazygit
+:iab Lv LazyVim
 :iab Mk Markdown
 :iab Nv Neovim
 :iab Ob Obsidian
+:iab On `obsidian.nvim`
 :iab Omv OpenMediaVault
 :iab Pkm Personal Knowledge Management (PKM)
 :iab Ot Old Testament
