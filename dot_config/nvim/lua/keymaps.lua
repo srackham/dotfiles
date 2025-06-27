@@ -145,6 +145,17 @@ vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
   end
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
+vim.keymap.set('n', '<leader>ln', [[/http\(s\):\/\/\S\+<CR>]], { desc = "Jump to next URL" })
+vim.keymap.set('n', '<leader>lp', [[?http\(s\)://\S\+<CR>]], { desc = "Jump to previous URL" })
+
+-- vim.keymap.set('n', '<leader>lo', function()
+--   -- Search for the next URL using Vim regex
+--   local found = vim.fn.search([[https\?://\S\+]], 'W')
+--   if found == 0 then
+--     vim.notify('No URL found', vim.log.levels.INFO)
+--   end
+-- end, { desc = "Search for next link" })
+
 -- Preview Markdown files in the browser with the Chrome Markdown Viewer extension
 -- https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk
 vim.keymap.set('n', ',mp', function()
