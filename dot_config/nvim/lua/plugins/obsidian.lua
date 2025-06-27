@@ -24,7 +24,7 @@ return {
         },
       },
       attachments = {
-        img_folder = "attachments",
+        img_folder = "images",
         img_name_func = function()
           return "" -- No default file name
         end,
