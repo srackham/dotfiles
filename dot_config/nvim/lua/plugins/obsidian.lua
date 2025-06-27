@@ -71,6 +71,10 @@ return {
     vim.keymap.set('n', '<Leader>og', "<Cmd>ObsidianSearch<CR>", { desc = "Search notes files with ripgrep" })
     vim.keymap.set('n', '<Leader>ot', "<Cmd>ObsidianTags<CR>", { desc = "Search for tagged notes" })
     -- Links related commands
+    vim.keymap.set('n', ']l', [[/\vhttp(s?):\/\/\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
+      { desc = "Jump to next link" })     -- URL, Markdown link, Wiki link
+    vim.keymap.set('n', '[l', [[?\vhttp(s\?)://\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
+      { desc = "Jump to previous link" }) -- URL, Markdown link, Wiki link
     vim.keymap.set('n', '<Leader>ll', "<Cmd>ObsidianLinks<CR>", { desc = "Links picker" })
     vim.keymap.set('n', '<Leader>lb', "<Cmd>ObsidianBacklinks<CR>", { desc = "Backlinks picker" })
     vim.keymap.set('v', '<Leader>le', ":ObsidianLink<CR>",
