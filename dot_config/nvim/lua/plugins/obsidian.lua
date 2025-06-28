@@ -1,7 +1,10 @@
 return {
-  -- "srackham/obsidian.nvim",
-  "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
+  "srackham/obsidian.nvim",
+  -- branch = "case_insensitive_tag_picker",
+
+  -- "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
   -- version = "*",                 -- Use latest release instead of latest commit
+
   lazy = true,
   ft = "markdown",
   dependencies = {
