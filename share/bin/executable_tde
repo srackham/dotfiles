@@ -67,17 +67,24 @@ tmux_cmd() {
 # Generate window name from directory
 window_name() {
     local dir="$1"
-    local basename win_name
-    basename="$(basename "$dir")"
-    win_name="${basename%%.*}"
-    win_name="${win_name//./-}"
-    echo "$win_name"
+    echo "$(basename "$dir")"
 }
 
 # Get a list of existing window names in a session
 existing_windows() {
     local session="$1"
     tmux list-windows -t "$session" -F '#W' 2>/dev/null || true
+}
+
+# Get window index by window name in a session
+window_index_by_name() {
+    if [[ "$DRY_RUN" == 1 ]]; then
+        echo "999"
+    else
+        local session="$1"
+        local win_name="$2"
+        tmux list-windows -t "$session" -F '#I:#W' | awk -F: -v name="$win_name" '$2 == name {print $1}'
+    fi
 }
 
 # Parse options
@@ -174,10 +181,11 @@ if [[ $INSIDE_TMUX -eq 1 ]]; then
             continue
         fi
         tmux_cmd new-window -c "$DIR" -n "$WIN_NAME"
-        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_NAME" -c "$DIR"
-        tmux_cmd send-keys -t "$SESSION_NAME:$WIN_NAME.1" "$PANE1_CMD" C-m
-        tmux_cmd select-pane -t "$SESSION_NAME:$WIN_NAME.1"
-        NEW_WINDOWS+=("$WIN_NAME")
+        WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
+        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
+        tmux_cmd send-keys -t "$SESSION_NAME:$WIN_INDEX.1" "$PANE1_CMD" C-m
+        tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
+        NEW_WINDOWS+=("$WIN_INDEX")
         # Update EXISTING_WINDOWS so subsequent checks are accurate
         EXISTING_WINDOWS+=$'\n'"$WIN_NAME"
     done
@@ -191,10 +199,11 @@ else
     tmux_cmd new-session -d -s "$SESSION_NAME" -c "$FIRST_DIR" -n "$FIRST_WIN_NAME"
     tmux_cmd set-option -t "$SESSION_NAME" -g base-index 1
     tmux_cmd set-window-option -t "$SESSION_NAME" -g pane-base-index 1
-    tmux_cmd split-window -h -t "$SESSION_NAME:$FIRST_WIN_NAME" -c "$FIRST_DIR"
-    tmux_cmd send-keys -t "$SESSION_NAME:$FIRST_WIN_NAME.1" "$PANE1_CMD" C-m
-    tmux_cmd select-pane -t "$SESSION_NAME:$FIRST_WIN_NAME.1"
-    NEW_WINDOWS+=("$FIRST_WIN_NAME")
+    FIRST_WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$FIRST_WIN_NAME")"
+    tmux_cmd split-window -h -t "$SESSION_NAME:$FIRST_WIN_INDEX" -c "$FIRST_DIR"
+    tmux_cmd send-keys -t "$SESSION_NAME:$FIRST_WIN_INDEX.1" "$PANE1_CMD" C-m
+    tmux_cmd select-pane -t "$SESSION_NAME:$FIRST_WIN_INDEX.1"
+    NEW_WINDOWS+=("$FIRST_WIN_INDEX")
     # Get existing window names in the session (now includes the first window)
     EXISTING_WINDOWS="$(existing_windows "$SESSION_NAME")"
     for DIR in "${PROJECT_DIRS[@]:1}"; do
@@ -204,10 +213,11 @@ else
             continue
         fi
         tmux_cmd new-window -t "$SESSION_NAME:" -c "$DIR" -n "$WIN_NAME"
-        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_NAME" -c "$DIR"
-        tmux_cmd send-keys -t "$SESSION_NAME:$WIN_NAME.1" "$PANE1_CMD" C-m
-        tmux_cmd select-pane -t "$SESSION_NAME:$WIN_NAME.1"
-        NEW_WINDOWS+=("$WIN_NAME")
+        WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
+        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
+        tmux_cmd send-keys -t "$SESSION_NAME:$WIN_INDEX.1" "$PANE1_CMD" C-m
+        tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
+        NEW_WINDOWS+=("$WIN_INDEX")
         EXISTING_WINDOWS+=$'\n'"$WIN_NAME"
     done
     if [[ ${#NEW_WINDOWS[@]} -gt 0 ]]; then
@@ -215,4 +225,3 @@ else
     fi
     tmux_cmd attach-session -t "$SESSION_NAME"
 fi
-
