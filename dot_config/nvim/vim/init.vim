@@ -25,6 +25,8 @@
 :iab Esp especially
 :iab Eth Ethereum
 :iab Eu European Union
+:iab Gh Github
+:iab Gfm Github Flavored Markdown
 :iab H1 #
 :iab H2 ##
 :iab H3 ###
