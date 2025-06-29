@@ -76,14 +76,14 @@ return {
         { desc = "Go to the definition of the symbol under the cursor" })
       vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition,
         { desc = "Go to the type definition of the symbol under the cursor" })
-      vim.keymap.set('n', '<Leader>lR', vim.lsp.buf.rename,
+      vim.keymap.set('n', '<Leader>cR', vim.lsp.buf.rename,
         { desc = "Rename all instances of the symbol under the cursor" })
-      vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action,
+      vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action,
         { desc = "Select a code action available at the current cursor position" })
-      vim.keymap.set('n', '<Leader>lf', function()
+      vim.keymap.set('n', '<Leader>cf', function()
         vim.lsp.buf.format { async = true }
       end, { desc = "Format buffer" })
-      vim.keymap.set('n', '<Leader>lt', function()
+      vim.keymap.set('n', '<Leader>cD', function()
         local enable = not vim.diagnostic.config().virtual_text
         vim.diagnostic.config { virtual_text = enable }
         local status = enable and "enabled" or "disabled"
