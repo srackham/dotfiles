@@ -19,6 +19,7 @@ zstyle ':completion:*' rehash true  # automatically find new executables in the 
 __git_files () {
     _wanted files expl 'local files' _files
 }
+source <(jj util completion zsh)    # Jujutsu command-line completions
 
 bindkey -v                          # vi command-line editing
 setopt interactive_comments         # allow # comments in shell; good for copy/paste
