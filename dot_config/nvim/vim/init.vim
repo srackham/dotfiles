@@ -5,8 +5,7 @@
 :autocmd FileType markdown iab <expr> Td "- [ ] _" .. strftime("%d-%b-%Y") .. "_:"  " Dated todo
 :autocmd FileType markdown iab <expr> Le "### " .. strftime("%d-%b-%Y")             " Log entry
 
-:iab <expr> Dt strftime('%Y-%m-%d')         " Date
-:iab <expr> Dd strftime('%Y-%m-%d-%a')      " Date with day
+:iab <expr> Dd strftime('%Y-%m-%d')         " Date
 :iab <expr> Tm strftime('%H:%M')            " Time
 :iab <expr> Dt strftime('%Y-%m-%d %H:%M')   " Date and time
 
@@ -16,6 +15,7 @@
 :iab Apps applications
 :iab Bk Bitcoin Knots
 :iab Btc Bitcoin
+:iab Cl command line
 :iab Conf configuration
 :iab Confs configurations
 :iab Cwd current working directory
@@ -35,6 +35,7 @@
 :iab H6 ######
 :iab Id identifier
 :iab Ids identifiers
+:iab Jj Jujutsu
 :iab Lh left hand
 :iab Lhs left hand side
 :iab Hm Home Manager
@@ -43,20 +44,25 @@
 :iab Lv LazyVim
 :iab Mk Markdown
 :iab Nv Neovim
+:iab No NixOS
 :iab Ob Obsidian
-:iab On `obsidian.nvim`
+:iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
 :iab Pkm Personal Knowledge Management (PKM)
+:iab Pr pull request
 :iab Ot Old Testament
 :iab Nt New Testament
 :iab Potus the president of the United States of America
 :iab Repo repository
+:iab Repos repositories
 :iab Rh right hand
 :iab Rhs right hand side
-:iab Tblsp tablespoon
 :iab Tbsp tablespoon
 :iab Tsp teaspoon
 :iab Uk United Kingdom
 :iab Usa United States of America
+:iab Vcs version control system
+:iab Vcss version control systems
 :iab Vsc VSCode
 :iab Wrt with respect to 
+:iab Xp Christian
