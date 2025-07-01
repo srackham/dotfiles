@@ -68,13 +68,16 @@ return {
       },
     }
     vim.keymap.set('n', '<Leader>os', "<Cmd>ObsidianTOC<CR>", { desc = "Markdown section headers picker" })
-    vim.keymap.set('n', '<Leader>oj', "<Cmd>ObsidianToday<CR>", { desc = "Open today's journal note" })
+    vim.keymap.set('n', '<Leader>oj', "<Cmd>ObsidianToday<CR>", { desc = "Open/create today's journal note" })
+    vim.keymap.set('n', '<Leader>oy', "<Cmd>ObsidianYesterday<CR>", { desc = "Open/create yesterday's journal note" })
     vim.keymap.set('n', '<Leader>oi', "<Cmd>ObsidianPasteImg<CR>", { desc = "Insert image from clipboard" })
     vim.keymap.set('n', '<Leader>on', "<Cmd>ObsidianNew<CR>", { desc = "New note" })
     vim.keymap.set('n', '<Leader>oN', "<Cmd>ObsidianTemplate<CR>", { desc = "New note from template" })
     vim.keymap.set('n', '<Leader>oo', "<Cmd>ObsidianOpen<CR>", { desc = "Open note in Obsidian application" })
     vim.keymap.set('n', '<Leader>of', "<Cmd>ObsidianQuickSwitch<CR>", { desc = "Notes file picker" })
     vim.keymap.set('n', '<Leader>og', "<Cmd>ObsidianSearch<CR>", { desc = "Search notes files with ripgrep" })
+    vim.keymap.set('n', '<Leader>or', "<Cmd>ObsidianRename<CR>",
+      { desc = "Rename current note or the note referenced under the cursor" })
     vim.keymap.set('n', '<Leader>ot', "<Cmd>ObsidianTags<CR>", { desc = "Search for tagged notes" })
     -- Links related commands
     vim.keymap.set('n', ']l', [[/\vhttp(s?):\/\/\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
