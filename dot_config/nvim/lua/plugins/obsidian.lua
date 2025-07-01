@@ -55,8 +55,9 @@ return {
         workdays_only = false,
       },
       note_id_func = function(title)
-        local current_dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
-        local id = Utils.slugify(title or "untitled", current_dir, ".md")
+        -- local dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
+        local dir = Obsidian.dir.filename
+        local id = Utils.slugify(title or "untitled", dir, ".md")
         return id
       end,
       picker = {
