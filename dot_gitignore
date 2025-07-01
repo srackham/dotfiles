@@ -1,0 +1,7 @@
+.jj/
+*.pyc
+.*.swp
+*~
+*.orig
+*.rej
+*.BAK
