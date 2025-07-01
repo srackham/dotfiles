@@ -9,5 +9,6 @@ size = [
 fav = ['141702961']
 
 [options]
+show-sessions-type = 'fav'
 
 [ui_flutter]

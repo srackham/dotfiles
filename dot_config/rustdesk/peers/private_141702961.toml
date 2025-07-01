@@ -38,14 +38,14 @@ view_only = false
 sync-init-clipboard = false
 
 [options]
-collapse_toolbar = ''
-custom-fps = '30'
-codec-preference = 'auto'
-i444 = ''
 swap-left-right-mouse = ''
+zoom-cursor = ''
 touch-mode = ''
 alias = 'Dell 7070'
-zoom-cursor = ''
+i444 = ''
+codec-preference = 'auto'
+collapse_toolbar = ''
+custom-fps = '30'
 
 [ui_flutter]
 
