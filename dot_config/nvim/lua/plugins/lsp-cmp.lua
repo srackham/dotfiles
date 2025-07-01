@@ -114,7 +114,19 @@ return {
         appearance = {
           nerd_font_variant = 'mono'
         },
-        completion = { documentation = { auto_show = true } },
+        completion = {
+          menu = {
+            border = "single",
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+          },
+          documentation = {
+            auto_show = true,
+            window = {
+              border = "single",
+              winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+            },
+          },
+        },
         cmdline = { enabled = false },
         sources = {
           default = { 'lsp', 'path', 'snippets', 'buffer' },

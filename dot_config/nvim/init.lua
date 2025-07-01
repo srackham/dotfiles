@@ -21,6 +21,8 @@ vim.g.maplocalleader = '\\'
 vim.g.editorconfig = false -- Disable .editorconfig files globally
 vim.g.vim_init_file = vim.fn.stdpath('config') .. '/vim/init.vim'
 
+vim.o.winborder = 'single'
+
 -- Load abbreviations et al
 vim.cmd('source ' .. vim.g.vim_init_file)
 
