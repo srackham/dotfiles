@@ -52,7 +52,9 @@ return {
       },
       daily_notes = {
         folder = "journal",
+        date_format = "journal-%Y-%m-%d",
         workdays_only = false,
+        default_tags = { "journal-entry" },
       },
       note_id_func = function(title)
         -- local dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
