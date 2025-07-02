@@ -29,6 +29,11 @@ return {
           -- For Obsidian experimentation and testing
           name = "experimentation",
           path = "~/projects/obsidian-experimentation",
+          overrides = {
+            templates = {
+              folder = vim.NIL,
+            },
+          },
         },
       },
       attachments = {
@@ -62,7 +67,6 @@ return {
         default_tags = { "journal-entry" },
       },
       note_id_func = function(title)
-        -- local dir = vim.fn.getcwd() -- Assume the new note will reside in Neovim's current working directory
         local dir = Obsidian.dir.filename
         local id = Utils.slugify(title or "untitled", dir, ".md")
         return id
