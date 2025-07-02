@@ -25,6 +25,11 @@ return {
           name = "doc",
           path = "~/share/doc",
         },
+        {
+          -- For Obsidian experimentation and testing
+          name = "experimentation",
+          path = "~/projects/obsidian-experimentation",
+        },
       },
       attachments = {
         img_folder = "images",
