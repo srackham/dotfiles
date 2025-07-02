@@ -3,3 +3,6 @@
 [user]
 name = "srackham"
 email = "srackham@gmail.com"
+
+[ui]
+pager = ":builtin"
