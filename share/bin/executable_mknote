@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+
+# mknote - create random Lorem Ipsum Obsidian note
+
+set -e
+
+# Usage function
+usage() {
+    cat <<EOF
+NAME
+    mknote - create random Lorem Ipsum Obsidian note
+
+SYNOPSIS
+
+    mknote [--dry-run|-n] [NOTE_COUNT]
+
+DESCRIPTION
+    Create NOTE_COUNT Obsidian Markdown note files in the current directory.
+
+    - Note sizes range randomly from 0 to 5 paragraphs.
+    - Paragraph sizes range randomly from 25 to 150 words.
+    - Paragraph text is Lorem Ipsum text.
+    - All files have an Obsidian frontmatter header.
+    - Files are named like test-note-N.md where N is 1,2,...
+
+OPTIONS
+    -n, --dry-run   Print note content to console instead of writing files.
+    -h, --help      Show this help message.
+EOF
+    exit 1
+}
+
+# Default lorem ipsum word list
+LOREM_WORDS=(
+    Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum
+)
+
+# Helper: generate random integer in [min, max]
+randint() {
+    local min=$1
+    local max=$2
+    echo $(( RANDOM % (max - min + 1) + min ))
+}
+
+# Helper: generate a single paragraph of N words
+gen_paragraph() {
+    local word_count=$1
+    local words=()
+    for ((i=0; i<word_count; i++)); do
+        idx=$(( RANDOM % ${#LOREM_WORDS[@]} ))
+        words+=("${LOREM_WORDS[$idx]}")
+    done
+    # Capitalize first word, add period at end
+    words[0]=$(echo "${words[0]}" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+    echo "${words[*]}."
+}
+
+# Helper: generate YAML frontmatter
+gen_frontmatter() {
+    local title=$1
+    local date=$2
+    cat <<EOF
+---
+title: "$title"
+created: $date
+tags: [lorem, generated]
+---
+
+EOF
+}
+
+# Main logic
+main() {
+    # Option parsing
+    DRY_RUN=0
+    NOTE_COUNT=""
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -n|--dry-run)
+                DRY_RUN=1
+                shift
+                ;;
+            -h|--help)
+                usage
+                ;;
+            *)
+                if [[ -z "$NOTE_COUNT" ]]; then
+                    NOTE_COUNT="$1"
+                else
+                    echo "Error: Too many arguments."
+                    usage
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    NOTE_COUNT=${NOTE_COUNT:-1}
+    if ! [[ "$NOTE_COUNT" =~ ^[0-9]+$ ]] || (( NOTE_COUNT < 1 )); then
+        echo "Error: NOTE_COUNT must be a positive integer."
+        usage
+    fi
+
+    # Get current date in ISO 8601
+    NOW=$(date +"%Y-%m-%dT%H:%M:%S%z")
+
+    for ((n=1; n<=NOTE_COUNT; n++)); do
+        filename="test-note-$n.md"
+        title="Test Note $n"
+        # Random paragraph count: 0-5
+        para_count=$(randint 0 5)
+        if [[ $DRY_RUN -eq 1 ]]; then
+            echo "----- $filename ($para_count paragraphs) -----"
+            gen_frontmatter "$title" "$NOW"
+            for ((p=1; p<=para_count; p++)); do
+                word_count=$(randint 25 150)
+                gen_paragraph "$word_count"
+                echo
+            done
+            echo
+        else
+            {
+                gen_frontmatter "$title" "$NOW"
+                for ((p=1; p<=para_count; p++)); do
+                    word_count=$(randint 25 150)
+                    gen_paragraph "$word_count"
+                    echo
+                done
+            } > "$filename"
+            echo "Created $filename ($para_count paragraphs)"
+        fi
+    done
+}
+
+main "$@"
