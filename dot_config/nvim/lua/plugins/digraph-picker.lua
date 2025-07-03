@@ -43,8 +43,13 @@ return {
         { digraph = 'um', symbol = '☂', name = 'Umbrella' },
         { digraph = 've', symbol = '⋮', name = 'Vertical ellipsis' },
         { digraph = 'wr', symbol = '✎', name = 'Pencil' },
+        { digraph = 'xj', symbol = '☩', name = 'Jerusalem Cross' },
+        { digraph = 'xl', symbol = '✝', name = 'Latin Cross' },
+        { digraph = 'xm', symbol = '✠', name = 'Maltese Cross' },
+        { digraph = 'xo', symbol = '☦', name = 'Orthodox Cross' },
         { digraph = 'xr', symbol = '☧', name = 'Chi Rho' },
         { digraph = 'xx', symbol = '✗', name = 'Cross mark' },
+        { digraph = 'zw', symbol = '\u{200B}', name = 'Zero Width Space' },
         -- Nerd Font characters (Nerd Fonts must be installed)
         { digraph = 'rk', symbol = '', name = 'Rocket' },
         { digraph = 'im', symbol = '', name = 'Image' },
