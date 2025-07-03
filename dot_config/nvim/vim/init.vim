@@ -66,3 +66,5 @@
 :iab Vsc VSCode
 :iab Wrt with respect to 
 :iab Xp Christian
+:iab Xps Christians
+:iab Xpy Christianity
