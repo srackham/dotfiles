@@ -17,11 +17,12 @@ OPTIONS:
     -n, --dry-run                                         Print note contents to console instead of writing files.
     -h, --help                                            Show this help message.
     -f, --file-name FILE_NAME                             Note file name.
+    -d, --dir-name DIR_NAME                               Notes file directory.
     -p, --paragraphs [MAX_PARAGRAPHS[,MIN_PARAGRAPHS]]    Number of paragraphs per note
     -w, --words [MAX_WORDS[,MIN_WORDS]]                   Number of words per paragraph
 
 DESCRIPTION
-    Create NOTE_COUNT Obsidian Markdown note files in the current directory.
+    Create NOTE_COUNT Obsidian Markdown note files in the current directory or specified directory.
 
     - Note sizes range randomly from MIN_PARAGRAPHS (0..MAX_PARAGRAPHS, default 0) to MAX_PARAGRAPHS (1..999, default 5).
       Examples: -p 10 (0 to 10 paragraphs per note), -p 20,10 (10 to 20 paragraphs per note).
@@ -30,6 +31,7 @@ DESCRIPTION
     - Paragraph text is Lorem Ipsum text.
     - All files have an Obsidian frontmatter header.
     - FILE_NAME is the note file name prefix (default note).
+    - DIR_NAME is the notes file directory (default current directory).
     - Note files are named like FILE_NAME-N.md where N is 1,2,..
     - If NOTE_COUNT is 1 then the file name is FILE_NAME.md
 EOF
@@ -39,6 +41,7 @@ EOF
 # Default values
 DRY_RUN=0
 FILE_NAME="note"
+DIR_NAME="."
 MIN_PARAGRAPHS=0
 MAX_PARAGRAPHS=5
 MIN_WORDS=25
@@ -128,6 +131,14 @@ while [[ $# -gt 0 ]]; do
             FILE_NAME="$2"
             shift 2
             ;;
+        -d|--dir-name)
+            if [[ -z "$2" ]]; then
+                echo "Error: --dir-name requires an argument."
+                usage
+            fi
+            DIR_NAME="$2"
+            shift 2
+            ;;
         -p|--paragraphs)
             if [[ -z "$2" ]]; then
                 echo "Error: --paragraphs requires an argument."
@@ -187,6 +198,19 @@ if [[ "$FILE_NAME" =~ [\/:\?\*\>\<\|] ]]; then
     usage
 fi
 
+# Validate directory name (basic check for illegal characters)
+if [[ "$DIR_NAME" =~ [\?\*\>\<\|] ]]; then
+    echo "Error: DIR_NAME contains illegal characters."
+    usage
+fi
+
+# Create directory if not dry-run and doesn't exist
+if [[ $DRY_RUN -eq 0 ]]; then
+    if [[ ! -d "$DIR_NAME" ]]; then
+        mkdir -p "$DIR_NAME"
+    fi
+fi
+
 # Get current date in ISO 8601
 NOW=$(date +"%Y-%m-%dT%H:%M:%S%z")
 
@@ -214,6 +238,7 @@ for ((n=1; n<=NOTE_COUNT; n++)); do
         done
         echo
     else
+        filepath="$DIR_NAME/$filename"
         {
             gen_frontmatter "$title" "$NOW"
             for ((p=1; p<=para_count; p++)); do
@@ -221,7 +246,7 @@ for ((n=1; n<=NOTE_COUNT; n++)); do
                 gen_paragraph "$word_count"
                 echo
             done
-        } > "$filename"
-        echo "Created $filename ($para_count paragraphs)"
+        } > "$filepath"
+        echo "Created $filepath ($para_count paragraphs)"
     fi
 done
