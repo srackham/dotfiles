@@ -6,6 +6,7 @@ set -e
 
 usage() {
     cat <<EOF
+
 NAME
     mknotes - create random Lorem Ipsum Obsidian notes
 
@@ -28,7 +29,7 @@ DESCRIPTION
       Examples: -w 10 (0 to 10 words per paragraph), -w 20,10 (10 to 20 words per paragraph).
     - Paragraph text is Lorem Ipsum text.
     - All files have an Obsidian frontmatter header.
-    - FILE_NAME is the note file name prefix (default test-note).
+    - FILE_NAME is the note file name prefix (default note).
     - Note files are named like FILE_NAME-N.md where N is 1,2,..
     - If NOTE_COUNT is 1 then the file name is FILE_NAME.md
 EOF
@@ -37,7 +38,7 @@ EOF
 
 # Default values
 DRY_RUN=0
-FILE_NAME="test-note"
+FILE_NAME="note"
 MIN_PARAGRAPHS=0
 MAX_PARAGRAPHS=5
 MIN_WORDS=25
@@ -189,6 +190,11 @@ fi
 # Get current date in ISO 8601
 NOW=$(date +"%Y-%m-%dT%H:%M:%S%z")
 
+if [[ $DRY_RUN -eq 1 ]]; then
+    echo "Dry run: Generating $NOTE_COUNT note(s) with paragraphs: $MIN_PARAGRAPHS..$MAX_PARAGRAPHS, words: $MIN_WORDS..$MAX_WORDS"
+    echo
+fi
+
 for ((n=1; n<=NOTE_COUNT; n++)); do
     if (( NOTE_COUNT == 1 )); then
         filename="${FILE_NAME}.md"
@@ -199,7 +205,7 @@ for ((n=1; n<=NOTE_COUNT; n++)); do
     fi
     para_count=$(randint "$MIN_PARAGRAPHS" "$MAX_PARAGRAPHS")
     if [[ $DRY_RUN -eq 1 ]]; then
-        echo "----- $filename ($para_count paragraphs) -----"
+        echo "----- $filename ($para_count paragraphs | NOTE_COUNT=$NOTE_COUNT | paragraphs=$MIN_PARAGRAPHS..$MAX_PARAGRAPHS | words=$MIN_WORDS..$MAX_WORDS) -----"
         gen_frontmatter "$title" "$NOW"
         for ((p=1; p<=para_count; p++)); do
             word_count=$(randint "$MIN_WORDS" "$MAX_WORDS")
