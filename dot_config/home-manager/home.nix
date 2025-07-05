@@ -21,6 +21,7 @@
     gcc
     gh
     git
+    git-graph
     gnumake
     go
     golangci-lint
@@ -31,6 +32,7 @@
     htop
     iotop
     jq
+    jujutsu
     lazygit
     lua
     marksman
