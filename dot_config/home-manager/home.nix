@@ -21,7 +21,6 @@
     gcc
     gh
     git
-    git-graph
     gnumake
     go
     golangci-lint
