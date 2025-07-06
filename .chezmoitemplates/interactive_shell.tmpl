@@ -16,7 +16,7 @@ export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 export HISTFILE=~/.shared_history
 export HISTSIZE=10000
 
-export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
+export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview,ctrl-j:down,ctrl-k:up,alt-j:page-down,alt-k:page-up,ctrl-b:preview-page-up,ctrl-f:preview-page-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,shift-up:preview-up,shift-down:preview-down --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
 export FZF_DEFAULT_COMMAND="fd --type f"
 
 export BAT_THEME="Dracula"
