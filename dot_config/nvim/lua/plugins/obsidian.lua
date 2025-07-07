@@ -35,6 +35,16 @@ return {
             },
           },
         },
+        {
+          -- For Obsidian experimentation and testing on local (non-NFS) drive
+          name = "local-experimentation",
+          path = "~/local/obsidian-experimentation",
+          overrides = {
+            templates = {
+              folder = vim.NIL,
+            },
+          },
+        },
       },
       attachments = {
         img_folder = "images",
