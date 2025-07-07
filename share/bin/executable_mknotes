@@ -80,11 +80,9 @@ gen_paragraph() {
 # Helper: generate YAML frontmatter
 gen_frontmatter() {
     local title=$1
-    local date=$2
     cat <<EOF
 ---
 title: "$title"
-created: $date
 tags: [lorem, generated]
 ---
 
@@ -253,7 +251,7 @@ for ((n=1; n<=NOTE_COUNT; n++)); do
     para_count=$(normalise_int $rnd "$MIN_PARAGRAPHS" "$MAX_PARAGRAPHS")
     if [[ $DRY_RUN -eq 1 ]]; then
         echo "----- $filename ($para_count paragraphs | NOTE_COUNT=$NOTE_COUNT | paragraphs=$MIN_PARAGRAPHS..$MAX_PARAGRAPHS | words=$MIN_WORDS..$MAX_WORDS) -----"
-        gen_frontmatter "$title" "$NOW"
+        gen_frontmatter "$title"
         for ((p=1; p<=para_count; p++)); do
             rnd=$RANDOM
             word_count=$(normalise_int $rnd "$MIN_WORDS" "$MAX_WORDS")
@@ -264,7 +262,7 @@ for ((n=1; n<=NOTE_COUNT; n++)); do
     else
         filepath="$DIR_NAME/$filename"
         {
-            gen_frontmatter "$title" "$NOW"
+            gen_frontmatter "$title"
             for ((p=1; p<=para_count; p++)); do
                 rnd=$RANDOM
                 word_count=$(normalise_int $rnd "$MIN_WORDS" "$MAX_WORDS")
