@@ -1,17 +1,17 @@
 #
 # List of project directories opened by ~/bin/ode
-# Path expansion not suppoted (`~` or `$HOME`).
 #
-/home/srackham/notes
-/home/srackham/doc
-/home/srackham/.local/share/chezmoi
-/home/srackham/nixos-configurations
-/home/srackham/projects/go-utils
-/home/srackham/projects/cryptor
-/home/srackham/projects/ccp
-/home/srackham/projects/xrate
-/home/srackham/.local/share/nvim/lazy/digraph-picker.nvim
-/home/srackham/.local/share/nvim/lazy/markdown-blocks.nvim
-/home/srackham/.local/share/nvim/lazy/obsidian.nvim
-/home/srackham/projects/obsidian.nvim.wiki
-/home/srackham/projects/obsidian-experimentation
+$HOME/notes
+$HOME/doc
+~/.local/share/chezmoi
+~/nixos-configurations
+#~/projects/go-utils
+#~/projects/cryptor
+#~/projects/ccp
+#~/projects/xrate
+~/.local/share/nvim/lazy/digraph-picker.nvim
+~/.local/share/nvim/lazy/markdown-blocks.nvim
+~/.local/share/nvim/lazy/obsidian.nvim
+~/projects/obsidian.nvim.wiki
+~/projects/obsidian-experimentation
+~/projects/mknotes

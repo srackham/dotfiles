@@ -131,7 +131,8 @@ if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
     # Read project directories from $HOME/.tde
     while IFS= read -r line; do
         [[ -z "$line" || "$line" =~ ^# ]] && continue
-        PROJECT_DIRS+=("$line")
+        expanded_line=$(eval echo "$line") # Expand ~ and $HOME
+        PROJECT_DIRS+=("$expanded_line")
     done < "$HOME/.tde"
     if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
         echo "Error: No project directories found in \$HOME/.tde" >&2
