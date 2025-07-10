@@ -31,7 +31,7 @@ The `exported` directory contains files that are managed manually:
 
     * Export GNOME custom key bindings with:
 
-            dconf dump /org/gnome/desktop/wm/keybindings/ > gnome-custom-key-bindings.dconf
+            dconf dump /org/gnome/desktop/wm/keybindings/ > exported/gnome-custom-key-bindings.dconf
 
     * Use the dconf load command to restore custom GNOME key binding from the dump file. See `./exported/post-install-config.sh` for details.
 
