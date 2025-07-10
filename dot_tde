@@ -9,9 +9,10 @@ $HOME/doc
 #~/projects/cryptor
 #~/projects/ccp
 #~/projects/xrate
+~/projects/mknotes
 ~/.local/share/nvim/lazy/digraph-picker.nvim
 ~/.local/share/nvim/lazy/markdown-blocks.nvim
 ~/.local/share/nvim/lazy/obsidian.nvim
 ~/projects/obsidian.nvim.wiki
 ~/projects/obsidian-experimentation
-~/projects/mknotes
+~/projects/git-experimentation
