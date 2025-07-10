@@ -5,9 +5,11 @@
 :autocmd FileType markdown iab <expr> Td "- [ ] _" .. strftime("%d-%b-%Y") .. "_:"  " Dated todo
 :autocmd FileType markdown iab <expr> Le "### " .. strftime("%d-%b-%Y")             " Log entry
 
-:iab <expr> Dd strftime('%Y-%m-%d')         " Date
-:iab <expr> Tm strftime('%H:%M')            " Time
-:iab <expr> Dt strftime('%Y-%m-%d %H:%M')   " Date and time
+:iab <expr> D strftime('%d-%b-%Y')              " Date
+:iab <expr> T strftime('%H:%M')                 " Time
+:iab <expr> DT strftime('%Y-%m-%d %H:%M')       " Date and time
+:iab <expr> DS strftime('%Y-%m-%d')             " ISO 8601 date stamp
+:iab <expr> DTS strftime('%Y-%m-%dT%H:%M:%S%z') " ISO 8601 date and time stamp
 
 :iab Aip AI prompt
 :iab Air AI response
