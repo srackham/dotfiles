@@ -9,7 +9,8 @@ if [ -f "/etc/profile.d/locale.sh" ]; then
 fi
 {{end}}
 
-export DOCUMENTS_DIR="$HOME/doc"
+export NOTES_DIR="$HOME/notes"   # Obsidian vault with all my current note
+export DOCUMENTS_DIR="$HOME/doc" # Other documents (legacy and non-Markdown)
 export PROJECTS_DIR="$HOME/projects"
 
 # Used by bash and zsh for easier path navigation.
@@ -27,14 +28,16 @@ export GNC_CONFIG_HOME="$DOCUMENTS_DIR/business/accounting/gnucash5/.config/gnuc
 
 export RECOLL_CONFDIR="$HOME/.config/recoll"
 
-#
-# Build the PATH env variable:
-#
+# Build the PATH env variable in descending priority order.
+# NOTE: NixOS updates this PATH and does not seem to preserve priorities.
+if [ -d "$HOME/.deno/bin" ]; then             # Deno runtime
+    export PATH=$PATH:$HOME/.deno/bin
+fi
+if [ -d "$HOME/go" ]; then                    # Go language (add GOROOT and GOPATH to PATH)
+    export PATH=$PATH:$HOME/go/bin
+fi
+export PATH="$HOME/bin:$HOME/share/bin:$PATH" # User's binaries
 
-# User's binaries
-export PATH="$HOME/bin:$HOME/share/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="./node_modules/.bin:$PATH"
 # Source Nix Package Manager if it's installed.
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
   . $HOME/.nix-profile/etc/profile.d/nix.sh
@@ -44,51 +47,6 @@ fi
 if which brave >/dev/null; then
     export CHROME_EXECUTABLE=$(which brave)
 fi
-
-# Deno runtime
-if [ -d "$HOME/.deno/bin" ]; then
-    export PATH=$PATH:$HOME/.deno/bin
-fi
-
-# Go language (add GOROOT and GOPATH to PATH)
-if [ -d "$HOME/go" ]; then
-    export PATH=$PATH:$HOME/go/bin
-fi
-
-# Rust language
-if [ -f $HOME/.cargo/env ]; then
-    source $HOME/.cargo/env
-fi
-
-##############
-# Legacy paths
-##############
-
-# if [ -d "$HOME/local/bin" ]; then
-#     export PATH="$HOME/local/bin:$PATH"
-# fi
-
-# # Virgil language
-# if [ -d "$HOME/local/bin/virgil" ]; then
-#     export PATH="$HOME/local/bin/virgil/bin:$HOME/local/bin/virgil/bin/dev:$PATH"
-# fi
-
-# # wassmtime Wasm runtime
-# if [ -d "$HOME/.wasmtime" ]; then
-#     export WASMTIME_HOME="$HOME/.wasmtime"
-#     export PATH="$WASMTIME_HOME/bin:$PATH"
-# fi
-
-# # wasmer Wasm runtime
-# if [ -d "$HOME/.wasmer" ]; then
-#     export WASMER_HOME="$HOME/.wasmer"
-#     export PATH="$WASMER_HOME/bin:$PATH"
-# fi
-
-# # >>> coursier install directory >>>
-# export PATH="$PATH:/home/srackham/.local/share/coursier/bin"
-# # <<< coursier install directory <<<
-
 
 #
 # Run custom login commands
