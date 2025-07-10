@@ -45,7 +45,7 @@ return {
         settings = {
           Lua = {
             diagnostics = {
-              globals = { 'vim' } -- Suppress undefined global 'vim' warnings
+              globals = { 'vim', 'Obsidian' } -- Suppress undefined global warnings
             },
           }
         }
