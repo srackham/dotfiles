@@ -52,6 +52,8 @@
 :iab Omv OpenMediaVault
 :iab Pkm Personal Knowledge Management (PKM)
 :iab Pr pull request
+:iab Re regular expression
+:iab Res regular expressions
 :iab Ot Old Testament
 :iab Nt New Testament
 :iab Potus the president of the United States of America
