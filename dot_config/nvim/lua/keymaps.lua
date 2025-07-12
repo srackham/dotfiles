@@ -129,7 +129,7 @@ vim.keymap.set('n', '<Leader>fl', function()
   vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Load current module file into variable 'M'" })
 
-vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
+vim.keymap.set({ 'i', 'n' }, '<C-M-l>', function()
   local md_link = Utils.convert_clipboard_url_to_markdown_link()
   if md_link ~= '' then
     vim.fn.setreg('+', md_link)
@@ -142,6 +142,11 @@ vim.keymap.set({ 'i', 'n' }, '<C-l>', function()
     end
   end
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
+
+vim.keymap.set('i', '<C-l>', '<C-o>l',
+  { noremap = true, silent = true, desc = "Move cursor right one character(insert mode)" })
+vim.keymap.set('i', '<C-x>', '<C-o>x',
+  { noremap = true, silent = true, desc = "Delete the character under cursor (insert mode)" })
 
 -- Preview Markdown files in the browser with the Chrome Markdown Viewer extension
 -- https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk
