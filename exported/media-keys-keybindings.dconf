@@ -7,6 +7,6 @@ volume-mute=['<Primary><Super>F10']
 volume-up=['<Primary><Super>F12']
 
 [custom-keybindings/custom0]
-binding='<Control><Alt><Super>p'
-command='sh -c "killall -ABRT brave; killall -ABRT code; shutdown now"'
+binding='<Shift><Control><Alt><Super>p'
+command='sh -c "killall brave && killall nvim && killall alacritty && shutdown now"'
 name='Shutdown'
