@@ -144,7 +144,7 @@ vim.keymap.set({ 'i', 'n' }, '<C-M-l>', function()
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
 vim.keymap.set('i', '<C-l>', '<C-o>l',
-  { noremap = true, silent = true, desc = "Move cursor right one character(insert mode)" })
+  { noremap = true, silent = true, desc = "Move cursor right one character (insert mode)" })
 vim.keymap.set('i', '<C-x>', '<C-o>x',
   { noremap = true, silent = true, desc = "Delete the character under cursor (insert mode)" })
 
@@ -158,10 +158,10 @@ end, { desc = 'Open current file in Brave browser' })
 -- Clipboard copy and paste commands
 vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
 vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
-vim.keymap.set({ 'i', 'c' }, '<M-p>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard after cursor" })
-vim.keymap.set({ 'n', 'v' }, '<M-p>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
-vim.keymap.set('n', '<M-P>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
-vim.keymap.set({ 'n', 'i' }, '<C-M-p>', '<Esc>o<Esc>"+p',
+vim.keymap.set({ 'i', 'c' }, '<M-v>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard after cursor" })
+vim.keymap.set({ 'n', 'v' }, '<M-v>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
+vim.keymap.set('n', '<M-V>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
+vim.keymap.set({ 'n', 'i' }, '<C-M-v>', '<Esc>o<Esc>"+p',
   { noremap = true, silent = true, desc = "Paste clipboard line-wise" })
 
 -- Edit commands
@@ -227,7 +227,6 @@ local function close_window()
   end
 end
 vim.keymap.set('n', '<Leader>wd', '<Cmd>bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
-vim.keymap.set('n', '<M-d>', '<Cmd>bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
