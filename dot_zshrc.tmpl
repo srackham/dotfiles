@@ -59,6 +59,10 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 {{end}}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
+# Next/previous in command-line history
+bindkey '^n' down-line-or-history
+bindkey '^p' up-line-or-history
+
 # Set up fzf key bindings and fuzzy completion.
 {{/*
 NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
