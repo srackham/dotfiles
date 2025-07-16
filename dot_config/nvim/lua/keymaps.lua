@@ -78,14 +78,12 @@ vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo 
 vim.keymap.set('i', '<C-^>', '<Esc><Cmd>b#<CR>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '\\', '<Cmd>b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
+vim.keymap.set('n', '<C-p>', '<Cmd>b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<M-S-q>', '<Cmd>qa!<CR>',
-  { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>eq', '<Cmd>wqa<CR>',
   { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set('n', '<M-q>', '<Cmd>wqa<CR>', { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<Leader>md', '<Cmd>delmarks!<CR>', { silent = true, desc = "Delete local marks" })
 vim.keymap.set('n', '<Leader>mD', '<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>',
   { silent = true, desc = "Delete global and local marks" })
@@ -228,7 +226,6 @@ local function close_window()
 end
 vim.keymap.set('n', '<Leader>wd', '<Cmd>bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
-vim.keymap.set('n', '<M-c>', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
@@ -281,7 +278,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Insert date
-vim.keymap.set('i', '<M-d>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
+vim.keymap.set('i', '<M-;>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
 -- Toggle word-wrap
 vim.keymap.set('n', '<Leader>ww', function()
@@ -296,17 +293,11 @@ end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
 vim.keymap.set('n', '<leader>te', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
-vim.keymap.set('n', '<M-e>', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
 
 vim.keymap.set('n', '<leader>tg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
-vim.keymap.set('n', '<M-g>', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
 
 vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
-vim.keymap.set('n', '<M-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
 
 -- Abbreviations commands
