@@ -1,8 +1,8 @@
 return {
-  "srackham/obsidian.nvim",
+  -- "srackham/obsidian.nvim",
   -- branch = "case_insensitive_tag_picker",
 
-  -- "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
+  "obsidian-nvim/obsidian.nvim", -- A community fork of epwalsh/obsidian.nvim
   -- version = "*",                 -- Use latest release instead of latest commit
 
   lazy = true,
@@ -63,7 +63,7 @@ return {
       },
       templates = {
         folder = "templates",
-        date_format = "%Y-%m-%d-%a",
+        date_format = "%Y-%m-%d",
         time_format = "%H:%M",
       },
       completion = {
@@ -74,7 +74,8 @@ return {
         folder = "journal",
         date_format = "journal-%Y-%m-%d",
         workdays_only = false,
-        default_tags = { "journal-entry" },
+        default_tags = {},
+        template = "journal.md",
       },
       note_id_func = function(title)
         Obsidian = Obsidian -- Kudge to suppress spurious LSP "Undefined global `Obsidian`" warning in next statement
