@@ -59,9 +59,21 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 {{end}}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
+#
+# zsh key bindings
+#
+
 # Next/previous in command-line history
 bindkey '^n' down-line-or-history
 bindkey '^p' up-line-or-history
+
+# Bind Alt+t to repeat the previous terminal command
+repeat_last_command() {
+  BUFFER="$(fc -ln -1)"
+  zle accept-line
+}
+zle -N repeat_last_command
+bindkey '^[t' repeat_last_command
 
 # Set up fzf key bindings and fuzzy completion.
 {{/*
