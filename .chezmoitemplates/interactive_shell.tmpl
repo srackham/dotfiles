@@ -56,7 +56,10 @@ alias l="bat --style=plain"
 {{if eq .chezmoi.arch "arm64"}}
 alias cryptor="cryptor.arm64"
 {{end}}
-alias chezmoi-add-modified="chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim ~/.config/rustdesk ~/share/bin/mknotes"
+
+alias chezmoi-add-modified="chezmoi-dump-gnome-bindings && chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim ~/.config/rustdesk ~/share/bin/mknotes"
+alias chezmoi-dump-gnome-bindings='dconf dump /org/gnome/desktop/wm/keybindings/ > exported/wm-keybindings.dconf && dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > exported/media-keys-keybindings.dconf && dconf dump /org/gnome/shell/keybindings/ > exported/shell-keybindings.dconf'
+
 alias clipboard="xclip -selection clipboard"    # Copy stdout to clipboard
 alias cryptor-summary="cryptor valuate -currency nzd -confdir ~/bin/.cryptor -aggregate-only"
 alias cryptor-plot="cryptor history -confdir ~/bin/.cryptor -portfolio aggregate | plot-history.sh"
