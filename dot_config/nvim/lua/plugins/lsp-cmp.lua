@@ -161,8 +161,6 @@ return {
       end
       vim.keymap.set("n", "<leader>ct", toggle_completions,
         { noremap = true, silent = true, desc = "Toggle completions" })
-      vim.keymap.set({ "i", "n" }, "<C-M-Space>", toggle_completions,
-        { noremap = true, silent = true, desc = "Toggle completions" })
     end,
 
     opts_extend = { 'sources.default' },
