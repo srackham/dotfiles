@@ -62,5 +62,6 @@ return {
     vim.keymap.set("n", "<Leader>gh", git_hunks, { desc = "Git hunks picker" })
 
     vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', { fg = '#999999' })
+    vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#400000", fg = "#ffffff" })
   end,
 }
