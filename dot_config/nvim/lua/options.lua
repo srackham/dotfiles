@@ -22,3 +22,7 @@ vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#303030' })
 vim.opt.swapfile = false
 vim.opt.undofile = true -- Persistent undo across sessions
 vim.opt.spellfile = vim.fn.expand('$HOME/doc/nvim/spell/en.utf-8.add')
+
+vim.api.nvim_set_hl(0, 'Search', { bg = '#5f5f00', fg = 'white' })
+vim.api.nvim_set_hl(0, 'IncSearch', { bg = '#ffd787', fg = 'black' })
+vim.api.nvim_set_hl(0, 'CurSearch', { bg = '#ffd787', fg = 'black' })
