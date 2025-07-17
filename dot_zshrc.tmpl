@@ -59,6 +59,15 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 {{end}}
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
+# Set up fzf key bindings and fuzzy completion.
+{{/*
+NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
+*/}}
+eval "$(fzf --zsh)"
+
+# Set up zoxide and alias to cd and cdi.
+eval "$(zoxide init --cmd cd zsh)"
+
 #
 # zsh key bindings
 #
@@ -75,11 +84,13 @@ repeat_last_command() {
 zle -N repeat_last_command
 bindkey '^[t' repeat_last_command
 
-# Set up fzf key bindings and fuzzy completion.
-{{/*
-NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
-*/}}
-eval "$(fzf --zsh)"
+# Bind Alt+r to fzf command history recall
+# Remove default Ctrl+R binding
+bindkey -rM emacs '^R'
+bindkey -rM viins '^R'
+bindkey -rM vicmd '^R'
+# Bind Alt+R to fzf history search
+bindkey -M emacs '^[r' fzf-history-widget
+bindkey -M viins '^[r' fzf-history-widget
+bindkey -M vicmd '^[r' fzf-history-widget
 
-# Set up zoxide and alias to cd and cdi.
-eval "$(zoxide init --cmd cd zsh)"

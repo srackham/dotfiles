@@ -303,9 +303,9 @@ vim.keymap.set({ 'i', 'n' }, '<M-t>', function() Utils.send_keys_to_terminal('Up
 vim.keymap.set('n', '<leader>tg', function() Utils.send_keys_to_terminal('lazygit Enter', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and execute lazygit in the terminal pane" })
 
-vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('M-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
-vim.keymap.set({ 'i', 'n' }, '<M-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+vim.keymap.set({ 'i', 'n' }, '<M-r>', function() Utils.send_keys_to_terminal('M-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
 
 -- Abbreviations commands
