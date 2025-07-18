@@ -74,8 +74,8 @@ return {
         folder = "journal",
         date_format = "journal-%Y-%m-%d",
         workdays_only = false,
-        default_tags = {},
         template = "journal.md",
+        default_tags = {}, -- The default tags are in the template
       },
       note_id_func = function(title)
         Obsidian = Obsidian -- Kudge to suppress spurious LSP "Undefined global `Obsidian`" warning in next statement
@@ -93,7 +93,8 @@ return {
     vim.keymap.set('n', '<Leader>oy', "<Cmd>Obsidian yesterday<CR>", { desc = "Open/create yesterday's journal note" })
     vim.keymap.set('n', '<Leader>oi', "<Cmd>Obsidian paste_img<CR>", { desc = "Insert image from clipboard" })
     vim.keymap.set('n', '<Leader>on', "<Cmd>Obsidian new<CR>", { desc = "New note" })
-    vim.keymap.set('n', '<Leader>oN', "<Cmd>Obsidian template<CR>", { desc = "New note from template" })
+    vim.keymap.set('n', '<Leader>oN', "<Cmd>Obsidian new_from_template<CR>", { desc = "New note from template" })
+    vim.keymap.set('n', '<Leader>oT', "<Cmd>Obsidian template<CR>", { desc = "Insert template" })
     vim.keymap.set('n', '<Leader>oo', "<Cmd>Obsidian open<CR>", { desc = "Open note in Obsidian application" })
     vim.keymap.set('n', '<Leader>of', "<Cmd>Obsidian quick_switch<CR>", { desc = "Notes file picker" })
     vim.keymap.set('n', '<Leader>og', "<Cmd>Obsidian search<CR>", { desc = "Search notes files with ripgrep" })
@@ -105,11 +106,11 @@ return {
       { desc = "Jump to next link" })     -- URL, Markdown link, Wiki link
     vim.keymap.set('n', '[l', [[?\vhttp(s\?)://\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
       { desc = "Jump to previous link" }) -- URL, Markdown link, Wiki link
-    vim.keymap.set('n', '<Leader>ll', "<Cmd>Obsidian links<CR>", { desc = "Links picker" })
-    vim.keymap.set('n', '<Leader>lb', "<Cmd>Obsidian backlinks<CR>", { desc = "Backlinks picker" })
-    vim.keymap.set('v', '<Leader>le', ":Obsidian link<CR>",
+    vim.keymap.set('n', '<Leader>ol', "<Cmd>Obsidian links<CR>", { desc = "Links picker" })
+    vim.keymap.set('n', '<Leader>ob', "<Cmd>Obsidian backlinks<CR>", { desc = "Backlinks picker" })
+    vim.keymap.set('v', '<Leader>oe', ":Obsidian link<CR>",
       { desc = "Replace selected note ID, path or alias with a link to an existing note" })
-    vim.keymap.set('v', '<Leader>ln', ":Obsidian link_new<CR>",
+    vim.keymap.set('v', '<Leader>oL', ":Obsidian link_new<CR>",
       { desc = "Replace selected note title of with a link to a new note" })
   end,
 }
