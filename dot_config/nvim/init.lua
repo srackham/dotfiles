@@ -32,9 +32,6 @@ require 'keymaps'                -- Load ./lua/keymaps.lua
 require 'autocmds'               -- Load ./lua/autocmds.lua
 require 'highlighting'           -- Load ./lua/highlighting.lua
 
--- Add local dev directory `require` paths for testing from local development directories
--- require('utils').add_to_path('/home/srackham/projects/markdown-blocks.nvim/lua')
-
 -- Lastly load .nvimrc.lua file from root directory
 local project_config_file = vim.fn.getcwd() .. '/.nvimrc.lua'
 if vim.fn.filereadable(project_config_file) == 1 then
