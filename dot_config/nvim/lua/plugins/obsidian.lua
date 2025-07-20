@@ -87,6 +87,7 @@ return {
         -- Set preferred picker. Can be one of 'telescope.nvim' (default), 'fzf-lua', 'mini.pick' or 'snacks.pick'.
         name = "telescope.nvim",
       },
+      legacy_commands = false,
     }
     vim.keymap.set('n', '<Leader>os', "<Cmd>Obsidian toc<CR>", { desc = "Markdown section headers picker" })
     vim.keymap.set('n', '<Leader>oj', "<Cmd>Obsidian today<CR>", { desc = "Open/create today's journal note" })
