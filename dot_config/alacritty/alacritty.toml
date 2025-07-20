@@ -14,7 +14,10 @@ x = 10
 y = 10
 
 [keyboard]
-bindings = [{ key = "T", mods = "Control|Shift", action = "CreateNewWindow" }]
+bindings = [
+  { key = "T", mods = "Control|Shift", action = "CreateNewWindow" },
+  { key = "V", mods = "Alt", action = "Paste" }
+]
 
 [cursor]
 style = { shape = "Block", blinking = "Always" }
