@@ -57,7 +57,9 @@ map_next_prev(
 map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
 map_next_prev(']s', 'normal! ]s', '[s', 'normal! [s', "misspelt word")
-map_next_prev('g,', 'normal! g,', 'g;', 'normal! g;', "change")
+map_next_prev('g,', 'normal! g,', 'g;', 'normal! g;', "change") -- Adds n/N functionality to `g,` and `g;` commands
+
+-- Adds n/N functionality to Markdown section navigation commands
 -- Builtin markdown section navigation commands have first to be explicitly deleted from the current buffer.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',

@@ -24,6 +24,8 @@
 :iab Cz Chezmoi
 :iab Dir directory
 :iab Dirs directories
+:iab EL Ecclesiastical Latin
+:iab CL Classical Latin
 :iab Esp especially
 :iab Eth Ethereum
 :iab Eu European Union
