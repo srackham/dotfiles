@@ -76,7 +76,8 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Miscellaneous commands
 vim.keymap.set('n', '<M-Space>', '<C-f>', { noremap = true, silent = true, desc = "Page down" })
 vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true, desc = "Page up" })
-vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>', -- Turn of search highlighting and clear status line
+vim.keymap.set('n', '<M-;>', ',', { noremap = true, silent = true, desc = "Page up" }) -- Because comma is the Leader
+vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>',                  -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('i', '<C-^>', '<Esc><Cmd>b#<CR>',
