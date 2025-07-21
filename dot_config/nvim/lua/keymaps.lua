@@ -283,7 +283,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Insert date
-vim.keymap.set('i', '<M-;>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
+-- vim.keymap.set('i', '<M-;>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
 -- Toggle word-wrap
 vim.keymap.set('n', '<Leader>ww', function()
