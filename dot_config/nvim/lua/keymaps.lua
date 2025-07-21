@@ -85,7 +85,6 @@ vim.keymap.set('i', '<C-^>', '<Esc><Cmd>b#<CR>',
 vim.keymap.set('n', '\\', '<Cmd>b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>,', '<Cmd>b#<CR>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<C-p>', '<Cmd>b#<CR>', { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
