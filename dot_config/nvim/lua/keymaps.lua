@@ -165,8 +165,7 @@ vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank 
 vim.keymap.set({ 'i', 'c' }, '<M-v>', '<C-r>+', { noremap = true, silent = false, desc = "Paste clipboard after cursor" })
 vim.keymap.set({ 'n', 'v' }, '<M-v>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
 vim.keymap.set('n', '<M-V>', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
-vim.keymap.set({ 'n', 'i' }, '<C-M-v>', '<Esc>o<Esc>"+p',
-  { noremap = true, silent = true, desc = "Paste clipboard line-wise" })
+vim.keymap.set({ 'n', 'i' }, '<C-M-v>', '<Esc>"+p', { noremap = true, silent = true, desc = "Paste clipboard line-wise" })
 
 -- Edit commands
 vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>:nohlsearch<CR>',
