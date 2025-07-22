@@ -42,6 +42,7 @@
     nodejs
     npm-check-updates
     prettierd
+    rclone
     ripgrep
     sd
     smartmontools
