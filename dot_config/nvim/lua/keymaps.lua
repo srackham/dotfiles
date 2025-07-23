@@ -73,9 +73,23 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
+-- Add n/N and Jump List functionality to <C-n> (page down) and <C-p> (page up) commands
+vim.keymap.set('n', '<C-n>',
+  function()
+    vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes("m'<CR><C-f>", true, false, true))
+    vim.keymap.set('n', 'n', "<C-f>", { noremap = true, silent = true, desc = "Page down" })
+    vim.keymap.set('n', 'N', "<C-b>", { noremap = true, silent = true, desc = "Page up" })
+  end,
+  { noremap = true, silent = true, desc = "Page down" })
+vim.keymap.set('n', '<C-p>',
+  function()
+    vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes("m'<CR><C-b>", true, false, true))
+    vim.keymap.set('n', 'n', "<C-b>", { noremap = true, silent = true, desc = "Page up" })
+    vim.keymap.set('n', 'N', "<C-f>", { noremap = true, silent = true, desc = "Page down" })
+  end,
+  { noremap = true, silent = true, desc = "Page down" })
+
 -- Miscellaneous commands
-vim.keymap.set('n', '<M-Space>', '<C-f>', { noremap = true, silent = true, desc = "Page down" })
-vim.keymap.set('n', '<C-M-Space>', '<C-b>', { noremap = true, silent = true, desc = "Page up" })
 vim.keymap.set('n', '<M-;>', ',', { noremap = true, silent = true, desc = "Page up" }) -- Because comma is the Leader
 vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>',                  -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
