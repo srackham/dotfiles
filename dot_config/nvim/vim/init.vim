@@ -49,6 +49,8 @@
 :iab Mk Markdown
 :iab Nv Neovim
 :iab No NixOS
+:iab NO Novus Ordo
+:iab VO Vetus Ordo
 :iab Ob Obsidian
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
@@ -63,6 +65,7 @@
 :iab Repos repositories
 :iab Rh right hand
 :iab Rhs right hand side
+:iab St Saint
 :iab Tbsp tablespoon
 :iab Tsp teaspoon
 :iab Uk United Kingdom
