@@ -147,6 +147,8 @@ vim.keymap.set({ 'i', 'n' }, '<C-M-l>', function()
   end
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
+vim.keymap.set('i', '<C-h>', '<C-o>h',
+  { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })
 vim.keymap.set('i', '<C-l>', '<C-o>l',
   { noremap = true, silent = true, desc = "Move cursor right one character (insert mode)" })
 vim.keymap.set('i', '<C-x>', '<C-o>x',
