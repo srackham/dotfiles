@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# IMPORTANT: This script must be executed on OMV server.
+
 # Backs up most important data from /home to Google Drive.
 #
 # - Executed on OMV server.
