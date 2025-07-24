@@ -11,6 +11,14 @@
 :iab <expr> DS strftime('%Y-%m-%d')             " ISO 8601 date stamp
 :iab <expr> DTS strftime('%Y-%m-%dT%H:%M:%S%z') " ISO 8601 date and time stamp
 
+:iab Mon Monday
+:iab Tue Tuesday
+:iab Wed Wednesday
+:iab Thu Thursday
+:iab Fri Friday
+:iab Sat Saturday
+:iab Sun Sunday
+
 :iab Aip AI prompt
 :iab Air AI response
 :iab App application
