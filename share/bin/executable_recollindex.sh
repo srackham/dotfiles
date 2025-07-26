@@ -16,12 +16,12 @@ DATE="date +%Y-%m-%d-%a\ %H:%M:%S"
 
 export RECOLL_CONFDIR=$HOME/.config/recoll
 
-echo $(hostname): $(eval $DATE): Starting $0 | tee --append "$LOGFILE"
+echo $(hostname): $(eval $DATE): Starting $0 | tee -a "$LOGFILE"
 (recollindex -k 2>&1) >/dev/null  # Drop the noisy output.
 exit_code=$?
 if [ $exit_code -eq 0 ]; then
-    echo $(hostname): $(eval $DATE): Finished $0 | tee --append "$LOGFILE"
+    echo $(hostname): $(eval $DATE): Finished $0 | tee -a "$LOGFILE"
 else
-  { echo "$(hostname): $(eval $DATE): FAILED $0: exit code: $exit_code"; } 1>&2 | tee --append "$LOGFILE"
+  { echo "$(hostname): $(eval $DATE): FAILED $0: exit code: $exit_code"; } 1>&2 | tee -a "$LOGFILE"
 fi
 exit $exit_code
