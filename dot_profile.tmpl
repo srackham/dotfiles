@@ -36,6 +36,10 @@ fi
 if [ -d "$HOME/go" ]; then                    # Go language (add GOROOT and GOPATH to PATH)
     export PATH=$PATH:$HOME/go/bin
 fi
+if [ -d "$HOME/.npm-packages/bin" ]; then     # globally installed node packages
+    export PATH="$HOME/.npm-packages/bin:$PATH"
+    export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
+fi
 export PATH="$HOME/bin:$HOME/share/bin:$PATH" # User's binaries
 
 # Source Nix Package Manager if it's installed.
