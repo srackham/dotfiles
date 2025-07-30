@@ -74,6 +74,7 @@
 :iab Rh right hand
 :iab Rhs right hand side
 :iab St Saint
+:iab STM Saint Thomas More Church
 :iab Tbsp tablespoon
 :iab Tsp teaspoon
 :iab Uk United Kingdom
