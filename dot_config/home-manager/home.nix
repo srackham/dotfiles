@@ -14,6 +14,7 @@
     chezmoi
     delve
     deno
+    dig
     eza
     fd
     fio
