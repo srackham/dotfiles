@@ -19,7 +19,10 @@ zstyle ':completion:*' rehash true  # automatically find new executables in the 
 __git_files () {
     _wanted files expl 'local files' _files
 }
-source <(jj util completion zsh)    # Jujutsu command-line completions
+# Jujutsu command-line completions
+if command -v jj &> /dev/null; then
+    source <(jj util completion zsh)
+fi
 
 bindkey -v                          # vi command-line editing
 setopt interactive_comments         # allow # comments in shell; good for copy/paste
@@ -60,13 +63,14 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 # Set up fzf key bindings and fuzzy completion.
-{{/*
-NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
-*/}}
-eval "$(fzf --zsh)"
+if command -v fzf &> /dev/null; then
+    eval "$(fzf --zsh)"
+fi
 
 # Set up zoxide and alias to cd and cdi.
-eval "$(zoxide init --cmd cd zsh)"
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init --cmd cd zsh)"
+fi
 
 #
 # zsh key bindings
