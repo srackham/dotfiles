@@ -32,7 +32,6 @@
     htop
     iotop
     jq
-    jujutsu
     lazygit
     lua
     marksman
@@ -40,8 +39,6 @@
     nethogs
     nil
     nixfmt-rfc-style
-    nodejs
-    npm-check-updates
     prettierd
     rclone
     ripgrep
