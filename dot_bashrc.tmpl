@@ -27,13 +27,16 @@ nuc2)
 esac
 
 # Set up fzf key bindings and fuzzy completion.
-{{/*
-NOTE: fzf `--bash`, `--zsh` options to install key bindings and completions are only available in fzf 0.48.0 or later -- https://github.com/junegunn/fzf#using-linux-package-managers).
-*/}}
-eval "$(fzf --bash)"
+if command -v fzf &> /dev/null; then
+    eval "$(fzf --bash)"
+fi
 
 # Set up zoxide and alias to cd and cdi.
-eval "$(zoxide init --cmd cd bash)"
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init --cmd cd bash)"
+fi
 
 # Jujutsu command-line completions
-source <(jj util completion bash)
+if command -v jj &> /dev/null; then
+    source <(jj util completion bash)
+fi
