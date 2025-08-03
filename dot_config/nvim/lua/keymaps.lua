@@ -95,6 +95,8 @@ vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>eq', '<Cmd>wqa<CR>',
   { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set('n', '<C-c><C-c>', '<Cmd>wqa<CR>',
+  { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<Leader>md', '<Cmd>delmarks!<CR>', { silent = true, desc = "Delete local marks" })
 vim.keymap.set('n', '<Leader>mD', '<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>',
   { silent = true, desc = "Delete global and local marks" })
