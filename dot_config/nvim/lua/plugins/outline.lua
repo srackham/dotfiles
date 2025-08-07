@@ -1,8 +1,6 @@
 return {
   "hedyhli/outline.nvim",
   config = function()
-    vim.keymap.set("n", "<leader>co", "<Cmd>OutlineOpen!<CR><Cmd>OutlineFocus<CR>", { desc = "Toggle outline focus" })
-    vim.keymap.set("n", "<M-o>", "<Cmd>OutlineOpen!<CR><Cmd>OutlineFocus<CR>", { desc = "Toggle outline focus" })
     require("outline").setup {
       -- Your setup opts here (leave empty to use defaults)
       keymaps = {
@@ -10,5 +8,20 @@ return {
         down_and_jump = '<C-n>',
       },
     }
+
+    -- Key mappings
+    local function toggle_outline()
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local ft = vim.api.nvim_buf_get_option(buf, 'filetype')
+        if ft == 'Outline' then
+          vim.cmd('OutlineFocus')
+          return
+        end
+      end
+      vim.cmd('Outline')
+    end
+    vim.keymap.set('n', '<Leader>co', toggle_outline, { desc = 'Toggle outline focus' })
+    vim.keymap.set('n', '<M-o>', toggle_outline, { desc = 'Toggle outline focus' })
   end,
 }
