@@ -73,13 +73,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
--- Add n/N and Jump List functionality to <C-n> (page down) and <C-p> (page up) commands
-map_next_prev('<C-n>',
-  'normal! ' .. vim.api.nvim_replace_termcodes("<C-f>", true, false, true),
-  '<C-p>',
-  'normal! ' .. vim.api.nvim_replace_termcodes("<C-b>", true, false, true),
-  "page")
-
 -- Miscellaneous commands
 vim.keymap.set('n', '<M-;>', ',', { noremap = true, silent = true, desc = "Page up" }) -- Because comma is the Leader
 vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>',                  -- Turn of search highlighting and clear status line
