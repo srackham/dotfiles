@@ -128,5 +128,10 @@
     "prefix": "completed-callout",
     "body": "> [!DONE] Completed: ",
     "description": "Insert completed"
+  },
+  "Insert Update": {
+    "prefix": "update-callout",
+    "body": "> [!INFO] Update: ",
+    "description": "Insert update"
   }
 }
