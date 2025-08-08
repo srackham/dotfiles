@@ -171,8 +171,10 @@ vim.keymap.set('n', '<M-V>', '"+P', { noremap = true, silent = true, desc = "Pas
 vim.keymap.set({ 'n', 'i' }, '<C-M-v>', '<Esc>"+p', { noremap = true, silent = true, desc = "Paste clipboard line-wise" })
 
 -- Edit commands
-vim.keymap.set('v', '<Leader>ed', ':s/^\\s*$\\n//g<CR>:nohlsearch<CR>',
-  { noremap = true, silent = true, desc = "Delete blank lines in selection" })
+vim.keymap.set('v', '<Leader>ed', [[:s/^\s*$\n//<CR>:nohlsearch<CR>]],
+  { noremap = true, silent = true, desc = "Delete blank lines from selection" })
+vim.keymap.set('v', '<Leader>eD', [[:s/\n\{1,}/\r\r/<CR>]],
+  { noremap = true, silent = true, desc = "Separate lines in selection with single blank lines" })
 vim.keymap.set('n', '<Leader>et', '<Cmd>%s/\\s\\+$//e<CR>',
   { noremap = true, silent = true, desc = "Trim spaces from the ends of lines" })
 
