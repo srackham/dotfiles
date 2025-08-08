@@ -89,7 +89,7 @@ return {
       },
       legacy_commands = false,
     }
-    vim.keymap.set('n', '<Leader>os', "<Cmd>Obsidian toc<CR>", { desc = "Markdown section headers picker" })
+    vim.keymap.set('n', '<Leader>os', "<Cmd>Obsidian toc<CR>", { desc = "Obsidian section headers picker" })
     vim.keymap.set('n', '<Leader>oj', "<Cmd>Obsidian today<CR>", { desc = "Open/create today's journal note" })
     vim.keymap.set('n', '<Leader>oy', "<Cmd>Obsidian yesterday<CR>", { desc = "Open/create yesterday's journal note" })
     vim.keymap.set('n', '<Leader>oi', "<Cmd>Obsidian paste_img<CR>", { desc = "Insert image from clipboard" })

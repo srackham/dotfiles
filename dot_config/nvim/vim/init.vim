@@ -32,6 +32,7 @@
 :iab Cz Chezmoi
 :iab Dir directory
 :iab Dirs directories
+:iab Docs documentation
 :iab EL Ecclesiastical Latin
 :iab CL Classical Latin
 :iab Esp especially
@@ -56,7 +57,6 @@
 :iab Lv LazyVim
 :iab Mk Markdown
 :iab Nv Neovim
-:iab No NixOS
 :iab NO Novus Ordo
 :iab VO Vetus Ordo
 :iab Ob Obsidian
@@ -77,6 +77,7 @@
 :iab STM Saint Thomas More Church
 :iab Tbsp tablespoon
 :iab Tsp teaspoon
+:iab Ui user interface
 :iab Uk United Kingdom
 :iab Usa United States of America
 :iab Vcs version control system
