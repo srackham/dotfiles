@@ -40,6 +40,9 @@ if [ -d "$HOME/.npm-packages/bin" ]; then     # globally installed node packages
     export PATH="$HOME/.npm-packages/bin:$PATH"
     export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
 fi
+if [ -d "$HOME/.local/bin" ]; then            # Locally installed binaries
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 export PATH="$HOME/bin:$HOME/share/bin:$PATH" # User's binaries
 
 # Source Nix Package Manager if it's installed.

@@ -1,0 +1,11 @@
+GOOSE_MODEL: qwen/qwen3-coder
+GOOSE_PROVIDER: openrouter
+extensions:
+  developer:
+    bundled: true
+    description: null
+    display_name: Developer
+    enabled: true
+    name: developer
+    timeout: 300
+    type: builtin
