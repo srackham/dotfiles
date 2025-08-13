@@ -1,0 +1,8 @@
+# see https://github.com/sigoden/aichat/blob/main/config.example.yaml
+
+model: openrouter:perplexity/sonar
+clients:
+- type: openai-compatible
+  name: openrouter
+  api_base: https://openrouter.ai/api/v1
+  api_key: {{ .secrets.openrouter_api_key }}

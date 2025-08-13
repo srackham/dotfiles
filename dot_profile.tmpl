@@ -30,6 +30,9 @@ export RECOLL_CONFDIR="$HOME/.config/recoll"
 
 # Build the PATH env variable in descending priority order.
 # NOTE: NixOS updates this PATH and does not seem to preserve priorities.
+if [ -d "$HOME/.cargo/bin" ]; then           # Rust cargo compiled binaries
+    export PATH=$PATH:$HOME/.cargo/bin
+fi
 if [ -d "$HOME/.deno/bin" ]; then             # Deno runtime
     export PATH=$PATH:$HOME/.deno/bin
 fi
