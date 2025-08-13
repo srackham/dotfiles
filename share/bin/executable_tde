@@ -11,7 +11,8 @@ NAME
     tde - open project workspaces
 
 SYNOPSIS
-    New Session Mode: Create 'tde' tmux session and add project workspace windows from the `$HOME/.tde` configuration file:
+    New Session Mode: Create 'tde' tmux session and add project workspace windows from the `$HOME/.tde`
+    configuration file:
 
         tde [OPTION...]
 
@@ -20,22 +21,33 @@ SYNOPSIS
         tde [OPTION...] PROJECT_DIR...
 
 OPTIONS
-    --dry-run, -n   print tmux commands without doing anything
-    --help, -h      print this text
+    --dry-run, -n
+        print tmux commands without doing anything.
+
+    --help, -h
+        print this text.
+
+    -p,--panes=PANES
+        Open window with PANES panes. PANES is 1..9. Pane 1 is positioned on the left hand side of the
+        enclosing window; panes 2..PANES are arranged vertically on the right hand side. Panes 2..PANES are
+        spread evenly from top to bottom. This option defaults to PANES=1.
 
 DESCRIPTION
-    `tde` is a bash script which opens project directory workspaces in separate tmux windows. Each
-    window has two tmux panes with the Neovim editor in the left hand pane and a terminal in the right
-    hand pane. The script has two modes of operation:
+    `tde` is a bash script which opens project directory workspaces in separate tmux windows. The
+    script has two modes of operation:
 
-    New Session Mode: If no project directories are specified on the command-line a tmux session named
-    `tde` is created and project workspace windows are added from the list of directories read from the
-    `$HOME/.tde` configuration file.
+    New Session Mode:
 
-    Current Session Mode: If project directories are specified on the command-line then project
-    workspace windows are added to current tmux session.
+        If no project directories are specified on the command-line a tmux session named `tde` is
+        created and project workspace windows are added from the list of directories read from the
+        `$HOME/.tde` configuration file.
 
-    The `$HOME/.tde` configuration file contains a list of project directories, one per line. Blank
+    Current Session Mode:
+
+        If project directories are specified on the command-line then project workspace windows are
+        added to current tmux session.
+
+    The optional `$HOME/.tde` configuration file contains a list of project directories, one per line. Blank
     lines and lines beginning with a `#` character are skipped.
 
     For each project directory:
@@ -46,9 +58,10 @@ DESCRIPTION
        skip to the next project directory.
     3. A new tmux window is created with the newly generated window name and the window start directory
        set to the project directory.
-    4. The window is split into two vertical panes.
-    5. The 'nvim' command is executed in the left-hand pane.
-    6. The left-hand pane is selected.
+    4. If PANES is greater than 1 then pane 1 is split vertically creating a second pane.
+    5. If PANES is greater than 2 then panes 3..PANES are created by splitting pane 2 horizontally
+       PANES - 2 times.
+    6. The left-hand pane (pane 1) is selected.
 
     Finally the first newly created project window is selected and if `tde` was executed in New Session
     Mode the `tde` session is attached.
@@ -89,11 +102,28 @@ window_index_by_name() {
 
 # Parse options
 DRY_RUN=0
+PANES=1
 PROJECT_DIRS=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dry-run|-n)
             DRY_RUN=1
+            shift
+            ;;
+        -p|--panes)
+            PANES="$2"
+            if ! [[ "$PANES" =~ ^[1-9]$ ]]; then
+                echo "Error: PANES must be between 1 and 9" >&2
+                exit 1
+            fi
+            shift 2
+            ;;
+        --panes=*)
+            PANES="${1#*=}"
+            if ! [[ "$PANES" =~ ^[1-9]$ ]]; then
+                echo "Error: PANES must be between 1 and 9" >&2
+                exit 1
+            fi
             shift
             ;;
         --help|-h)
@@ -184,7 +214,18 @@ if [[ $INSIDE_TMUX -eq 1 ]]; then
         fi
         tmux_cmd new-window -c "$DIR" -n "$WIN_NAME"
         WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
-        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
+        
+        if [[ $PANES -gt 1 ]]; then
+            # Split vertically to create pane 2
+            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
+            
+            # Create additional panes 3..PANES in the right side by splitting horizontally
+            for ((p=3; p<=$PANES; p++)); do
+                tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$DIR"
+            done
+            tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.2"
+        fi
+        
         tmux_cmd send-keys -t "$SESSION_NAME:$WIN_INDEX.1" "$PANE1_CMD" C-m
         tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
         NEW_WINDOWS+=("$WIN_INDEX")
@@ -202,7 +243,18 @@ else
     tmux_cmd set-option -t "$SESSION_NAME" -g base-index 1
     tmux_cmd set-window-option -t "$SESSION_NAME" -g pane-base-index 1
     FIRST_WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$FIRST_WIN_NAME")"
-    tmux_cmd split-window -h -t "$SESSION_NAME:$FIRST_WIN_INDEX" -c "$FIRST_DIR"
+    
+    if [[ $PANES -gt 1 ]]; then
+        # Split vertically to create pane 2
+        tmux_cmd split-window -h -t "$SESSION_NAME:$FIRST_WIN_INDEX" -c "$FIRST_DIR"
+        
+        # Create additional panes 3..PANES in the right side by splitting horizontally
+        for ((p=3; p<=$PANES; p++)); do
+            tmux_cmd split-window -t "$SESSION_NAME:$FIRST_WIN_INDEX.2" -c "$FIRST_DIR"
+        done
+        tmux_cmd select-layout -E -t "$SESSION_NAME:$FIRST_WIN_INDEX.2"
+    fi
+    
     tmux_cmd send-keys -t "$SESSION_NAME:$FIRST_WIN_INDEX.1" "$PANE1_CMD" C-m
     tmux_cmd select-pane -t "$SESSION_NAME:$FIRST_WIN_INDEX.1"
     NEW_WINDOWS+=("$FIRST_WIN_INDEX")
@@ -216,7 +268,18 @@ else
         fi
         tmux_cmd new-window -t "$SESSION_NAME:" -c "$DIR" -n "$WIN_NAME"
         WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
-        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
+        
+        if [[ $PANES -gt 1 ]]; then
+            # Split vertically to create pane 2
+            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
+            
+            # Create additional panes 3..PANES in the right side by splitting horizontally
+            for ((p=3; p<=$PANES; p++)); do
+                tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$DIR"
+            done
+            tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.2"
+        fi
+        
         tmux_cmd send-keys -t "$SESSION_NAME:$WIN_INDEX.1" "$PANE1_CMD" C-m
         tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
         NEW_WINDOWS+=("$WIN_INDEX")
