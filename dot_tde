@@ -9,6 +9,7 @@ $HOME/doc
 #~/projects/cryptor
 #~/projects/ccp
 #~/projects/xrate
+~/projects/tde
 ~/projects/mknotes
 ~/.local/share/nvim/lazy/digraph-picker.nvim
 ~/.local/share/nvim/lazy/markdown-blocks.nvim
