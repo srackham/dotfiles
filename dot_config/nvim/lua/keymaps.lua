@@ -87,6 +87,8 @@ vim.keymap.set('n', '<Leader>,', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set('n', '<C-d><C-d>', '<Cmd>qa!<CR>',
+  { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>eq', '<Cmd>wqa<CR>',
   { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<C-c><C-c>', '<Cmd>wqa<CR>',
@@ -175,6 +177,7 @@ vim.keymap.set('n', '<Leader>cC',
   { noremap = true, silent = true, desc = "Not implemented" })
 vim.keymap.set('n', '<Leader>cL', [[:let @+ = @+ . getline(".") . "\n"<CR>]],
   { noremap = true, silent = true, desc = "Append line to clipboard" })
+
 vim.keymap.set({ 'n', 'v' }, '<M-v>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>v', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
 vim.keymap.set('n', '<Leader>V', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
