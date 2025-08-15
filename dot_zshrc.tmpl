@@ -11,7 +11,9 @@ setopt no_share_history         # Also necessary to disable extended history for
 setopt hist_ignore_all_dups     # If a new command is a duplicate, remove the older one
 alias h="fc -R && fc -l -n 1"   # Reload history file and list history without command numbers
 
-# Tab completion
+#
+# Tab completions
+#
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit
 zstyle ':completion:*' rehash true  # automatically find new executables in the $PATH
@@ -99,3 +101,16 @@ bindkey -M viins '^[r' fzf-history-widget
 bindkey -M vicmd '^[r' fzf-history-widget
 # Bind Alt+L to open Lazygit
 bindkey -s '^[l' 'lazygit\n'
+
+# Bind Alt+e to run `aichat -e <CMD_LINE>`
+_aichat_zsh() {
+    if [[ -n "$BUFFER" ]]; then
+        local _old=$BUFFER
+        BUFFER+="⌛"
+        zle -I && zle redisplay
+        BUFFER=$(aichat -e "$_old")
+        zle end-of-line
+    fi
+}
+zle -N _aichat_zsh
+bindkey '\ee' _aichat_zsh
