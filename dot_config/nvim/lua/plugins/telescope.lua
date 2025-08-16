@@ -32,23 +32,31 @@ return {
 
       -- Key bindings
       local list_buffers = function()
+        vim.cmd("OutlineFocusCode")
         builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
       end
+      local list_oldfiles = function()
+        vim.cmd("OutlineFocusCode")
+        builtin.oldfiles({ sort_mru = true, ignore_current_buffer = true })
+      end
       local find_files = function()
+        vim.cmd("OutlineFocusCode")
         builtin.find_files({
           find_command = { 'rg', '--files', '--hidden', "--sortr", "modified" }
         })
       end
       local live_grep = function()
+        vim.cmd("OutlineFocusCode")
         vim.cmd('wa')
         builtin.live_grep({
           additional_args = { '--hidden' },
         })
       end
       vim.keymap.set('n', '<M-\\>', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fb', '<Cmd>OutlineFocusCode<CR><Cmd>Telescope buffers<CR>', { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>.', '<Cmd>OutlineFocusCode<CR><Cmd>Telescope buffers<CR>', { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>ff', '<Cmd>OutlineFocusCode<CR><Cmd>Telescope find_files<CR>', { desc = "Find files" })
+      vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
+      vim.keymap.set('n', '<Leader>.', list_buffers, { desc = "List buffers" })
+      vim.keymap.set('n', '<Leader>fo', list_oldfiles, { desc = "List previously opened files" })
+      vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
       vim.keymap.set('n', '<C-M-\\>', find_files, { desc = "Find files" })
       vim.keymap.set('n', '<Leader>fc', builtin.current_buffer_fuzzy_find, { desc = "Current buffer fuzzy find" })
       vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
