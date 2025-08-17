@@ -63,6 +63,16 @@ return {
       lspconfig.denols.setup {
         root_dir = lspconfig.util.root_pattern('deno.json', 'deno.jsonc'),
       }
+      lspconfig.rust_analyzer.setup {
+        -- The `rust-analyzer` LSP server has already been installed with the
+        -- `rustup component add rust-analyzer` command and is in the $PATH,
+        -- so no need to install with Mason.
+        settings = {
+          ["rust-analyzer"] = {
+            -- Add any rust-analyzer settings here if desired
+          }
+        },
+      }
 
       -- Configure diagnostic message UI
       vim.diagnostic.config {
