@@ -88,7 +88,7 @@ return {
         { desc = "Go to the type definition of the symbol under the cursor" })
       vim.keymap.set('n', '<Leader>cR', vim.lsp.buf.rename,
         { desc = "Rename all instances of the symbol under the cursor" })
-      vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action,
+      vim.keymap.set('n', '<Leader>cA', vim.lsp.buf.code_action,
         { desc = "Select a code action available at the current cursor position" })
       vim.keymap.set('n', '<Leader>cf', function()
         vim.lsp.buf.format { async = true }
