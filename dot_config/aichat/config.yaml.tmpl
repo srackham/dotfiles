@@ -1,9 +1,36 @@
+# vim: set filetype=yaml:
+
 # see https://github.com/sigoden/aichat/blob/main/config.example.yaml
 
-model: openrouter:perplexity/sonar
-repl_prelude: default:default
+# repl_prelude: default:default
+save_session: true
+
+# Default model
+model: gemini:gemini-2.5-pro
+# model: openrouter:perplexity/sonar
+
 clients:
+# See https://openrouter.ai/docs#quick-start
 - type: openai-compatible
   name: openrouter
   api_base: https://openrouter.ai/api/v1
   api_key: {{ .secrets.openrouter_api_key }}
+
+# See https://ai.google.dev/docs
+- type: gemini
+  api_base: https://generativelanguage.googleapis.com/v1beta
+  api_key: {{ .secrets.gemini_api_key }}
+  patch:
+    chat_completions:
+      '.*':
+        body:
+          safetySettings:
+            - category: HARM_CATEGORY_HARASSMENT
+              threshold: BLOCK_NONE
+            - category: HARM_CATEGORY_HATE_SPEECH
+              threshold: BLOCK_NONE
+            - category: HARM_CATEGORY_SEXUALLY_EXPLICIT
+              threshold: BLOCK_NONE
+            - category: HARM_CATEGORY_DANGEROUS_CONTENT
+              threshold: BLOCK_NONE
+
