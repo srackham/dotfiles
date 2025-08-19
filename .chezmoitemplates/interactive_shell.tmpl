@@ -28,6 +28,9 @@ export EDITOR=nvim
 {{ if and .secrets (hasKey .secrets "gemini_api_key") }}
 export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
 {{ end }}
+{{ if and .secrets (hasKey .secrets "github_token") }}
+export GH_TOKEN={{ .secrets.github_token }}
+{{ end }}
 
 #
 # Shared aliases
