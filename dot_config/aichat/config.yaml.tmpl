@@ -34,3 +34,9 @@ clients:
             - category: HARM_CATEGORY_DANGEROUS_CONTENT
               threshold: BLOCK_NONE
 
+# See https://github.com/marketplace/models
+- type: openai-compatible
+  name: github
+  api_base: https://models.inference.ai.azure.com
+  api_key: {{ .secrets.github_token }}
+
