@@ -65,7 +65,6 @@ return {
       end, { desc = "Live-grep current file" })
       vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "List highlights" })
       vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set('n', '<Leader>fR', builtin.reloader, { desc = "Telescope module reloader" })
       vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set('n', '<Leader>cd', builtin.diagnostics, { desc = "List diagnostic messages with Telescope" })
       vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = "Resume last Telescope picker" })

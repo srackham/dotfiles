@@ -150,6 +150,20 @@ vim.keymap.set({ 'i', 'n' }, '<C-M-l>', function()
   end
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
+vim.keymap.set('n', '<Leader>fR', function()
+  local current_name = vim.fn.expand('%:t')       -- current file name with extension
+  local old_ext = vim.fn.expand('%:e')            -- current file extension (without dot)
+  local input = vim.fn.input('New filename: ', current_name)
+  if input ~= '' then
+    -- If input has no extension, append old extension
+    if not input:match('%.') and old_ext ~= '' then
+      input = input .. '.' .. old_ext
+    end
+    Utils.rename_current_file(input)
+  end
+end, { noremap = true, silent = true, desc = "Rename current file" })
+
+-- Insert mode motion commands
 vim.keymap.set('i', '<C-h>', '<C-o>h',
   { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })
 vim.keymap.set('i', '<C-l>', '<C-o>l',

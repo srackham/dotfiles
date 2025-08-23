@@ -640,4 +640,18 @@ function M.slugify(title, dir, ext)
   return slug
 end
 
+--- Rename the current file by saving buffer to a new file and deleting the old file.
+---
+--- @param new_name string The new filename (with or without path) to rename the current file to.
+---
+--- This function saves the current buffer to the new filename and deletes the original file
+--- from disk if the new filename differs. It preserves the buffer contents for continued editing.
+function M.rename_current_file(new_name)
+  local old_name = vim.fn.expand('%:p') -- get full current filename
+  vim.cmd('saveas ' .. new_name)        -- save buffer to new filename
+  if old_name ~= vim.fn.expand('%:p') then
+    vim.fn.delete(old_name)             -- delete the old file
+  end
+end
+
 return M
