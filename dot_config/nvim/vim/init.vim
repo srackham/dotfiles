@@ -40,6 +40,7 @@
 :iab Eu European Union
 :iab Gh Github
 :iab Gfm Github Flavored Markdown
+:iab Gp general purpose
 :iab H1 #
 :iab H2 ##
 :iab H3 ###
