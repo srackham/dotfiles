@@ -99,7 +99,7 @@ return {
     vim.keymap.set('n', '<Leader>oo', "<Cmd>Obsidian open<CR>", { desc = "Open note in Obsidian application" })
     vim.keymap.set('n', '<Leader>of', "<Cmd>Obsidian quick_switch<CR>", { desc = "Notes file picker" })
     vim.keymap.set('n', '<Leader>og', "<Cmd>Obsidian search<CR>", { desc = "Search notes files with ripgrep" })
-    vim.keymap.set('n', '<Leader>or', "<Cmd>Obsidian rename<CR>",
+    vim.keymap.set('n', '<Leader>oR', "<Cmd>Obsidian rename<CR>",
       { desc = "Rename current note or the note referenced under the cursor" })
     vim.keymap.set('n', '<Leader>ot', "<Cmd>Obsidian tags<CR>", { desc = "Search for tagged notes" })
     -- Links related commands
