@@ -151,8 +151,8 @@ vim.keymap.set({ 'i', 'n' }, '<C-M-l>', function()
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
 vim.keymap.set('n', '<Leader>fR', function()
-  local current_name = vim.fn.expand('%:t')       -- current file name with extension
-  local old_ext = vim.fn.expand('%:e')            -- current file extension (without dot)
+  local current_name = vim.fn.expand('%:t') -- current file name with extension
+  local old_ext = vim.fn.expand('%:e')      -- current file extension (without dot)
   local input = vim.fn.input('New filename: ', current_name)
   if input ~= '' then
     -- If input has no extension, append old extension
@@ -223,13 +223,15 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   desc = "Recompile the spelling word list file on save"
 })
 
-vim.keymap.set('n', '<Leader>ss', 'z=', { desc = "Correct misspelt word under the cursor" })
 vim.keymap.set('n', '<Leader>sg', 'zg',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as good" })
 vim.keymap.set('n', '<Leader>sw', 'zw',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as wrong" })
-vim.keymap.set({ 'i', 'n' }, '<C-M-s>', '<Esc>]sz=',
+vim.keymap.set('n', '<Leader>ss', 'z=', { desc = "Correct misspelt word at cursor" })
+vim.keymap.set('n', '<Leader>sn', '<Esc>]sz=',
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
+vim.keymap.set('n', '<Leader>sp', '<Esc>[sz=',
+  { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>[sz=',
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set('n', '<Leader>se', function()
