@@ -1,19 +1,19 @@
 Utils = require 'utils' -- Load ./lua/utils.lua
 
 -- Map custom next/previous navigation commands.
-local function map_next_prev(next_key, next_cmd, prev_key, prev_cmd, desc)
-  local execute_cmd_and_map_n = function(cmd1, cmd2)
-    return function()
-      vim.keymap.set('n', 'n', cmd1, { noremap = true, silent = true })
-      vim.keymap.set('n', 'N', cmd2, { noremap = true, silent = true })
-      cmd1()
-    end
+local execute_cmd_and_map_n = function(next_cmd, prev_cmd)
+  return function()
+    local n = type(next_cmd) == 'string' and function() vim.cmd(next_cmd) end or next_cmd
+    local p = type(prev_cmd) == 'string' and function() vim.cmd(prev_cmd) end or prev_cmd
+    vim.keymap.set('n', 'n', n, { noremap = true, silent = true })
+    vim.keymap.set('n', 'N', p, { noremap = true, silent = true })
+    n()
   end
-  local n = type(next_cmd) == 'string' and function() vim.cmd(next_cmd) end or next_cmd
-  local p = type(prev_cmd) == 'string' and function() vim.cmd(prev_cmd) end or prev_cmd
-  vim.keymap.set('n', next_key, execute_cmd_and_map_n(n, p),
+end
+local function map_next_prev(next_key, next_cmd, prev_key, prev_cmd, desc)
+  vim.keymap.set('n', next_key, execute_cmd_and_map_n(next_cmd, prev_cmd),
     { noremap = true, silent = true, desc = "Go to next " .. desc })
-  vim.keymap.set('n', prev_key, execute_cmd_and_map_n(p, n),
+  vim.keymap.set('n', prev_key, execute_cmd_and_map_n(prev_cmd, next_cmd),
     { noremap = true, silent = true, desc = "Go to previous " .. desc })
 end
 
@@ -228,9 +228,9 @@ vim.keymap.set('n', '<Leader>sg', 'zg',
 vim.keymap.set('n', '<Leader>sw', 'zw',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as wrong" })
 vim.keymap.set('n', '<Leader>ss', 'z=', { desc = "Correct misspelt word at cursor" })
-vim.keymap.set('n', '<Leader>sn', '<Esc>]sz=',
+vim.keymap.set('n', '<Leader>sn', execute_cmd_and_map_n('norm! ]sz=', 'norm! [sz='),
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
-vim.keymap.set('n', '<Leader>sp', '<Esc>[sz=',
+vim.keymap.set('n', '<Leader>sp', execute_cmd_and_map_n('norm! [sz=', 'norm! ]sz='),
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>[sz=',
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
