@@ -142,8 +142,7 @@ vim.keymap.set({ 'i', 'n' }, '<C-M-l>', function()
     vim.fn.setreg('+', md_link)
     vim.fn.setreg('"', md_link)
     if vim.fn.mode() == 'i' then
-      local keys = vim.api.nvim_replace_termcodes("<C-o>p", true, false, true)
-      vim.api.nvim_feedkeys(keys, "i", false)
+      Utils.feed_keys('<C-o>p', 'i')
     else
       vim.cmd('normal! p')
     end
@@ -228,9 +227,15 @@ vim.keymap.set('n', '<Leader>sg', 'zg',
 vim.keymap.set('n', '<Leader>sw', 'zw',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as wrong" })
 vim.keymap.set('n', '<Leader>ss', 'z=', { desc = "Correct misspelt word at cursor" })
-vim.keymap.set('n', '<Leader>sn', execute_cmd_and_map_n('norm! ]sz=', 'norm! [sz='),
+vim.keymap.set('n', '<Leader>sn', execute_cmd_and_map_n(
+    function() Utils.feed_keys(']sz=', 'n') end,
+    function() Utils.feed_keys('[sz=', 'n') end
+  ),
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
-vim.keymap.set('n', '<Leader>sp', execute_cmd_and_map_n('norm! [sz=', 'norm! ]sz='),
+vim.keymap.set('n', '<Leader>sp', execute_cmd_and_map_n(
+    function() Utils.feed_keys('[sz=', 'n') end,
+    function() Utils.feed_keys(']sz=', 'n') end
+  ),
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })
 vim.keymap.set({ 'i', 'n' }, '<M-s>', '<Esc>[sz=',
   { noremap = true, silent = true, desc = "Correct previous misspelt word" })

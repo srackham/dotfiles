@@ -654,4 +654,13 @@ function M.rename_current_file(new_name)
   end
 end
 
+--- Feeds a string of keys into Neovim, replacing termcodes for compatibility.
+-- Useful for simulating normal-mode key presses, especially for interactive commands.
+-- @param keys string: Keys to send (can include special characters and <keycodes>)
+-- @param mode string: Vim mode to use ('n' for normal, 'i' for insert, etc.)
+function M.feed_keys(keys, mode)
+  local termcoded = vim.api.nvim_replace_termcodes(keys, true, false, true)
+  vim.api.nvim_feedkeys(termcoded, mode, false)
+end
+
 return M
