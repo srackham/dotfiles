@@ -333,7 +333,7 @@ end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
 vim.keymap.set('n', '<leader>tt', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
-vim.keymap.set({ 'i', 'n' }, '<M-t>', function() Utils.send_keys_to_terminal('Up Enter') end,
+vim.keymap.set({ 'i', 'n' }, '<C-r>', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
 
 vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('M-r', { focus_pane_id = 2 }) end,
