@@ -332,14 +332,14 @@ end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 -- modified files might not be saved prior to the execution of tmux terminal pane commands.
 
 vim.keymap.set('n', '<leader>tx', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
-vim.keymap.set({ 'i', 'n' }, '<C-r>', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Save and execute last terminal pane command" })
+  { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
+vim.keymap.set({ 'i', 'n' }, '<M-r>', function() Utils.send_keys_to_terminal('Up Enter') end,
+  { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
 
-vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('M-r', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
-vim.keymap.set({ 'i', 'n' }, '<M-r>', function() Utils.send_keys_to_terminal('M-r', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Save and open command-line recall in the terminal pane" })
+vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+  { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
+vim.keymap.set({ 'i', 'n' }, '<C-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+  { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
 
 -- Abbreviations commands
 vim.api.nvim_create_autocmd("BufWritePost", {

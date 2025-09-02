@@ -82,23 +82,23 @@ fi
 bindkey '^n' down-line-or-history
 bindkey '^p' up-line-or-history
 
-# Bind Alt+t to repeat the previous terminal command
+# Bind Alt+R to repeat the previous terminal command
 repeat_last_command() {
   BUFFER="$(fc -ln -1)"
   zle accept-line
 }
 zle -N repeat_last_command
-bindkey '^[t' repeat_last_command
+bindkey '^[r' repeat_last_command
 
-# Bind Alt+r to fzf command history recall
+# Bind Ctrl+R to fzf command history recall
 # Remove default Ctrl+R binding
 bindkey -rM emacs '^R'
 bindkey -rM viins '^R'
 bindkey -rM vicmd '^R'
-# Bind Alt+R to fzf history search
-bindkey -M emacs '^[r' fzf-history-widget
-bindkey -M viins '^[r' fzf-history-widget
-bindkey -M vicmd '^[r' fzf-history-widget
+# Bind Ctrl+R to fzf history search
+bindkey -M emacs '^R' fzf-history-widget
+bindkey -M viins '^R' fzf-history-widget
+bindkey -M vicmd '^R' fzf-history-widget
 
 # Bind Alt+e to run `aichat -e <CMD_LINE>`
 _aichat_zsh() {
