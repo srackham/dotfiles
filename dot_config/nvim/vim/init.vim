@@ -34,6 +34,7 @@
 :iab Dirs directories
 :iab Docs documentation
 :iab EL Ecclesiastical Latin
+:iab Ev environment variable
 :iab CL Classical Latin
 :iab Esp especially
 :iab Eth Ethereum
@@ -49,7 +50,9 @@
 :iab H6 ######
 :iab Id identifier
 :iab Ids identifiers
+:iab Imo In my opinion
 :iab Jj Jujutsu
+:iab Kjv King James Version
 :iab Lh left hand
 :iab Lhs left hand side
 :iab Hm Home Manager
