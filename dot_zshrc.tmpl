@@ -82,20 +82,15 @@ fi
 bindkey '^n' down-line-or-history
 bindkey '^p' up-line-or-history
 
-# Bind Alt+R to repeat the previous terminal command
+# Bind Alt+Shift+R to repeat the previous terminal command
 repeat_last_command() {
   BUFFER="$(fc -ln -1)"
   zle accept-line
 }
 zle -N repeat_last_command
-bindkey '^[r' repeat_last_command
+bindkey '^[R' repeat_last_command
 
-# Bind Ctrl+R to fzf command history recall
-# Remove default Ctrl+R binding
-bindkey -rM emacs '^R'
-bindkey -rM viins '^R'
-bindkey -rM vicmd '^R'
-# Bind Ctrl+R to fzf history search
-bindkey -M emacs '^R' fzf-history-widget
-bindkey -M viins '^R' fzf-history-widget
-bindkey -M vicmd '^R' fzf-history-widget
+# Bind Alt+R to fzf command history recall
+bindkey -M emacs '^[r' fzf-history-widget
+bindkey -M viins '^[r' fzf-history-widget
+bindkey -M vicmd '^[r' fzf-history-widget
