@@ -16,7 +16,7 @@ NAME
 
 SYNOPSIS
     New Session Mode: Create 'tde' tmux session and add project workspace windows from the
-    `$HOME/.tde` configuration file:
+    configuration file:
 
         tde [OPTION...]
 
@@ -48,7 +48,7 @@ DESCRIPTION
 
         If no project directories are specified on the command-line a tmux session named `tde` is
         created and project workspace windows are added from the list of directories read from the
-        `$HOME/.tde` configuration file.
+        configuration file.
 
     Current Session Mode:
 
@@ -71,14 +71,24 @@ DESCRIPTION
     Mode, the `tde` session is attached.
 
 CONFIGURATION FILE
-    The New Session Mode `$HOME/.tde` configuration file specifies a set of project workspace
-    windows, one per line, formatted like:
+    The New Session Mode configuration file specifies a set of project workspace windows, one per
+    line, formatted like:
 
         [OPTION...] PROJECT_DIR
 
+    The configuration file location follows XDG Base Directory conventions:
+    
+        ${XDG_CONFIG_HOME:-$HOME/.config}/tde/config
+    
     If only a PROJECT_DIR is specified then the options default to the command-line options.
     Blank lines and lines beginning with a `#` character are skipped.
 EOF
+}
+
+# Determine the configuration file path following XDG Base Directory conventions
+config_file_path() {
+    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+    echo "$config_home/tde/tde.conf"
 }
 
 # Print or execute tmux commands
@@ -288,12 +298,17 @@ if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
               exit
           fi
     fi
-    # Read project directories from $HOME/.tde
-    while IFS= read -r line; do
-        [[ -z "$line" || "$line" =~ ^# ]] && continue
-        parse_project_spec "$line"
-    done < "$HOME/.tde"
-   validate_project_specs
+    # Read, parse and validate config file
+    CONFIG_FILE="$(config_file_path)"
+    if [[ -f "$CONFIG_FILE" ]]; then
+        while IFS= read -r line; do
+            [[ -z "$line" || "$line" =~ ^# ]] && continue
+            parse_project_spec "$line"
+        done < "$CONFIG_FILE"
+    else
+        echo "Warning: Configuration file '$CONFIG_FILE' not found" >&2
+    fi
+    validate_project_specs
 else
     # Current Session Mode
     if [[ $INSIDE_TMUX -eq 0 ]]; then
