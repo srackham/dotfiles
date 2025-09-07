@@ -3,7 +3,11 @@
 set -euo pipefail
 
 SESSION_NAME="tde"
-LAUNCH_CMDS=()
+PANES_OPT=1
+LAUNCH_OPTS=()
+
+# Project workspaces (options and workspace directory)
+PROJECT_SPECS=()
 
 print_help() {
     cat <<'EOF'
@@ -11,8 +15,8 @@ NAME
     tde - open project workspaces
 
 SYNOPSIS
-    New Session Mode: Create 'tde' tmux session and add project workspace windows from the $HOME/.tde
-    configuration file:
+    New Session Mode: Create 'tde' tmux session and add project workspace windows from the
+    `$HOME/.tde` configuration file:
 
         tde [OPTION...]
 
@@ -28,16 +32,16 @@ OPTIONS
         print this text.
 
     -l, --launch [PANE:]COMMAND
-        Execute shell COMMAND in pane PANE of each project workspace window. PANE must be between 1 and
-        the value specified by the --panes option. PANE defaults to 1.
+        Execute shell COMMAND in pane PANE of each project workspace window. PANE must be between 1
+        and the value specified by the --panes option. PANE defaults to 1.
 
     -p,--panes=PANES
-        Open window with PANES panes. PANES is 1..9. Pane 1 is positioned on the left hand side of the
-        enclosing window; panes 2..PANES are arranged vertically on the right hand side. This option
-        value defaults 1.
+        Open window with PANES panes. PANES is 1..9. Pane 1 is positioned on the left hand side of
+        the enclosing window; panes 2..PANES are arranged vertically on the right hand side. This
+        option value defaults 1.
 
 DESCRIPTION
-    `tde` is a bash script which opens project directory workspaces in separate tmux windows. The
+    `tde` is a bash script that opens project directory workspaces in separate tmux windows. The
     script has two modes of operation:
 
     New Session Mode:
@@ -46,13 +50,9 @@ DESCRIPTION
         created and project workspace windows are added from the list of directories read from the
         `$HOME/.tde` configuration file.
 
-    Current Session Mode: 
+    Current Session Mode:
 
-        If project directories are specified on the command-line then project workspace windows are
-        added to current tmux session.
-
-    The optional $HOME/.tde configuration file contains a list of project directories, one per line. Blank
-    lines and lines beginning with a # character are skipped.
+        Project workspace windows are added, one per project directory, to current tmux session.
 
     For each project directory:
 
@@ -62,13 +62,22 @@ DESCRIPTION
        skip to the next project directory.
     3. A new tmux window is created with the newly generated window name and the window start directory
        set to the project directory.
-    4. If PANES is greater than 1 then pane 1 is split vertically creating a second pane.
-    5. If PANES is greater than 2 then panes 3..PANES are created by splitting pane 2 horizontally
+    5. If PANES is greater than 1 then pane 1 is split vertically creating a second pane.
+    6. If PANES is greater than 2 then panes 3..PANES are created by splitting pane 2 horizontally
        PANES - 2 times.
-    6. The left-hand pane (pane 1) is selected.
+    7. The left-hand pane (pane 1) is selected.
 
-    Finally the first newly created project window is selected and if `tde` was executed in New Session
-    Mode the `tde` session is attached.
+    Finally the first newly created project window is selected and, if `tde` was executed in New Session
+    Mode, the `tde` session is attached.
+
+CONFIGURATION FILE
+    The New Session Mode `$HOME/.tde` configuration file specifies a set of project workspace
+    windows, one per line, formatted like:
+
+        [OPTION...] PROJECT_DIR
+
+    If only a PROJECT_DIR is specified then the options default to the command-line options.
+    Blank lines and lines beginning with a `#` character are skipped.
 EOF
 }
 
@@ -85,6 +94,51 @@ tmux_cmd() {
 window_name() {
     local dir="$1"
     echo "$(basename "$dir")"
+}
+
+# Function to parse a single project spec (used for both CLI and config file)
+# Each spec is formatted like: `<panes>|<launches>|<dir>` where `<panes>` is the number of
+# panes, `<launches>` is a tab-separated list of launch option values, `<dir>` is the workspace
+# directory path.
+parse_project_spec() {
+    local line="$*"
+    local args=()
+
+    # Re-parse line into proper words with quotes honored
+    eval "args=($line)"
+
+    local panes=""
+    local launches=()
+    local dir
+
+    while [[ ${#args[@]} -gt 0 ]]; do
+        case "${args[0]}" in
+            -p|--panes)
+                panes="${args[1]}"; args=("${args[@]:2}")
+                ;;
+            -l|--launch)
+                launches+=("${args[1]}"); args=("${args[@]:2}")
+                ;;
+            -*)
+                echo "Unknown option in project spec: ${args[0]}" >&2
+                exit 1
+                ;;
+            *)
+                dir="$(eval echo "${args[0]}")"
+                args=("${args[@]:1}")
+                ;;
+        esac
+    done
+
+    # Directory-only entries are assigned command-line option values.
+    if [ -z "$panes" ] && [ ${#launches[@]} -eq 0 ];  then
+        panes="$PANES_OPT"
+        launches=("${LAUNCH_OPTS[@]}")
+    fi
+
+    dir=$(eval echo "$dir") # Expand ~ and $HOME
+
+    PROJECT_SPECS+=("${panes}|$(IFS=$'\t'; echo "${launches[*]}")|$dir")
 }
 
 # Get a list of existing window names in a session
@@ -108,30 +162,40 @@ window_index_by_name() {
     fi
 }
 
-# Validate launch commands
-validate_launch_commands() {
-    for LAUNCH_CMD_SPEC in "${LAUNCH_CMDS[@]}"; do
-        local pane_num
-        local command
+# Validate PROJECT_SPECS array of command arguments
+validate_project_specs() {
+    for spec in "${PROJECT_SPECS[@]}"; do
+        IFS="|" read -r panes launch_spec dir <<<"$spec"
 
-        if [[ "$LAUNCH_CMD_SPEC" == *:* ]]; then
-            pane_num="${LAUNCH_CMD_SPEC%%:*}"
-            command="${LAUNCH_CMD_SPEC#*:}"
-        else
-            pane_num="1" # Default to pane 1
-            command="$LAUNCH_CMD_SPEC"
-        fi
-
-        if ! [[ "$pane_num" =~ ^[1-9]$ ]] || (( pane_num < 1 || pane_num > PANES )); then
-            echo "Error: Invalid pane number '$pane_num' for --launch option. Must be between 1 and $PANES." >&2
+        if [[ -z "$dir" ]]; then
+            echo "Error: Missing project directory: $dir" >&2
             exit 1
         fi
 
-        # TODO: drop old code
-        # if ! command -v "$command" &> /dev/null; then
-        #     echo "Error: Launch command '$command' not found or not executable." >&2
-        #     exit 1
-        # fi
+        if [[ ! -d "$dir" ]]; then
+          echo "Error: Project directory does not exist: '$dir'" >&2
+            exit 1
+        fi
+
+        IFS=$'\t' read -ra launches <<< "$launch_spec"
+        for launch in "${launches[@]}"; do
+
+            local pane_num
+            local command
+
+            if [[ "$launch" == *:* ]]; then
+                pane_num="${launch%%:*}"
+                command="${launch#*:}"
+            else
+                pane_num="1" # Default to pane 1
+                command="$launch"
+            fi
+
+            if ! [[ "$pane_num" =~ ^[1-9]$ ]] || (( pane_num < 1 || pane_num > panes )); then
+                echo "Error: Invalid launch option pane number '$pane_num'. Must be between 1 and $panes" >&2
+                exit 1
+            fi
+        done
     done
 }
 
@@ -140,30 +204,29 @@ execute_launch_commands() {
 
     local session_name="$1"
     local win_index="$2"
-    local dir="$3"
+    local launch_spec="$3"
 
-    if [[ ${#LAUNCH_CMDS[@]} -gt 0 ]]; then
-        for LAUNCH_CMD_SPEC in "${LAUNCH_CMDS[@]}"; do
-            local pane_num
-            local command
+    IFS=$'\t' read -ra launches <<< "$launch_spec"
+    for launch in "${launches[@]}"; do
+        local pane_num
+        local command
 
-            if [[ "$LAUNCH_CMD_SPEC" == *:* ]]; then
-                pane_num="${LAUNCH_CMD_SPEC%%:*}"
-                command="${LAUNCH_CMD_SPEC#*:}"
-            else
-                pane_num="1" # Default to pane 1
-                command="$LAUNCH_CMD_SPEC"
-            fi
-            tmux_cmd send-keys -t "$session_name:$win_index.$pane_num" -l "$command"
-            tmux_cmd send-keys -t "$session_name:$win_index.$pane_num" Enter
-        done
-    fi
+        if [[ "$launch" == *:* ]]; then
+            pane_num="${launch%%:*}"
+            command="${launch#*:}"
+        else
+            pane_num="1" # Default to pane 1
+            command="$launch"
+        fi
+        tmux_cmd send-keys -t "$session_name:$win_index.$pane_num" -l "$command"
+        tmux_cmd send-keys -t "$session_name:$win_index.$pane_num" Enter
+    done
 }
 
 # Parse options
 DRY_RUN=                # Set by --dry-run option
 TEST_TDE=${TEST_TDE:=}  # Set by test-tde.sh
-PANES=1
+PANES_OPT=1
 PROJECT_DIRS=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -172,23 +235,15 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         -p|--panes)
-            PANES="$2"
-            if ! [[ "$PANES" =~ ^[1-9]$ ]]; then
+            PANES_OPT="$2"
+            if ! [[ "$PANES_OPT" =~ ^[1-9]$ ]]; then
                 echo "Error: PANES must be between 1 and 9" >&2
                 exit 1
             fi
             shift 2
             ;;
-        --panes=*) 
-            PANES="${1#*=}"
-            if ! [[ "$PANES" =~ ^[1-9]$ ]]; then
-                echo "Error: PANES must be between 1 and 9" >&2
-                exit 1
-            fi
-            shift
-            ;;
         -l|--launch)
-            LAUNCH_CMDS+=("$2")
+            LAUNCH_OPTS+=("$2")
             shift 2
             ;;
         --help|-h)
@@ -207,24 +262,27 @@ while [[ $# -gt 0 ]]; do
 done
 
 
-# Validate launch commands after all options are parsed
-validate_launch_commands
-
 INSIDE_TMUX=0
 if [[ -n "${TMUX:-}" ]]; then
     INSIDE_TMUX=1
 fi
 
+# Convert PROJECT_DIRS to PROJECT_SPECS
+for dir in "${PROJECT_DIRS[@]}"; do
+    parse_project_spec "$dir"
+done
+validate_project_specs
+
 # Mode detection and error handling
 if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
     # New Session Mode
     if [[ $INSIDE_TMUX -eq 1 ]]; then
-        echo "Error: No project directories specified; cannot run New Session Mode inside tmux." >&2
+echo "Error: No project directories specified; cannot run New Session Mode inside tmux" >&2
         exit 1
     fi
     if [[ -z "$TEST_TDE" ]]; then
         if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-              echo "Attaching to existing session '$SESSION_NAME'."
+              echo "Attaching to existing session '$SESSION_NAME'"
               tmux_cmd attach-session -t "$SESSION_NAME"
               exit
           fi
@@ -232,75 +290,55 @@ if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
     # Read project directories from $HOME/.tde
     while IFS= read -r line; do
         [[ -z "$line" || "$line" =~ ^# ]] && continue
-        expanded_line=$(eval echo "$line") # Expand ~ and $HOME
-        PROJECT_DIRS+=("$expanded_line")
+        parse_project_spec $line
     done < "$HOME/.tde"
-    if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
-        echo "Error: No project directories found in $HOME/.tde" >&2
-        exit 1
-    fi
+   validate_project_specs
 else
     # Current Session Mode
     if [[ $INSIDE_TMUX -eq 0 ]]; then
-        echo "Error: PROJECT_DIR arguments specified but not running inside a tmux session." >&2
+        echo "Error: Project directory command-line arguments specified but not running inside a tmux session" >&2
         exit 1
     fi
-fi
-
-# Check for missing directories
-MISSING=()
-for DIR in "${PROJECT_DIRS[@]}"; do
-    if [[ ! -d "$DIR" ]]; then
-        MISSING+=("$DIR")
-    fi
-done
-
-if [[ ${#MISSING[@]} -gt 0 ]]; then
-    echo "Error: The following project directories do not exist:" >&2
-    for DIR in "${MISSING[@]}"; do
-        echo "  $DIR" >&2
-    done
-    exit 1
 fi
 
 NEW_WINDOWS=()
 
-if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
-    echo "Error: No project directories specified or found." >&2
+if [[ ${#PROJECT_SPECS[@]} -eq 0 ]]; then
+    echo "Error: No project directories specified" >&2
     exit 1
 fi
 
 if [[ $INSIDE_TMUX -eq 1 ]]; then
     # Current Session Mode: Add windows to current session
     if [[ -z "$TEST_TDE" ]]; then
-        # TODO: Check does this make sense i.e. can we open in non-tde sessions?
         SESSION_NAME="$(tmux display-message -p '#S')"
     fi
     tmux_cmd set-option -t "$SESSION_NAME" -g base-index 1
     tmux_cmd set-window-option -t "$SESSION_NAME" -g pane-base-index 1
     # Get existing window names in the session
     EXISTING_WINDOWS="$(existing_windows "$SESSION_NAME")"
-    for DIR in "${PROJECT_DIRS[@]}"; do
-        WIN_NAME="$(window_name "$DIR")"
+    for spec in "${PROJECT_SPECS[@]}"; do
+        IFS="|" read -r panes launch_spec dir <<<"$spec"
+        WIN_NAME="$(window_name "$dir")"
         if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
-            echo "Warning: Window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping." >&2
+            echo "Warning: Window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping" >&2
             continue
         fi
-        tmux_cmd new-window -c "$DIR" -n "$WIN_NAME"
+        tmux_cmd new-window -c "$dir" -n "$WIN_NAME"
         WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
-        
-        if [[ $PANES -gt 1 ]]; then
+
+        if [[ $panes -gt 1 ]]; then
             # Split vertically to create pane 2
-            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
-            
-            # Create additional panes 3..PANES in the right side by splitting horizontally
-            for ((p=3; p<=$PANES; p++)); do
-                tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$DIR"
+            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$dir"
+
+            # Create additional panes 3.. in the right side by splitting horizontally
+            for ((p=3; p<=$panes; p++)); do
+                tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$dir"
             done
             tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.2"
         fi
-        
-        execute_launch_commands "$SESSION_NAME" "$WIN_INDEX" "$DIR"
+
+        execute_launch_commands "$SESSION_NAME" "$WIN_INDEX" "$launch_spec"
         tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
         NEW_WINDOWS+=("$WIN_INDEX")
         # Update EXISTING_WINDOWS so subsequent checks are accurate
@@ -311,50 +349,51 @@ if [[ $INSIDE_TMUX -eq 1 ]]; then
     fi
 else
     # New Session Mode: Create new session and add windows
-    FIRST_DIR="${PROJECT_DIRS[0]}"
+    IFS="|" read -r panes launch_spec FIRST_DIR <<<"${PROJECT_SPECS[0]}"
     FIRST_WIN_NAME="$(window_name "$FIRST_DIR")"
     tmux_cmd new-session -d -s "$SESSION_NAME" -c "$FIRST_DIR" -n "$FIRST_WIN_NAME"
     tmux_cmd set-option -t "$SESSION_NAME" -g base-index 1
     tmux_cmd set-window-option -t "$SESSION_NAME" -g pane-base-index 1
     FIRST_WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$FIRST_WIN_NAME")"
-    
-    if [[ $PANES -gt 1 ]]; then
+
+    if [[ $panes -gt 1 ]]; then
         # Split vertically to create pane 2
         tmux_cmd split-window -h -t "$SESSION_NAME:$FIRST_WIN_INDEX" -c "$FIRST_DIR"
-        
-        # Create additional panes 3..PANES in the right side by splitting horizontally
-        for ((p=3; p<=$PANES; p++)); do
+
+        # Create additional panes 3.. in the right side by splitting horizontally
+        for ((p=3; p<=$panes; p++)); do
             tmux_cmd split-window -t "$SESSION_NAME:$FIRST_WIN_INDEX.2" -c "$FIRST_DIR"
         done
         tmux_cmd select-layout -E -t "$SESSION_NAME:$FIRST_WIN_INDEX.2"
     fi
-    
-    execute_launch_commands "$SESSION_NAME" "$FIRST_WIN_INDEX" "$FIRST_DIR"
+
+    execute_launch_commands "$SESSION_NAME" "$FIRST_WIN_INDEX" "$launch_spec"
     tmux_cmd select-pane -t "$SESSION_NAME:$FIRST_WIN_INDEX.1"
     NEW_WINDOWS+=("$FIRST_WIN_INDEX")
     # Get existing window names in the session (now includes the first window)
     EXISTING_WINDOWS="$(existing_windows "$SESSION_NAME")"
-    for DIR in "${PROJECT_DIRS[@]:1}"; do
-        WIN_NAME="$(window_name "$DIR")"
+    for spec in "${PROJECT_SPECS[@]:1}"; do
+        IFS="|" read -r panes launch_spec dir <<<"$spec"
+        WIN_NAME="$(window_name "$dir")"
         if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
-            echo "Warning: Window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping." >&2
+            echo "Warning: Window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping" >&2
             continue
         fi
-        tmux_cmd new-window -t "$SESSION_NAME:" -c "$DIR" -n "$WIN_NAME"
+        tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
         WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
-        
-        if [[ $PANES -gt 1 ]]; then
+
+        if [[ $panes -gt 1 ]]; then
             # Split vertically to create pane 2
-            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$DIR"
-            
-            # Create additional panes 3..PANES in the right side by splitting horizontally
-            for ((p=3; p<=$PANES; p++)); do
-                tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$DIR"
+            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$dir"
+
+            # Create additional panes 3.. in the right side by splitting horizontally
+            for ((p=3; p<=$panes; p++)); do
+                tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$dir"
             done
             tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.2"
         fi
-        
-        execute_launch_commands "$SESSION_NAME" "$WIN_INDEX" "$DIR"
+
+        execute_launch_commands "$SESSION_NAME" "$WIN_INDEX" "$launch_spec"
         tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
         NEW_WINDOWS+=("$WIN_INDEX")
         EXISTING_WINDOWS+=$'\n'"$WIN_NAME"
@@ -364,3 +403,4 @@ else
     fi
     tmux_cmd attach-session -t "$SESSION_NAME"
 fi
+
