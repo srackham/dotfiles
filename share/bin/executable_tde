@@ -31,6 +31,10 @@ OPTIONS
     --help, -h
         print this text.
 
+    -c, --config CONFIG_FILE
+        Specify the path of the configuration file overriding the default configuration file path
+        and the TDE_CONFIG_FILE environment variable.
+
     -l, --launch PANE:COMMAND
         Execute shell COMMAND in pane PANE of each project workspace window. PANE must be between 1
         and the value specified by the --panes option.
@@ -76,19 +80,16 @@ CONFIGURATION FILE
 
         [OPTION...] PROJECT_DIR
 
-    The configuration file location follows XDG Base Directory conventions:
-    
-        ${XDG_CONFIG_HOME:-$HOME/.config}/tde/config
-    
+    The default configuration file path follows XDG Base Directory conventions:
+
+        ${XDG_CONFIG_HOME:-$HOME/.config}/tde/tde.conf
+
+    The environment variable TDE_CONFIG_FILE can be used to override the default configuration
+    file path.
+
     If only a PROJECT_DIR is specified then the options default to the command-line options.
     Blank lines and lines beginning with a `#` character are skipped.
 EOF
-}
-
-# Determine the configuration file path following XDG Base Directory conventions
-config_file_path() {
-    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
-    echo "$config_home/tde/tde.conf"
 }
 
 # Print or execute tmux commands
@@ -238,12 +239,17 @@ execute_launch_commands() {
 DRY_RUN=                # Set by --dry-run option
 TEST_TDE=${TEST_TDE:=}  # Set by test-tde.sh
 PANES_OPT=1
+CONFIG_FILE="${TDE_CONFIG_FILE:-}"
 PROJECT_DIRS=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dry-run|-n)
             DRY_RUN=true
             shift
+            ;;
+        -c|--config)
+            CONFIG_FILE="$2"
+            shift 2
             ;;
         -p|--panes)
             PANES_OPT="$2"
@@ -299,7 +305,9 @@ if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
           fi
     fi
     # Read, parse and validate config file
-    CONFIG_FILE="$(config_file_path)"
+    if [[ -z "$CONFIG_FILE" ]]; then
+        CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config/tde/tde.conf}"
+    fi
     if [[ -f "$CONFIG_FILE" ]]; then
         while IFS= read -r line; do
             [[ -z "$line" || "$line" =~ ^# ]] && continue
