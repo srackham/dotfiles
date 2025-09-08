@@ -44,6 +44,11 @@ OPTIONS
         the enclosing window; panes 2..PANES are arranged vertically on the right hand side. This
         option value defaults 1.
 
+    -s, --session SESSION_NAME
+        Specify the tmux session name. The --session option also sets the configuration file name,
+        for example the '--session go-dev' command option would set configuration file name to
+        'go-dev.conf`. The default session name is 'tde'.
+
 DESCRIPTION
     `tde` is a bash script that opens project directory workspaces in separate tmux windows. The
     script has two modes of operation:
@@ -240,6 +245,7 @@ DRY_RUN=                # Set by --dry-run option
 TEST_TDE=${TEST_TDE:=}  # Set by test-tde.sh
 PANES_OPT=1
 CONFIG_FILE="${TDE_CONFIG_FILE:-}"
+SESSION_NAME="tde"
 PROJECT_DIRS=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -261,6 +267,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         -l|--launch)
             LAUNCH_OPTS+=("$2")
+            shift 2
+            ;;
+        -s|--session)
+            SESSION_NAME="$2"
+            if ! [[ "$SESSION_NAME" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+                echo "Error: SESSION_NAME must contain only alphanumeric characters, dashes, underscores, or periods: '$SESSION_NAME'" >&2
+                exit 1
+            fi
             shift 2
             ;;
         --help|-h)
@@ -306,7 +320,7 @@ if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
     fi
     # Read, parse and validate config file
     if [[ -z "$CONFIG_FILE" ]]; then
-        CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config/tde/tde.conf}"
+        CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config/tde}/${SESSION_NAME}.conf"
     fi
     if [[ -f "$CONFIG_FILE" ]]; then
         while IFS= read -r line; do
