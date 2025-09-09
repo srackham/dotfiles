@@ -7,8 +7,6 @@ vim.opt.smartcase = true
 vim.opt.timeoutlen = 10000
 vim.opt.scrolloff = 5
 vim.opt.cmdwinheight = 30
-vim.api.nvim_create_autocmd("FileType", { pattern = "qf", command = "resize 30", })
-
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words
 vim.opt.showbreak = '↪ ' -- Characters to indicate wrapped lines
@@ -26,3 +24,17 @@ vim.opt.spellfile = vim.fn.expand('$HOME/doc/nvim/spell/en.utf-8.add')
 vim.api.nvim_set_hl(0, 'Search', { bg = '#5f5f00', fg = 'white' })
 vim.api.nvim_set_hl(0, 'IncSearch', { bg = '#ffd787', fg = 'black' })
 vim.api.nvim_set_hl(0, 'CurSearch', { bg = '#ffd787', fg = 'black' })
+
+-- Filetype specific options
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  command = "resize 30",
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "make",
+  callback = function()
+    vim.opt_local.tabstop = 4       -- display width of tabs is 4 spaces
+    vim.opt_local.shiftwidth = 4    -- indentation amount for >, << commands
+    vim.opt_local.expandtab = false -- use actual tabs, not spaces
+  end,
+})
