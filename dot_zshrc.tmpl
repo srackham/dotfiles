@@ -5,35 +5,34 @@
 
 # zsh specific history settings.
 export SAVEHIST=$HISTSIZE
-setopt append_history           # Immediately append history instead of overwriting
-setopt inc_append_history       # Write to history file immediately, not when shell quits
-setopt no_extended_history      # Disable extended history format for bash compatibility
-setopt no_share_history         # Also necessary to disable extended history format
-setopt hist_ignore_all_dups     # If a new command is a duplicate, remove the older one
-alias h="fc -R && fc -l -n 1"   # Reload history file and list history without command numbers
+setopt append_history         # Immediately append history instead of overwriting
+setopt inc_append_history     # Write to history file immediately, not when shell quits
+setopt no_extended_history    # Disable extended history format for bash compatibility
+setopt no_share_history       # Also necessary to disable extended history format
+setopt hist_ignore_all_dups   # If a new command is a duplicate, remove the older one
+alias h="fc -R && fc -l -n 1" # Reload history file and list history without command numbers
 
 #
 # Tab completions
 #
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit
-zstyle ':completion:*' rehash true  # automatically find new executables in the $PATH
+zstyle ':completion:*' rehash true # automatically find new executables in the $PATH
 # Fix slow git tab completion, see https://stackoverflow.com/a/9810485/1136455
-__git_files () {
+__git_files() {
     _wanted files expl 'local files' _files
 }
 # Jujutsu command-line completions
-if command -v jj &> /dev/null; then
+if command -v jj &>/dev/null; then
     source <(jj util completion zsh)
 fi
 
-bindkey -v                          # vi command-line editing
-setopt interactive_comments         # allow # comments in shell; good for copy/paste
-export BLOCK_SIZE="'1"              # Add commas to file sizes
-typeset -U path                     # keep duplicates out of the path
-setopt extended_glob                # extended globbing. Allows using regular expressions with *
-setopt autocd                       # if only directory path is entered, cd there.
-
+bindkey -v                  # vi command-line editing
+setopt interactive_comments # allow # comments in shell; good for copy/paste
+export BLOCK_SIZE="'1"      # Add commas to file sizes
+typeset -U path             # keep duplicates out of the path
+setopt extended_glob        # extended globbing. Allows using regular expressions with *
+setopt autocd               # if only directory path is entered, cd there.
 
 #
 # Install zsh community projects (https://github.com/zsh-users)
@@ -53,7 +52,7 @@ function load-zsh-users() {
 load-zsh-users https://github.com/zsh-users/zsh-autosuggestions
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=249" # See https://coderwall.com/p/pb1uzq/z-shell-colors
 # Mapping Ctrl+Enter to autosuggest-execute is problematic (https://stackoverflow.com/a/45714460/1136455)
-bindkey '^@' autosuggest-execute    # Ctrl+Space executes current suggestion
+bindkey '^@' autosuggest-execute # Ctrl+Space executes current suggestion
 load-zsh-users https://github.com/zsh-users/zsh-syntax-highlighting
 load-zsh-users https://github.com/zsh-users/zsh-history-substring-search
 {{if eq .chezmoi.osRelease.id "manjaro"}}
@@ -66,12 +65,12 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 # Set up fzf key bindings and fuzzy completion.
-if command -v fzf &> /dev/null; then
+if command -v fzf &>/dev/null; then
     eval "$(fzf --zsh)"
 fi
 
 # Set up zoxide and alias to cd and cdi.
-if command -v zoxide &> /dev/null; then
+if command -v zoxide &>/dev/null; then
     eval "$(zoxide init --cmd cd zsh)"
 fi
 
@@ -85,8 +84,8 @@ bindkey '^p' up-line-or-history
 
 # Bind Alt+Shift+R to repeat the previous terminal command
 repeat_last_command() {
-  BUFFER="$(fc -ln -1)"
-  zle accept-line
+    BUFFER="$(fc -ln -1)"
+    zle accept-line
 }
 zle -N repeat_last_command
 bindkey '^[R' repeat_last_command

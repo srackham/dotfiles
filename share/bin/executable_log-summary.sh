@@ -7,8 +7,8 @@ SERVER="nuc1"
 DATE="date +%Y-%m-%d-%a\ %H:%M:%S"
 
 if [ "$(hostname)" != "nuc1" ]; then
-    echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
-    exit 1
+	echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
+	exit 1
 fi
 
 logfiles="/var/log/messages.1 /var/log/messages"

@@ -4,13 +4,13 @@
 {{template "interactive_shell.tmpl" .}}
 
 export HISTFILESIZE=$HISTSIZE
-export PROMPT_COMMAND="history -a"  # Update history file after each command.
+export PROMPT_COMMAND="history -a" # Update history file after each command.
 
 shopt -s histappend
 set -o vi
-bind -s 'set completion-ignore-case on' > /dev/null
+bind -s 'set completion-ignore-case on' >/dev/null
 shopt -s extglob
-shopt -s globstar   # the ** pattern recursively matches subdirectories and files.
+shopt -s globstar                             # the ** pattern recursively matches subdirectories and files.
 alias h="history -a && history -r && history" # List history from all shell instances.
 
 # set fancy prompt color differently for servers.
@@ -28,16 +28,16 @@ nuc2)
 esac
 
 # Set up fzf key bindings and fuzzy completion.
-if command -v fzf &> /dev/null; then
+if command -v fzf &>/dev/null; then
     eval "$(fzf --bash)"
 fi
 
 # Set up zoxide and alias to cd and cdi.
-if command -v zoxide &> /dev/null; then
+if command -v zoxide &>/dev/null; then
     eval "$(zoxide init --cmd cd bash)"
 fi
 
 # Jujutsu command-line completions
-if command -v jj &> /dev/null; then
+if command -v jj &>/dev/null; then
     source <(jj util completion bash)
 fi

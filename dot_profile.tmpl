@@ -31,27 +31,27 @@ export RECOLL_CONFDIR="$HOME/.config/recoll"
 
 # Build the PATH env variable in descending priority order.
 # NOTE: NixOS updates this PATH and does not seem to preserve priorities.
-if [ -d "$HOME/.cargo/bin" ]; then           # Rust cargo compiled binaries
+if [ -d "$HOME/.cargo/bin" ]; then # Rust cargo compiled binaries
     export PATH=$PATH:$HOME/.cargo/bin
 fi
-if [ -d "$HOME/.deno/bin" ]; then             # Deno runtime
+if [ -d "$HOME/.deno/bin" ]; then # Deno runtime
     export PATH=$PATH:$HOME/.deno/bin
 fi
-if [ -d "$HOME/go" ]; then                    # Go language (add GOROOT and GOPATH to PATH)
+if [ -d "$HOME/go" ]; then # Go language (add GOROOT and GOPATH to PATH)
     export PATH=$PATH:$HOME/go/bin
 fi
-if [ -d "$HOME/.npm-packages/bin" ]; then     # globally installed node packages
+if [ -d "$HOME/.npm-packages/bin" ]; then # globally installed node packages
     export PATH="$HOME/.npm-packages/bin:$PATH"
     export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
 fi
-if [ -d "$HOME/.local/bin" ]; then            # Locally installed binaries
+if [ -d "$HOME/.local/bin" ]; then # Locally installed binaries
     export PATH="$HOME/.local/bin:$PATH"
 fi
 export PATH="$HOME/bin:$HOME/share/bin:$PATH" # User's binaries
 
 # Source Nix Package Manager if it's installed.
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
-  . $HOME/.nix-profile/etc/profile.d/nix.sh
+    . $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
 
 # Use Brave instead of Chrome when doing Flutter Web development.

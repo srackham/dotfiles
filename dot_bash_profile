@@ -8,6 +8,6 @@ fi
 
 # Because bash login shell does not source ~/.bashrc
 if [ -f ~/.bashrc ]; then
-  # shellcheck source=/home/srackham/.bashrc
-  source ~/.bashrc
+    # shellcheck source=/home/srackham/.bashrc
+    source ~/.bashrc
 fi
