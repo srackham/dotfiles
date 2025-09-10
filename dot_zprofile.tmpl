@@ -1,6 +1,7 @@
 # vim: set filetype=bash:
 
 if [ -f ~/.profile ]; then
+    # shellcheck source=/home/srackham/.profile
     [ ! -v _PROFILE ] && source ~/.profile # Only source this file once.
     export _PROFILE=yes
 fi
