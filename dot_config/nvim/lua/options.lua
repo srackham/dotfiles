@@ -33,8 +33,16 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "make",
   callback = function()
-    vim.opt_local.tabstop = 4       -- display width of tabs is 4 spaces
-    vim.opt_local.shiftwidth = 4    -- indentation amount for >, << commands
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
     vim.opt_local.expandtab = false -- use actual tabs, not spaces
+  end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "sh", "bash" },
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.expandtab = true -- use spaces instead of tabs
   end,
 })
