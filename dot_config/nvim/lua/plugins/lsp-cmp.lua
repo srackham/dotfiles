@@ -30,7 +30,7 @@ return {
       'neovim/nvim-lspconfig',
     },
     opts = {
-      ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls', 'denols' },
+      ensure_installed = { 'gopls', 'jsonls', 'lua_ls', 'ts_ls', 'denols', 'bashls' },
     },
   },
 
@@ -73,6 +73,7 @@ return {
           }
         },
       }
+      vim.lsp.enable 'bashls'
 
       -- Configure diagnostic message UI
       vim.diagnostic.config {
