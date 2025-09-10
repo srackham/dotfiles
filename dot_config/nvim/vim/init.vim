@@ -66,6 +66,7 @@
 :iab Ob Obsidian
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
+:iab Otoh on the other hand
 :iab Pkm Personal Knowledge Management (PKM)
 :iab Pr pull request
 :iab Re regular expression
