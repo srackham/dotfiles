@@ -248,16 +248,20 @@ has_session() {
     tmux has-session -t "$1" 2>/dev/null || false
 }
 
+# Environment variables used for testing
+TDE_CONFIG_FILE="${TDE_CONFIG_FILE-}"
+TDE_TEST="${TDE_TEST-}"
+TDE_TMUX="${TDE_TMUX-}"
+
 # Globals
 DRY_RUN=
 PANES=1
-CONFIG_FILE="${TDE_CONFIG_FILE:-}"
+CONFIG_FILE="$TDE_CONFIG_FILE"
 SESSION_NAME="tde"
 LAUNCH_OPTS=()
 PROJECT_DIRS=()
 PROJECT_SPECS=() # Project workspaces (options and workspace directory)
-TMUX="${TMUX-}"
-TDE_TEST="${TDE_TEST-}"
+TMUX="${TDE_TMUX-$TMUX}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
