@@ -96,6 +96,33 @@ CONFIGURATION FILE
 EOF
 }
 
+# Environment variables used for testing
+TDE_CONFIG_FILE="${TDE_CONFIG_FILE-}"
+TDE_TEST="${TDE_TEST-}"
+TDE_TEST_SESSION="${TDE_TEST_SESSION-}"
+
+# Globals
+DRY_RUN=
+PANES=1
+CONFIG_FILE="$TDE_CONFIG_FILE"
+SESSION_NAME="tde"
+LAUNCH_OPTS=()
+PROJECT_DIRS=()
+PROJECT_SPECS=() # Project workspaces (options and workspace directory)
+
+write_error_msg() {
+    echo "$(basename "$0"): $1" >&2
+}
+
+session_exists() {
+    local session_name="$1"
+    if [[ -n "$TDE_TEST" ]]; then
+        [[ "$TDE_TEST_SESSION" == "$session_name" ]]
+    else
+        tmux has-session -t "$session_name" 2>/dev/null
+    fi
+}
+
 # Print or execute tmux commands
 tmux_cmd() {
     if [[ -n "$DRY_RUN" || -n "$TDE_TEST" ]]; then
@@ -137,7 +164,7 @@ parse_project_spec() {
             args=("${args[@]:2}")
             ;;
         -*)
-            echo "Unknown option in project spec: ${args[0]}" >&2
+            write_error_msg "unknown option in project spec: ${args[0]}"
             exit 1
             ;;
         *)
@@ -194,7 +221,7 @@ validate_project_specs() {
             local command
 
             if [[ "$launch" != *:* ]]; then
-                echo "Error: Invalid launch option '$launch'" >&2
+                write_error_msg "invalid launch option '$launch'"
                 exit 1
             fi
 
@@ -202,18 +229,18 @@ validate_project_specs() {
             command="${launch#*:}"
 
             if ! [[ "$pane_num" =~ ^[1-9]$ ]] || ((pane_num < 1 || pane_num > panes)); then
-                echo "Error: Invalid launch option pane number '$pane_num'. Must be between 1 and $panes" >&2
+                write_error_msg "invalid launch option pane number '$pane_num'. Must be between 1 and $panes"
                 exit 1
             fi
         done
 
         if [[ -z "$dir" ]]; then
-            echo "Error: Missing project directory" >&2
+            write_error_msg "missing project directory: '$dir'"
             exit 1
         fi
 
         if [[ ! -d "$dir" ]]; then
-            echo "Error: Project directory does not exist: '$dir'" >&2
+            write_error_msg "project directory not found: '$dir'"
             exit 1
         fi
 
@@ -244,25 +271,7 @@ execute_launch_commands() {
     done
 }
 
-has_session() {
-    tmux has-session -t "$1" 2>/dev/null || false
-}
-
-# Environment variables used for testing
-TDE_CONFIG_FILE="${TDE_CONFIG_FILE-}"
-TDE_TEST="${TDE_TEST-}"
-TDE_TMUX="${TDE_TMUX-}"
-
-# Globals
-DRY_RUN=
-PANES=1
-CONFIG_FILE="$TDE_CONFIG_FILE"
-SESSION_NAME="tde"
-LAUNCH_OPTS=()
-PROJECT_DIRS=()
-PROJECT_SPECS=() # Project workspaces (options and workspace directory)
-TMUX="${TDE_TMUX-$TMUX}"
-
+# Parse command-line arguments
 while [[ $# -gt 0 ]]; do
     case "$1" in
     --dry-run | -n)
@@ -276,7 +285,7 @@ while [[ $# -gt 0 ]]; do
     -p | --panes)
         PANES="$2"
         if ! [[ "$PANES" =~ ^[1-9]$ ]]; then
-            echo "Error: PANES must be between 1 and 9" >&2
+            write_error_msg "PANES must be between 1 and 9"
             exit 1
         fi
         shift 2
@@ -288,7 +297,7 @@ while [[ $# -gt 0 ]]; do
     -s | --session)
         SESSION_NAME="$2"
         if ! [[ "$SESSION_NAME" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
-            echo "Error: SESSION_NAME must contain only alphanumeric characters, dashes, underscores, or periods: '$SESSION_NAME'" >&2
+            write_error_msg "SESSION_NAME must contain only alphanumeric characters, dashes, underscores, or periods: '$SESSION_NAME'"
             exit 1
         fi
         shift 2
@@ -298,7 +307,7 @@ while [[ $# -gt 0 ]]; do
         exit 0
         ;;
     -*)
-        echo "Unknown option: $1" >&2
+        write_error_msg "unknown option: $1"
         exit 1
         ;;
     *)
@@ -308,27 +317,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Convert PROJECT_DIRS to PROJECT_SPECS
-for dir in "${PROJECT_DIRS[@]}"; do
-    parse_project_spec "$dir"
-done
-validate_project_specs
-
-# Mode detection and error handling
-if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
-    # New Session Mode
-    if [[ -n "$TMUX" ]]; then
-        echo "Error: No project directories specified; cannot run New Session Mode inside tmux" >&2
-        exit 1
-    fi
-    if [[ -z "$TDE_TEST" ]]; then
-        if has_session "$SESSION_NAME"; then
-            echo "Attaching to existing session '$SESSION_NAME'"
-            tmux_cmd attach-session -t "$SESSION_NAME"
-            exit
-        fi
-    fi
-    # Read, parse and validate config file
+if ! session_exists "$SESSION_NAME"; then
+    # Read, parse and validate config file and append to PROJECT_SPECS
     if [[ -z "$CONFIG_FILE" ]]; then
         CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config/tde}/${SESSION_NAME}.conf"
     fi
@@ -338,53 +328,46 @@ if [[ ${#PROJECT_DIRS[@]} -eq 0 ]]; then
             parse_project_spec "$line"
         done <"$CONFIG_FILE"
     else
-        echo "Warning: Configuration file '$CONFIG_FILE' not found" >&2
+        write_error_msg "configuration file '$CONFIG_FILE' not found"
     fi
-    validate_project_specs
-else
-    # Current Session Mode
-    if [[ -z "$TMUX" ]]; then
-        echo "Error: Project directory command-line arguments specified but not running inside a tmux session" >&2
+fi
+
+# Append command-line PROJECT_DIRS to PROJECT_SPECS
+for dir in "${PROJECT_DIRS[@]}"; do
+    parse_project_spec "$dir"
+done
+
+validate_project_specs
+
+# Append command-line project directories to project specs
+if [[ ${#PROJECT_SPECS[@]} -eq 0 ]]; then
+    if session_exists "$SESSION_NAME"; then
+        tmux_cmd attach-session -t "$SESSION_NAME"
+        exit
+    else
+        write_error_msg "no project directories specified"
         exit 1
     fi
 fi
 
-if [[ ${#PROJECT_SPECS[@]} -eq 0 ]]; then
-    echo "Error: No project directories specified" >&2
-    exit 1
-fi
-
-if [[ -z "$TDE_TEST" ]]; then
-    if [[ -n "$TMUX" ]]; then
-        SESSION_NAME="$(tmux display-message -p '#S')" # Set to current session name
-    fi
-fi
-# Get existing window names in the session
 EXISTING_WINDOWS="$(existing_windows "$SESSION_NAME")"
+
+# Create project workspace windows
 for index in "${!PROJECT_SPECS[@]}"; do
     spec="${PROJECT_SPECS[$index]}"
     IFS="|" read -r panes launch_spec dir <<<"$spec"
     WIN_NAME="$(window_name "$dir")"
-    if [[ -n "$TDE_TEST" ]]; then
-        if [[ -z "$TMUX" && $index -eq 0 ]]; then
-            tmux_cmd new-session -d -s "$SESSION_NAME" -c "$dir" -n "$WIN_NAME"
-        else
-            if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
-                echo "Warning: Window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping" >&2
-                continue
-            fi
-            tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
+    if ! session_exists "$SESSION_NAME"; then
+        tmux_cmd new-session -d -s "$SESSION_NAME" -c "$dir" -n "$WIN_NAME"
+        if [[ -n "$TDE_TEST" ]]; then
+            TDE_TEST_SESSION="$SESSION_NAME" # So the session is not created again
         fi
     else
-        if ! has_session "$SESSION_NAME"; then
-            tmux_cmd new-session -d -s "$SESSION_NAME" -c "$dir" -n "$WIN_NAME"
-        else
-            if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
-                echo "Warning: Window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping" >&2
-                continue
-            fi
-            tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
+        if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
+            write_error_msg "window '$WIN_NAME' already exists in session '$SESSION_NAME', skipping"
+            continue
         fi
+        tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
     fi
     WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
     FIRST_WIN_INDEX="${FIRST_WIN_INDEX:=$WIN_INDEX}"
@@ -404,5 +387,6 @@ for index in "${!PROJECT_SPECS[@]}"; do
     tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
     EXISTING_WINDOWS+=$'\n'"$WIN_NAME" # Update so subsequent checks are accurate
 done
+
 tmux_cmd select-window -t "$SESSION_NAME:$FIRST_WIN_INDEX"
 tmux_cmd attach-session -t "$SESSION_NAME"
