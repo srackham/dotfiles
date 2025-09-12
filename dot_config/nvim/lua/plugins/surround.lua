@@ -2,7 +2,23 @@ return {
   'kylechui/nvim-surround',
   event = 'VeryLazy',
   config = function()
-    require('nvim-surround').setup()
+    require('nvim-surround').setup({
+      surrounds = {
+        ["*"] = {
+          add = function()
+            return { "**", "**" }
+          end,
+          find = "%*%*.-%*%*",
+          delete = "^%*%*()().-%*%*$",
+          change = {
+            target = "%*%*.-%*%*",
+            replacement = function()
+              return { "**", "**" }
+            end,
+          },
+        },
+      },
+    })
     vim.keymap.set('n', 'S', '<Plug>(nvim-surround-normal)',
       { noremap = false, silent = true, desc = "Surround text object with character" })
     vim.keymap.set('n', '<Leader>sd', '<Plug>(nvim-surround-delete)',
