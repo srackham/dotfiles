@@ -4,21 +4,32 @@ return {
   config = function()
     require("nvim-surround").setup({
       surrounds = {
+        -- Add Markdown bold surround
         ["b"] = {
           add = { "**", "**" },
           find = "%*%*.-%*%*",
           delete = "^(%*%*)().-(%*%*)()$",
         },
+        -- Add Markdown underline surround
+        ["u"] = {
+          add = { "<u>", "</u>" },
+          find = "<u>.-</u>",
+          delete = "^(<u>)().-(</u>)()$",
+        },
+        -- Add Markdown strikethrough surround
+        ["s"] = {
+          add = { "~~", "~~" },
+          find = "~~.-~~",
+          delete = "^(~~)().-(~~)()$",
+        },
       },
       aliases = {
         ["b"] = false,
+        ["s"] = false,
+        ["u"] = false,
+        ["i"] = "_",  -- Markdown italics
+        ["c"] = "`",  -- Markdown code
       },
     })
-    vim.keymap.set('n', 'S', '<Plug>(nvim-surround-normal)',
-      { noremap = false, silent = true, desc = "Surround text object with character" })
-    vim.keymap.set('n', '<Leader>sd', '<Plug>(nvim-surround-delete)',
-      { noremap = false, silent = true, desc = "Delete surrounding characters" })
-    vim.keymap.set('n', '<Leader>sc', '<Plug>(nvim-surround-change)',
-      { noremap = false, silent = true, desc = "Change surrounding characters" })
   end
 }
