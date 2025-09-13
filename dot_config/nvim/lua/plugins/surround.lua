@@ -4,11 +4,14 @@ return {
   config = function()
     require("nvim-surround").setup({
       surrounds = {
-        ["*"] = {
+        ["b"] = {
           add = { "**", "**" },
           find = "%*%*.-%*%*",
           delete = "^(%*%*)().-(%*%*)()$",
         },
+      },
+      aliases = {
+        ["b"] = false,
       },
     })
     vim.keymap.set('n', 'S', '<Plug>(nvim-surround-normal)',
