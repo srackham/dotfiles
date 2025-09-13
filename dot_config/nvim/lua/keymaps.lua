@@ -202,9 +202,6 @@ vim.keymap.set('n', '<Leader>et', '<Cmd>%s/\\s\\+$//e<CR>',
 
 -- Help commands
 vim.keymap.set('n', '<Leader>ht', Utils.toggle_help_window, { desc = "Toggle help window" })
-vim.keymap.set('n', '<C-M-h>', Utils.toggle_help_window, { desc = "Toggle help window" })
-
--- Open help for word or selection under cursor
 vim.keymap.set({ 'n', 'v' }, '<Leader>hw', function()
   local query = Utils.get_selection_or_word()
   if query ~= '' then
