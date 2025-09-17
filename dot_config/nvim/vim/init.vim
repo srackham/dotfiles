@@ -28,6 +28,7 @@
 :iab Cl command line
 :iab Conf configuration
 :iab Confs configurations
+:iab Ctk Christ the King
 :iab Cwd current working directory
 :iab Cz Chezmoi
 :iab Dir directory
@@ -88,7 +89,7 @@
 :iab Vcs version control system
 :iab Vcss version control systems
 :iab Vsc VSCode
-:iab Wrt with respect to 
+:iab Wrt with respect to
 :iab Xp Christian
 :iab Xps Christians
 :iab Xpy Christianity
