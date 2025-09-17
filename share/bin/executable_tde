@@ -12,7 +12,7 @@ SYNOPSIS
         tde [OPTION...] [PROJECT_DIR...]
 
 DESCRIPTION
-    `tde` is a bash script that opens project directory workspaces in separate
+    tde is a bash script that opens project directory workspaces in separate
     tmux windows. The number of tmux panes and optional launch commands can be
     specified per workspace window.
 
@@ -36,10 +36,11 @@ DESCRIPTION
     is attached.
 
 OPTIONS
-    --dry-run, -n
-        Print tmux commands without doing anything.
+     -n, --dry-run
+        Print tmux commands without doing anything. '999' is a dummy value for
+        tmux window index numbers.
 
-    --help, -h
+    -h, --help
         Print this text.
 
     -c, --config CONFIG_FILE
@@ -58,8 +59,11 @@ OPTIONS
     -s, --session SESSION_NAME
         Specify the tmux session name. The --session option determines the
         configuration file name, for example the '--session go-dev' command
-        option would set configuration file name to 'go-dev.conf`. The default
+        option would set configuration file name to 'go-dev.conf'. The default
         session name is 'tde'.
+
+    -v, --verbose
+        Print tmux commands.
 
 CONFIGURATION FILES
     The New Session Mode configuration file specifies a set of project workspace
@@ -68,7 +72,7 @@ CONFIGURATION FILES
         [OPTION...] PROJECT_DIR
 
     If only a PROJECT_DIR is specified then the options default to the
-    command-line options. Blank lines and lines beginning with a `#` character
+    command-line options. Blank lines and lines beginning with a '#' character
     are skipped.
 
     The following example configuration file line creates a tmux window with
@@ -93,6 +97,7 @@ TDE_CONFIG_DIR="${TDE_CONFIG_DIR-}"
 
 # Command arguments
 DRY_RUN=
+VERBOSE=
 PANES=1
 CONFIG_FILE=
 SESSION_NAME="tde"
@@ -123,6 +128,20 @@ current_session() {
     fi
 }
 
+# Print number of client terminals attached to session $1
+attached_client_count() {
+    if [[ $TDE_TEST == true ]]; then
+        if [[ "$TDE_SESSION_EXISTS" == true ]]; then
+            echo 1
+        else
+            echo 0
+        fi
+    else
+        tmux list-clients -t tde 2>/dev/null | wc -l
+    fi
+}
+
+# Attach session $1
 attach_session() {
     local session_name="$1"
     if [[ -z $DRY_RUN ]] && ! session_exists "$session_name"; then
@@ -133,6 +152,16 @@ attach_session() {
         return
     fi
     if [[ -z $TMUX ]]; then
+        local client_count
+        client_count=$(attached_client_count "$session_name")
+        if [[ $client_count -ne 0 ]]; then
+            local msg
+            msg="warning: tmux session '$session_name' is attached to $client_count other client terminal"
+            if [[ $client_count -ne 1 ]]; then
+                msg="${msg}s"
+            fi
+            write_error_msg "$msg"
+        fi
         tmux_cmd attach-session -t "$session_name"
         return
     fi
@@ -144,6 +173,9 @@ tmux_cmd() {
     if [[ -n "$DRY_RUN" || $TDE_TEST == true ]]; then
         echo "tmux $*"
     else
+        if [[ -n "$VERBOSE" ]]; then
+            echo "tmux $*"
+        fi
         tmux "$@"
     fi
 }
@@ -321,6 +353,10 @@ while [[ $# -gt 0 ]]; do
         print_help
         exit 0
         ;;
+    --verbose | -v)
+        VERBOSE=true
+        shift
+        ;;
     -*)
         write_error_msg "unknown option: $1"
         exit 1
@@ -386,6 +422,7 @@ for index in "${!PROJECT_DEFS[@]}"; do
         tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
     fi
     WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
+    tmux_cmd set-option -t "$SESSION_NAME:$WIN_INDEX" pane-base-index 1
     FIRST_WIN_INDEX="${FIRST_WIN_INDEX:=$WIN_INDEX}"
 
     if [[ $panes -gt 1 ]]; then
