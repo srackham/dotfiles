@@ -10,6 +10,7 @@ vim.opt.cmdwinheight = 30
 vim.opt.wrap = true -- Enable soft wrapping
 vim.opt.linebreak = true -- Prevent breaking words
 vim.opt.showbreak = '↪ ' -- Characters to indicate wrapped lines
+vim.opt.wrapscan = false -- So macros do not revisit previously searched text
 
 vim.opt.spellsuggest = 'best,9' -- Limit the number os spelling suggestions
 vim.opt.spellcapcheck = "" -- Disable the check for capitalization at the start of a sentence
