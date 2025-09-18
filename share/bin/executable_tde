@@ -21,19 +21,14 @@ DESCRIPTION
 
     For each project workspace directory:
 
-    1. A new tmux window name is generated from the project directory's base name
-       minus its file name extension and with remaining period characters
-       replaced with hyphens.
-    3. A new tmux window is created with the newly generated window name and
-       the window start directory set to the project directory.
-    5. If PANES is greater than 1 then pane 1 is split vertically creating a
-       second pane.
-    6. If PANES is greater than 2 then panes 3..PANES are created by splitting
-       pane 2 horizontally.
-    7. The left-hand pane (pane 1) is selected.
+    1. A new tmux window is created (see --window-name option).
+    2. The window is split into columns (see --columns option).
+    3. If PANES is greater than COLUMNS then remaining panes are created and
+       stacked vertically in the right-hand column.
+    4. The focus pane is selected (see --focus option).
 
     Finally the first newly created project window is selected and the session
-    is attached.
+    is attached to the client terminal.
 
 OPTIONS
      -n, --dry-run
@@ -46,21 +41,34 @@ OPTIONS
     -c, --config CONFIG_FILE
         Specify the path of the configuration file.
 
+    -f, --focus PANE
+        Focus pane number PANE (1..PANES). The default value is 1.
+
     -l, --launch PANE:COMMAND
         Execute shell COMMAND in pane PANE of each project workspace window.
         PANE must be between 1 and the value specified by the --panes option.
         For example '3:lazyvim' executes the lazyvim command in pane 3.
 
     -p,--panes=PANES
-        Open window with PANES panes. PANES is 1..9. Pane 1 is positioned on the
-        left hand side of the enclosing window; panes 2..PANES are arranged
-        vertically on the right hand side. This option value defaults 1.
+        The number of panes in the tmux window. PANES is 1..9. Pane 1 is
+        positioned on the left hand side of the enclosing window; panes 2..PANES
+        are arranged vertically on the right hand side. This option value
+        defaults to 1.
 
     -s, --session SESSION_NAME
         Specify the tmux session name. The --session option determines the
         configuration file name, for example the '--session go-dev' command
         option would set configuration file name to 'go-dev.conf'. The default
         session name is 'tde'.
+
+    -w, --window-name WINDOW_NAME
+        The tmux window name. Defaults to the project directory's base name
+       minus its file name extension and with period characters
+       replaced with hyphens.
+
+    -x, --columns COLUMNS
+        Split the tmux window into COLUMNS columns. COLUMNS is between 1 and PANES. The
+        default option value is 1 if PANES=1 or 2 if PANES is 2 or greater.
 
     -v, --verbose
         Print tmux commands.
@@ -70,6 +78,9 @@ CONFIGURATION FILES
     windows, one per line, formatted like:
 
         [OPTION...] PROJECT_DIR
+
+    The following options are valid in configuration files: --focus, --launch,
+    --panes, --window-name, --columns.
 
     If only a PROJECT_DIR is specified then the options default to the
     command-line options. Blank lines and lines beginning with a '#' character
@@ -92,15 +103,19 @@ TMUX="${TMUX-}"
 
 # Environment variables used for testing
 TDE_TEST="${TDE_TEST-false}"
-TDE_SESSION_EXISTS="${TDE_SESSION_EXISTS-false}"
+TDE_CLIENT_COUNT="${TDE_CLIENT_COUNT-0}"
+TDE_SESSION_CREATED=false
 TDE_CONFIG_DIR="${TDE_CONFIG_DIR-}"
 
 # Command arguments
 DRY_RUN=
 VERBOSE=
 PANES=1
+COLS=
+FOCUS=1
 CONFIG_FILE=
 SESSION_NAME="tde"
+WINDOW_NAME=
 LAUNCH_OPTS=()
 PROJECT_DIRS=()
 
@@ -113,7 +128,7 @@ write_error_msg() {
 session_exists() {
     local session_name="$1"
     if [[ $TDE_TEST == true ]]; then
-        [[ "$TDE_SESSION_EXISTS" == true ]]
+        [[ "$TDE_SESSION_CREATED" == true || "$TDE_CLIENT_COUNT" -gt 0 ]]
     else
         tmux has-session -t "$session_name" 2>/dev/null
     fi
@@ -131,13 +146,9 @@ current_session() {
 # Print number of client terminals attached to session $1
 attached_client_count() {
     if [[ $TDE_TEST == true ]]; then
-        if [[ "$TDE_SESSION_EXISTS" == true ]]; then
-            echo 1
-        else
-            echo 0
-        fi
+        echo "$TDE_CLIENT_COUNT"
     else
-        tmux list-clients -t tde 2>/dev/null | wc -l
+        tmux list-clients -t "$1" 2>/dev/null | wc -l
     fi
 }
 
@@ -186,10 +197,54 @@ window_name() {
     basename "$dir"
 }
 
-# Function to parse a single project definition (used for both CLI and config file)
-# Each definition is formatted like: `<panes>|<launches>|<dir>` where `<panes>` is the number of
-# panes, `<launches>` is a tab-separated list of launch option values, `<dir>` is the workspace
-# directory path.
+validate_panes() {
+    local panes
+    panes="$1"
+    if ! [[ "$panes" =~ ^[1-9]$ ]]; then
+        write_error_msg "invalid --panes option '$panes': must be between 1 and 9"
+        exit 1
+    fi
+}
+
+validate_focus() {
+    local focus
+    focus="$1"
+    if ! [[ "$focus" =~ ^[1-9]$ ]]; then
+        write_error_msg "invalid --focus option '$focus': must be between 1 and 9"
+        exit 1
+    fi
+}
+
+validate_columns() {
+    local cols
+    cols="$1"
+    if ! [[ "$cols" =~ ^[1-9]$ ]]; then
+        write_error_msg "invalid --columns option '$cols': must be between 1 and 9"
+        exit 1
+    fi
+}
+
+validate_session() {
+    local name
+    name="$1"
+    if ! [[ "$name" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+        write_error_msg "invalid --session option '$name': must contain only alphanumeric characters, dashes, underscores, or periods"
+        exit 1
+    fi
+}
+
+validate_window_name() {
+    local name
+    name="$1"
+    if ! [[ "$name" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+        write_error_msg "invalid --window-name option '$name': must contain only alphanumeric characters, dashes, underscores, or periods"
+        exit 1
+    fi
+}
+
+# Parses and validates command arguments and returns a '|' separated project defintion.
+# Each definition is formatted like:'
+# <focus>|<cols>|<panes>|<launches>|<dir>
 parse_project_def() {
     local line="$*"
     local args=()
@@ -197,18 +252,37 @@ parse_project_def() {
     # Re-parse line into proper words with quotes honored
     eval "args=($line)"
 
-    local panes=""
-    local launches=()
+    local panes="$PANES"
+    local focus="$FOCUS"
+    local cols="$COLS"
+    local window_name="$WINDOW_NAME"
+    local launches=("${LAUNCH_OPTS[@]}")
     local dir=""
 
     while [[ ${#args[@]} -gt 0 ]]; do
         case "${args[0]}" in
         -p | --panes)
             panes="${args[1]}"
+            validate_panes "$panes"
+            args=("${args[@]:2}")
+            ;;
+        -f | --focus)
+            focus="${args[1]}"
+            validate_panes "$focus"
             args=("${args[@]:2}")
             ;;
         -l | --launch)
             launches+=("${args[1]}")
+            args=("${args[@]:2}")
+            ;;
+        -x | --columns)
+            cols="${args[1]}"
+            validate_columns "$cols"
+            args=("${args[@]:2}")
+            ;;
+        -w | --window-name)
+            window_name="${args[1]}"
+            validate_window_name "$window_name"
             args=("${args[@]:2}")
             ;;
         -*)
@@ -222,15 +296,14 @@ parse_project_def() {
         esac
     done
 
-    # Directory-only entries are assigned command-line option values.
-    if [ -z "$panes" ] && [ ${#launches[@]} -eq 0 ]; then
-        panes="$PANES"
-        launches=("${LAUNCH_OPTS[@]}")
+    if [[ "$panes" -eq 1 ]]; then
+        cols=${cols:-1}
+    else
+        cols=${cols:-2}
     fi
-
     dir=$(eval echo "$dir") # Expand ~ and $HOME
 
-    PROJECT_DEFS+=("${panes}|$(
+    PROJECT_DEFS+=("$focus|$window_name|$cols|$panes|$(
         IFS=$'\t'
         echo "${launches[*]}"
     )|$dir")
@@ -260,7 +333,8 @@ window_index_by_name() {
 # Validate PROJECT_DEFS array of command arguments
 validate_project_defs() {
     for def in "${PROJECT_DEFS[@]}"; do
-        IFS="|" read -r panes launch_def dir <<<"$def"
+        # echo "def: $def"
+        IFS="|" read -r focus window_name cols panes launch_def dir <<<"$def"
 
         IFS=$'\t' read -ra launches <<<"$launch_def"
         for launch in "${launches[@]}"; do
@@ -269,7 +343,7 @@ validate_project_defs() {
             local command
 
             if [[ "$launch" != *:* ]]; then
-                write_error_msg "invalid launch option '$launch'"
+                write_error_msg "invalid --launch option '$launch'"
                 exit 1
             fi
 
@@ -277,10 +351,20 @@ validate_project_defs() {
             command="${launch#*:}"
 
             if ! [[ "$pane_num" =~ ^[1-9]$ ]] || ((pane_num < 1 || pane_num > panes)); then
-                write_error_msg "invalid launch option pane number '$pane_num'. Must be between 1 and $panes"
+                write_error_msg "invalid --launch option pane number '$pane_num': must be between 1 and $panes"
                 exit 1
             fi
         done
+
+        if ((focus > panes)); then
+            write_error_msg "invalid --focus option '$focus': must be between 1 and $panes"
+            exit 1
+        fi
+
+        if ((cols > panes)); then
+            write_error_msg "invalid --columns option '$cols': must be between 1 and $panes"
+            exit 1
+        fi
 
         if [[ -z "$dir" ]]; then
             write_error_msg "missing project directory: '$dir'"
@@ -321,39 +405,48 @@ execute_launch_commands() {
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
     case "$1" in
-    --dry-run | -n)
+    -n | --dry-run)
         DRY_RUN=true
         shift
         ;;
     -c | --config)
-        CONFIG_FILE="$2"
+        CONFIG_FILE="${2-}"
         shift 2
         ;;
     -p | --panes)
+        validate_panes "${2-}"
         PANES="$2"
-        if ! [[ "$PANES" =~ ^[1-9]$ ]]; then
-            write_error_msg "PANES must be between 1 and 9"
-            exit 1
-        fi
+        shift 2
+        ;;
+    -f | --focus)
+        validate_focus "${2-}"
+        FOCUS="$2"
         shift 2
         ;;
     -l | --launch)
-        LAUNCH_OPTS+=("$2")
+        LAUNCH_OPTS+=("${2-}")
         shift 2
         ;;
     -s | --session)
+        validate_session "${2-}"
         SESSION_NAME="$2"
-        if ! [[ "$SESSION_NAME" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
-            write_error_msg "SESSION_NAME must contain only alphanumeric characters, dashes, underscores, or periods: '$SESSION_NAME'"
-            exit 1
-        fi
         shift 2
         ;;
-    --help | -h)
+    -x | --columns)
+        validate_columns "${2-}"
+        COLS="$2"
+        shift 2
+        ;;
+    -w | --window-name)
+        validate_window_name "${2-}"
+        WINDOW_NAME="$2"
+        shift 2
+        ;;
+    -h | --help)
         print_help
         exit 0
         ;;
-    --verbose | -v)
+    -v | --verbose)
         VERBOSE=true
         shift
         ;;
@@ -407,12 +500,12 @@ EXISTING_WINDOWS="$(existing_windows "$SESSION_NAME")"
 FIRST_WIN_INDEX=""
 for index in "${!PROJECT_DEFS[@]}"; do
     def="${PROJECT_DEFS[$index]}"
-    IFS="|" read -r panes launch_def dir <<<"$def"
-    WIN_NAME="$(window_name "$dir")"
+    IFS="|" read -r focus window_name cols panes launch_def dir <<<"$def"
+    WIN_NAME="${window_name:-$(basename "$dir")}"
     if ! session_exists "$SESSION_NAME"; then
         tmux_cmd new-session -d -s "$SESSION_NAME" -c "$dir" -n "$WIN_NAME"
         if [[ $TDE_TEST == true ]]; then
-            TDE_SESSION_EXISTS=true # So the session is not created again
+            TDE_SESSION_CREATED=true # So the session is not created again
         fi
     else
         if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
@@ -426,18 +519,18 @@ for index in "${!PROJECT_DEFS[@]}"; do
     FIRST_WIN_INDEX="${FIRST_WIN_INDEX:=$WIN_INDEX}"
 
     if [[ $panes -gt 1 ]]; then
-        # Split vertically to create pane 2
-        tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$dir"
-
-        # Create additional panes 3.. in the right side by splitting horizontally
-        for ((p = 3; p <= panes; p++)); do
-            tmux_cmd split-window -t "$SESSION_NAME:$WIN_INDEX.2" -c "$dir"
+        for ((i = cols - 1; i > 0; i--)); do
+            tmux_cmd split-window -h -t "$SESSION_NAME:$WIN_INDEX" -c "$dir" # Create pane to the right
         done
-        tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.2"
+        for ((i = panes - cols; i > 0; i--)); do
+            tmux_cmd split-window -v -t "$SESSION_NAME:$WIN_INDEX" -c "$dir" # Create pane below
+        done
+        tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.1"     # Equalise pane widths
+        tmux_cmd select-layout -E -t "$SESSION_NAME:$WIN_INDEX.$cols" # Equalise pane heights
     fi
 
     execute_launch_commands "$SESSION_NAME" "$WIN_INDEX" "$launch_def"
-    tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.1"
+    tmux_cmd select-pane -t "$SESSION_NAME:$WIN_INDEX.$focus"
     EXISTING_WINDOWS+=$'\n'"$WIN_NAME" # Update so subsequent checks are accurate
 done
 
