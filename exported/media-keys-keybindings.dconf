@@ -1,10 +1,9 @@
 [/]
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
 logout=@as []
-screensaver=['<Primary><Super>l']
-volume-down=['<Primary><Super>F11']
-volume-mute=['<Primary><Super>F10']
-volume-up=['<Primary><Super>F12']
+screensaver=['<Alt><Shift>l']
+volume-down=['<Alt>F11']
+volume-mute=['<Alt>F10']
+volume-up=['<Alt>F12']
 
 [custom-keybindings/custom0]
 binding='<Shift><Control><Alt><Super>p'
