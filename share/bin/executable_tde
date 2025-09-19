@@ -16,14 +16,14 @@ DESCRIPTION
     tmux windows. The number of tmux panes and optional launch commands can be
     specified per workspace window.
 
-    The project directory workspaces are specified in optional configuration files
-    and with commnand-line arguments.
+    The project directory workspaces can be specified in optional configuration
+    files or with commnand-line arguments.
 
     For each project workspace directory:
 
     1. A new tmux window is created (see --window-name option).
     2. The window is split into columns (see --columns option).
-    3. If PANES is greater than COLUMNS then remaining panes are created and
+    3. If PANES is greater than COLUMNS then remaining panes are 
        stacked vertically in the right-hand column.
     4. The focus pane is selected (see --focus option).
 
@@ -39,27 +39,25 @@ OPTIONS
         Print this text.
 
     -c, --config CONFIG_FILE
-        Specify the path of the configuration file.
+        Specify the path of a configuration file.
 
     -f, --focus PANE
         Focus pane number PANE (1..PANES). The default value is 1.
 
     -l, --launch PANE:COMMAND
-        Execute shell COMMAND in pane PANE of each project workspace window.
+        Execute a shell COMMAND in pane PANE of each project workspace window.
         PANE must be between 1 and the value specified by the --panes option.
         For example '3:lazyvim' executes the lazyvim command in pane 3.
 
     -p,--panes=PANES
-        The number of panes in the tmux window. PANES is 1..9. Pane 1 is
-        positioned on the left hand side of the enclosing window; panes 2..PANES
-        are arranged vertically on the right hand side. This option value
-        defaults to 1.
+        The number of panes created in the tmux window. PANES is 1..9. This
+        option value defaults to 1. See also the --columns option.
 
     -s, --session SESSION_NAME
         Specify the tmux session name. The --session option determines the
         configuration file name, for example the '--session go-dev' command
         option would set configuration file name to 'go-dev.conf'. The default
-        session name is 'tde'.
+        session name is 'tde'. See CONFIGURATION FILES.
 
     -w, --window-name WINDOW_NAME
         The tmux window name. Defaults to the project directory's base name
@@ -68,33 +66,41 @@ OPTIONS
 
     -x, --columns COLUMNS
         Split the tmux window into COLUMNS columns. COLUMNS is between 1 and PANES. The
-        default option value is 1 if PANES=1 or 2 if PANES is 2 or greater.
+        default option value is 1 (if PANES=1) or 2 (if PANES is 2 or greater).
 
     -v, --verbose
         Print tmux commands.
 
 CONFIGURATION FILES
-    The New Session Mode configuration file specifies a set of project workspace
-    windows, one per line, formatted like:
+    A configuration file specifies a set of project workspace windows, one per
+    line, formatted like:
 
         [OPTION...] PROJECT_DIR
 
     The following options are valid in configuration files: --focus, --launch,
-    --panes, --window-name, --columns.
+    --panes, --window-name, --columns. Omitted option values default to their
+    command-line values.
 
     If only a PROJECT_DIR is specified then the options default to the
     command-line options. Blank lines and lines beginning with a '#' character
     are skipped.
 
+    Unless overridden by the --config option, configuration file path names
+    follow XDG Base Directory conventions:
+
+    ${XDG_CONFIG_HOME:-$HOME/.config}/tde/<session-name>.conf
+
     The following example configuration file line creates a tmux window with
     three panes in the ~/nixos-configurations working directory, the first pane
     runs nvim, the third pane runs lazygit:
 
-        --panes 3 --launch 1:nvim --launch 3:lazygit ~/nixos-configurations
+    --panes 3 --launch 1:nvim --launch 3:lazygit ~/nixos-configurations
 
-    The default configuration file path follows XDG Base Directory conventions:
+    The next example creates a tmux window called 'monitor' with four panes.
+    The first is a terminal; the second, third and forth running htop, iotop and
+    nethogs performance monitoring applications:
 
-        ${XDG_CONFIG_HOME:-$HOME/.config}/tde/tde.conf
+    -x 3 -p 4 -l 2:htop -l '3:sudo iotop' -l '4:sudo nethogs' -w monitor ~
 EOF
 }
 
