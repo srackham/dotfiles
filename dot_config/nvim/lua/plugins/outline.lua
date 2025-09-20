@@ -14,18 +14,30 @@ return {
     }
 
     -- Key mappings
-    local function toggle_outline()
+    local function outline_is_open()
       for _, win in ipairs(vim.api.nvim_list_wins()) do
         local buf = vim.api.nvim_win_get_buf(win)
-        local ft = vim.api.nvim_buf_get_option(buf, 'filetype')
-        if ft == 'Outline' then
-          vim.cmd('OutlineFocus')
-          return
+        if vim.api.nvim_buf_get_option(buf, 'filetype') == 'Outline' then
+          return true
         end
       end
-      vim.cmd('Outline')
+      return false
     end
-    vim.keymap.set('n', '<Leader>co', toggle_outline, { desc = 'Toggle outline focus' })
-    vim.keymap.set('n', '<M-o>', toggle_outline, { desc = 'Toggle outline focus' })
+    local function toggle_focus()
+      if outline_is_open() then
+        vim.cmd('OutlineFocus')
+      else
+        vim.cmd('OutlineOpen')
+      end
+    end
+    local function toggle_outline()
+      if outline_is_open() then
+        vim.cmd('OutlineClose')
+      else
+        vim.cmd('OutlineOpen')
+      end
+    end
+    vim.keymap.set('n', '<M-o>', toggle_focus, { desc = 'Toggle outline focus' })
+    vim.keymap.set('n', '<M-S-o>', toggle_outline, { desc = 'Toggle outline visibility' })
   end,
 }
