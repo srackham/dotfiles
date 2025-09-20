@@ -88,6 +88,7 @@ return {
         name = "telescope.nvim",
       },
       legacy_commands = false,
+      footer = { enabled = false, },
     }
     vim.keymap.set('n', '<Leader>os', "<Cmd>Obsidian toc<CR>", { desc = "Obsidian section headers picker" })
     vim.keymap.set('n', '<Leader>oj', "<Cmd>Obsidian today<CR>", { desc = "Open/create today's journal note" })
