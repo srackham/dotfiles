@@ -21,13 +21,13 @@ DESCRIPTION
 
     For each project workspace directory:
 
-    1. A new tmux window is created (see --window-name option).
-    2. The window is split into columns (see --columns option).
-    3. If PANES is greater than COLUMNS then remaining panes are 
-       stacked vertically in the right-hand column.
-    4. The focus pane is selected (see --focus option).
+        1. A new tmux window is created (see --window-name option).
+        2. The window is split into columns (see --columns option).
+        3. If PANES is greater than COLUMNS then remaining panes are
+           stacked vertically in the right-hand column.
+        4. The focus pane is selected (see --focus option).
 
-    Finally the first newly created project window is selected and the session
+    The first newly created project window is selected and the session
     is attached to the client terminal.
 
 OPTIONS
@@ -38,8 +38,11 @@ OPTIONS
     -h, --help
         Print this text.
 
-    -c, --config CONFIG_FILE
-        Specify the path of a configuration file.
+    -c, --config-file CONFIG_FILE
+        Specify the path of a tde configuration file. If this option is not
+        specified tde sources the optional '_default.conf' file followed by the
+        optional '<session-name>.conf' file from the configuration files
+        directory. See CONFIGURATION FILES.
 
     -f, --focus PANE
         Focus pane number PANE (1..PANES). The default value is 1.
@@ -49,15 +52,24 @@ OPTIONS
         PANE must be between 1 and the value specified by the --panes option.
         For example '3:lazyvim' executes the lazyvim command in pane 3.
 
-    -p,--panes=PANES
+    -p,--panes PANES
         The number of panes created in the tmux window. PANES is 1..9. This
         option value defaults to 1. See also the --columns option.
+
+    -t, --tmux-file TMUX_FILE
+        Specify the path of a file containing tmux commands. TMUX_FILE is
+        sourced and its commands executed before tde exits. If this option is
+        not specified tde sources the optional '_default.tmux' file followed by
+        the optional '<session-name>.tmux' file from the configuration files
+        directory.
 
     -s, --session SESSION_NAME
         Specify the tmux session name. The --session option determines the
         configuration file name, for example the '--session go-dev' command
         option would set configuration file name to 'go-dev.conf'. The default
-        session name is 'tde'. See CONFIGURATION FILES.
+        session name is 'tde'. SESSION_NAME must begin with an alpha numberic
+        character and can only contain only alphanumeric characters, dashes,
+        underscores, or periods.
 
     -w, --window-name WINDOW_NAME
         The tmux window name. Defaults to the project directory's base name
@@ -65,42 +77,42 @@ OPTIONS
        replaced with hyphens.
 
     -x, --columns COLUMNS
-        Split the tmux window into COLUMNS columns. COLUMNS is between 1 and PANES. The
-        default option value is 1 (if PANES=1) or 2 (if PANES is 2 or greater).
+        Split the tmux window into COLUMNS columns. COLUMNS is between 1 and
+        PANES. The default option value is 1 (if PANES=1) or 2 (if PANES is 2 or
+        greater).
 
     -v, --verbose
         Print tmux commands.
 
 CONFIGURATION FILES
-    A configuration file specifies a set of project workspace windows, one per
-    line, formatted like:
+    A tde configuration file specifies a set of project workspace windows, one
+    per line, formatted like:
 
         [OPTION...] PROJECT_DIR
 
-    The following options are valid in configuration files: --focus, --launch,
-    --panes, --window-name, --columns. Omitted option values default to their
-    command-line values.
+    The following tde options are valid in configuration files: --focus,
+    --launch, --panes, --window-name, --columns. Omitted option values default
+    to their command-line values.
 
-    If only a PROJECT_DIR is specified then the options default to the
-    command-line options. Blank lines and lines beginning with a '#' character
-    are skipped.
+    Blank lines and lines beginning with a '#' character are skipped.
 
-    Unless overridden by the --config option, configuration file path names
-    follow XDG Base Directory conventions:
+    The default configuration files directory follows XDG Base Directory
+    conventions:
 
-    ${XDG_CONFIG_HOME:-$HOME/.config}/tde/<session-name>.conf
+        ${XDG_CONFIG_HOME:-$HOME/.config}/tde/
 
     The following example configuration file line creates a tmux window with
-    three panes in the ~/nixos-configurations working directory, the first pane
+    three panes in the ~/nixos-configurations working directory. The first pane
     runs nvim, the third pane runs lazygit:
 
-    --panes 3 --launch 1:nvim --launch 3:lazygit ~/nixos-configurations
+        --panes 3 --launch 1:nvim --launch 3:lazygit ~/nixos-configurations
 
-    The next example creates a tmux window called 'monitor' with four panes.
-    The first is a terminal; the second, third and forth running htop, iotop and
-    nethogs performance monitoring applications:
+    The next example creates a tmux window called 'monitor' with four panes
+    layed out in three columns: pane 1 in the first column; pane 2 in the
+    second; panes 3 and 4 in the third. The first is a terminal; the second runs
+    htop; the third runs iotop; the fourth runs nethogs:
 
-    -x 3 -p 4 -l 2:htop -l '3:sudo iotop' -l '4:sudo nethogs' -w monitor ~
+        -x 3 -p 4 -l 2:htop -l '3:sudo iotop' -l '4:sudo nethogs' -w monitor ~
 EOF
 }
 
@@ -120,6 +132,7 @@ PANES=1
 COLS=
 FOCUS=1
 CONFIG_FILE=
+TMUX_FILE=
 SESSION_NAME="tde"
 WINDOW_NAME=
 LAUNCH_OPTS=()
@@ -129,6 +142,12 @@ PROJECT_DEFS=() # Project workspaces (options and workspace directory)
 
 write_error_msg() {
     echo "$(basename "$0"): $1" >&2
+}
+
+write_verbose_message() {
+    if [[ -n "$VERBOSE" ]]; then
+        echo "$1"
+    fi
 }
 
 session_exists() {
@@ -190,17 +209,15 @@ tmux_cmd() {
     if [[ -n "$DRY_RUN" || $TDE_TEST == true ]]; then
         echo "tmux $*"
     else
-        if [[ -n "$VERBOSE" ]]; then
-            echo "tmux $*"
-        fi
+        write_verbose_message "tmux $*"
         tmux "$@"
     fi
 }
 
 # Generate window name from directory
-window_name() {
+get_window_name() {
     local dir="$1"
-    basename "$dir"
+    basename "$(realpath "$dir")"
 }
 
 validate_panes() {
@@ -233,8 +250,8 @@ validate_columns() {
 validate_session() {
     local name
     name="$1"
-    if ! [[ "$name" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
-        write_error_msg "invalid --session option '$name': must contain only alphanumeric characters, dashes, underscores, or periods"
+    if ! [[ "$name" =~ ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$ ]]; then
+        write_error_msg "invalid --session option '$name': must begin with an alpha numberic character and can only contain only alphanumeric characters, dashes, underscores, or periods"
         exit 1
     fi
 }
@@ -415,8 +432,12 @@ while [[ $# -gt 0 ]]; do
         DRY_RUN=true
         shift
         ;;
-    -c | --config)
+    -c | --config-file)
         CONFIG_FILE="${2-}"
+        shift 2
+        ;;
+    -t | --tmux-file)
+        TMUX_FILE="${2-}"
         shift 2
         ;;
     -p | --panes)
@@ -467,25 +488,28 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+if [[ $TDE_TEST == true ]]; then
+    conf_dir="${TDE_CONFIG_DIR}"
+else
+    conf_dir="${XDG_CONFIG_HOME:-$HOME/.config/tde}"
+fi
+
 if [[ -z "$CONFIG_FILE" ]]; then
-    if [[ $TDE_TEST == true ]]; then
-        config_dir="${TDE_CONFIG_DIR}"
-    else
-        config_dir="${XDG_CONFIG_HOME:-$HOME/.config/tde}"
-    fi
-    CONFIG_FILE="$config_dir/${SESSION_NAME}.conf"
+    CONFIG_FILE="$conf_dir/${SESSION_NAME}.conf"
 fi
 
 if ! session_exists "$SESSION_NAME"; then
-    # Read, parse and validate config file and append to PROJECT_DEFS
-    if [[ -f "$CONFIG_FILE" ]]; then
-        while IFS= read -r line; do
-            [[ -z "$line" || "$line" =~ ^# ]] && continue
-            parse_project_def "$line"
-        done <"$CONFIG_FILE"
-    else
-        write_error_msg "warning: configuration file '$CONFIG_FILE' not found"
-    fi
+    # Read, parse and validate config files and append to PROJECT_DEFS
+    for conf_file in "$conf_dir/_default.conf" "$CONFIG_FILE"; do
+        if [[ -f "$conf_file" ]]; then
+            while IFS= read -r line; do
+                [[ -z "$line" || "$line" =~ ^# ]] && continue
+                parse_project_def "$line"
+            done <"$conf_file"
+        else
+            write_verbose_message "configuration file '$conf_file' not found"
+        fi
+    done
 fi
 
 # Append command-line PROJECT_DIRS to PROJECT_DEFS
@@ -507,7 +531,7 @@ FIRST_WIN_INDEX=""
 for index in "${!PROJECT_DEFS[@]}"; do
     def="${PROJECT_DEFS[$index]}"
     IFS="|" read -r focus window_name cols panes launch_def dir <<<"$def"
-    WIN_NAME="${window_name:-$(basename "$dir")}"
+    WIN_NAME="${window_name:-$(get_window_name "$dir")}"
     if ! session_exists "$SESSION_NAME"; then
         tmux_cmd new-session -d -s "$SESSION_NAME" -c "$dir" -n "$WIN_NAME"
         if [[ $TDE_TEST == true ]]; then
@@ -543,4 +567,17 @@ done
 if [[ -n "$FIRST_WIN_INDEX" ]]; then
     tmux_cmd select-window -t "$SESSION_NAME:$FIRST_WIN_INDEX"
 fi
+
+# Source and execute optional tmux command files
+if [[ -z "$TMUX_FILE" ]]; then
+    TMUX_FILE="$conf_dir/${SESSION_NAME}.tmux"
+fi
+for tmux_file in "$conf_dir/_default.tmux" "$TMUX_FILE"; do
+    if [[ -f "$tmux_file" ]]; then
+        tmux_cmd source-file -t "$SESSION_NAME:" "$tmux_file"
+    else
+        write_verbose_message "tmux command file '$tmux_file' not found"
+    fi
+done
+
 attach_session "$SESSION_NAME"
