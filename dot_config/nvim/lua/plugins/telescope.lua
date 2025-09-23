@@ -52,29 +52,32 @@ return {
           additional_args = { '--hidden' },
         })
       end
-      vim.keymap.set('n', '<M-\\>', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fb', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>.', list_buffers, { desc = "List buffers" })
-      vim.keymap.set('n', '<Leader>fo', list_oldfiles, { desc = "List previously opened files" })
-      vim.keymap.set('n', '<Leader>ff', find_files, { desc = "Find files" })
-      vim.keymap.set('n', '<C-M-\\>', find_files, { desc = "Find files" })
-      vim.keymap.set('n', '<Leader>fc', builtin.current_buffer_fuzzy_find, { desc = "Current buffer fuzzy find" })
-      vim.keymap.set('n', '<Leader>fg', live_grep, { desc = "Live-grep files" })
-      vim.keymap.set('n', '<leader>fG', function()
+      vim.keymap.set({ 'n', 'v' }, '<M-\\>', list_buffers, { desc = "List buffers" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fb', list_buffers, { desc = "List buffers" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>.', list_buffers, { desc = "List buffers" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fo', list_oldfiles, { desc = "List previously opened files" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>ff', find_files, { desc = "Find files" })
+      vim.keymap.set({ 'n', 'v' }, '<C-M-\\>', find_files, { desc = "Find files" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fc', builtin.current_buffer_fuzzy_find,
+        { desc = "Current buffer fuzzy find" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fg', live_grep, { desc = "Live-grep files" })
+      vim.keymap.set({ 'n', 'v' }, '<leader>fG', function()
         builtin.live_grep({ search_dirs = { vim.fn.expand('%:p') } })
       end, { desc = "Live-grep current file" })
-      vim.keymap.set('n', '<Leader>fh', builtin.highlights, { desc = "List highlights" })
-      vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
-      vim.keymap.set('n', '<Leader>cd', builtin.diagnostics, { desc = "List diagnostic messages with Telescope" })
-      vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = "Resume last Telescope picker" })
-      vim.keymap.set('n', '<Leader>hh', builtin.help_tags, { desc = "Search documentation" })
-      vim.keymap.set('n', '<Leader>fp', function()
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fh', builtin.highlights, { desc = "List highlights" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fk', builtin.keymaps, { desc = "List normal mode key mappings" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fw', builtin.grep_string, { desc = "Search files for word or selection" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>cd', builtin.diagnostics,
+        { desc = "List diagnostic messages with Telescope" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fr', builtin.resume, { desc = "Resume last Telescope picker" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>hh', builtin.help_tags, { desc = "Search documentation" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>fp', function()
         builtin.live_grep({
           cwd = vim.fn.stdpath('data') .. '/lazy/'
         })
       end, { desc = "Live-grep plugin files" })
-      vim.keymap.set('n', '<Leader>cr', builtin.lsp_references, { desc = "List references to word under cursor" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>cr', builtin.lsp_references,
+        { desc = "List references to word under cursor" })
       local symbols = {
         'function',
         'method',
@@ -85,10 +88,10 @@ return {
         'enum',
         'constant',
         'type', }
-      vim.keymap.set('n', '<Leader>cs', function()
+      vim.keymap.set({ 'n', 'v' }, '<Leader>cs', function()
         require('telescope.builtin').lsp_document_symbols({ symbols = symbols })
       end, { noremap = true, silent = true, desc = "List symbols" })
-      vim.keymap.set('n', '<Leader>cS', function()
+      vim.keymap.set({ 'n', 'v' }, '<Leader>cS', function()
         require('telescope.builtin').lsp_dynamic_workspace_symbols({ symbols = symbols })
       end, { noremap = true, silent = true, desc = "Live-grep workspace symbols" })
     end,
@@ -144,7 +147,7 @@ return {
         }
       }
       telescope.load_extension('heading')
-      vim.keymap.set('n', '<Leader>ms', telescope.extensions.heading.heading,
+      vim.keymap.set({ 'n', 'v' }, '<Leader>ms', telescope.extensions.heading.heading,
         { desc = "Markdown section headers picker" })
     end,
   },
