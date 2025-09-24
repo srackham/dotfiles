@@ -78,7 +78,6 @@ alias gl="git log --graph --color=always --pretty=format:'%C(auto)%h %Cgreen%cr%
 alias gls="git ls-files"
 alias grep="grep --color=auto"
 alias gst="git status --short 2>/dev/null"
-alias gt="tmux capture-pane -p -S - | rg --color=always"  # grep tmux current pane
 alias gw="./gradlew --console plain"
 {{if eq .chezmoi.osRelease.id "manjaro"}}
 alias hx="helix"
@@ -91,6 +90,9 @@ alias lr="eza -laHgs modified"
 
 alias nls="npm list --depth 0 --silent"
 alias ocr="xclip -selection clipboard -t image/png -o | tesseract -l eng - - 2>/dev/null"
+
+alias ta="tmux attach"
+alias tg="tmux capture-pane -p -S - | rg --color=always"  # grep tmux current pane
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
