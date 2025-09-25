@@ -58,10 +58,10 @@ OPTIONS
 
     -t, --tmux-file TMUX_FILE
         Specify the path of a file containing tmux commands. TMUX_FILE is
-        sourced and its commands executed before tde exits. If this option is
-        not specified tde sources the optional '_default.tmux' file followed by
-        the optional '<session-name>.tmux' file from the configuration files
-        directory.
+        sourced and its commands executed immediately following tmux session
+        creation. If this option is not specified tde sources the optional
+        '_default.tmux' file followed by the optional '<session-name>.tmux' file
+        from the configuration files directory.
 
     -s, --session SESSION_NAME
         Specify the tmux session name. The --session option determines the
@@ -141,12 +141,16 @@ PROJECT_DIRS=()
 PROJECT_DEFS=() # Project workspaces (options and workspace directory)
 
 write_error_msg() {
-    echo "$(basename "$0"): $1" >&2
+    echo "$(basename "$0"): error: $1" >&2
+}
+
+write_warning_msg() {
+    echo "$(basename "$0"): warning: $1" >&2
 }
 
 write_verbose_message() {
     if [[ -n "$VERBOSE" ]]; then
-        echo "$1"
+        echo "$(basename "$0"): $1" >&2
     fi
 }
 
@@ -155,7 +159,11 @@ session_exists() {
     if [[ $TDE_TEST == true ]]; then
         [[ "$TDE_SESSION_CREATED" == true || "$TDE_CLIENT_COUNT" -gt 0 ]]
     else
-        tmux has-session -t "$session_name" 2>/dev/null
+        if [[ -n $DRY_RUN ]]; then
+            tmux has-session -t "$session_name" 2>/dev/null || [[ "$TDE_SESSION_CREATED" == true ]]
+        else
+            tmux has-session -t "$session_name" 2>/dev/null
+        fi
     fi
 }
 
@@ -192,16 +200,16 @@ attach_session() {
         client_count=$(attached_client_count "$session_name")
         if [[ $client_count -ne 0 ]]; then
             local msg
-            msg="warning: tmux session '$session_name' is attached to $client_count other client terminal"
+            msg="tmux session '$session_name' is attached to $client_count other client terminal"
             if [[ $client_count -ne 1 ]]; then
                 msg="${msg}s"
             fi
-            write_error_msg "$msg"
+            write_warning_msg "$msg"
         fi
         tmux_cmd attach-session -t "$session_name"
         return
     fi
-    write_error_msg "warning: refusing to attach nested tmux session '$session_name' inside tmux session '$(current_session)'"
+    write_warning_msg "refusing to attach nested tmux session '$session_name' inside tmux session '$(current_session)'"
 }
 
 # Print or execute tmux commands
@@ -209,7 +217,7 @@ tmux_cmd() {
     if [[ -n "$DRY_RUN" || $TDE_TEST == true ]]; then
         echo "tmux $*"
     else
-        write_verbose_message "tmux $*"
+        write_verbose_message "info: tmux $*"
         tmux "$@"
     fi
 }
@@ -507,7 +515,7 @@ if ! session_exists "$SESSION_NAME"; then
                 parse_project_def "$line"
             done <"$conf_file"
         else
-            write_verbose_message "configuration file '$conf_file' not found"
+            write_verbose_message "info: configuration file '$conf_file' not found"
         fi
     done
 fi
@@ -533,13 +541,25 @@ for index in "${!PROJECT_DEFS[@]}"; do
     IFS="|" read -r focus window_name cols panes launch_def dir <<<"$def"
     WIN_NAME="${window_name:-$(get_window_name "$dir")}"
     if ! session_exists "$SESSION_NAME"; then
+        # Create session
         tmux_cmd new-session -d -s "$SESSION_NAME" -c "$dir" -n "$WIN_NAME"
-        if [[ $TDE_TEST == true ]]; then
+        if [[ -n "$DRY_RUN" || $TDE_TEST == true ]]; then
             TDE_SESSION_CREATED=true # So the session is not created again
         fi
+        # Source and execute optional tmux command files
+        if [[ -z "$TMUX_FILE" ]]; then
+            TMUX_FILE="$conf_dir/${SESSION_NAME}.tmux"
+        fi
+        for tmux_file in "$conf_dir/_default.tmux" "$TMUX_FILE"; do
+            if [[ -f "$tmux_file" ]]; then
+                tmux_cmd source-file -t "$SESSION_NAME:" "$tmux_file"
+            else
+                write_verbose_message "info: tmux command file '$tmux_file' not found"
+            fi
+        done
     else
         if grep -Fxq "$WIN_NAME" <<<"$EXISTING_WINDOWS"; then
-            write_error_msg "duplicate project workspace name: '$WIN_NAME' exists in session '$SESSION_NAME', skipping"
+            write_warning_msg "duplicate project workspace name: '$WIN_NAME' exists in session '$SESSION_NAME', skipping"
             continue
         fi
         tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
@@ -567,17 +587,5 @@ done
 if [[ -n "$FIRST_WIN_INDEX" ]]; then
     tmux_cmd select-window -t "$SESSION_NAME:$FIRST_WIN_INDEX"
 fi
-
-# Source and execute optional tmux command files
-if [[ -z "$TMUX_FILE" ]]; then
-    TMUX_FILE="$conf_dir/${SESSION_NAME}.tmux"
-fi
-for tmux_file in "$conf_dir/_default.tmux" "$TMUX_FILE"; do
-    if [[ -f "$tmux_file" ]]; then
-        tmux_cmd source-file -t "$SESSION_NAME:" "$tmux_file"
-    else
-        write_verbose_message "tmux command file '$tmux_file' not found"
-    fi
-done
 
 attach_session "$SESSION_NAME"
