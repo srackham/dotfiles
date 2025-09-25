@@ -33,12 +33,14 @@ bind-key -n F11 resize-pane -Z # Toggle full-screen
 bind-key -n M-z resize-pane -Z # Toggle full-screen
 
 # Pane key bindings
-bind-key -n M-0 split-window -v -c "#{pane_current_path}" \; resize-pane -D -y 100%  # Create new full-height pane
-bind-key -n M-1 select-pane -Z -t 1 \; resize-pane -D -y 100%                        # Select panes 1..4 with M-1..M-4
+bind-key -n M-] select-pane -t :.+                                                  # Cycle forwards through panes
+bind-key -n M-[ select-pane -t :.-                                                  # Cycle backwards through panes
+bind-key -n M-0 split-window -v -c "#{pane_current_path}" \; resize-pane -D -y 100% # Create new full-height pane
+bind-key -n M-1 select-pane -Z -t 1 \; resize-pane -D -y 100%                       # Select panes 1..4 with M-1..M-4
 bind-key -n M-2 select-pane -Z -t 2 \; resize-pane -D -y 100%
 bind-key -n M-3 select-pane -Z -t 3 \; resize-pane -D -y 100%
 bind-key -n M-4 select-pane -Z -t 4 \; resize-pane -D -y 100%
-bind-key -n M-e select-pane -Z -l \; resize-pane -D -y 100%                          # Previous active pane
+bind-key -n M-e select-pane -Z -l \; resize-pane -D -y 100%                         # Previous active pane
 # Command-line recall in pane 2 (or pane 1 if there is only one pane)
 bind-key -n M-r if-shell "[[ \$(tmux list-panes | wc -l) -eq 1 ]]" \
     "select-pane -Z -t 1 \; resize-pane -D -y 100% \; send-keys M-r" \
@@ -52,8 +54,8 @@ bind-key -n M-u select-pane -Z -t 2 \; resize-pane -D -y 100% \; select-pane -Z 
 
 # Window key bindings
 bind-key -n M-w last-window                        # Previous active window
-bind-key -n M-] next-window                        # Cycle forwards through windows
-bind-key -n M-[ previous-window                    # Cycle backwards through windows
+bind-key -n 'M-}' next-window                      # Cycle forwards through windows
+bind-key -n 'M-{' previous-window                  # Cycle backwards through windows
 bind-key k kill-window
 bind-key > swap-window -t:+ \; select-window -t:+  # Swap window right
 bind-key < swap-window -t:- \; select-window -t:-  # Swap window left
