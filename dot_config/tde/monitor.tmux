@@ -1,6 +1,7 @@
 # vim: set filetype=tmux:
 #
 # monitor session customisation (see ~/.config/tde/monitor.conf)
+# 256 terminal colors: https://robotmoon.com/256-colors/
 #
 
 # See X11 color names: https://www.w3schools.com/colors/default.asp
