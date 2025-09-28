@@ -30,14 +30,6 @@ return {
         vim.cmd('OutlineOpen')
       end
     end
-    local function toggle_outline()
-      if outline_is_open() then
-        vim.cmd('OutlineClose')
-      else
-        vim.cmd('OutlineOpen')
-      end
-    end
     vim.keymap.set('n', '<M-o>', toggle_focus, { desc = 'Toggle outline focus' })
-    vim.keymap.set('n', '<M-S-o>', toggle_outline, { desc = 'Toggle outline visibility' })
   end,
 }
