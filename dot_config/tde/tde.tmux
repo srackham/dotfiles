@@ -7,6 +7,9 @@
 # tde tmux configuration
 #
 
+# Layout options
+set-option main-pane-width 50%
+
 # Set pane styles
 set-option pane-border-lines heavy
 set-option pane-border-style fg=color240
