@@ -64,6 +64,7 @@
 :iab Nv Neovim
 :iab NO Novus Ordo
 :iab VO Vetus Ordo
+:iab TLM Tridentine Latin Mass
 :iab Ob Obsidian
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
