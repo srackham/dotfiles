@@ -31,3 +31,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.cmd([[%s/\s\+$//e]])
   end,
 })
+
+-- Highlight text on yank
+-- Create an augroup to avoid duplicate autocmds on reload
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = highlight_group,
+  callback = function()
+    vim.highlight.on_yank({ higroup = "Search", timeout = 500 })
+  end,
+})
