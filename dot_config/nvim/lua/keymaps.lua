@@ -37,19 +37,19 @@ end, { expr = true })
 
 -- Install custom next/previous commands.
 map_next_prev(
-  ']d', function() vim.diagnostic.goto_next({ float = false }) end,
-  '[d', function() vim.diagnostic.goto_prev({ float = false }) end,
+  ']d', function() vim.diagnostic.jump({ count = 1, float = false }) end,
+  '[d', function() vim.diagnostic.jump({ count = -1, float = false }) end,
   "diagnostic message")
 map_next_prev(']g', 'Gitsigns next_hunk', '[g', 'Gitsigns prev_hunk', "Git hunk")
 map_next_prev(
   ']q', function()
-    local success, _ = pcall(vim.cmd, 'cnext')
+    local success, _ = pcall(function() vim.cmd('cnext') end)
     if not success then
       vim.cmd('cfirst')
     end
   end,
   '[q', function()
-    local success, _ = pcall(vim.cmd, 'cprev')
+    local success, _ = pcall(function() vim.cmd('cprev') end)
     if not success then
       vim.cmd('clast')
     end
@@ -212,7 +212,7 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>hw', function()
 end, { desc = "Open help for word under cursor or selected text" })
 
 -- Spelling commands
-local spellfile_path = vim.fn.expand(vim.opt.spellfile:get()[1])
+local spellfile_path = vim.api.nvim_get_option_value("spellfile", {})
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = spellfile_path,
   command = 'mkspell! ' .. spellfile_path, -- Automatically reloads in all buffers with spelling enabled
@@ -253,7 +253,7 @@ local function close_window()
   local success = pcall(function() vim.cmd('close') end)
   if not success then
     local current_buf_id = vim.api.nvim_get_current_buf()
-    local is_modified = vim.api.nvim_buf_get_option(current_buf_id, 'modified')
+    local is_modified = vim.api.nvim_get_option_value('modified', { buf = current_buf_id })
     if is_modified then
       vim.notify("Cannot close window: buffer has unsaved changes", vim.log.levels.ERROR)
     else
