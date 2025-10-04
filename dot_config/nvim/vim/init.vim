@@ -30,7 +30,7 @@
 :iab Confs configurations
 :iab Ctk Christ the King
 :iab Cwd current working directory
-:iab Cz Chezmoi
+:iab Cz chezmoi
 :iab Dir directory
 :iab Dirs directories
 :iab Docs documentation
