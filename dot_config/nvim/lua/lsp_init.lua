@@ -1,5 +1,5 @@
 -- Load LSP config files in ~/.config/nvim/lsp/ then activate the LSP servers.
-vim.lsp.enable({ 'lua_ls', 'tsserver', 'denols', 'rust_analyser', 'bashls', 'marksman' })
+vim.lsp.enable({ 'lua_ls', 'tsserver', 'denols', 'rust_analyser', 'bashls', 'marksman', 'gleam' })
 
 -- Shared diagnostic config
 vim.diagnostic.config {
