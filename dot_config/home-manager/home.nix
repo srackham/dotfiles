@@ -17,6 +17,7 @@
     dig
     eza
     fd
+    ffmpeg
     fio
     fzf
     gcc
@@ -38,11 +39,13 @@
     neovim
     nethogs
     nil
+    nixd
     nixfmt-rfc-style
     prettierd
     rclone
     ripgrep
     sd
+    shellcheck
     smartmontools
     tesseract
     tmux
