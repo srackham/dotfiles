@@ -26,6 +26,8 @@ __git_files() {
 if command -v jj &>/dev/null; then
     source <(jj util completion zsh)
 fi
+# KLUDGE: Set default tab completion functions to fix false positives on NixOS (see ~/notes/zsh-notes.md)
+zstyle ':completion:*' completer _files _complete
 
 bindkey -v                  # vi command-line editing
 setopt interactive_comments # allow # comments in shell; good for copy/paste
