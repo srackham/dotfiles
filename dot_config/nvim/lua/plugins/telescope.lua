@@ -53,7 +53,7 @@ return {
         })
       end
       vim.keymap.set({ 'n', 'v' }, '<M-\\>', list_buffers, { desc = "List buffers" })
-      vim.keymap.set({ 'n', 'v' }, '<Leader>fb', list_buffers, { desc = "List buffers" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>bb', list_buffers, { desc = "List buffers" })
       vim.keymap.set({ 'n', 'v' }, '<Leader>.', list_buffers, { desc = "List buffers" })
       vim.keymap.set({ 'n', 'v' }, '<Leader>fo', list_oldfiles, { desc = "List previously opened files" })
       vim.keymap.set({ 'n', 'v' }, '<Leader>ff', find_files, { desc = "Find files" })

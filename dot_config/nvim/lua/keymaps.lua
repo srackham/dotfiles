@@ -240,6 +240,12 @@ local function toggle_spell_checker()
 end
 vim.keymap.set('n', '<Leader>st', toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 
+-- Buffer commands
+vim.keymap.set('n', '<Leader>bd', '<Cmd>bd!<CR>',
+  { noremap = true, silent = false, desc = "Discard current buffer" })
+vim.api.nvim_set_keymap('n', '<Leader>bD', '<Cmd>%bd|e#|bd#<CR>',
+  { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
+
 -- Windows commands
 local function close_window()
   -- Close the current window. If the `close` command fails (it won't close the last window on a buffer) then,
@@ -255,7 +261,6 @@ local function close_window()
     end
   end
 end
-vim.keymap.set('n', '<Leader>wd', '<Cmd>bdelete!<CR>', { noremap = true, silent = false, desc = "Discard buffer" })
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
