@@ -43,16 +43,10 @@ map_next_prev(
 map_next_prev(']g', 'Gitsigns next_hunk', '[g', 'Gitsigns prev_hunk', "Git hunk")
 map_next_prev(
   ']q', function()
-    local success, _ = pcall(function() vim.cmd('cnext') end)
-    if not success then
-      vim.cmd('cfirst')
-    end
+    pcall(function() vim.cmd('cnext') end)
   end,
   '[q', function()
-    local success, _ = pcall(function() vim.cmd('cprev') end)
-    if not success then
-      vim.cmd('clast')
-    end
+    pcall(function() vim.cmd('cprev') end)
   end, "Quickfix")
 map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
