@@ -32,6 +32,9 @@ DESCRIPTION
     The first newly created workspace window is selected and the session is
     attached to the client terminal.
 
+    Explicit command-line options take precedence over configuration file
+    options.
+
 OPTIONS
      -n, --dry-run
         Print tmux commands without doing anything. '999' is a dummy value for
@@ -70,7 +73,7 @@ OPTIONS
        replaced with hyphens.
 
     -v, --verbose
-        Print tmux commands.
+        Print informational messages and tmux commands.
 
 CONFIGURATION FILES
     Each session has two optional configuration files: '<session-name>.tde' and
@@ -299,6 +302,7 @@ parse_project_def() {
 
     local panes="$PANES"
     local focus="$FOCUS"
+    local session=""
     local layout="$LAYOUT"
     local window_name="$WINDOW_NAME"
     local launches=("${LAUNCH_OPTS[@]}")
@@ -325,6 +329,13 @@ parse_project_def() {
             validate_layout "$layout"
             args=("${args[@]:2}")
             ;;
+        -s | --session)
+            session="${args[1]}"
+            if [[ -n "$session" ]]; then
+                validate_session "$session"
+            fi
+            args=("${args[@]:2}")
+            ;;
         -w | --window-name)
             window_name="${args[1]}"
             validate_window_name "$window_name"
@@ -343,7 +354,7 @@ parse_project_def() {
 
     dir=$(eval echo "$dir") # Expand ~ and $HOME
 
-    PROJECT_DEFS+=("$layout|$focus|$window_name|$panes|$(
+    PROJECT_DEFS+=("$session|$layout|$focus|$window_name|$panes|$(
         IFS=$'\t'
         echo "${launches[*]}"
     )|$dir")
@@ -374,7 +385,7 @@ window_index_by_name() {
 validate_project_defs() {
     for def in "${PROJECT_DEFS[@]}"; do
         # echo "def: $def"
-        IFS="|" read -r layout focus window_name panes launch_def dir <<<"$def"
+        IFS="|" read -r session layout focus window_name panes launch_def dir <<<"$def"
 
         IFS=$'\t' read -ra launches <<<"$launch_def"
         for launch in "${launches[@]}"; do
@@ -492,7 +503,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ $TDE_TEST == true ]]; then
+if [[ -n "$TDE_CONFIG_DIR" ]]; then
     conf_dir="${TDE_CONFIG_DIR}"
 else
     conf_dir="${XDG_CONFIG_HOME:-$HOME/.config/tde}"
@@ -529,7 +540,10 @@ EXISTING_WINDOWS="$(existing_windows "$SESSION_NAME")"
 FIRST_WIN_INDEX=""
 for index in "${!PROJECT_DEFS[@]}"; do
     def="${PROJECT_DEFS[$index]}"
-    IFS="|" read -r layout focus window_name panes launch_def dir <<<"$def"
+    IFS="|" read -r session layout focus window_name panes launch_def dir <<<"$def"
+    if [[ -n "$session" ]]; then
+        SESSION_NAME="$session"
+    fi
     WIN_NAME="${window_name:-$(get_window_name "$dir")}"
     if ! session_exists "$SESSION_NAME"; then
         # Create session
@@ -544,15 +558,17 @@ for index in "${!PROJECT_DEFS[@]}"; do
         fi
         tmux_cmd new-window -t "$SESSION_NAME:" -c "$dir" -n "$WIN_NAME"
     fi
-    # Source and execute optional tmux configuration file
+
+    WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
+
+    # Source and execute optional tmux window configuration file
     tmux_file="$conf_dir/${SESSION_NAME}.tmux"
     if [[ -f "$tmux_file" ]]; then
-        tmux_cmd source-file -t "$SESSION_NAME:" "$tmux_file"
+        tmux_cmd source-file -t "$SESSION_NAME:$WIN_INDEX" "$tmux_file"
     else
         write_verbose_msg "tmux configuration file '$tmux_file' not found"
     fi
 
-    WIN_INDEX="$(window_index_by_name "$SESSION_NAME" "$WIN_NAME")"
     tmux_cmd set-option -t "$SESSION_NAME:$WIN_INDEX" pane-base-index 1
     FIRST_WIN_INDEX="${FIRST_WIN_INDEX:=$WIN_INDEX}"
 
