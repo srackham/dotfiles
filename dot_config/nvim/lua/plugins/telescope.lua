@@ -30,6 +30,14 @@ return {
         },
       })
 
+      -- Wrap text in the preview window
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "TelescopePreviewerLoaded",
+        callback = function(_)
+          vim.wo.wrap = true
+        end,
+      })
+
       -- Key bindings
       local list_buffers = function()
         vim.cmd("OutlineFocusCode")
