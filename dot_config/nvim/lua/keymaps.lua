@@ -156,6 +156,23 @@ vim.keymap.set('n', '<Leader>fR', function()
   end
 end, { noremap = true, silent = true, desc = "Rename current file" })
 
+local function toggle_case_sensitivity()
+  -- Use the raw Nvim API to get the value, which avoids the vim.opt.smartcase:get() warning
+  local smartcase_enabled = vim.api.nvim_get_option_value("smartcase", {})
+  if smartcase_enabled then
+    vim.opt.smartcase = false
+    vim.opt.ignorecase = false
+    vim.notify("Search: Case Sensitive")
+  else
+    -- This combination enables the "smartcase" behavior.
+    vim.opt.smartcase = true
+    vim.opt.ignorecase = true
+    vim.notify("Search: Smart Case")
+  end
+end
+vim.keymap.set('n', '<Leader>fc', toggle_case_sensitivity,
+  { desc = 'Toggle search case sensitivity (smartcase ↔ case sensitive)' })
+
 -- Insert mode motion commands
 vim.keymap.set('i', '<C-h>', '<C-o>h',
   { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })
