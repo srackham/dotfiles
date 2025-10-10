@@ -20,3 +20,14 @@ vim.keymap.set("n", "<Leader>cD", function()
   local status = enable and "enabled" or "disabled"
   vim.notify("Diagnostics virtual text " .. status)
 end, { desc = "Toggle diagnostics virtual text" })
+
+-- Auto-format files on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    -- Ignore errors for file types without formatters
+    pcall(function()
+      vim.lsp.buf.format({ async = false })
+    end)
+  end,
+})
