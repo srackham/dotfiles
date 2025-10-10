@@ -1,29 +1,27 @@
 #
 # List of project directories opened by ~/bin/ode
 #
+
+# Subsequent defaults
+-l 1:nvim -l 3:lazygit -
+
 -p 2 -l 1:nvim $HOME/notes
-
-#--panes 4 -l 2:htop -l '3:sudo iotop' -l '4:sudo nethogs' --window-name monitor --layout "19e9,317x74,0,0{105x74,0,0,29,105x74,106,0,30,105x74,212,0[105x37,212,0,31,105x36,212,38,33]}" ~
-
 -p 3 -l 1:nvim ~/.config/nvim
--p 3 -l 1:nvim -l 3:lazygit ~/projects/chezmoi
---panes 3 --launch 1:nvim --launch 3:lazygit ~/nixos-configurations
+~/projects/chezmoi
+~/nixos-configurations
+~/projects/tde
+~/.local/share/nvim/lazy/markdown-blocks.nvim
+-p 1 -l 1:clear $HOME/doc
 
-
-#-p 3 -l 1:nvim -l 3:lazygit ~/projects/go-utils
-#-p 3 -l 1:nvim -l 3:lazygit ~/projects/cryptor
-#-p 3 -l 1:nvim -l 3:lazygit ~/projects/ccp
-#-p 3 -l 1:nvim -l 3:lazygit ~/projects/xrate
-
--p 4 -l 1:nvim -l 3:lazygit ~/projects/tde
-# -p 3 -l 1:nvim -l 3:lazygit ~/projects/mknotes
-# -p 3 -l 1:nvim -l 3:lazygit ~/.local/share/nvim/lazy/digraph-picker.nvim
--p 3 -l 1:nvim -l 3:lazygit ~/.local/share/nvim/lazy/markdown-blocks.nvim
-
-#~/.local/share/nvim/lazy/obsidian.nvim
-#-p 3 -l 1:nvim -l 3:lazygit ~/projects/obsidian.nvim.wiki
-#~/projects/obsidian-experimentation
-#~/projects/git-experimentation
-
-# $HOME/doc
+# -l 2:htop -l '3:sudo iotop' -l '4:sudo nethogs' --window-name monitor --layout "19e9,317x74,0,0{105x74,0,0,29,105x74,106,0,30,105x74,212,0[105x37,212,0,31,105x36,212,38,33]}" ~
+# ~/projects/go-utils
+# ~/projects/cryptor
+# ~/projects/ccp
+# ~/projects/xrate
+# ~/projects/mknotes
+# ~/.local/share/nvim/lazy/digraph-picker.nvim
+# ~/.local/share/nvim/lazy/obsidian.nvim
+# -p 3 -l 1:nvim -l 3:lazygit ~/projects/obsidian.nvim.wiki
+# ~/projects/obsidian-experimentation
+# ~/projects/git-experimentation
 # -p 2 -l 1:nvim ~/projects/forks/aichat
