@@ -87,6 +87,7 @@
 :iab Ui user interface
 :iab Uk United Kingdom
 :iab Usa United States of America
+:iab Vb VirtualBox
 :iab Vcs version control system
 :iab Vcss version control systems
 :iab Vsc VSCode

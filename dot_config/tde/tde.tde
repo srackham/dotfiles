@@ -13,7 +13,7 @@
 ~/.local/share/nvim/lazy/markdown-blocks.nvim
 -p 1 -l 1:clear $HOME/doc
 
-# -l 2:htop -l '3:sudo iotop' -l '4:sudo nethogs' --window-name monitor --layout "19e9,317x74,0,0{105x74,0,0,29,105x74,106,0,30,105x74,212,0[105x37,212,0,31,105x36,212,38,33]}" ~
+# -l 2:btop -l '3:sudo iotop' -l '4:sudo nethogs' --window-name monitor --layout "19e9,317x74,0,0{105x74,0,0,29,105x74,106,0,30,105x74,212,0[105x37,212,0,31,105x36,212,38,33]}" ~
 # ~/projects/go-utils
 # ~/projects/cryptor
 # ~/projects/ccp

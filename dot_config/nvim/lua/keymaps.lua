@@ -162,12 +162,12 @@ local function toggle_case_sensitivity()
   if smartcase_enabled then
     vim.opt.smartcase = false
     vim.opt.ignorecase = false
-    vim.notify("Search: Case Sensitive")
+    vim.notify("Search: Case Sensitive", vim.log.levels.INFO)
   else
     -- This combination enables the "smartcase" behavior.
     vim.opt.smartcase = true
     vim.opt.ignorecase = true
-    vim.notify("Search: Smart Case")
+    vim.notify("Search: Smart Case", vim.log.levels.INFO)
   end
 end
 vim.keymap.set('n', '<Leader>fc', toggle_case_sensitivity,
