@@ -262,6 +262,12 @@ vim.keymap.set('n', '<Leader>bd', '<Cmd>bd!<CR>',
   { noremap = true, silent = false, desc = "Discard current buffer" })
 vim.api.nvim_set_keymap('n', '<Leader>bD', '<Cmd>%bd|e#|bd#<CR>',
   { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
+vim.keymap.set('n', '<Leader>fD', function()
+  local file = vim.api.nvim_buf_get_name(0)
+  vim.api.nvim_buf_delete(0, { force = true })
+  os.remove(file)
+end, { noremap = true, silent = true, desc = "Discard the current buffer and delete the underlying file" })
+
 
 -- Windows commands
 local function close_window()
