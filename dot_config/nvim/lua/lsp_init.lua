@@ -14,7 +14,7 @@ vim.keymap.set("n", "<Leader>cA", vim.lsp.buf.code_action, { desc = "Code action
 vim.keymap.set("n", "<Leader>cf", function()
   vim.lsp.buf.format { async = true }
 end, { desc = "Format buffer" })
-vim.keymap.set("n", "<Leader>cD", function()
+vim.keymap.set("n", "<Leader>cv", function()
   local enable = not vim.diagnostic.config().virtual_text
   vim.diagnostic.config { virtual_text = enable }
   local status = enable and "enabled" or "disabled"
