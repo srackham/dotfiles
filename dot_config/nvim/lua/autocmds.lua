@@ -1,7 +1,8 @@
 -- Auto-save on focus lost
 vim.api.nvim_create_autocmd('FocusLost', {
   pattern = '*',
-  command = 'silent! wa'
+  command = 'silent! wa',
+  nested = true,
 })
 
 -- Disable automatic line comment insertion for all filetypes
@@ -40,5 +41,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   callback = function()
     vim.highlight.on_yank({ higroup = "Search", timeout = 500 })
+  end,
+})
+
+-- Auto-format files on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    -- Ignore errors for file types without formatters
+    pcall(function()
+      vim.lsp.buf.format({ async = false })
+    end)
   end,
 })
