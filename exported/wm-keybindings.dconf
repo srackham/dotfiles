@@ -1,6 +1,6 @@
 [/]
 activate-window-menu=['disabled']
-close=['<Alt>F4', '<Alt>q']
+close=['<Alt>F4', '<Shift><Alt>q']
 cycle-group=['<Alt>F6']
 cycle-windows=['disabled']
 cycle-windows-backward=['disabled']
