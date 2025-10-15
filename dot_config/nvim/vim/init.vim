@@ -90,6 +90,8 @@
 :iab Vb VirtualBox
 :iab Vcs version control system
 :iab Vcss version control systems
+:iab Vm virtual machine
+:iab Vms virtual machines
 :iab Vsc VSCode
 :iab Wrt with respect to
 :iab Xp Christian

@@ -12,3 +12,5 @@ fav = ['141702961']
 show-sessions-type = 'fav'
 
 [ui_flutter]
+wm_Main = '{"width":800.0,"height":600.0,"offsetWidth":880.0,"offsetHeight":436.0,"isMaximized":false,"isFullscreen":false}'
+peer-sorting = 'Remote ID'
