@@ -33,8 +33,10 @@
     gotools
     htop
     iotop
+    iperf
     jq
     lazygit
+    lsof
     lua
     marksman
     neovim
