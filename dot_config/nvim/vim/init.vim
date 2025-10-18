@@ -49,6 +49,7 @@
 :iab H4 ####
 :iab H5 #####
 :iab H6 ######
+:ia6 Hw hardware
 :iab Id identifier
 :iab Ids identifiers
 :iab Imo In my opinion
