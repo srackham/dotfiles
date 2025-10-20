@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=xmodmap -e "keycode 127 = Escape"
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=Remap Pause to Escape
-Comment=Remap Pause key to Escape using xmodmap
