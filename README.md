@@ -5,6 +5,7 @@
 My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io/).
 
 ## Applications
+
 Here's the list of application configurations managed by Chezmoi:
 
 - bash
@@ -20,15 +21,27 @@ Here's the list of application configurations managed by Chezmoi:
 - Vimium (installed manually)
 - zsh
 
+## Installing and updating on secondary machines from Github repository
+
+My desktop machines NFS-mount my shared documents directory to `~/share`; the local chezmoi repository is in `~/share/projects/chezmoi` and it's just a matter of:
+
+1. Copying the `~/.config/chezmoi/chezmoi.toml` file from the primary desktop PC which points chezmoi to the shared NFS location.
+2. Run `chezmoi apply` to copy the chezmoi source files to their target locations.
+
+### Machines that do not have access to the NFS projects directory mounts
+
+See _Using chezmoi across multiple machines_ in `~/share/notes/chezmoi-notes.md`.
+
 ## Manually Exported/Imported Configurations
+
 The `exported` directory contains files that are managed manually:
 
-###  Browser Bookmarks
+### Browser Bookmarks
 
 Exported from Brave browser.
 
-* Open [Bookmarks Manager](brave://bookmarks/) (C-S-o).
-* Run the _Export bookmarks_ command in the ⋮ menu (vertical ellipsis menu, top right) and save bookmarks file to `~/.local/share/chezmoi/exported/bookmarks.html`.
+- Open [Bookmarks Manager](brave://bookmarks/) (C-S-o).
+- Run the _Export bookmarks_ command in the ⋮ menu (vertical ellipsis menu, top right) and save bookmarks file to `~/.local/share/chezmoi/exported/bookmarks.html`.
 
 ### GNOME Desktop key bindings
 
@@ -40,7 +53,7 @@ Exported from Brave browser.
   dconf dump /org/gnome/desktop/wm/keybindings/ > exported/wm-keybindings.dconf && \
   dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > exported/media-keys-keybindings.dconf && \
   dconf dump /org/gnome/shell/keybindings/ > exported/shell-keybindings.dconf
-    ```
+  ```
 
 - Use the dconf load command to restore custom GNOME key binding from the dump file. See `./exported/post-install-config.sh` for details.
 
@@ -50,6 +63,6 @@ dconf load /org/gnome/settings-daemon/plugins/media-keys/ < exported/media-keys-
 dconf load /org/gnome/shell/keybindings/ < exported/shell-keybindings.dconf
 ```
 
-###  Vimium Options
+### Vimium Options
 
 The Vimium browser extension options are in the `vimium-options.json` file. Manually save and restore them using the backup and restore commands on the _Backup and Restore_ section of the Vimium extension Options page.
