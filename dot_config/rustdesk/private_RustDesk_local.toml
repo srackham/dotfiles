@@ -1,16 +1,17 @@
-remote_id = '141702961'
+remote_id = '86382497'
 kb_layout_type = ''
 size = [
-    491,
-    269,
-    1252,
-    960,
+    0,
+    0,
+    0,
+    0,
 ]
-fav = ['141702961']
+fav = []
 
 [options]
-show-sessions-type = 'fav'
+remote-menubar-drag-right = '1.0'
+remote-menubar-drag-left = '0.0'
 
 [ui_flutter]
-wm_Main = '{"width":800.0,"height":600.0,"offsetWidth":880.0,"offsetHeight":436.0,"isMaximized":false,"isFullscreen":false}'
+wm_RemoteDesktop = '{"width":1932.0,"height":1120.0,"offsetWidth":324.0,"offsetHeight":186.0,"isMaximized":false,"isFullscreen":false}'
 peer-sorting = 'Remote ID'

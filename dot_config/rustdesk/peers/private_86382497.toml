@@ -1,0 +1,60 @@
+password = []
+size = [
+    0,
+    0,
+    0,
+    0,
+]
+size_ft = [
+    0,
+    0,
+    0,
+    0,
+]
+size_pf = [
+    0,
+    0,
+    0,
+    0,
+]
+view_style = 'original'
+scroll_style = 'scrollauto'
+image_quality = 'balanced'
+custom_image_quality = [50]
+show_remote_cursor = false
+lock_after_session_end = false
+terminal-persistent = false
+privacy_mode = false
+allow_swap_key = false
+port_forwards = []
+direct_failures = 1
+disable_audio = false
+disable_clipboard = false
+enable-file-copy-paste = true
+show_quality_monitor = false
+follow_remote_cursor = false
+follow_remote_window = false
+keyboard_mode = 'map'
+view_only = false
+sync-init-clipboard = false
+trackpad-speed = 100
+
+[options]
+codec-preference = 'auto'
+touch-mode = ''
+i444 = ''
+swap-left-right-mouse = ''
+custom-fps = '30'
+zoom-cursor = ''
+
+[ui_flutter]
+wm_RemoteDesktop = '{"width":1932.0,"height":1120.0,"offsetWidth":324.0,"offsetHeight":186.0,"isMaximized":false,"isFullscreen":false}'
+
+[info]
+username = 'srackham'
+hostname = 'dell7090'
+platform = 'Linux'
+
+[transfer]
+write_jobs = []
+read_jobs = []
