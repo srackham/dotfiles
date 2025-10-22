@@ -15,8 +15,7 @@ y = 10
 
 [keyboard]
 bindings = [
-  { key = "T", mods = "Control|Shift", action = "CreateNewWindow" },
-  { key = "V", mods = "Alt", action = "Paste" }
+  { key = "T", mods = "Control|Shift", action = "CreateNewWindow" }
 ]
 
 [cursor]

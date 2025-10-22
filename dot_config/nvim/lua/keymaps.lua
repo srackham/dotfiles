@@ -199,7 +199,6 @@ vim.keymap.set('v', '<Leader>ca', [[:<C-u>let @+ = @+ . join(getline("'<", "'>")
 vim.keymap.set('n', '<Leader>ca', [[:let @+ = @+ . getline(".") . "\n"<CR>]],
   { noremap = true, silent = true, desc = "Append line to clipboard" })
 
-vim.keymap.set({ 'n', 'v' }, '<M-v>', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>v', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
 vim.keymap.set('n', '<Leader>V', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
 
