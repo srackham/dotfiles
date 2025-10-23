@@ -61,8 +61,13 @@ alias l="bat --style=plain"
 alias cryptor="cryptor.arm64"
 {{end}}
 
-alias chezmoi-add-modified="chezmoi-dump-gnome-bindings && chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim ~/.config/rustdesk ~/share/bin/mknotes"
-alias chezmoi-dump-gnome-bindings='dconf dump /org/gnome/desktop/wm/keybindings/ > exported/wm-keybindings.dconf && dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > exported/media-keys-keybindings.dconf && dconf dump /org/gnome/shell/keybindings/ > exported/shell-keybindings.dconf'
+chezmoi_source="$(chezmoi source-path)"
+alias chezmoi-add-modified="chezmoi-dump-gnome-bindings && \
+    chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim"
+alias chezmoi-dump-gnome-bindings="dconf dump /org/gnome/desktop/wm/keybindings/ > $chezmoi_source/exported/wm-keybindings.dconf && \
+    dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > $chezmoi_source/exported/media-keys-keybindings.dconf && \
+    dconf dump /org/gnome/shell/keybindings/ > $chezmoi_source/exported/shell-keybindings.dconf"
+
 if [ -n "$WAYLAND_DISPLAY" ]; then
     alias clipboard-copy="wl-copy"
     alias clipboard-paste="wl-paste"
