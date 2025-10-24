@@ -200,7 +200,8 @@ vim.keymap.set('n', '<Leader>ca', [[:let @+ = @+ . getline(".") . "\n"<CR>]],
   { noremap = true, silent = true, desc = "Append line to clipboard" })
 
 vim.keymap.set({ 'n', 'v' }, '<Leader>v', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
-vim.keymap.set('n', '<Leader>V', '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>V', '"+P',
+  { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
 
 -- Edit commands
 vim.keymap.set('v', '<Leader>ed', [[:s/^\s*$\n//<CR>:nohlsearch<CR>]],
