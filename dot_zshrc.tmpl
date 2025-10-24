@@ -83,16 +83,3 @@ fi
 # Next/previous in command-line history
 bindkey '^n' down-line-or-history
 bindkey '^p' up-line-or-history
-
-# Bind Alt+Shift+R to repeat the previous terminal command
-repeat_last_command() {
-    BUFFER="$(fc -ln -1)"
-    zle accept-line
-}
-zle -N repeat_last_command
-bindkey '^[R' repeat_last_command
-
-# Bind Alt+R to fzf command history recall
-bindkey -M emacs '^[r' fzf-history-widget
-bindkey -M viins '^[r' fzf-history-widget
-bindkey -M vicmd '^[r' fzf-history-widget
