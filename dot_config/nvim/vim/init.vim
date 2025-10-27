@@ -70,6 +70,7 @@
 :iab Ob Obsidian
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
+:iab Os operating system
 :iab Otoh on the other hand
 :iab Pkm Personal Knowledge Management (PKM)
 :iab Pr pull request
