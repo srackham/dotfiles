@@ -8,7 +8,7 @@ set-option pane-border-style fg=color240
 set-option pane-active-border-style fg=green
 
 # Format status line
-set-option status-left "#[bg=color227,bold] #{pane_index} "
+set-option status-left "#[bg=color227,bold] #{session_name} "
 set-option status-right  "#[bg=color227] #H #[bg=color190] %H:%M  %a %d %b %Y "
 
 set-option status-style bg=green,fg=black

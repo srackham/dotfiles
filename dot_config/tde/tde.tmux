@@ -11,10 +11,8 @@ set-option pane-border-style fg=color240
 set-option pane-active-border-style fg=green
 
 # Format status line
-set-option status-left "#[bg=color227,bold] #{pane_index} "
-# NOTE: The tmux-cpu plugin doesn't work when set here (see tmux.conf).
-# set-option status-right  "#[bg=color227] #H #[bg=color190] %H:%M  %a %d %b %Y "
-# set-option status-right  "#[bg=color227] #H   #{cpu_percentage}   #{ram_percentage} #[bg=color190] %H:%M  %a %d %b %Y "
+set-option status-left "#[bg=color227,bold] #{session_name} "
+set-option status-right  "#[bg=color227] #H #[bg=color190] %H:%M  %a %d %b %Y "
 
 set-option status-style bg=green,fg=black
 set-option window-status-current-style bg=color190,fg=black,bold
