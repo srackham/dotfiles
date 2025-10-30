@@ -89,6 +89,7 @@ return {
       },
       legacy_commands = false,
       footer = { enabled = false, },
+      checkbox = { create_new = false }, -- Don't create checkbox on list item when Enter is pressed (https://github.com/orgs/obsidian-nvim/discussions/228#discussioncomment-14798465)
     }
 
     vim.api.nvim_create_autocmd("FileType", {
