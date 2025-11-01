@@ -1,6 +1,6 @@
 # vim: set filetype=tmux:
 
-# tde default theme
+# tde default tmux commands
 
 # Layout options
 set-option main-pane-width 50%

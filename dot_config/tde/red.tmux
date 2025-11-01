@@ -1,6 +1,6 @@
 # vim: set filetype=tmux:
 
-# tde theme file
+# tde tmux commands file
 
 # Set pane styles
 set-option pane-border-lines heavy
