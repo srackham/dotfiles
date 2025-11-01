@@ -356,10 +356,12 @@ vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('C-r', 
   { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
 vim.keymap.set('n', '<C-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
   { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
+vim.keymap.set('n', '<M-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
+  { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
 
 vim.keymap.set('n', '<leader>tx', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
-vim.keymap.set('n', '<C-M-r>', function() Utils.send_keys_to_terminal('Up Enter') end,
+vim.keymap.set('n', '<M-R>', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
 
 -- Abbreviations commands
