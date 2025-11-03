@@ -76,13 +76,6 @@ OPTIONS
         must begin with an alpha numeric character and can only contain only
         alphanumeric characters, dashes, underscores, or periods.
 
-    -t, --tmux-commands TMUX_COMMANDS
-        This option sets the tmux commands file name. For example the
-        '--tmux-commands red' option sets the tmux commands file name to
-        'red.tmux' (see TMUX COMMANDS FILES). TMUX_COMMANDS must begin with an
-        alpha numeric character and can only contain only alphanumeric
-        characters, dashes, underscores, or periods.
-
     -w, --window-name WINDOW_NAME
         Sets the tmux workspace window name. Defaults to the project directory's
         base name stripped of its file name extension and with period characters
@@ -100,15 +93,8 @@ CONFIGURATION FILES
     be specified with the TDE_CONFIG_DIR environment variable.
 
 SESSION CONFIGURATION FILE
-    Session configuration files contain tde workspace window definitions and are
-    sourced and executed when the corresponding session is created.
-
-    Session configuration file names match either the host name
-    ('<host-name>.tde') or the session name ('<session-name>.tde'). The host
-    name takes precedence over the session name.
-
     A session configuration file specifies a set of project workspace windows,
-    one per line, formatted like:
+    one per line; each line is formatted like:
 
         [OPTION...] PROJECT_DIR
 
@@ -116,14 +102,17 @@ SESSION CONFIGURATION FILE
     --launch, --layout, --panes, --window-name. Omitted option values default to
     their command-line values.
 
-    Default option values can be assigned by setting PROJECT_DIR to '-'. The
-    option values in lines with PROJECT_DIR set to '-' become the new default option
-    values for subsequently created windows.
+    Session configuration files are optional and are named like
+    '<session-name>.tde'; they are sourced when the session is created.
+
+    Default option values can be assigned by setting PROJECT_DIR to '-'. Option
+    values in lines with PROJECT_DIR set to '-' become the new default option
+    values for the subsequently created windows.
 
     Blank lines and lines beginning with a '#' character are skipped.
 
     The following example session> configuration file line creates a
-    tmux window with three panes in the ~/nixos-configurations working
+    tmux window with three panes in the '~/nixos-configurations'
     directory. The first pane runs nvim, the third pane runs lazygit:
 
         --panes 3 --launch 1:nvim --launch 3:lazygit ~/nixos-configurations
@@ -137,17 +126,11 @@ SESSION CONFIGURATION FILE
 
 TMUX COMMANDS FILE
     A tmux command file contains tmux commands; they are sourced and executed by
-    the tmux 'source-file' command after a session window is created (see the
+    the tmux 'source-file' command when a session window is created (see the
     tmux(1) man page).
 
-    Unless overridden by the --tmux-commands option, the tmux commands file name
-    match either the host name ('<host-name>.tmux') or the session name
-    ('<session-name>.tmux'). The host name takes precedence over the session
-    name.
-
-    tmux command file names must match either the host name ('<host-name>.tmux')
-    or the tmux commands option ('<tmux-commands-option>.tmux'). The host name takes
-    precedence over the tmux commands name.
+    tmux commands files are optional and are named like '<session-name>.tmux';
+    fall back to 'tde.tmux' if '<session-name>.tmux' does not exist.
 
 LAYOUTS
     tmux preset or custom layouts can be applied to project workspace windows
@@ -178,7 +161,6 @@ mapfile -t TDE_SESSIONS <<<"${TDE_SESSIONS-}" # Convert string list to array
 
 # Environment variables
 TMUX="${TMUX-}"
-HOSTNAME=${TDE_HOST-$(hostname)}
 
 # Command arguments
 DRY_RUN=false
@@ -186,8 +168,6 @@ VERBOSE=false
 PANES=1
 FOCUS=1
 SESSION=tde
-EXPLICIT_SESSION=false
-TMUX_COMMANDS=
 WINDOW_NAME=
 LAYOUT=main-vertical
 LAUNCH_OPTS=()
@@ -243,7 +223,7 @@ attach_session() {
         tmux_cmd attach-session -t "$session"
         return
     fi
-    write_warning_msg "refusing to attach nested tmux session '$session' inside tmux session '$(current_session)'"
+    tmux_cmd switch-client -t "$session"
 }
 
 # Print or execute tmux commands
@@ -285,15 +265,6 @@ validate_session_name() {
     name="$1"
     if ! [[ "$name" =~ ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$ ]]; then
         write_error_msg "invalid --session option '$name': must begin with an alpha numberic character and can only contain only alphanumeric characters, dashes, underscores, or periods"
-        exit 1
-    fi
-}
-
-validate_tmux_commands_name() {
-    local name
-    name="$1"
-    if ! [[ "$name" =~ ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$ ]]; then
-        write_error_msg "invalid --tmux-commands option '$name': must begin with an alpha numberic character and can only contain only alphanumeric characters, dashes, underscores, or periods"
         exit 1
     fi
 }
@@ -523,12 +494,6 @@ while [[ $# -gt 0 ]]; do
     -s | --session)
         validate_session_name "${2-}"
         SESSION="$2"
-        EXPLICIT_SESSION=true
-        shift 2
-        ;;
-    -t | --tmux-commands)
-        validate_tmux_commands_name "${2-}"
-        TMUX_COMMANDS="$2"
         shift 2
         ;;
     -w | --window-name)
@@ -559,36 +524,19 @@ if [[ $DRY_RUN == true && $TDE_TEST == false ]]; then
     mapfile -t TDE_SESSIONS <<<"$(tmux list-sessions -F "#{session_name}" 2>/dev/null || echo "")"
 fi
 
-# Print the path of the first configuration file that exists from the list of base name arguments.
-config_file() {
-    local base_names=("${@}")
-    local conf_dir="${TDE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/tde}"
-    local conf_file
-    for base_name in "${base_names[@]}"; do
-        conf_file="$conf_dir/$base_name"
-        if [ -f "$conf_file" ]; then
-            echo "$conf_file"
-            return
-        fi
-        write_verbose_msg "configuration file '$conf_file' not found"
-    done
-    echo ""
-}
+CONF_DIR="${TDE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/tde}"
 
 if ! session_exists "$SESSION"; then
     # Read, parse and validate config file and append to PROJECT_DEFS
-    base_names=()
-    if [ $EXPLICIT_SESSION = true ]; then
-        base_names+=("$SESSION.tde")
-    fi
-    base_names+=("$HOSTNAME.tde" "tde.tde")
-    conf_file="$(config_file "${base_names[@]}")"
-    if [ -n "$conf_file" ]; then
+    conf_file="$CONF_DIR/$SESSION.tde"
+    if [ -f "$conf_file" ]; then
         write_verbose_msg "reading session configuration file '$conf_file'"
         while IFS= read -r line; do
             [[ -z "$line" || "$line" =~ ^# ]] && continue
             parse_project_def "$line"
         done <"$conf_file"
+    else
+        write_verbose_msg "session configuration file '$conf_file' not found"
     fi
 fi
 
@@ -675,23 +623,20 @@ for index in "${!PROJECT_DEFS[@]}"; do
     tmux_cmd set-option -t "$SESSION:$WIN_INDEX" pane-base-index 1
 
     # Source and execute optional tmux window configuration file
-    base_names=()
-    if [ -n "$TMUX_COMMANDS" ]; then
-        base_names+=("$TMUX_COMMANDS.tmux")
-        tmux_cmds_file="$(config_file "${base_names[@]}")"
-        if [ -z "$tmux_cmds_file" ]; then
-            write_error_msg "tmux commands file '$TMUX_COMMANDS.tmux' not found"
-            exit 1
-        fi
+    conf_file="$CONF_DIR/$SESSION.tmux"
+    if [ -f "$conf_file" ]; then
+        tmux_cmd source-file -t "$SESSION:$WIN_INDEX" "$conf_file"
     else
-        if [ $EXPLICIT_SESSION = true ]; then
-            base_names+=("$SESSION.tmux")
+        write_verbose_msg "tmux commands file '$conf_file' not found"
+        # Attempt to fall back to tde.tmux
+        if [ "$SESSION" != "tde" ]; then
+            conf_file="$CONF_DIR/tde.tmux"
+            if [ -f "$conf_file" ]; then
+                tmux_cmd source-file -t "$SESSION:$WIN_INDEX" "$conf_file"
+            else
+                write_verbose_msg "tmux commands file '$conf_file' not found"
+            fi
         fi
-        base_names+=("$HOSTNAME.tmux" "tde.tmux")
-        tmux_cmds_file="$(config_file "${base_names[@]}")"
-    fi
-    if [ -n "$tmux_cmds_file" ]; then
-        tmux_cmd source-file -t "$SESSION:$WIN_INDEX" "$tmux_cmds_file"
     fi
 
     for ((i = panes; i > 1; i--)); do
