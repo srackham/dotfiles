@@ -189,18 +189,17 @@ vim.keymap.set('n', ',mp', function()
 end, { desc = 'Open current file in Brave browser' })
 
 -- Clipboard copy and paste commands
-vim.keymap.set({ 'n', 'v' }, '<Leader>cc', '"+y', { noremap = true, silent = true, desc = "Copy to clipboard" })
-vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Copy to clipboard" })
-vim.keymap.set('n', '<Leader>cl', '"+yy', { noremap = true, silent = true, desc = "Copy line to clipboard" })
-vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Copy line to clipboard" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
+vim.keymap.set('n', '<Leader>yy', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
 
-vim.keymap.set('v', '<Leader>ca', [[:<C-u>let @+ = @+ . join(getline("'<", "'>"), "\n") . "\n"<CR>]],
-  { noremap = true, silent = true, desc = "Append selection to clipboard" })
-vim.keymap.set('n', '<Leader>ca', [[:let @+ = @+ . getline(".") . "\n"<CR>]],
+vim.keymap.set('n', '<Leader>ya', [[:let @+ = @+ . getline(".") . "\n"<CR>]],
   { noremap = true, silent = true, desc = "Append line to clipboard" })
+vim.keymap.set('v', '<Leader>ya', [[:<C-u>let @+ = @+ . join(getline("'<", "'>"), "\n") . "\n"<CR>]],
+  { noremap = true, silent = true, desc = "Append selection to clipboard" })
 
-vim.keymap.set({ 'n', 'v' }, '<Leader>v', '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
-vim.keymap.set({ 'n', 'v' }, '<Leader>V', '"+P',
+vim.keymap.set({ 'n', 'v' }, '<Leader>p', '"+p',
+  { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
+vim.keymap.set({ 'n', 'v' }, '<Leader>P', '"+P',
   { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
 
 -- Edit commands
