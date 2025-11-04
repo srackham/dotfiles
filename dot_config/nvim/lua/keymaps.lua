@@ -199,8 +199,13 @@ vim.keymap.set('v', '<Leader>ya', [[:<C-u>let @+ = @+ . join(getline("'<", "'>")
 
 vim.keymap.set({ 'n', 'v' }, '<Leader>p', '"+p',
   { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
+vim.keymap.set({ 'n', 'v' }, '<C-p>', '"+p',
+  { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
 vim.keymap.set({ 'n', 'v' }, '<Leader>P', '"+P',
   { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
+vim.keymap.set({ 'n', 'v' }, '<C-M-p>', '"+P',
+  { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
+vim.keymap.set('i', '<C-p>', '<C-R>+', { noremap = true, silent = true, desc = "Paste clipboard" })
 
 -- Edit commands
 vim.keymap.set('v', '<Leader>ed', [[:s/^\s*$\n//<CR>:nohlsearch<CR>]],
