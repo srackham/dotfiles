@@ -368,7 +368,7 @@ vim.keymap.set('n', '<leader>tx', function() Utils.send_keys_to_terminal('Up Ent
 vim.keymap.set('n', '<M-R>', function() Utils.send_keys_to_terminal('Up Enter') end,
   { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
 
--- Abbreviations commands
+-- Additional commands
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath("config") .. "/vim/init.vim",
   command = "abc | source <afile>",
