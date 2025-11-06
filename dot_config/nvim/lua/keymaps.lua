@@ -189,8 +189,8 @@ vim.keymap.set('n', ',mp', function()
 end, { desc = 'Open current file in Brave browser' })
 
 -- Clipboard copy and paste commands
-vim.keymap.set({ 'n', 'v' }, '<Leader>y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
-vim.keymap.set('n', '<Leader>yy', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
+vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
+vim.keymap.set('n', 'YY', '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
 
 vim.keymap.set('n', '<Leader>ya', [[:let @+ = @+ . getline(".") . "\n"<CR>]],
   { noremap = true, silent = true, desc = "Append line to clipboard" })
