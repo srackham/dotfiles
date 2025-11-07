@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-# Restore VirtualBox VMs from USB backups drive to NixOS host.
+DRIVE_LABEL=backups
 
-FROM_DRIVE=data
+src="/run/media/srackham/$DRIVE_LABEL/VirtualBox VMs"
+dst="$HOME/VirtualBox VMs"
 
-# time rsync -av "/run/media/srackham/$FROM_DRIVE/VirtualBox VMs/" "$HOME/VirtualBox VMs/"
-rclone sync --progress --modify-window=5s "/run/media/srackham/$FROM_DRIVE/VirtualBox VMs" "$HOME/VirtualBox VMs"
+echo "Restoring VirtualBox VMs from '$src' to '$dst'"
+
+rclone sync --dry-run --progress --modify-window=5s "$src" "$dst"

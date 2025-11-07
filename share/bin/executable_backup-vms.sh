@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-# Backup the local copy of VirtualBox VMs to the attached USB backups drive.
+DRIVE_LABEL=backups
 
-FROM_DRIVE=data
-TO_DRIVE=backups
+src="$HOME/VirtualBox VMs"
+dst="/run/media/srackham/$DRIVE_LABEL/VirtualBox VMs"
 
-rclone sync --progress --modify-window=5s "/run/media/srackham/$FROM_DRIVE/VirtualBox VMs" "/run/media/srackham/$TO_DRIVE/VirtualBox VMs"
+echo "Backing up data and VMs from the '$src' to '$dst'"
+
+rclone sync --dry-run --progress --modify-window=5s "$src" "$dst"
+rclone check --dry-run --progress --modify-window=5s "$src" "$dst"
