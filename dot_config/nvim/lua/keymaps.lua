@@ -67,6 +67,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
+-- Next command aliases
+vim.keymap.set('n', '<Leader>nd', ']d', { remap = true, silent = true, desc = "]d alias" })
+vim.keymap.set('n', '<Leader>ng', ']g', { remap = true, silent = true, desc = "]g alias" })
+vim.keymap.set('n', '<Leader>ns', ']s', { remap = true, silent = true, desc = "]s alias" })
+vim.keymap.set('n', '<Leader>nt', ']t', { remap = true, silent = true, desc = "]t alias" })
+vim.keymap.set('n', '<Leader>nw', ']w', { remap = true, silent = true, desc = "]w alias" })
+
 -- Miscellaneous commands
 vim.keymap.set('n', '<M-;>', ',', { noremap = true, silent = true, desc = "Page up" }) -- Because comma is the Leader
 vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>',                  -- Turn of search highlighting and clear status line
