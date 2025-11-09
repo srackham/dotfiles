@@ -119,11 +119,11 @@ local function set_numbered()
     vim.notify("Line numbering disabled")
   end
 end
-vim.keymap.set('n', '<Leader>nt', function()
+vim.keymap.set('n', '<Leader>lt', function()
   is_numbered = not is_numbered
   set_numbered()
 end, { noremap = true, silent = true, desc = "Toggle line numbering" })
-vim.keymap.set('n', '<Leader>nr', function()
+vim.keymap.set('n', '<Leader>lr', function()
   is_relative = not is_relative
   set_numbered()
 end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
