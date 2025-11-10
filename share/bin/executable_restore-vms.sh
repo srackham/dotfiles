@@ -3,9 +3,9 @@
 set -e
 set -o pipefail
 
-DRIVE_LABEL=backups
+DRIVE_LABEL=data
 
-src="/run/media/srackham/$DRIVE_LABEL/VirtualBox VMs"
+src="/run/media/srackham/$DRIVE_LABEL/backups/VirtualBox VMs"
 dst="$HOME/VirtualBox VMs"
 
 echo "Restoring VirtualBox VMs from '$src' to '$dst'"
@@ -15,4 +15,4 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-rclone sync --dry-run --progress --modify-window=5s "$src" "$dst"
+rsync -av --delete --inplace "$src/" "$dst"

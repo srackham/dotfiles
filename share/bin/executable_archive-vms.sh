@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
+# Copy local backups to removable USB backups drive.
+
 set -e
 set -o pipefail
 
-SRC_DRIVE_LABEL=backups
-DST_DRIVE_LABEL=archives
+SRC_DRIVE_LABEL=data
+DST_DRIVE_LABEL=backups
 
-src="/run/media/srackham/$SRC_DRIVE_LABEL"
-dst="/run/media/srackham/$DST_DRIVE_LABEL"
+src="/run/media/srackham/$SRC_DRIVE_LABEL/backups"
+dst="/run/media/srackham/$DST_DRIVE_LABEL/backups"
 
 echo "Archiving data and VMs from '$src' to '$dst'"
 
-# rclone used instead of rsync to allow the destination archive to be an NTFS USB drive.
-rclone sync --progress --links --modify-window=5s --exclude "/lost+found" "$src" "$dst"
-rclone check --progress --links --modify-window=5s --exclude "/lost+found" "$src" "$dst"
+rsync -av --delete --inplace "$src/" "$dst"
+rclone check --progress --links --modify-window=5s "$src" "$dst"
