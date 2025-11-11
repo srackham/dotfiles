@@ -144,7 +144,7 @@ Recursively grep the files in PATH for words matching REGEXP.
 - Enter yanks the selected file to the clipboard, prints the file path, and exits."
 function ds() {
     if [ "$*" ]; then
-        recoll -t -q $*  2>/dev/null \
+        recoll -t -q -c "$HOME/.config/recoll" $*  2>/dev/null \
         | tail -n +3 \
         | head -n 40 \
         | perl -pe "s|^.*\[file:\/\/(.*?)\].*$|\1|" \

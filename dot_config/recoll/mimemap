@@ -6,6 +6,3 @@
 # Values set in this file will override the system-wide values for the file
 # with the same name in the central directory. The syntax for setting
 # values is identical.
-
-# SJR: 10-Oct-2019: Index .md files as plain text: https://unix.stackexchange.com/questions/268870/how-can-i-get-the-recoll-package-to-index-markdown-md-files
-.md = text/plain
