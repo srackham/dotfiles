@@ -396,6 +396,11 @@ validate_launch_defs() {
         pane_num="${launch%%:*}"
         command="${launch#*:}"
 
+        if [ -z "$command" ]; then
+            write_error_msg "invalid --launch option '$launch': missing launch command"
+            exit 1
+        fi
+
         if ! [[ "$pane_num" =~ ^[1-9]$ ]]; then
             write_error_msg "invalid --launch option '$launch': pane number must be between 1 and 9"
             exit 1
