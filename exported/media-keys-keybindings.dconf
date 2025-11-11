@@ -1,6 +1,14 @@
 [/]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
 logout=@as []
+reboot=['<Alt><Super>r']
 screensaver=['<Super>l']
+shutdown=['<Alt><Super>p']
 volume-down=['<Super>F11']
 volume-mute=['<Super>F10']
 volume-up=['<Super>F12']
+
+[custom-keybindings/custom0]
+binding='<Super>t'
+command='alacritty'
+name='Open Terminal'
