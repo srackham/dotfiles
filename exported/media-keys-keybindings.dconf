@@ -1,11 +1,6 @@
 [/]
 logout=@as []
-screensaver=['<Alt><Shift>l']
-volume-down=['<Alt>F11']
-volume-mute=['<Alt>F10']
-volume-up=['<Alt>F12']
-
-[custom-keybindings/custom0]
-binding='<Shift><Control><Alt><Super>p'
-command='sh -c "killall brave && killall nvim && killall alacritty && shutdown now"'
-name='Shutdown'
+screensaver=['<Super>l']
+volume-down=['<Super>F11']
+volume-mute=['<Super>F10']
+volume-up=['<Super>F12']

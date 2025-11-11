@@ -58,8 +58,8 @@ Exported from Brave browser.
 - Use the dconf load command to restore custom GNOME key binding from the dump file. See `./exported/post-install-config.sh` for details.
 
 ```
-dconf load /org/gnome/desktop/wm/keybindings/ < exported/wm-keybindings.dconf
-dconf load /org/gnome/settings-daemon/plugins/media-keys/ < exported/media-keys-keybindings.dconf
+dconf load /org/gnome/desktop/wm/keybindings/ < exported/wm-keybindings.dconf && \
+dconf load /org/gnome/settings-daemon/plugins/media-keys/ < exported/media-keys-keybindings.dconf && \
 dconf load /org/gnome/shell/keybindings/ < exported/shell-keybindings.dconf
 ```
 
