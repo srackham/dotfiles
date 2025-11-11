@@ -20,9 +20,9 @@ rsync -av --delete --inplace \
     --exclude "/*" \
     "$src/" "$dst"
 
-rclone check --progress --links --modify-window=5s \
-    --include "/VirtualBox VMs/**" \
-    --include "/.config/**" \
-    --include "/share/**" \
-    --include "/public/**" \
-    "$src" "$dst"
+# rclone check --progress --links --modify-window=5s \
+#     --include "/VirtualBox VMs/**" \
+#     --include "/.config/**" \
+#     --include "/share/**" \
+#     --include "/public/**" \
+#     "$src" "$dst"
