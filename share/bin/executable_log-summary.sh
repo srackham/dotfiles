@@ -7,8 +7,8 @@ SERVER="nuc1"
 DATE="date +%Y-%m-%d-%a\ %H:%M:%S"
 
 if [ "$(hostname)" != "nuc1" ]; then
-	echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
-	exit 1
+    echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
+    exit 1
 fi
 
 logfiles="/var/log/messages.1 /var/log/messages"
@@ -33,7 +33,7 @@ echo
 # grep 'to rpi2 completed' $logfiles | tail -4
 # echo
 
-echo nixos1 JOBS
+echo dell7090 JOBS
 grep 'Finished\|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
 grep 'Finished\|FAILED' /files/users/srackham/bin/sync-local.log | tail -1
 echo
