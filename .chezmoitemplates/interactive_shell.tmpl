@@ -103,6 +103,7 @@ alias ocr="clipboard-paste -t image/png | tesseract -l eng - - 2>/dev/null"
 
 alias ta="tmux attach"
 alias tg="tmux capture-pane -p -S - | rg --color=always"  # grep tmux current pane
+alias tde="tde --session $(hostname)"
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
