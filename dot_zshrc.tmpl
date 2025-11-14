@@ -1,6 +1,11 @@
 # vim: set filetype=bash:
 # shellcheck disable=all
 
+if [ -n "$WAYLAND_DISPLAY" ]; then
+    # Because, unlike in X11,  zsh or bash do not start as login shells in Wayland GNOME sessions
+    source ~/.zprofile
+fi
+
 {{template "interactive_shell.tmpl" .}}
 
 # zsh specific history settings.
