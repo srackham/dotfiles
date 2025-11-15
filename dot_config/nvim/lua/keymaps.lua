@@ -303,6 +303,8 @@ vim.keymap.set('n', '<Leader>wv', '<C-w>v', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>w|', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
 vim.keymap.set('n', '<Leader>wh', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<Leader>w-', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
+vim.keymap.set('n', '<Leader>w>', '<C-w>>', { noremap = true, silent = true, desc = "Expand window width" })
+vim.keymap.set('n', '<Leader>w<', '<C-w><', { noremap = true, silent = true, desc = "Shrink window width" })
 
 -- Window navigation with Ctrl + Arrow keys
 vim.keymap.set('n', '<C-Up>', '<C-w>k', { noremap = true, silent = true })
