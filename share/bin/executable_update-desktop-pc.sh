@@ -47,6 +47,7 @@ do_other() {
     npm i -g opencode-ai@latest
     npm install -g @google/gemini-cli
     go install github.com/charmbracelet/crush@latest
+    go install github.com/srackham/ccp@latest
 }
 
 do_gnome() {
