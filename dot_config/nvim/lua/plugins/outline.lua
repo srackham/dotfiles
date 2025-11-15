@@ -11,6 +11,11 @@ return {
         -- Depth past which nodes will be folded by default. Set to false to unfold all on open.
         autofold_depth = 2,
       },
+      outline_window = {
+        position = 'right',
+        width = 40,
+        relative_width = false,
+      },
     }
 
     -- Key mappings
