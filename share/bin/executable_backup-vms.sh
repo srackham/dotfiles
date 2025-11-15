@@ -12,7 +12,7 @@ echo "Backing up data and VMs from '$src' to '$dst'"
 
 # rsync is preferable to rclone for strict replication of permissions and ownership.
 # --inplace overwrites destination files directly instead of creating a temporary file and renaming whic benefits SSD drives.
-rsync -av --delete --inplace \
+sudo rsync -av --delete --inplace \
     --include "/VirtualBox VMs/***" \
     --include "/.config/***" \
     --include "/share/***" \

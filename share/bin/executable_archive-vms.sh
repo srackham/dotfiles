@@ -13,5 +13,5 @@ dst="/run/media/srackham/$DST_DRIVE_LABEL/backups"
 
 echo "Archiving data and VMs from '$src' to '$dst'"
 
-rsync -av --delete --inplace "$src/" "$dst"
+sudo rsync -av --delete --inplace "$src/" "$dst"
 rclone check --progress --links --modify-window=5s "$src" "$dst"
