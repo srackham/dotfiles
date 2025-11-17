@@ -25,9 +25,9 @@ dst="$HOME/VirtualBox VMs"
 echo
 echo "Restoring VirtualBox VMs from '$src' to '$dst'"
 echo
-read -r -p "Do you want to continue? [y/N] " -n 1 -r
+read -rp "Do you want to continue? [y/N] " confirm
 echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+if [[ ! $confirm =~ ^[Yy]$ ]]; then
     echo "Operation cancelled."
     exit 1
 fi
