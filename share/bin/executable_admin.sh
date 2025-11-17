@@ -15,6 +15,18 @@ apply-dotfiles() {
     chezmoi apply
 }
 
+daily-backup() {
+    backup.sh
+}
+
+weekly-archive() {
+    archive.sh
+}
+
+restore-vms() {
+    restore.sh
+}
+
 nvim-plugins() {
     nvim --headless -c "Lazy! sync" -c "qa"
 }
@@ -56,6 +68,11 @@ tasks=(
     'Install Lazyvim plugins::nvim-plugins'
     "Install other applications::install-other"
     "Load GNOME keyboard shortcuts::gnome-settings"
+    ""
+    "Daily backup::daily-backup"
+    "Weekly archive::weekly-archive"
+    "Restore VirtualBox VMs::restore-vms"
+    ""
     "Build and activate NixOS::build-nixos"
     "Update and optimise NixOS::update-nixos"
     ""
@@ -98,8 +115,8 @@ for task in "${tasks[@]}"; do
     if [ -n "$cmd" ]; then
         if printf '%s\n' "$selected_descriptions" | grep -Fxq "$desc"; then
             echo "Executing: $desc ($cmd)"
-            # eval "$cmd"
-            echo "$cmd"
+            eval "$cmd"
+            # echo "$cmd"
             echo
         fi
     fi
