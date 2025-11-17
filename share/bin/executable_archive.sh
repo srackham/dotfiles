@@ -18,7 +18,9 @@ dst_device="/dev/disk/by-label/$DST_DRIVE_LABEL"
 # Cleanup function to unmount the drive
 cleanup() {
     sleep 1
+    echo
     udisksctl unmount -b "$dst_device" || echo "Failed to unmount $dst_device"
+    exit
 }
 
 # Trap SIGINT (Ctrl+C)
@@ -35,7 +37,8 @@ else
     udisksctl mount -b "$dst_device"
 fi
 
-sudo rsync -av --delete --inplace "$src/" "$dst"
+sudo rsync -av --delete --inplace "$src/" "$dst" || cleanup
+
 rclone check --progress --links --modify-window=5s "$src" "$dst"
 
 cleanup
