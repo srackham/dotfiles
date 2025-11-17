@@ -13,6 +13,7 @@ source "$HOME/.bashrc"
 
 apply-dotfiles() {
     chezmoi apply
+    tmux source-file ~/.config/tmux/tmux.conf
 }
 
 daily-backup() {
@@ -96,11 +97,24 @@ if [ -z "$selected_descriptions" ]; then
     exit 0
 fi
 
+# Generate an array of selected commands in menu order.
+cmds=()
+descriptions=()
+for task in "${tasks[@]}"; do
+    desc="${task%%::*}"
+    cmd="${task#*::}"
+    if [ -n "$cmd" ]; then
+        if printf '%s\n' "$selected_descriptions" | grep -Fxq "$desc"; then
+            cmds+=("$cmd")
+            descriptions+=("$desc")
+        fi
+    fi
+done
+
 # Show selections and prompt to proceed
-selected_descriptions="$(tac <<<"$selected_descriptions")" # Fix fzf reversed order
 echo "You selected:"
 echo
-echo "$selected_descriptions"
+printf "%s\n" "${descriptions[@]}"
 echo
 read -rp "Execute these tasks? [Y/n]: " confirm
 if [[ "$confirm" =~ ^[Nn]$ ]]; then
@@ -109,15 +123,9 @@ if [[ "$confirm" =~ ^[Nn]$ ]]; then
 fi
 # Execute selected tasks in original order
 echo
-for task in "${tasks[@]}"; do
-    desc="${task%%::*}"
-    cmd="${task#*::}"
-    if [ -n "$cmd" ]; then
-        if printf '%s\n' "$selected_descriptions" | grep -Fxq "$desc"; then
-            echo "Executing: $desc ($cmd)"
-            eval "$cmd"
-            # echo "$cmd"
-            echo
-        fi
-    fi
+for cmd in "${cmds[@]}"; do
+    echo "Executing: $cmd"
+    eval "$cmd"
+    # echo "$cmd"
+    echo
 done
