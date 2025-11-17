@@ -7,16 +7,19 @@ read -r -p "Choose a restore option: [L]ocal drive or [R]emovable drive? [L/R/N]
 echo
 REPLY_LOWER=$(echo "$REPLY" | tr '[:upper:]' '[:lower:]')
 if [[ $REPLY_LOWER == "l" ]]; then
-    DRIVE_LABEL=data
+    SRC_DRIVE_LABEL=data
 elif [[ $REPLY_LOWER == "r" ]]; then
-    DRIVE_LABEL=backups
+    SRC_DRIVE_LABEL=backups
 else
     # Handles "N" or any other input
     echo "Operation cancelled."
     exit 1
 fi
 
-src="/run/media/srackham/$DRIVE_LABEL/backups/VirtualBox VMs"
+src_mount_dir="/run/media/$USER/$SRC_DRIVE_LABEL"
+src="$src_mount_dir/backups/VirtualBox VMs"
+src_device="/dev/disk/by-label/$SRC_DRIVE_LABEL"
+
 dst="$HOME/VirtualBox VMs"
 
 echo
@@ -29,4 +32,29 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
+# Cleanup function to unmount the drive
+cleanup() {
+    if [ "$SRC_DRIVE_LABEL" == "backups" ]; then
+        sleep 1
+        udisksctl unmount -b "$src_device" || echo "Failed to unmount $src_device"
+    fi
+}
+
+# Trap SIGINT (Ctrl+C)
+trap cleanup INT
+
+if [ "$SRC_DRIVE_LABEL" == "backups" ]; then
+    mount_dir=$(findmnt -nr -o TARGET "$src_device" || :)
+    if [ -n "$mount_dir" ]; then
+        if [ "$mount_dir" != "$src_mount_dir" ]; then
+            echo "Device $src_device is already mounted at $mount_dir"
+            exit 1
+        fi
+    else
+        udisksctl mount -b "$src_device"
+    fi
+fi
+
 rsync -av --delete --inplace "$src/" "$dst"
+
+cleanup
