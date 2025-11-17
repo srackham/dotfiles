@@ -54,3 +54,31 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end)
   end,
 })
+
+-- Auto-save Rust source files after a period of inactivity
+-- FIXME: This is a kludge because I can't figure how to force the Rust LSP to do lint check without saving.
+local timer = vim.loop.new_timer()
+local save_delay = 500
+
+local function auto_save()
+  if vim.api.nvim_get_mode().mode == "n" and vim.bo.modifiable and not vim.bo.readonly then
+    vim.cmd("silent update")
+  end
+end
+
+local function reset_timer()
+  timer:stop()
+  timer:start(save_delay, 0, vim.schedule_wrap(auto_save))
+end
+
+-- Start/reset timer on InsertLeave and TextChanged events (simulate inactivity)
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+  pattern = "*.rs",
+  callback = reset_timer,
+})
+
+-- Stop timer on InsertEnter (user is active)
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = "*.rs",
+  callback = function() timer:stop() end,
+})
