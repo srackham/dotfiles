@@ -11,13 +11,37 @@ source "$HOME/.bashrc"
 
 # --- Task functions ---
 
-do_other() {
+apply-dotfiles() {
+    chezmoi apply
+}
+
+nvim-plugins() {
+    nvim --headless -c "Lazy! sync" -c "qa"
+}
+
+build-nixos() {
+    mknixos switch
+}
+
+update-nixos() {
+    upgrade-nixos
+}
+
+list-services() {
+    systemctl list-units --type=service --state=active
+}
+
+view-journal() {
+    journalctl -xe
+}
+
+install-other() {
     npm i -g opencode-ai@latest
     npm install -g @google/gemini-cli
     go install github.com/charmbracelet/crush@latest
 }
 
-do_gnome() {
+gnome-settings() {
     local chezmoi_repo_dir="$HOME/share/projects/chezmoi"
     dconf load /org/gnome/desktop/wm/keybindings/ <"$chezmoi_repo_dir/exported/wm-keybindings.dconf"
     dconf load /org/gnome/settings-daemon/plugins/media-keys/ <"$chezmoi_repo_dir/exported/media-keys-keybindings.dconf"
@@ -28,17 +52,15 @@ do_gnome() {
 
 # Define admin task menu items
 tasks=(
-    "Apply Chezmoi dot files::chezmoi apply"
-    'Install Lazyvim plugins::nvim --headless -c "Lazy! sync" -c "qa"'
-    "Install other applications::do_other"
-    "Load GNOME keyboard shortcuts::do_gnome"
-    "Build and activate NixOS::nixos switch"
-    "Update and optimise NixOS::upgrade-nixos"
+    "Apply Chezmoi dot files::apply-dotfiles"
+    'Install Lazyvim plugins::nvim-plugins'
+    "Install other applications::install-other"
+    "Load GNOME keyboard shortcuts::gnome-settings"
+    "Build and activate NixOS::build-nixos"
+    "Update and optimise NixOS::update-nixos"
     ""
-    "List block device info::lsblk -f"
-    "Restart networking::sudo systemctl restart networking"
-    "Show active services::systemctl list-units --type=service --state=active"
-    "View system logs::journalctl -xe"
+    "Show active services::list-services"
+    "View system logs::view-journal"
 )
 
 # Extract descriptions for menu display
@@ -47,6 +69,9 @@ descriptions=("${tasks[@]%%::*}")
 # header=$'\nSelect tasks (Tab to select, Enter to confirm):\n'
 header=$'\nSelect tasks (Up/Down: CtrlP/Ctrl+N, Select/Deselect: Tab/Shift+Tab, Select All: Alt+A, Accept: Enter, Abort: Ctrl+C, Esc)\n'
 selected_descriptions=$(printf '%s\n' "${descriptions[@]}" | fzf --multi --no-sort --tac --bind 'alt-a:toggle-all' --info=hidden --header="$header")
+
+# Filter out blank lines
+selected_descriptions=$(echo "$selected_descriptions" | grep -v '^$')
 
 # Check for no selection
 if [ -z "$selected_descriptions" ]; then
@@ -57,23 +82,25 @@ fi
 # Show selections and prompt to proceed
 selected_descriptions="$(tac <<<"$selected_descriptions")" # Fix fzf reversed order
 echo "You selected:"
+echo
 echo "$selected_descriptions"
 echo
-read -rp "Execute these tasks? (y/N): " confirm
-if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-    echo "Aborted."
-    exit 0
+read -rp "Execute these tasks? [Y/n]: " confirm
+if [[ "$confirm" =~ ^[Nn]$ ]]; then
+    echo "Operation cancelled."
+    exit 1
 fi
-
 # Execute selected tasks in original order
 echo
 for task in "${tasks[@]}"; do
     desc="${task%%::*}"
     cmd="${task#*::}"
-    if printf '%s\n' "$selected_descriptions" | grep -Fxq "$desc"; then
-        echo "Executing: $desc"
-        # eval "$cmd"
-        echo "$cmd"
-        echo
+    if [ -n "$cmd" ]; then
+        if printf '%s\n' "$selected_descriptions" | grep -Fxq "$desc"; then
+            echo "Executing: $desc ($cmd)"
+            # eval "$cmd"
+            echo "$cmd"
+            echo
+        fi
     fi
 done
