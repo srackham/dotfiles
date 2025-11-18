@@ -6,7 +6,7 @@ vim.diagnostic.config {
   virtual_text = true,
 }
 
--- LSP relaated keymaps
+-- LSP related keymaps
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
 vim.keymap.set("n", "<Leader>cR", vim.lsp.buf.rename, { desc = "Rename symbol" })
