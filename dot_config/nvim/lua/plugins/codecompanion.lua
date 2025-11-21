@@ -40,9 +40,10 @@ return {
         log_level = "DEBUG",
       },
     })
-    vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-    vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-    vim.keymap.set({ "n", "v" }, "cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-    vim.cmd([[cab cc CodeCompanion]]) -- Expand 'cc' into 'CodeCompanion' in the command line
+    vim.keymap.set({ "n", "v" }, "ca", "<cmd>CodeCompanionActions<cr>",
+      { noremap = true, silent = true, desc = "Open CodeCompanion Actions Palette" })
+    vim.keymap.set({ "n", "v" }, "cc", "<cmd>CodeCompanionChat Toggle<cr>",
+      { noremap = true, silent = true, desc = "Toggle CodeCompanion Chat window" })
+    vim.cmd([[cab cc CodeCompanion]])
   end,
 }
