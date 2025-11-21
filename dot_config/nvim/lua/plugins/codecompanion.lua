@@ -7,15 +7,32 @@ return {
   opts = {
     strategies = {
       chat = {
-        adapter = "gemini",
-        model = "gemini-2.5-flash"
+        adapter = "openrouter",
       },
       inline = {
-        adapter = "gemini",
-        model = "gemini-2.5-flash"
+        adapter = "openrouter",
       },
     },
-    -- NOTE: The log_level is in `opts.opts`
+    adapters = {
+      http = {
+        openrouter = function()
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            env = {
+              url = "https://openrouter.ai/api",
+              api_key = "OPENROUTER_API_KEY",
+              chat_url = "/v1/chat/completions",
+            },
+            schema = {
+              model = {
+                -- Update this to your preferred OpenRouter model ID
+                -- e.g., "anthropic/claude-3.5-sonnet", "google/gemini-2.0-flash-001"
+                default = "x-ai/grok-code-fast-1",
+              },
+            },
+          })
+        end,
+      },
+    },
     opts = {
       log_level = "DEBUG",
     },
