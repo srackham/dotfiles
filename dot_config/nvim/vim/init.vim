@@ -25,6 +25,7 @@
 :iab Apps applications
 :iab Bk Bitcoin Knots
 :iab Btc Bitcoin
+:iab Cc CodeCompanion.nvim plugin
 :iab Cl command line
 :iab Conf configuration
 :iab Confs configurations
