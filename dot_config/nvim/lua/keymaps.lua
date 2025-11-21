@@ -297,7 +297,6 @@ local function close_window()
 end
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
-vim.keymap.set('n', '<Leader>wm', '<C-w>_', { noremap = true, silent = true, desc = "Maximize window" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
 vim.keymap.set('n', '<Leader>wv', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
 vim.keymap.set('n', '<Leader>w|', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
@@ -306,11 +305,45 @@ vim.keymap.set('n', '<Leader>w-', '<C-w>s', { noremap = true, silent = true, des
 vim.keymap.set('n', '<Leader>w>', '<C-w>>', { noremap = true, silent = true, desc = "Expand window width" })
 vim.keymap.set('n', '<Leader>w<', '<C-w><', { noremap = true, silent = true, desc = "Shrink window width" })
 
--- Window navigation with Ctrl + Arrow keys
-vim.keymap.set('n', '<C-Up>', '<C-w>k', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-Down>', '<C-w>j', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-Left>', '<C-w>h', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true })
+local win_height_maximized = false
+local win_height_saved = 0
+
+local function toggle_maximize_height()
+  local win = vim.api.nvim_get_current_win()
+  if not win_height_maximized then
+    -- Save current window height
+    win_height_saved = vim.fn.winheight(win)
+    -- Maximize window height
+    vim.cmd('horizontal resize +999')
+    win_height_maximized = true
+  else
+    -- Restore saved height
+    vim.cmd('resize ' .. win_height_saved)
+    win_height_maximized = false
+  end
+end
+vim.keymap.set('n', '<leader>wM', toggle_maximize_height,
+  { noremap = true, silent = true, desc = "Toggle window maximum height" })
+
+local win_width_maximized = false
+local win_width_saved = 0
+
+local function toggle_maximize_width()
+  local win = vim.api.nvim_get_current_win()
+  if not win_width_maximized then
+    -- Save current window width
+    win_width_saved = vim.fn.winwidth(win)
+    -- Maximize window width
+    vim.cmd('vertical resize +999')
+    win_width_maximized = true
+  else
+    -- Restore saved width
+    vim.cmd('vertical resize ' .. win_width_saved)
+    win_width_maximized = false
+  end
+end
+vim.keymap.set('n', '<leader>wm', toggle_maximize_width,
+  { noremap = true, silent = true, desc = "Toggle window maximum width" })
 
 -- Tab commands
 vim.keymap.set('n', '<Leader>tn', '<Cmd>tab split<CR>',
