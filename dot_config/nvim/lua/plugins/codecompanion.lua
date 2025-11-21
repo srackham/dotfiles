@@ -5,36 +5,15 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    -- Custom model selector based on code from https://github.com/olimorris/codecompanion.nvim/discussions/1013#discussioncomment-12735567
-
-    local default_model = "x-ai/grok-code-fast-1"
-    local available_models = {
-      "x-ai/grok-code-fast-1",
-      "qwen/qwen3-coder-30b-a3b-instruct",
-      "anthropic/claude-3.7-sonnet",
-      "anthropic/claude-3.5-sonnet",
-      "openai/gpt-4o-mini",
-    }
-    local current_model = default_model
-
-    local function select_model()
-      vim.ui.select(available_models, {
-        prompt = "Select  Model:",
-      }, function(choice)
-        if choice then
-          current_model = choice
-          vim.notify("Selected model: " .. current_model)
-        end
-      end)
-    end
-
     require("codecompanion").setup({
       strategies = {
         chat = {
-          adapter = "openrouter",
+          adapter = "gemini",
+          model = "gemini-2.5-flash"
         },
         inline = {
-          adapter = "openrouter",
+          adapter = "gemini",
+          model = "gemini-2.5-flash"
         },
       },
       adapters = {
@@ -48,20 +27,22 @@ return {
               },
               schema = {
                 model = {
-                  default = current_model,
+                  -- Update this to your preferred default OpenRouter model ID
+                  -- e.g., "anthropic/claude-3.5-sonnet", "google/gemini-2.0-flash-001"
+                  default = "x-ai/grok-code-fast-1",
                 },
               },
             })
           end,
         },
       },
+      opts = {
+        log_level = "DEBUG",
+      },
     })
-
     vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
     vim.keymap.set({ "n", "v" }, "cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>co", select_model, { desc = "Select OpenRouter model" })
     vim.cmd([[cab cc CodeCompanion]]) -- Expand 'cc' into 'CodeCompanion' in the command line
   end,
-
 }
