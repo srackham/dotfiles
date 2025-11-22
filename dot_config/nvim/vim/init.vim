@@ -2,8 +2,9 @@
 " Edit this file to manage persistant abbreviations et al; source it to load them.
 "
 
-" Align // style comments
+" Align // and # style comments
 :cab a/ EasyAlign /\/\//
+:cab a# EasyAlign #
 
 " Date and time abbreviations
 :iab <expr> DD strftime('%d-%b-%Y')
