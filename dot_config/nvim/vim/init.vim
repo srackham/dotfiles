@@ -5,6 +5,8 @@
 :autocmd FileType markdown iab <expr> Td "- [ ] _" .. strftime("%d-%b-%Y") .. "_:"  " Dated todo
 :autocmd FileType markdown iab <expr> Le "### " .. strftime("%d-%b-%Y")             " Log entry
 
+:cab a/ EasyAlign /\/\//                        " Align // style comments
+
 :iab <expr> DD strftime('%d-%b-%Y')             " Date
 :iab <expr> TT strftime('%H:%M')                " Time
 :iab <expr> DT strftime('%Y-%m-%d %H:%M')       " Date and time
