@@ -2,16 +2,15 @@
 " Edit this file to manage persistant abbreviations et al; source it to load them.
 "
 
-:autocmd FileType markdown iab <expr> Td "- [ ] _" .. strftime("%d-%b-%Y") .. "_:"  " Dated todo
-:autocmd FileType markdown iab <expr> Le "### " .. strftime("%d-%b-%Y")             " Log entry
+" Align // style comments
+:cab a/ EasyAlign /\/\//
 
-:cab a/ EasyAlign /\/\//                        " Align // style comments
-
-:iab <expr> DD strftime('%d-%b-%Y')             " Date
-:iab <expr> TT strftime('%H:%M')                " Time
-:iab <expr> DT strftime('%Y-%m-%d %H:%M')       " Date and time
-:iab <expr> DS strftime('%Y-%m-%d')             " ISO 8601 date stamp
-:iab <expr> DTS strftime('%Y-%m-%dT%H:%M:%S%z') " ISO 8601 date and time stamp
+" Date and time abbreviations
+:iab <expr> DD strftime('%d-%b-%Y')
+:iab <expr> TT strftime('%H:%M')
+:iab <expr> DT strftime('%Y-%m-%d %H:%M')
+:iab <expr> DS strftime('%Y-%m-%d')
+:iab <expr> DTS strftime('%Y-%m-%dT%H:%M:%S%z')
 
 :iab Mon Monday
 :iab Tue Tuesday
