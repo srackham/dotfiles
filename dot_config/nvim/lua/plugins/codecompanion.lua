@@ -49,10 +49,14 @@ return {
         },
       },
     })
-    vim.keymap.set({ "n", "v" }, "ca", "<cmd>CodeCompanionActions<cr>",
+    vim.keymap.set({ "n", "v" }, "<Leader>ap", "<cmd>CodeCompanionActions<cr>",
       { noremap = true, silent = true, desc = "Open CodeCompanion Actions Palette" })
-    vim.keymap.set({ "n", "v" }, "\\", require("codecompanion").toggle,
-      { noremap = true, silent = true, desc = "Toggle CodeCompanion Chat window" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ac", "<cmd>CodeCompanionChat Toggle<cr>",
+      { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" })
+    vim.keymap.set({ "n", "v" }, "\\", "<cmd>CodeCompanionChat Toggle<cr>",
+      { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" })
+    vim.keymap.set("v", "<Leader>aa", "<cmd>CodeCompanionChat Add<cr>",
+      { noremap = true, silent = true, desc = "Add selection to CodeCompanion chat window" })
     vim.cmd([[cab cc CodeCompanion]])
   end,
 }
