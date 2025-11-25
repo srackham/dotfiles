@@ -79,10 +79,6 @@ vim.keymap.set('n', '<M-;>', ',', { noremap = true, silent = true, desc = "Page 
 vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>',                  -- Turn of search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
-vim.keymap.set('i', '<C-^>', '<Esc><Cmd>b#<CR>',
-  { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '\\', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
-  { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>,', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
