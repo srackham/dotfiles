@@ -35,6 +35,6 @@ return {
         vim.cmd('OutlineOpen')
       end
     end
-    vim.keymap.set('n', '<Leader>ao', toggle_focus, { desc = 'Toggle outline focus' })
+    vim.keymap.set('n', '<Leader>eo', toggle_focus, { desc = 'Toggle outline focus' })
   end,
 }

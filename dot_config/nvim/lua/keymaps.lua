@@ -413,11 +413,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   desc = "Source init.vim on save"
 })
 
-vim.keymap.set('n', '<Leader>al', function()
-  vim.cmd('abc')
-  vim.cmd('source ' .. vim.g.vim_init_file)
-  vim.notify("Abbreviations loaded")
-end, { expr = true, noremap = true, desc = "Load init.vim" })
-vim.keymap.set('n', '<Leader>ae', function()
+vim.keymap.set('n', '<Leader>ea', function()
   vim.cmd('edit ' .. vim.g.vim_init_file)
 end, { noremap = true, desc = "Edit init.vim" })
