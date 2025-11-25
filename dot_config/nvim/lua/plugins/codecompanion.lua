@@ -39,10 +39,19 @@ return {
       opts = {
         log_level = "DEBUG",
       },
+      display = {
+        chat = {
+          window = {
+            layout = "float",
+            height = 0.8,
+            width = 0.7,
+          },
+        },
+      },
     })
     vim.keymap.set({ "n", "v" }, "ca", "<cmd>CodeCompanionActions<cr>",
       { noremap = true, silent = true, desc = "Open CodeCompanion Actions Palette" })
-    vim.keymap.set({ "n", "v" }, "cc", "<cmd>CodeCompanionChat Toggle<cr>",
+    vim.keymap.set({ "n", "v" }, "\\", require("codecompanion").toggle,
       { noremap = true, silent = true, desc = "Toggle CodeCompanion Chat window" })
     vim.cmd([[cab cc CodeCompanion]])
   end,
