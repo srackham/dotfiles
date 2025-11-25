@@ -52,7 +52,7 @@
 :iab H4 ####
 :iab H5 #####
 :iab H6 ######
-:ia6 Hw hardware
+:iab Hw hardware
 :iab Id identifier
 :iab Ids identifiers
 :iab Imo In my opinion
@@ -61,6 +61,7 @@
 :iab Kjv King James Version
 :iab Lh left hand
 :iab Lhs left hand side
+:iab Ln Bitcoin Lightning Network
 :iab Hm Home Manager
 :iab Lo LibreOffice
 :iab Lg Lazygit
