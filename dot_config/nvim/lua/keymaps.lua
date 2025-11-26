@@ -75,8 +75,7 @@ vim.keymap.set('n', '<Leader>nt', ']t', { remap = true, silent = true, desc = "]
 vim.keymap.set('n', '<Leader>nw', ']w', { remap = true, silent = true, desc = "]w alias" })
 
 -- Miscellaneous commands
-vim.keymap.set('n', '<M-;>', ',', { noremap = true, silent = true, desc = "Page up" }) -- Because comma is the Leader
-vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>',                  -- Turn of search highlighting and clear status line
+vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>', -- Turn off search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>,', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
@@ -379,9 +378,6 @@ vim.api.nvim_create_autocmd('FileType', {
       { noremap = true, silent = true, desc = "Delete current item from quickfix list" })
   end,
 })
-
--- Insert date
--- vim.keymap.set('i', '<M-;>', '<C-r>=strftime("%d-%b-%Y")<CR>', { noremap = true, silent = true, desc = "Insert date" })
 
 -- Toggle word-wrap
 vim.keymap.set('n', '<Leader>ww', function()
