@@ -341,9 +341,15 @@ vim.keymap.set('n', '<leader>wm', toggle_maximize_width,
   { noremap = true, silent = true, desc = "Toggle window maximum width" })
 
 -- Tab commands
-vim.keymap.set('n', '<Leader>tn', '<Cmd>tab split<CR>',
+vim.keymap.set('n', '<Leader>to', '<Cmd>tab split<CR>',
   { noremap = true, silent = true, desc = "Open buffer in new tab" })
 vim.keymap.set('n', '<Leader>tc', '<Cmd>tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
+
+-- Terminal commands
+vim.keymap.set('n', '<Leader>tn', '<Cmd>terminal<CR>i',
+  { noremap = true, silent = true, desc = "Open a new terminal buffer" })
+vim.keymap.set('t', '<C-n>', '<C-\\><C-n>',
+  { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
 
 -- Quickfix commands
 vim.keymap.set('n', '<Leader>qc', '<Cmd>cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
