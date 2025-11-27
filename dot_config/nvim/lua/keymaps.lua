@@ -80,6 +80,8 @@ vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>', -- Turn of
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>,', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
+vim.keymap.set('n', '<C-n>', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
+  { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
@@ -266,6 +268,8 @@ vim.keymap.set('n', '<Leader>st', toggle_spell_checker, { noremap = true, silent
 -- Buffer commands
 vim.keymap.set('n', '<Leader>bd', '<Cmd>bd!<CR>',
   { noremap = true, silent = false, desc = "Discard current buffer" })
+vim.keymap.set('n', '<C-d>', '<Cmd>bd!<CR>',
+  { noremap = true, silent = false, nowait = true, desc = "Discard current buffer" })
 vim.api.nvim_set_keymap('n', '<Leader>bD', '<Cmd>%bd|e#|bd#<CR>',
   { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
 vim.keymap.set('n', '<Leader>fD', function()
