@@ -40,6 +40,11 @@ return {
         log_level = "DEBUG",
       },
       display = {
+        -- TODO: This does not resize the Action Palette
+        -- action_palette = {
+        --   height = 10,
+        --   width = 95,
+        -- },
         chat = {
           window = {
             layout = "float",
@@ -57,6 +62,8 @@ return {
       { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" })
     vim.keymap.set("v", "<Leader>aa", "<cmd>CodeCompanionChat Add<cr>",
       { noremap = true, silent = true, desc = "Add selection to CodeCompanion chat window" })
+    vim.keymap.set("v", "<Leader>ae", "<cmd>CodeCompanion /explain Add<cr>",
+      { noremap = true, silent = true, desc = "Explain selection using CodeCompanion" })
     vim.cmd([[cab cc CodeCompanion]])
   end,
 }
