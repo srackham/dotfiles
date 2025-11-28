@@ -85,6 +85,8 @@ vim.keymap.set('n', '<C-n>', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set('n', '<C-c><C-d>', '<Cmd>qa!<CR>',
+  { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>eq', '<Cmd>wqa<CR>',
   { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<C-c><C-c>', '<Cmd>wqa<CR>',
