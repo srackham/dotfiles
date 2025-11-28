@@ -85,8 +85,6 @@ vim.keymap.set('n', '<C-n>', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set('n', '<Leader>eQ', '<Cmd>qa!<CR>',
   { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set('n', '<C-d><C-d>', '<Cmd>qa!<CR>',
-  { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set('n', '<Leader>eq', '<Cmd>wqa<CR>',
   { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set('n', '<C-c><C-c>', '<Cmd>wqa<CR>',
@@ -269,7 +267,7 @@ vim.keymap.set('n', '<Leader>st', toggle_spell_checker, { noremap = true, silent
 vim.keymap.set('n', '<Leader>bd', '<Cmd>bd!<CR>',
   { noremap = true, silent = false, desc = "Discard current buffer" })
 vim.keymap.set('n', '<C-d>', '<Cmd>bd!<CR>',
-  { noremap = true, silent = false, nowait = true, desc = "Discard current buffer" })
+  { noremap = true, silent = false, desc = "Discard current buffer" })
 vim.api.nvim_set_keymap('n', '<Leader>bD', '<Cmd>%bd|e#|bd#<CR>',
   { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
 vim.keymap.set('n', '<Leader>fD', function()
