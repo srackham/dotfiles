@@ -53,14 +53,22 @@ Shared bash and zsh configuration settings for interactive shells.
 */}}
 # Shared bash and zsh aliases
 alias ,="cd -"
-alias b="brave"
-alias tree="tree --gitignore"
-alias treels="tree -Dhp --du --metafirst"
-alias btc='echo $(date +'%H:%M'): $(ccp BTC)'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
 
-alias cat="bat --style=plain"
-alias less="bat --style=plain"
-alias l="bat --style=plain"
+alias b="brave"
+
+alias ls="eza"
+alias ll="eza -l --icons --git -as modified"
+alias lt="eza --tree --long --icons --git"
+alias td="eza --tree --only-dirs --icons --git"
+alias tr="eza --tree --icons --git"
+alias tg="eza --tree --icons --git --git-ignore"
+
+alias btc='echo $(date +'%H:%M'): $(ccp BTC)'
 
 {{if eq .chezmoi.arch "arm64"}}
 alias cryptor="cryptor.arm64"
@@ -99,15 +107,10 @@ alias hx="helix"
 {{end}}
 alias h="history"
 
-alias ls="eza"
-alias ll="eza -lHg"
-alias lr="eza -laHgs modified"
-
 alias nls="npm list --depth 0 --silent"
 alias ocr="clipboard-paste -t image/png | tesseract -l eng - - 2>/dev/null"
 
 alias ta="tmux attach"
-alias tg="tmux capture-pane -p -S - | rg --color=always"  # grep tmux current pane
 alias tde="tde --session $(hostname)"
 
 {{/* distro-independent package mmmanagement aliases */}}
