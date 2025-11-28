@@ -75,6 +75,8 @@ vim.keymap.set('n', '<Leader>nt', ']t', { remap = true, silent = true, desc = "]
 vim.keymap.set('n', '<Leader>nw', ']w', { remap = true, silent = true, desc = "]w alias" })
 
 -- Miscellaneous commands
+vim.keymap.set('n', '<C-h>', 'Hzz', { noremap = true, silent = true, desc = "Center window top" })
+vim.keymap.set('n', '<C-l>', 'Lzz', { noremap = true, silent = true, desc = "Center window bottom" })
 vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>', -- Turn off search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
