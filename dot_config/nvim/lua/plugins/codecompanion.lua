@@ -9,12 +9,16 @@ return {
     require("codecompanion").setup({
       strategies = {
         chat = {
-          adapter = "gemini",
-          model = "gemini-2.5-flash"
+          -- adapter = "gemini",
+          -- model = "gemini-2.5-flash"
+          adapter = "openrouter",
+          model = "openai/gpt-4o-mini"
         },
         inline = {
-          adapter = "gemini",
-          model = "gemini-2.5-flash"
+          -- adapter = "gemini",
+          -- model = "gemini-2.5-flash"
+          adapter = "openrouter",
+          model = "openai/gpt-4o-mini"
         },
       },
       adapters = {
@@ -29,15 +33,13 @@ return {
               schema = {
                 model = {
                   -- Update this to your preferred default OpenRouter model ID
-                  -- e.g., "anthropic/claude-3.5-sonnet", "google/gemini-2.0-flash-001"
-                  default = "x-ai/grok-code-fast-1",
-                  -- FIXME: 29-Nov-2025: I can't figure why these choices don't show in the models selection list (only the default shows).
+                  default = "openai/gpt-4o-mini",
                   choices = {
-                    "x-ai/grok-code-fast-1",
-                    "qwen/qwen3-coder-30b-a3b-instruct",
-                    "anthropic/claude-3.7-sonnet",
-                    "anthropic/claude-3.5-sonnet",
-                    "openai/gpt-4o-mini",
+                    ["x-ai/grok-code-fast-1"] = {},
+                    ["qwen/qwen3-coder-30b-a3b-instruct"] = {},
+                    ["anthropic/claude-3.7-sonnet"] = {},
+                    ["anthropic/claude-3.5-sonnet"] = {},
+                    ["openai/gpt-4o-mini"] = {},
                     -- Add more models as needed (check OpenRouter docs for IDs)
                   },
                 },
