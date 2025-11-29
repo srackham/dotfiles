@@ -31,6 +31,15 @@ return {
                   -- Update this to your preferred default OpenRouter model ID
                   -- e.g., "anthropic/claude-3.5-sonnet", "google/gemini-2.0-flash-001"
                   default = "x-ai/grok-code-fast-1",
+                  -- FIXME: 29-Nov-2025: I can't figure why these choices don't show in the models selection list (only the default shows).
+                  choices = {
+                    "x-ai/grok-code-fast-1",
+                    "qwen/qwen3-coder-30b-a3b-instruct",
+                    "anthropic/claude-3.7-sonnet",
+                    "anthropic/claude-3.5-sonnet",
+                    "openai/gpt-4o-mini",
+                    -- Add more models as needed (check OpenRouter docs for IDs)
+                  },
                 },
               },
             })
@@ -41,7 +50,7 @@ return {
         log_level = "DEBUG",
       },
       display = {
-        -- TODO: This does not resize the Action Palette
+        -- FIXME: This does not resize the Action Palette
         -- action_palette = {
         --   height = 10,
         --   width = 95,
