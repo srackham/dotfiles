@@ -7,10 +7,11 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 -- This is where you actually apply your config choices.
+
 config.font = wezterm.font 'JetBrains Mono'
+config.font_size = 11.0
 -- config.color_scheme = 'Argonaut (Gogh)'
 config.color_scheme = 'catppuccin-mocha'
-config.font_size = 10.0
 config.initial_rows = 50
 config.initial_cols = 120
 config.audible_bell = 'Disabled'
@@ -22,5 +23,4 @@ config.colors = {
   -- cursor_bg = '#52ad70',
   -- other colors...
 }
-
 return config
