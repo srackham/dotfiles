@@ -1,7 +1,7 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
+    -- tag = '0.1.8',
     dependencies = {
       'nvim-lua/plenary.nvim'
     },
@@ -17,13 +17,13 @@ return {
             horizontal = {
               preview_cutoff = 100,
               prompt_position = 'bottom',
-              width = { padding = 0 },  -- Use full width
-              height = { padding = 0 }, -- Use full height
-              preview_width = 0.5,      -- Preview width as a fraction of the total width
+              -- width = { padding = 0 },  -- Use full width
+              -- height = { padding = 0 }, -- Use full height
+              preview_width = 0.5, -- Preview width as a fraction of the total width
             },
             vertical = {
-              width = { padding = 0 },
-              height = { padding = 0 },
+              -- width = { padding = 0 },
+              -- height = { padding = 0 },
               preview_height = 0.5,
             },
           },
