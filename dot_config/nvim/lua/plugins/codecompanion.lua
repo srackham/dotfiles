@@ -53,10 +53,10 @@ return {
       },
       display = {
         -- FIXME: This does not resize the Action Palette
-        -- action_palette = {
-        --   height = 10,
-        --   width = 95,
-        -- },
+        action_palette = {
+          height = 10,
+          width = 95,
+        },
         chat = {
           window = {
             layout = "float",
