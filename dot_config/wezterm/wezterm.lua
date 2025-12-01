@@ -15,8 +15,6 @@ config.color_scheme = 'catppuccin-mocha'
 config.initial_rows = 50
 config.initial_cols = 120
 config.audible_bell = 'Disabled'
-config.default_cursor_style = 'BlinkingBlock'               -- FIXME: cursor does not blink
-config.cursor_blink_rate = 500                              -- FIXME: cursor does not blink
 config.enable_tab_bar = false
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures (https://wezterm.org/config/font-shaping.html)
 config.colors = {
