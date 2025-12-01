@@ -101,6 +101,7 @@
 :iab Vms virtual machines
 :iab Vsc VSCode
 :iab Wrt with respect to
+:iab Wt WezTerm
 :iab Xp Christian
 :iab Xps Christians
 :iab Xpy Christianity
