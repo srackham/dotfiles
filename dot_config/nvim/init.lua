@@ -43,3 +43,5 @@ if vim.fn.filereadable(project_config_file) == 1 then
     vim.notify("Error loading " .. project_config_file .. ": " .. err, vim.log.levels.ERROR)
   end
 end
+
+vim.api.nvim_set_hl(0, "Normal", { bg = "black" })
