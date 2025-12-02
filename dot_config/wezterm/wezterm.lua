@@ -2,6 +2,7 @@
 
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
+local act = wezterm.action
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
@@ -18,6 +19,41 @@ config.audible_bell = 'Disabled'
 config.enable_tab_bar = false
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures (https://wezterm.org/config/font-shaping.html)
 
+-- Key bindings
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
+config.keys = {
+  -- Split horizontally (left/right)
+  { key = "s", mods = "LEADER", action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
+  -- Split vertically (top/bottom)
+  { key = "v", mods = "LEADER", action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
+
+  -- Cycle panes forward / backward (by ordinal in pane tree)
+  { key = 'l', mods = 'ALT',    action = act.ActivatePaneDirection('Next') },
+  { key = 'h', mods = 'ALT',    action = act.ActivatePaneDirection('Prev') },
+
+  -- Cycle tabs forward / backward
+  { key = ']', mods = 'ALT',    action = act.ActivateTabRelative(1) },
+  { key = '[', mods = 'ALT',    action = act.ActivateTabRelative(-1) },
+
+  -- Alt+1..Alt+4: select panes 1..4
+  { key = '1', mods = 'ALT',    action = act.ActivatePaneByIndex(0) },
+  { key = '2', mods = 'ALT',    action = act.ActivatePaneByIndex(1) },
+  { key = '3', mods = 'ALT',    action = act.ActivatePaneByIndex(2) },
+  { key = '4', mods = 'ALT',    action = act.ActivatePaneByIndex(3) },
+
+  -- Alt+f: toggle pane full-screen (zoom)
+  { key = 'f', mods = 'ALT',    action = act.TogglePaneZoomState },
+
+  -- Alt+p: previous active tab (jump back to the last active tab)
+  { key = 'p', mods = 'ALT',    action = act.ActivateLastTab },
+
+  -- Alt+o: previous active pane (scripted workaround)
+  --[[     { key = 'o', mods = 'ALT', action = jump_to_prev_pane }, ]]
+
+  -- Alt+v: paste from clipboard
+  { key = 'v', mods = 'ALT',    action = act.PasteFrom 'Clipboard' },
+}
+
 -- Tab bar
 config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
@@ -30,7 +66,7 @@ config.colors = {
     background = "#1d1f21",
 
     active_tab = {
-      bg_color = "#8aadf4",
+      bg_color = "#b4befe",
       fg_color = "#1d1f21",
       intensity = "Bold",
     },
@@ -51,8 +87,8 @@ config.colors = {
     },
 
     new_tab_hover = {
-      bg_color = "#5f87ff",
-      fg_color = "#1d1f21",
+      bg_color = "#444444",
+      fg_color = "#ffffff",
       italic = true,
       intensity = "Bold",
     },
