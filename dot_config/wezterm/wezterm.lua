@@ -53,6 +53,17 @@ config.hide_tab_bar_if_only_one_tab = false
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
 
+wezterm.on('update-right-status', function(window, _)
+  local date = wezterm.strftime '%H:%M  %a %d %b %Y'
+  local hostname = wezterm.hostname()
+  window:set_right_status(wezterm.format {
+    { Attribute = { Italic = true } },
+    { Attribute = { Intensity = "Bold" } },
+    { Foreground = { Color = '#c0c0c0' } },
+    { Text = hostname .. ' | ' .. date },
+  })
+end)
+
 config.colors = {
   background = 'black',
   tab_bar = {
@@ -99,4 +110,9 @@ config.window_frame = {
   border_top_color = '#3a3a3a',
 }
 
+-- As of 02-Dec-2025 the is no way to set the active pane border color, only the HSB value
+config.inactive_pane_hsb = {
+  saturation = 0.5,
+  brightness = 0.5,
+}
 return config
