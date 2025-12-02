@@ -3,11 +3,14 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 local act = wezterm.action
-
--- This will hold the configuration.
 local config = wezterm.config_builder()
 
--- This is where you actually apply your config choices.
+-- Differentiate active pane
+-- As of 02-Dec-2025 the is no way to set the active pane border color, only the HSB value
+config.inactive_pane_hsb = {
+  saturation = 0.5,
+  brightness = 0.5,
+}
 
 config.font = wezterm.font 'JetBrains Mono'
 config.font_size = 11.0
@@ -16,7 +19,6 @@ config.color_scheme = 'catppuccin-mocha'
 config.initial_rows = 50
 config.initial_cols = 120
 config.audible_bell = 'Disabled'
-config.enable_tab_bar = false
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures (https://wezterm.org/config/font-shaping.html)
 
 -- Key bindings
@@ -45,13 +47,28 @@ config.keys = {
 
   -- Alt+v: paste from clipboard
   { key = 'v', mods = 'ALT',    action = act.PasteFrom 'Clipboard' },
+
+  -- Rename active tab
+  {
+    key = 'r',
+    mods = 'LEADER',
+    action = act.PromptInputLine {
+      description = 'Enter new name for tab',
+      action = wezterm.action_callback(function(window, _, line)
+        if line then
+          window:active_tab():set_title(line)
+        end
+      end),
+    },
+  },
+
 }
 
 -- Tab bar
 config.enable_tab_bar = true
+config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = false
 config.tab_bar_at_bottom = true
-config.use_fancy_tab_bar = false
 
 wezterm.on('update-right-status', function(window, _)
   local date = wezterm.strftime '%H:%M  %a %d %b %Y'
@@ -66,22 +83,23 @@ end)
 
 config.colors = {
   background = 'black',
+  split = '#585858', -- The color of the split lines between panes
   tab_bar = {
-    background = "#1d1f21",
+    background = "#262626",
 
     active_tab = {
       bg_color = "#b4befe",
-      fg_color = "#1d1f21",
+      fg_color = "black",
       intensity = "Bold",
     },
 
     inactive_tab = {
-      bg_color = "#3a3a3a",
+      bg_color = "#444444",
       fg_color = "#c0c0c0",
     },
 
     inactive_tab_hover = {
-      bg_color = "#444444",
+      bg_color = "#4e4e4e",
       fg_color = "#ffffff",
     },
 
@@ -100,19 +118,14 @@ config.colors = {
 }
 
 config.window_frame = {
-  border_left_width = '2px',
-  border_right_width = '2px',
-  border_bottom_height = '2px',
-  border_top_height = '2px',
+  border_left_width = '3px',
+  border_right_width = '3px',
+  border_bottom_height = '3px',
+  border_top_height = '3px',
   border_left_color = '#3a3a3a',
   border_right_color = '#3a3a3a',
   border_bottom_color = '#3a3a3a',
   border_top_color = '#3a3a3a',
 }
 
--- As of 02-Dec-2025 the is no way to set the active pane border color, only the HSB value
-config.inactive_pane_hsb = {
-  saturation = 0.5,
-  brightness = 0.5,
-}
 return config
