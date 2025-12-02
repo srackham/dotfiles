@@ -31,10 +31,6 @@ config.keys = {
   { key = 'l', mods = 'ALT',    action = act.ActivatePaneDirection('Next') },
   { key = 'h', mods = 'ALT',    action = act.ActivatePaneDirection('Prev') },
 
-  -- Cycle tabs forward / backward
-  { key = ']', mods = 'ALT',    action = act.ActivateTabRelative(1) },
-  { key = '[', mods = 'ALT',    action = act.ActivateTabRelative(-1) },
-
   -- Alt+1..Alt+4: select panes 1..4
   { key = '1', mods = 'ALT',    action = act.ActivatePaneByIndex(0) },
   { key = '2', mods = 'ALT',    action = act.ActivatePaneByIndex(1) },
@@ -46,9 +42,6 @@ config.keys = {
 
   -- Alt+p: previous active tab (jump back to the last active tab)
   { key = 'p', mods = 'ALT',    action = act.ActivateLastTab },
-
-  -- Alt+o: previous active pane (scripted workaround)
-  --[[     { key = 'o', mods = 'ALT', action = jump_to_prev_pane }, ]]
 
   -- Alt+v: paste from clipboard
   { key = 'v', mods = 'ALT',    action = act.PasteFrom 'Clipboard' },
