@@ -65,6 +65,8 @@ config.keys = {
 }
 
 -- Tab bar
+local tab_color = "#84a2bd" -- Active tab and status text color
+
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = false
@@ -76,7 +78,7 @@ wezterm.on('update-right-status', function(window, _)
   window:set_right_status(wezterm.format {
     { Attribute = { Italic = true } },
     { Attribute = { Intensity = "Bold" } },
-    { Foreground = { Color = '#c0c0c0' } },
+    { Foreground = { Color = tab_color } },
     { Text = hostname .. ' | ' .. date },
   })
 end)
@@ -88,7 +90,7 @@ config.colors = {
     background = "#262626",
 
     active_tab = {
-      bg_color = "#b4befe",
+      bg_color = tab_color,
       fg_color = "black",
       intensity = "Bold",
     },
@@ -117,6 +119,7 @@ config.colors = {
   },
 }
 
+-- Window border
 config.window_frame = {
   border_left_width = '3px',
   border_right_width = '3px',
