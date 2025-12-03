@@ -10,5 +10,5 @@ volume-up=['<Super>F12']
 
 [custom-keybindings/custom0]
 binding='<Super>t'
-command='alacritty'
+command='wezterm'
 name='Open Terminal'
