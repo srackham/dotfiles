@@ -131,4 +131,38 @@ config.window_frame = {
   border_top_color = '#3a3a3a',
 }
 
+-- Theme picker
+local function theme_picker(window, pane)
+  local schemes = wezterm.get_builtin_color_schemes()
+  local choices = {}
+  for name, _ in pairs(schemes) do
+    table.insert(choices, { label = name })
+  end
+  table.sort(choices, function(a, b) return a.label < b.label end)
+
+  window:perform_action(
+    act.InputSelector({
+      title = 'Pick a Theme',
+      choices = choices,
+      fuzzy = true,
+      action = wezterm.action_callback(function(win, _, _, label)
+        if label then
+          local overrides = win:get_config_overrides() or {}
+          overrides.color_scheme = label
+          win:set_config_overrides(overrides)
+        end
+      end),
+    }),
+    pane
+  )
+end
+
+table.insert(config.keys,
+  {
+    key = 't',
+    mods = 'LEADER',
+    action = wezterm.action_callback(theme_picker),
+  }
+)
+
 return config
