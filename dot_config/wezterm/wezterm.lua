@@ -68,6 +68,7 @@ config.keys = {
 
 }
 
+-- Custom palette commands
 wezterm.on('augment-command-palette', function(_, _)
   return {
     {
@@ -81,6 +82,16 @@ wezterm.on('augment-command-palette', function(_, _)
           end
         end),
       },
+    },
+    {
+      brief = 'Update Plugins',
+      icon = 'md_rename_box',
+      action = wezterm.action_callback(function(window, _)
+        wezterm.log_info("Updating plugins...")
+        wezterm.plugin.update_all()
+        wezterm.reload_configuration()
+        window:toast_notification("WezTerm", "Plugins updated successfully", nil, 4000)
+      end),
     },
   }
 end)
