@@ -93,11 +93,15 @@ config.tab_bar_at_bottom = true
 
 --  Tab bar plugin
 local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
-tabline.setup()
+tabline.setup({
+  options = {
+    icons_enabled = true,
+    tabs_enabled = false, -- Use native WezTerm tabs
+    theme = 'Catppuccin Mocha',
+  },
+})
 
 -- TODO: Drop old tab bar configuration.
--- local tab_color = "#84a2bd" -- Active tab and status text color
-
 -- wezterm.on('update-right-status', function(window, _)
 --   local date = wezterm.strftime '%H:%M  %a %d %b %Y'
 --   local hostname = wezterm.hostname()
@@ -114,37 +118,37 @@ config.colors = {
   background = 'black',
   split = '#585858', -- The color of the split lines between panes
   -- TODO: Drop old tab bar configuration.
-  -- tab_bar = {
-  --   background = "#262626",
-  --
-  --   active_tab = {
-  --     bg_color = tab_color,
-  --     fg_color = "black",
-  --     intensity = "Bold",
-  --   },
-  --
-  --   inactive_tab = {
-  --     bg_color = "#444444",
-  --     fg_color = "#c0c0c0",
-  --   },
-  --
-  --   inactive_tab_hover = {
-  --     bg_color = "#4e4e4e",
-  --     fg_color = "#ffffff",
-  --   },
-  --
-  --   new_tab = {
-  --     bg_color = "#3a3a3a",
-  --     fg_color = "#c0c0c0",
-  --   },
-  --
-  --   new_tab_hover = {
-  --     bg_color = "#444444",
-  --     fg_color = "#ffffff",
-  --     italic = true,
-  --     intensity = "Bold",
-  --   },
-  -- },
+  tab_bar = {
+    background = "#262626",
+
+    active_tab = {
+      bg_color = "#89b4fa",
+      fg_color = "black",
+      intensity = "Bold",
+    },
+
+    inactive_tab = {
+      bg_color = "#444444",
+      fg_color = "#c0c0c0",
+    },
+
+    inactive_tab_hover = {
+      bg_color = "#4e4e4e",
+      fg_color = "#ffffff",
+    },
+
+    new_tab = {
+      bg_color = "#3a3a3a",
+      fg_color = "#c0c0c0",
+    },
+
+    new_tab_hover = {
+      bg_color = "#444444",
+      fg_color = "#ffffff",
+      italic = true,
+      intensity = "Bold",
+    },
+  },
 }
 
 -- Window border
