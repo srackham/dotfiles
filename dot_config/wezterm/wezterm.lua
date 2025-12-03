@@ -29,6 +29,10 @@ config.keys = {
   -- Split vertically (top/bottom)
   { key = "v", mods = "LEADER", action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
 
+  -- Cycle tabs forward / backward
+  { key = ']', mods = 'ALT',    action = act.ActivateTabRelative(1) },
+  { key = '[', mods = 'ALT',    action = act.ActivateTabRelative(-1) },
+
   -- Cycle panes forward / backward (by ordinal in pane tree)
   { key = 'l', mods = 'ALT',    action = act.ActivatePaneDirection('Next') },
   { key = 'h', mods = 'ALT',    action = act.ActivatePaneDirection('Prev') },
