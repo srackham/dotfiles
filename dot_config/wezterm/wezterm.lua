@@ -200,7 +200,7 @@ end
 table.insert(palette_commands,
   {
     brief = 'Update Plugins',
-    icon = 'md_rename_box',
+    icon = 'md_rename',
     action = wezterm.action_callback(update_plugins_action),
   }
 )
@@ -208,7 +208,7 @@ table.insert(palette_commands,
 table.insert(palette_commands,
   {
     brief = 'Save workspace state',
-    icon = 'md_rename_box',
+    icon = 'md_content_save',
     action = wezterm.action_callback(save_workspace_state_action),
   }
 )
@@ -216,7 +216,7 @@ table.insert(palette_commands,
 table.insert(palette_commands,
   {
     brief = 'Load workspace state',
-    icon = 'md_rename_box',
+    icon = 'md_reload',
     action = wezterm.action_callback(load_workspace_state_action),
   }
 )
@@ -225,7 +225,7 @@ table.insert(palette_commands,
 table.insert(palette_commands,
   {
     brief = 'Delete workspace state',
-    icon = 'md_rename_box',
+    icon = 'md_delete',
     action = wezterm.action_callback(function(win, pane)
       resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
           resurrect.state_manager.delete_state(id)
