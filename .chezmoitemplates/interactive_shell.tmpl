@@ -36,6 +36,10 @@ export GEMINI_API_KEY={{ .secrets.gemini_api_key }}
 export GH_TOKEN={{ .secrets.github_token }}
 {{ end }}
 
+if [[ -n "$WEZTERM_EXECUTABLE" ]]; then
+  export TERM=wezterm # Necessary for spelling error undercurl
+fi
+
 #
 # Shared aliases
 #
