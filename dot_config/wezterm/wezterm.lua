@@ -21,6 +21,9 @@ config.initial_cols = 120
 config.audible_bell = 'Disabled'
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures (https://wezterm.org/config/font-shaping.html)
 
+-- Palette commands are accumulated to this table and then installed at the end of the module.
+local palette_commands = {}
+
 -- Key bindings
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = {
@@ -72,49 +75,11 @@ config.keys = {
 
 }
 
--- Custom palette commands
-wezterm.on('augment-command-palette', function(_, _)
-  return {
-    {
-      brief = 'Rename tab',
-      icon = 'md_rename_box',
-      action = act.PromptInputLine {
-        description = 'Enter new name for tab',
-        action = wezterm.action_callback(function(window, _, line)
-          if line then
-            window:active_tab():set_title(line)
-          end
-        end),
-      },
-    },
-    {
-      brief = 'Update Plugins',
-      icon = 'md_rename_box',
-      action = wezterm.action_callback(function(window, _)
-        wezterm.log_info("Updating plugins...")
-        wezterm.plugin.update_all()
-        wezterm.reload_configuration()
-        window:toast_notification("WezTerm", "Plugins updated successfully", nil, 4000)
-      end),
-    },
-  }
-end)
-
 -- Tab bar
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = false
 config.tab_bar_at_bottom = true
-
---  Tab bar plugin
-local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
-tabline.setup({
-  options = {
-    icons_enabled = true,
-    tabs_enabled = false, -- Use native WezTerm tabs
-    theme = 'Catppuccin Mocha',
-  },
-})
 
 -- Color overrides
 config.colors = {
@@ -198,5 +163,116 @@ table.insert(config.keys,
     action = wezterm.action_callback(theme_picker),
   }
 )
+
+-- Tab bar plugin
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+tabline.setup({
+  options = {
+    icons_enabled = true,
+    tabs_enabled = false, -- Use native WezTerm tabs
+    theme = 'Catppuccin Mocha',
+  },
+})
+
+-- Rename tab command
+table.insert(palette_commands,
+  {
+    brief = 'Rename tab',
+    icon = 'md_rename_box',
+    action = act.PromptInputLine {
+      description = 'Enter new name for tab',
+      action = wezterm.action_callback(function(window, _, line)
+        if line then
+          window:active_tab():set_title(line)
+        end
+      end),
+    },
+  }
+)
+
+-- Layout save/restore plugin
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+
+-- Resurrect on startup FIXME: this startup code does not work.
+-- wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
+
+local function update_plugins_action(window)
+  wezterm.log_info("Updating plugins...")
+  wezterm.plugin.update_all()
+  wezterm.reload_configuration()
+  window:toast_notification("WezTerm", "Plugins updated successfully", nil, 4000)
+end
+
+local function save_workspace_state_action()
+  resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
+end
+
+local function load_workspace_state_action(win, pane)
+  resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
+    local type = string.match(id, "^([^/]+)") -- match before '/'
+    id = string.match(id, "([^/]+)$")         -- match after '/'
+    id = string.match(id, "(.+)%..+$")        -- remove file extension
+    local opts = {
+      relative = true,
+      restore_text = true,
+      on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+    }
+    if type == "workspace" then
+      local state = resurrect.state_manager.load_state(id, "workspace")
+      resurrect.workspace_state.restore_workspace(state, opts)
+    elseif type == "window" then
+      local state = resurrect.state_manager.load_state(id, "window")
+      resurrect.window_state.restore_window(pane:window(), state, opts)
+    elseif type == "tab" then
+      local state = resurrect.state_manager.load_state(id, "tab")
+      resurrect.tab_state.restore_tab(pane:tab(), state, opts)
+    end
+  end)
+end
+
+table.insert(palette_commands,
+  {
+    brief = 'Update Plugins',
+    icon = 'md_rename_box',
+    action = wezterm.action_callback(update_plugins_action),
+  }
+)
+
+table.insert(palette_commands,
+  {
+    brief = 'Save workspace state',
+    icon = 'md_rename_box',
+    action = wezterm.action_callback(save_workspace_state_action),
+  }
+)
+
+table.insert(palette_commands,
+  {
+    brief = 'Load workspace state',
+    icon = 'md_rename_box',
+    action = wezterm.action_callback(load_workspace_state_action),
+  }
+)
+
+-- Delete workspace state command
+table.insert(palette_commands,
+  {
+    brief = 'Delete workspace state',
+    icon = 'md_rename_box',
+    action = wezterm.action_callback(function(win, pane)
+      resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
+          resurrect.state_manager.delete_state(id)
+        end,
+        {
+          title = "Delete State",
+          description = "Select State to Delete and press Enter = accept, Esc = cancel, / = filter",
+          fuzzy_description = "Search State to Delete: ",
+          is_fuzzy = true,
+        })
+    end),
+  }
+)
+
+wezterm.on('augment-command-palette', function() return palette_commands end)
 
 return config
