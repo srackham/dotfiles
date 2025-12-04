@@ -116,23 +116,10 @@ tabline.setup({
   },
 })
 
--- TODO: Drop old tab bar configuration.
--- wezterm.on('update-right-status', function(window, _)
---   local date = wezterm.strftime '%H:%M  %a %d %b %Y'
---   local hostname = wezterm.hostname()
---   window:set_right_status(wezterm.format {
---     { Attribute = { Italic = true } },
---     { Attribute = { Intensity = "Bold" } },
---     { Foreground = { Color = tab_color } },
---     { Text = hostname .. ' | ' .. date },
---   })
--- end)
-
 -- Color overrides
 config.colors = {
   background = 'black',
   split = '#585858', -- The color of the split lines between panes
-  -- TODO: Drop old tab bar configuration.
   tab_bar = {
     background = "#262626",
 
