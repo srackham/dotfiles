@@ -21,6 +21,14 @@ vim.g.maplocalleader = '\\'
 vim.g.editorconfig = false -- Disable .editorconfig files globally
 vim.g.vim_init_file = vim.fn.stdpath('config') .. '/vim/init.vim'
 
+-- Spelling
+vim.opt.spell = true
+vim.opt.spelllang = { "en" }
+vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = "#ffcccb" })
+vim.api.nvim_set_hl(0, "SpellCap", { undercurl = true, sp = "#ffcccb" })
+vim.api.nvim_set_hl(0, "SpellRare", { undercurl = true, sp = "#ffcccb" })
+vim.api.nvim_set_hl(0, "SpellLocal", { undercurl = true, sp = "#ffcccb" })
+
 vim.o.winborder = 'single'
 
 -- Load abbreviations et al
