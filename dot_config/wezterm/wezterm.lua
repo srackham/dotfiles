@@ -25,32 +25,36 @@ config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = {
   -- Split horizontally (left/right)
-  { key = "s", mods = "LEADER", action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
+  { key = "s", mods = "LEADER",     action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
+
   -- Split vertically (top/bottom)
-  { key = "v", mods = "LEADER", action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
+  { key = "v", mods = "LEADER",     action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
+
+  -- Open workspace picker
+  { key = 's', mods = 'CTRL|SHIFT', action = act.ShowLauncherArgs { flags = 'WORKSPACES' } },
 
   -- Cycle tabs forward / backward
-  { key = ']', mods = 'ALT',    action = act.ActivateTabRelative(1) },
-  { key = '[', mods = 'ALT',    action = act.ActivateTabRelative(-1) },
+  { key = ']', mods = 'ALT',        action = act.ActivateTabRelative(1) },
+  { key = '[', mods = 'ALT',        action = act.ActivateTabRelative(-1) },
 
   -- Cycle panes forward / backward (by ordinal in pane tree)
-  { key = 'l', mods = 'ALT',    action = act.ActivatePaneDirection('Next') },
-  { key = 'h', mods = 'ALT',    action = act.ActivatePaneDirection('Prev') },
+  { key = 'l', mods = 'ALT',        action = act.ActivatePaneDirection('Next') },
+  { key = 'h', mods = 'ALT',        action = act.ActivatePaneDirection('Prev') },
 
   -- Alt+1..Alt+4: select panes 1..4
-  { key = '1', mods = 'ALT',    action = act.ActivatePaneByIndex(0) },
-  { key = '2', mods = 'ALT',    action = act.ActivatePaneByIndex(1) },
-  { key = '3', mods = 'ALT',    action = act.ActivatePaneByIndex(2) },
-  { key = '4', mods = 'ALT',    action = act.ActivatePaneByIndex(3) },
+  { key = '1', mods = 'ALT',        action = act.ActivatePaneByIndex(0) },
+  { key = '2', mods = 'ALT',        action = act.ActivatePaneByIndex(1) },
+  { key = '3', mods = 'ALT',        action = act.ActivatePaneByIndex(2) },
+  { key = '4', mods = 'ALT',        action = act.ActivatePaneByIndex(3) },
 
   -- Alt+f: toggle pane full-screen (zoom)
-  { key = 'f', mods = 'ALT',    action = act.TogglePaneZoomState },
+  { key = 'f', mods = 'ALT',        action = act.TogglePaneZoomState },
 
   -- Alt+p: previous active tab (jump back to the last active tab)
-  { key = 'p', mods = 'ALT',    action = act.ActivateLastTab },
+  { key = 'p', mods = 'ALT',        action = act.ActivateLastTab },
 
   -- Alt+v: paste from clipboard
-  { key = 'v', mods = 'ALT',    action = act.PasteFrom 'Clipboard' },
+  { key = 'v', mods = 'ALT',        action = act.PasteFrom 'Clipboard' },
 
   -- Rename active tab
   {
