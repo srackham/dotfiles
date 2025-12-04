@@ -166,11 +166,12 @@ local function update_plugins_action(window)
   wezterm.log_info("Updating plugins...")
   wezterm.plugin.update_all()
   wezterm.reload_configuration()
-  window:toast_notification("WezTerm", "Plugins updated successfully", nil, 4000)
+  window:toast_notification("WezTerm", "Plugins updated", nil, 4000)
 end
 
-local function save_workspace_state_action()
+local function save_workspace_state_action(window)
   resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
+  window:toast_notification("WezTerm", "Workspace state saved", nil, 4000)
 end
 
 local function load_workspace_state_action(win, pane)
