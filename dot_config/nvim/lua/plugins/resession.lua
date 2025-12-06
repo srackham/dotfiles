@@ -1,5 +1,6 @@
 return {
   'stevearc/resession.nvim',
+  enabled = false,
   opts = {},
   config = function()
     local resession = require('resession')
@@ -13,7 +14,7 @@ return {
         -- Only load the session if nvim was started with no args
         if vim.fn.argc(-1) == 0 then
           -- Save these to a different directory, so our manual sessions don't get polluted
-          resession.load(vim.fn.getcwd(), { dir = 'dirsession', silence_errors = true })
+          resession.load(vim.fn.getcwd(), { dir = 'dirsession', silence_errors = false })
         end
       end,
       nested = true,
@@ -21,7 +22,7 @@ return {
     -- Save the session when nvim closes
     vim.api.nvim_create_autocmd('VimLeavePre', {
       callback = function()
-        resession.save(vim.fn.getcwd(), { dir = 'dirsession', notify = false })
+        resession.save(vim.fn.getcwd(), { dir = 'dirsession', notify = true })
       end,
     })
   end
