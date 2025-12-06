@@ -394,23 +394,6 @@ vim.keymap.set('n', '<Leader>ww', function()
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
--- Terminal execution commands
--- These commands save modified buffers and then execute CLI commands in the tmux terminal pane.
--- NOTE: These command should logically reside in tmux but, due to Neovim async behaviour,
--- modified files might not be saved prior to the execution of tmux terminal pane commands.
-
-vim.keymap.set('n', '<leader>tr', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
-vim.keymap.set('n', '<C-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
-vim.keymap.set('n', '<M-r>', function() Utils.send_keys_to_terminal('C-r', { focus_pane_id = 2 }) end,
-  { noremap = true, silent = true, desc = "Open fzf command-line recall in the terminal (pane 2)" })
-
-vim.keymap.set('n', '<leader>tx', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
-vim.keymap.set('n', '<M-R>', function() Utils.send_keys_to_terminal('Up Enter') end,
-  { noremap = true, silent = true, desc = "Execute last terminal command (pane 2)" })
-
 -- Additional commands
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath("config") .. "/vim/init.vim",
