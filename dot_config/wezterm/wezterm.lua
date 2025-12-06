@@ -24,6 +24,23 @@ config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' } -- Disable ligatures
 -- Palette commands are accumulated to this table and then installed at the end of the module.
 local palette_commands = {}
 
+-- Utility functions --
+
+-- Return the pane in the active tab with topological index (zero-based) or nil if it does not exist.
+local function pane_at_index(window, index)
+  local tab = window:active_tab()
+  local panes = tab:panes_with_info()
+  local target_pane = nil
+
+  for _, pane_info in ipairs(panes) do
+    if pane_info.index == index then
+      target_pane = pane_info.pane
+      break
+    end
+  end
+  return target_pane
+end
+
 -- Key bindings
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = {
@@ -71,6 +88,32 @@ config.keys = {
         end
       end),
     },
+  },
+
+  -- Open command-line recall in the second pane
+  {
+    key = "r",
+    mods = "ALT",
+    action = wezterm.action_callback(function(window)
+      local target_pane = pane_at_index(window, 1)
+      if target_pane then
+        target_pane:send_text("\x12") -- Ctrl+r
+        target_pane:activate()
+      end
+    end)
+  },
+
+  -- Execute the previous terminal command in the second pane
+  {
+    key = "r",
+    mods = "ALT|SHIFT",
+    action = wezterm.action_callback(function(window)
+      local target_pane = pane_at_index(window, 1)
+      if target_pane then
+        os.execute("sleep 0.1")       -- Give editor time to save after loss of focus
+        target_pane:send_text("!!\n") -- Execute previous command
+      end
+    end)
   },
 
 }
