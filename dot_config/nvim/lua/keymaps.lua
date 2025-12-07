@@ -48,7 +48,6 @@ map_next_prev(
   '[q', function()
     pcall(function() vim.cmd('cprev') end)
   end, "Quickfix")
-map_next_prev(']t', 'tabnext', '[t', 'tabprevious', "tab")
 map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
 map_next_prev(']s', 'normal! ]s', '[s', 'normal! [s', "misspelt word")
 map_next_prev('g,', 'normal! g,', 'g;', 'normal! g;', "change") -- Adds n/N functionality to `g,` and `g;` commands
@@ -343,13 +342,8 @@ end
 vim.keymap.set('n', '<leader>wm', toggle_maximize_width,
   { noremap = true, silent = true, desc = "Toggle window maximum width" })
 
--- Tab commands
-vim.keymap.set('n', '<Leader>to', '<Cmd>tab split<CR>',
-  { noremap = true, silent = true, desc = "Open buffer in new tab" })
-vim.keymap.set('n', '<Leader>tc', '<Cmd>tabclose<CR>', { noremap = true, silent = true, desc = "Close tab" })
-
 -- Terminal commands
-vim.keymap.set('n', '<Leader>tn', '<Cmd>terminal<CR>i',
+vim.keymap.set('n', '<Leader>to', '<Cmd>terminal<CR>i',
   { noremap = true, silent = true, desc = "Open a new terminal buffer" })
 vim.keymap.set('t', '<C-n>', '<C-\\><C-n>',
   { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
