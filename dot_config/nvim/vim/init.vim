@@ -82,6 +82,7 @@
 :iab Res regular expressions
 :iab Ot Old Testament
 :iab Nt New Testament
+:iab Nyi not yet implemented
 :iab Potus the president of the United States of America
 :iab Repo repository
 :iab Repos repositories
