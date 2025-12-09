@@ -12,7 +12,7 @@ config.inactive_pane_hsb = {
   brightness = 0.5,
 }
 
-config.window_decorations = "TITLE | RESIZE"
+-- config.window_decorations = "RESIZE" -- FIXME: does not work on Wayland (wezterm 0-unstable-2025-05-18)
 config.font = wezterm.font 'JetBrains Mono'
 config.font_size = 11.0
 -- config.color_scheme = 'Argonaut (Gogh)'
