@@ -319,7 +319,7 @@ local function toggle_maximize_height()
     win_height_maximized = false
   end
 end
-vim.keymap.set('n', '<leader>wM', toggle_maximize_height,
+vim.keymap.set('n', '<leader>wm', toggle_maximize_height,
   { noremap = true, silent = true, desc = "Toggle window maximum height" })
 
 local win_width_maximized = false
@@ -339,7 +339,7 @@ local function toggle_maximize_width()
     win_width_maximized = false
   end
 end
-vim.keymap.set('n', '<leader>wm', toggle_maximize_width,
+vim.keymap.set('n', '<leader>wM', toggle_maximize_width,
   { noremap = true, silent = true, desc = "Toggle window maximum width" })
 
 -- Terminal commands
