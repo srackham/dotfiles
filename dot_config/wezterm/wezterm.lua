@@ -119,7 +119,7 @@ config.keys = {
 
   { key = "S", mods = "LEADER", action = wezterm.action { EmitEvent = "save_session" } },
   { key = "L", mods = "LEADER", action = wezterm.action { EmitEvent = "load_session" } },
-  { key = "R", mods = "LEADER", action = wezterm.action { EmitEvent = "restore_session" } },
+  { key = "D", mods = "LEADER", action = wezterm.action { EmitEvent = "delete_session" } },
 }
 
 -- Tab bar
@@ -293,7 +293,30 @@ local session_manager = require("wezterm-session-manager/session-manager")
 
 wezterm.on("save_session", function(window) session_manager.save_state(window) end)
 wezterm.on("load_session", function(window) session_manager.load_state(window) end)
-wezterm.on("restore_session", function(window) session_manager.restore_state(window) end)
+wezterm.on("delete_session", function(window) session_manager.delete_state(window) end)
+
+table.insert(palette_commands,
+  {
+    brief = "Tabset: Save",
+    icon = 'md_content_save',
+    action = wezterm.action_callback(session_manager.save_state),
+  }
+)
+table.insert(palette_commands,
+  {
+    brief = "Tabset: Load",
+    icon = 'md_reload',
+    action = wezterm.action_callback(session_manager.load_state),
+  }
+)
+table.insert(palette_commands,
+  {
+    brief = "Tabset: Delete",
+    icon = 'md_delete',
+    action = wezterm.action_callback(session_manager.delete_state),
+  }
+)
+
 
 
 wezterm.on('augment-command-palette', function() return palette_commands end)
