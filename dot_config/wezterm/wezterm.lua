@@ -12,6 +12,7 @@ config.inactive_pane_hsb = {
   brightness = 0.5,
 }
 
+config.window_decorations = "TITLE | RESIZE"
 config.font = wezterm.font 'JetBrains Mono'
 config.font_size = 11.0
 -- config.color_scheme = 'Argonaut (Gogh)'
@@ -116,6 +117,9 @@ config.keys = {
     end)
   },
 
+  { key = "S", mods = "LEADER", action = wezterm.action { EmitEvent = "save_session" } },
+  { key = "L", mods = "LEADER", action = wezterm.action { EmitEvent = "load_session" } },
+  { key = "R", mods = "LEADER", action = wezterm.action { EmitEvent = "restore_session" } },
 }
 
 -- Tab bar
@@ -282,6 +286,15 @@ table.insert(palette_commands,
     end),
   }
 )
+
+
+-- WezTerm Session Manager
+local session_manager = require("wezterm-session-manager/session-manager")
+
+wezterm.on("save_session", function(window) session_manager.save_state(window) end)
+wezterm.on("load_session", function(window) session_manager.load_state(window) end)
+wezterm.on("restore_session", function(window) session_manager.restore_state(window) end)
+
 
 wezterm.on('augment-command-palette', function() return palette_commands end)
 
