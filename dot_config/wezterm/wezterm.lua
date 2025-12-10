@@ -108,12 +108,18 @@ config.keys = {
   {
     key = "r",
     mods = "ALT|SHIFT",
-    action = wezterm.action_callback(function(window)
-      local target_pane = pane_at_index(window, 1)
-      if target_pane then
-        os.execute("sleep 0.1")       -- Give editor time to save after loss of focus
-        target_pane:send_text("!!\n") -- Execute previous command
+    action = wezterm.action_callback(function(window, pane)
+      local second_pane = pane_at_index(window, 1)
+      if not second_pane then
+        return
       end
+      -- If the current pane is nvim or vim then save all unsaved editor buffers
+      local exe = string.gsub(pane:get_foreground_process_name(), '(.*[/\\])(.*)', '%2')
+      if exe == 'nvim' or exe == 'vim' then
+        pane:send_text('\x1b:wa\r')
+      end
+      -- Wait for editor to save then execute previous command in the second pane
+      second_pane:send_text("sleep 0.1 && !!\n")
     end)
   },
 
