@@ -129,10 +129,6 @@ config.keys = {
       second_pane:send_text("sleep 0.1 && !!\n")
     end)
   },
-
-  { key = "S", mods = "LEADER", action = wezterm.action { EmitEvent = "save_session" } },
-  { key = "L", mods = "LEADER", action = wezterm.action { EmitEvent = "load_session" } },
-  { key = "D", mods = "LEADER", action = wezterm.action { EmitEvent = "delete_session" } },
 }
 
 -- Tab bar
@@ -300,35 +296,42 @@ table.insert(palette_commands,
   }
 )
 
--- WezTerm Session Manager
-local session_manager = require("wezterm-session-manager/session-manager")
+-- tabsets.wezterm plugin configuration.
+local tabsets = require("wezterm-session-manager/session-manager")
 
-wezterm.on("save_session", function(window) session_manager.save_state(window) end)
-wezterm.on("load_session", function(window) session_manager.load_state(window) end)
-wezterm.on("delete_session", function(window) session_manager.delete_state(window) end)
+-- Add tabsets key bindings
+wezterm.on("save_tabset", function(window) tabsets.save_tabset(window) end)
+wezterm.on("load_tabset", function(window) tabsets.load_tabset(window) end)
+wezterm.on("delete_tabset", function(window) tabsets.delete_tabset(window) end)
 
-table.insert(palette_commands,
+for _, v in ipairs({
+  { key = "S", mods = "LEADER", action = wezterm.action { EmitEvent = "save_tabset" } },
+  { key = "L", mods = "LEADER", action = wezterm.action { EmitEvent = "load_tabset" } },
+  { key = "D", mods = "LEADER", action = wezterm.action { EmitEvent = "delete_tabset" } },
+})
+do table.insert(config.keys, v) end
+
+-- Add tabsets Palette bindings
+for _, v in ipairs({
   {
     brief = "Tabset: Save",
-    icon = 'md_content_save',
-    action = wezterm.action_callback(session_manager.save_state),
-  }
-)
-table.insert(palette_commands,
+    icon = "md_content_save",
+    action = wezterm.action_callback(tabsets.save_tabset),
+  },
   {
     brief = "Tabset: Load",
-    icon = 'md_reload',
-    action = wezterm.action_callback(session_manager.load_state),
-  }
-)
-table.insert(palette_commands,
+    icon = "md_reload",
+    action = wezterm.action_callback(tabsets.load_tabset),
+  },
   {
     brief = "Tabset: Delete",
-    icon = 'md_delete',
-    action = wezterm.action_callback(session_manager.delete_state),
-  }
-)
+    icon = "md_delete",
+    action = wezterm.action_callback(tabsets.delete_tabset),
+  },
+})
+do table.insert(palette_commands, v) end
 
-wezterm.on('augment-command-palette', function() return palette_commands end)
+-- Install Palette commands
+wezterm.on("augment-command-palette", function() return palette_commands end)
 
 return config
