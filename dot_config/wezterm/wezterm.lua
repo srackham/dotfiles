@@ -229,7 +229,9 @@ table.insert(palette_commands,
 )
 
 -- tabsets.wezterm plugin configuration.
-local tabsets = require("wezterm-session-manager/session-manager")
+
+local tabsets = wezterm.plugin.require("file:///home/srackham/share/projects/tabsets.wezterm")
+tabsets.setup()
 
 -- Add tabsets key bindings
 wezterm.on("save_tabset", function(window) tabsets.save_tabset(window) end)
