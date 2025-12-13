@@ -7,3 +7,7 @@ gui:
   theme:
     selectedLineBgColor:
       - "#404040"
+
+git:
+  paging:
+    pager: delta --dark --paging=never --24-bit-color=never
