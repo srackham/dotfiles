@@ -37,19 +37,19 @@ end, { expr = true })
 
 -- Install custom next/previous commands.
 map_next_prev(
-  ']d', function() vim.diagnostic.jump({ count = 1, float = false }) end,
-  '[d', function() vim.diagnostic.jump({ count = -1, float = false }) end,
+  '<Leader>dn', function() vim.diagnostic.jump({ count = 1, float = false }) end,
+  '<Leader>dp', function() vim.diagnostic.jump({ count = -1, float = false }) end,
   "diagnostic message")
-map_next_prev(']g', 'Gitsigns next_hunk', '[g', 'Gitsigns prev_hunk', "Git hunk")
+map_next_prev('<Leader>gn', 'Gitsigns next_hunk', '<Leader>gp', 'Gitsigns prev_hunk', "Git hunk")
 map_next_prev(
-  ']q', function()
+  '<Leader>qn', function()
     pcall(function() vim.cmd('cnext') end)
   end,
-  '[q', function()
+  '<Leader>qp', function()
     pcall(function() vim.cmd('cprev') end)
   end, "Quickfix")
-map_next_prev(']w', 'wincmd w', '[w', 'wincmd W', "window")
-map_next_prev(']s', 'normal! ]s', '[s', 'normal! [s', "misspelt word")
+map_next_prev('<Leader>wn', 'wincmd w', '<Leader>wp', 'wincmd W', "window")
+map_next_prev('<Leader>sn', 'normal! ]s', '<Leader>sp', 'normal! [s', "misspelt word")
 map_next_prev('g,', 'normal! g,', 'g;', 'normal! g;', "change") -- Adds n/N functionality to `g,` and `g;` commands
 
 -- Adds n/N functionality to Markdown section navigation commands
@@ -60,18 +60,15 @@ vim.api.nvim_create_autocmd('FileType', {
     pcall(vim.keymap.del, 'n', ']]', { buffer = 0 })
     pcall(vim.keymap.del, 'n', '[[', { buffer = 0 })
     map_next_prev(
+      '<Leader>mn', function() vim.fn.search('^#\\{1,5}\\s\\+\\S', 'W') end,
+      '<Leader>mp', function() vim.fn.search('^#\\{1,5}\\s\\+\\S', 'Wb') end,
+      "markdown section")
+    map_next_prev(
       ']]', function() vim.fn.search('^#\\{1,5}\\s\\+\\S', 'W') end,
       '[[', function() vim.fn.search('^#\\{1,5}\\s\\+\\S', 'Wb') end,
       "markdown section")
   end
 })
-
--- Next command aliases
-vim.keymap.set('n', '<Leader>nd', ']d', { remap = true, silent = true, desc = "]d alias" })
-vim.keymap.set('n', '<Leader>ng', ']g', { remap = true, silent = true, desc = "]g alias" })
-vim.keymap.set('n', '<Leader>ns', ']s', { remap = true, silent = true, desc = "]s alias" })
-vim.keymap.set('n', '<Leader>nt', ']t', { remap = true, silent = true, desc = "]t alias" })
-vim.keymap.set('n', '<Leader>nw', ']w', { remap = true, silent = true, desc = "]w alias" })
 
 -- Miscellaneous commands
 vim.keymap.set('n', '<C-h>', 'Hzz', { noremap = true, silent = true, desc = "Center window top" })
@@ -185,10 +182,10 @@ vim.keymap.set('i', '<C-x>', '<C-o>x',
 
 -- Preview Markdown files in the browser with the Chrome Markdown Viewer extension
 -- https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk
-vim.keymap.set('n', ',mp', function()
+vim.keymap.set('n', '<Leader>mv', function()
   -- Open current file in browser, suppressing all output
   os.execute('brave "' .. vim.fn.expand('%:p') .. '" > /dev/null 2>&1 &')
-end, { desc = 'Open current file in Brave browser' })
+end, { desc = 'View current file in Brave browser' })
 
 -- Clipboard copy and paste commands
 vim.keymap.set({ 'n', 'v' }, 'Y', '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
@@ -241,12 +238,12 @@ vim.keymap.set('n', '<Leader>sg', 'zg',
 vim.keymap.set('n', '<Leader>sw', 'zw',
   { noremap = true, silent = true, desc = "Mark the spelling of the word under cursor as wrong" })
 vim.keymap.set('n', '<Leader>ss', 'z=', { desc = "Correct misspelt word at cursor" })
-vim.keymap.set('n', '<Leader>sn', execute_cmd_and_map_n(
+vim.keymap.set('n', '<Leader>sN', execute_cmd_and_map_n(
     function() Utils.feed_keys(']sz=', 'n') end,
     function() Utils.feed_keys('[sz=', 'n') end
   ),
   { noremap = true, silent = true, desc = "Correct next misspelt word" })
-vim.keymap.set('n', '<Leader>sp', execute_cmd_and_map_n(
+vim.keymap.set('n', '<Leader>sP', execute_cmd_and_map_n(
     function() Utils.feed_keys('[sz=', 'n') end,
     function() Utils.feed_keys(']sz=', 'n') end
   ),
@@ -295,10 +292,10 @@ end
 vim.keymap.set('n', '<Leader>wc', close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set('n', '<Leader>wo', '<C-w>o', { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set('n', '<Leader>w=', '<C-w>=', { noremap = true, silent = true, desc = "Equalize window sizes" })
-vim.keymap.set('n', '<Leader>wv', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
-vim.keymap.set('n', '<Leader>w|', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
-vim.keymap.set('n', '<Leader>wh', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
-vim.keymap.set('n', '<Leader>w-', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
+vim.keymap.set('n', '<Leader>ws', '<C-w>v', { noremap = true, silent = true, desc = "Split horizontally (left/right)" })
+vim.keymap.set('n', '<Leader>w|', '<C-w>v', { noremap = true, silent = true, desc = "Split horizontally (left/right)" })
+vim.keymap.set('n', '<Leader>wv', '<C-w>s', { noremap = true, silent = true, desc = "Split vertically (top/bottom)" })
+vim.keymap.set('n', '<Leader>w-', '<C-w>s', { noremap = true, silent = true, desc = "Split vertically (top/bottom)" })
 vim.keymap.set('n', '<Leader>w>', '<C-w>>', { noremap = true, silent = true, desc = "Expand window width" })
 vim.keymap.set('n', '<Leader>w<', '<C-w><', { noremap = true, silent = true, desc = "Shrink window width" })
 

@@ -24,7 +24,7 @@ return {
     -- Actions
     vim.keymap.set('n', '<Leader>gb', gitsigns.toggle_current_line_blame, { desc = "Toggle line blame" })
     vim.keymap.set('n', '<Leader>gd', gitsigns.toggle_deleted, { desc = "Toggle deleted lines" })
-    vim.keymap.set('n', '<Leader>gp', gitsigns.preview_hunk, { desc = "Preview hunk" })
+    vim.keymap.set('n', '<Leader>gv', gitsigns.preview_hunk, { desc = "Preview hunk" })
     vim.keymap.set('n', '<Leader>gR', gitsigns.reset_buffer, { desc = "Reset all hunks in current buffer" })
     vim.keymap.set('n', '<Leader>gr', gitsigns.reset_hunk, { desc = "Reset hunk" })
     vim.keymap.set('n', '<Leader>gS', gitsigns.stage_buffer, { desc = "Stage all hunks in current buffer" })

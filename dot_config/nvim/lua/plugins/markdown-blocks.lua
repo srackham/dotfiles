@@ -26,14 +26,18 @@ return {
     end, { noremap = true, silent = true, desc = "Wrap paragraph/selection" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mu', mb.unwrap_block,
       { noremap = true, silent = true, desc = "Unwrap paragraph/selection" })
-    vim.keymap.set({ 'n', 'v' }, '<Leader>mn', mb.numbered_list_toggle,
+    vim.keymap.set({ 'n', 'v' }, '<Leader>mN', mb.numbered_list_toggle,
       { silent = true, noremap = true, desc = "Toggle numbering non-indented lines" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mr', function() mb.delimiters_toggle('___', '___') end,
       { silent = true, noremap = true, desc = "Toggle ruler delimiters" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mQ',
       function() mb.delimiters_toggle('<blockquote>\n', '\n</blockquote>') end,
-      { silent = true, noremap = true, desc =
-      "Toggle HTML blockquote delimiters (enclosed text is rendered as-is by Markdown)" })
+      {
+        silent = true,
+        noremap = true,
+        desc =
+        "Toggle HTML blockquote delimiters (enclosed text is rendered as-is by Markdown)"
+      })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mf', function() mb.delimiters_toggle('```', '```') end,
       { silent = true, noremap = true, desc = "Toggle code fence delimiters" })
     vim.keymap.set({ 'n', 'v' }, '<Leader>mF', function()

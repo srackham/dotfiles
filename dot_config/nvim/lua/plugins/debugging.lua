@@ -93,7 +93,7 @@ return {
       vim.cmd('wa')
       dap.continue()
     end, { desc = "Debug start or continue" })
-    vim.keymap.set('n', '<Leader>dn', dap.step_over, { desc = "Debug step over" })
+    vim.keymap.set('n', '<Leader>ds', dap.step_over, { desc = "Debug step over" })
     vim.keymap.set('n', '<C-n>', dap.step_over, { desc = "Debug step over" })
     vim.keymap.set('n', '<Leader>di', dap.step_into, { desc = "Debug step into" })
     vim.keymap.set('n', '<Leader>dj', dap.focus_frame, { desc = "Jump to debug cursor" })
@@ -111,7 +111,7 @@ return {
     vim.keymap.set('n', '<Leader>du', dapui.toggle, { desc = "Toggle debug UI" })
     vim.keymap.set('n', '<Leader>dU', function() dapui.open({ reset = true }) end,
       { desc = "Open and reinitialize the debug UI" })
-    vim.keymap.set('n', '<Leader>ds', function()
+    vim.keymap.set('n', '<Leader>df', function()
       dapui.float_element('scopes', {
         width = 200,
         height = 50,

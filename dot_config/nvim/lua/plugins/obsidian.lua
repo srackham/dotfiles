@@ -99,7 +99,6 @@ return {
         vim.keymap.set('n', '<Leader>ot', "<Cmd>Obsidian tomorrow<CR>", { desc = "Open/create tomorrow's journal note" })
         vim.keymap.set('n', '<Leader>oj', "<Cmd>Obsidian dailies<CR>", { desc = "Open/create daily journal note" })
         vim.keymap.set('n', '<Leader>oi', "<Cmd>Obsidian paste_img<CR>", { desc = "Insert image from clipboard" })
-        vim.keymap.set('n', '<Leader>on', "<Cmd>Obsidian new<CR>", { desc = "New note" })
         vim.keymap.set('n', '<Leader>oN', "<Cmd>Obsidian new_from_template<CR>", { desc = "New note from template" })
         vim.keymap.set('n', '<Leader>oT', "<Cmd>Obsidian template<CR>", { desc = "Insert template" })
         vim.keymap.set('n', '<Leader>oo', "<Cmd>Obsidian open<CR>", { desc = "Open note in Obsidian application" })
@@ -109,9 +108,9 @@ return {
           { desc = "Rename current note or the note referenced under the cursor" })
         vim.keymap.set('n', '<Leader>ot', "<Cmd>Obsidian tags<CR>", { desc = "Search for tagged notes" })
         -- Link related commands
-        vim.keymap.set('n', ']l', [[/\vhttp(s?):\/\/\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
+        vim.keymap.set('n', '<Leader>on', [[/\vhttp(s?):\/\/\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
           { desc = "Jump to next link" })     -- URL, Markdown link, Wiki link
-        vim.keymap.set('n', '[l', [[?\vhttp(s\?)://\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
+        vim.keymap.set('n', '<Leader>op', [[?\vhttp(s\?)://\S+|[[..{-}\]\]|[..{-}\]\(..{-}\)<CR>]],
           { desc = "Jump to previous link" }) -- URL, Markdown link, Wiki link
         vim.keymap.set('n', '<Leader>ol', "<Cmd>Obsidian links<CR>", { desc = "Links picker" })
         vim.keymap.set('n', '<Leader>ob', "<Cmd>Obsidian backlinks<CR>", { desc = "Backlinks picker" })
