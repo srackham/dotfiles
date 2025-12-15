@@ -68,6 +68,7 @@
 :iab Lv LazyVim
 :iab Mk Markdown
 :iab Nv Neovim
+:iab No NixOs
 :iab NO Novus Ordo
 :iab VO Vetus Ordo
 :iab TLM Tridentine Latin Mass
