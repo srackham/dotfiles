@@ -393,7 +393,7 @@ vim.keymap.set('n', '<Leader>ww', function()
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
--- Additional commands
+-- Additional miscellaneous commands
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath("config") .. "/vim/init.vim",
   command = "abc | source <afile>",
@@ -403,3 +403,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 vim.keymap.set('n', '<Leader>ea', function()
   vim.cmd('edit ' .. vim.g.vim_init_file)
 end, { noremap = true, desc = "Edit init.vim" })
+
+vim.keymap.set('n', '<C-j>', '<C-e>j', { silent = true, desc = "Scroll down one line" })
+vim.keymap.set('n', '<C-k>', '<C-y>k', { silent = true, desc = "Scroll up one line" })
