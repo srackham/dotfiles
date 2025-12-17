@@ -272,6 +272,20 @@ vim.keymap.set('n', '<Leader>fD', function()
   vim.api.nvim_buf_delete(0, { force = true })
   os.remove(file)
 end, { noremap = true, silent = true, desc = "Discard the current buffer and delete the underlying file" })
+local function sanitize_buffer()
+  local cmds = {
+    [[%s/\%u00A0/ /ge]], -- NBSP → space
+    [[%s/\%u200B\|\%u200C\|\%u200D//ge]], -- zero-width chars
+    [[%s/[“”]/"/ge]], -- smart double quotes
+    [[%s/[‘’]/'/ge]], -- smart single quotes
+    [[%s/[‐-–—]/-/ge]], -- unicode dashes
+  }
+  for _, cmd in ipairs(cmds) do
+    vim.cmd(cmd)
+  end
+end
+vim.keymap.set('n', '<Leader>bs', sanitize_buffer,
+  { noremap = true, silent = false, desc = "Replace/delete Unicode characters in the current buffer" })
 
 
 -- Windows commands
