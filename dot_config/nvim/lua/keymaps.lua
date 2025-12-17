@@ -11,9 +11,9 @@ local execute_cmd_and_map_n = function(next_cmd, prev_cmd)
   end
 end
 local function map_next_prev(next_key, next_cmd, prev_key, prev_cmd, desc)
-  vim.keymap.set('n', next_key, execute_cmd_and_map_n(next_cmd, prev_cmd),
+  vim.keymap.set({ 'n', 'v' }, next_key, execute_cmd_and_map_n(next_cmd, prev_cmd),
     { noremap = true, silent = true, desc = "Go to next " .. desc })
-  vim.keymap.set('n', prev_key, execute_cmd_and_map_n(prev_cmd, next_cmd),
+  vim.keymap.set({ 'n', 'v' }, prev_key, execute_cmd_and_map_n(prev_cmd, next_cmd),
     { noremap = true, silent = true, desc = "Go to previous " .. desc })
 end
 
