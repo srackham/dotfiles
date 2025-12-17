@@ -259,8 +259,6 @@ vim.keymap.set('n', '<Leader>st', toggle_spell_checker, { noremap = true, silent
 -- Buffer commands
 vim.keymap.set('n', '<Leader>bd', '<Cmd>bd!<CR>',
   { noremap = true, silent = false, desc = "Discard current buffer" })
-vim.keymap.set('n', '<C-d>', '<Cmd>bd!<CR>',
-  { noremap = true, silent = false, desc = "Discard current buffer" })
 vim.api.nvim_set_keymap('n', '<Leader>bD', '<Cmd>%bd|e#|bd#<CR>',
   { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
 vim.keymap.set('n', '<Leader>fD', function()
