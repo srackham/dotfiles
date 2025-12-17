@@ -71,14 +71,10 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Miscellaneous commands
-vim.keymap.set('n', '<C-h>', 'Hzz', { noremap = true, silent = true, desc = "Center window top" })
-vim.keymap.set('n', '<C-l>', 'Lzz', { noremap = true, silent = true, desc = "Center window bottom" })
 vim.keymap.set('n', '<Leader>eh', '<Cmd>nohlsearch<CR><Cmd>echo<CR>', -- Turn off search highlighting and clear status line
   { silent = true, desc = "Turn highlighting off and clear status line" })
 vim.keymap.set('n', 'U', '<C-r>', { noremap = true, silent = true, desc = "Redo last change" })
 vim.keymap.set('n', '<Leader>,', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
-  { noremap = true, silent = true, desc = "Go to previously edited buffer" })
-vim.keymap.set('n', '<C-n>', '<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>',
   { noremap = true, silent = true, desc = "Go to previously edited buffer" })
 vim.keymap.set('n', '<Leader>ew', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set({ 'i', 'n' }, '<C-s>', '<Cmd>wa<CR>', { noremap = true, silent = true, desc = "Write modified buffers" })
