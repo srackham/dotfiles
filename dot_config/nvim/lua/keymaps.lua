@@ -356,6 +356,7 @@ vim.keymap.set('t', '<C-n>', '<C-\\><C-n>',
 -- Quickfix commands
 vim.keymap.set('n', '<Leader>qc', '<Cmd>cclose<CR>', { noremap = true, silent = true, desc = "Close Quickfix window" })
 vim.keymap.set('n', '<Leader>qo', '<Cmd>copen<CR>', { noremap = true, silent = true, desc = "Open Quickfix window" })
+vim.keymap.set('n', '<Leader>dq', vim.diagnostic.setqflist, { desc = "Copy buffer diagnostics to the quickfix list" })
 vim.keymap.set('n', '<Leader>qD', '<Cmd>cexpr []<CR>',
   { noremap = true, silent = true, desc = "Delete all items from quickfix list" })
 vim.keymap.set('n', '<Leader>qa', Utils.add_current_location_to_quickfix,
