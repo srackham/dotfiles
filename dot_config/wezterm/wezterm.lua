@@ -232,7 +232,10 @@ table.insert(palette_commands,
 -- tabsets.wezterm plugin configuration.
 
 local tabsets = wezterm.plugin.require("file:///home/srackham/share/projects/tabsets.wezterm")
-tabsets.setup()
+tabsets.setup({
+  restore_colors = true,
+  restore_dimensions = true,
+})
 
 -- Add tabsets key bindings
 wezterm.on("save_tabset", function(window) tabsets.save_tabset(window) end)
