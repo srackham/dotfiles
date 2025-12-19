@@ -81,8 +81,10 @@ return {
           cwd = vim.fn.stdpath('data') .. '/lazy/'
         })
       end, { desc = "Live-grep plugin files" })
-      vim.keymap.set({ 'n', 'v' }, '<Leader>cr', builtin.lsp_references,
-        { desc = "List references to word under cursor" })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>cr', function()
+        vim.cmd('update') -- Write modified buffer
+        builtin.lsp_references()
+      end, { desc = "List references to word under cursor" })
       local symbols = {
         'function',
         'method',
