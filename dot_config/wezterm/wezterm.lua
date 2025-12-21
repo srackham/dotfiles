@@ -248,11 +248,11 @@ wezterm.on("rename_tabset", function(window) tabsets.rename_tabset(window) end)
 wezterm.on("default_tabset", function(window) tabsets.load_tabset_by_name(window, default_tabset) end)
 
 for _, v in ipairs({
-  { key = "S", mods = "LEADER", action = wezterm.action { EmitEvent = "save_tabset" } },
-  { key = "L", mods = "LEADER", action = wezterm.action { EmitEvent = "load_tabset" } },
-  { key = "D", mods = "LEADER", action = wezterm.action { EmitEvent = "delete_tabset" } },
-  { key = "R", mods = "LEADER", action = wezterm.action { EmitEvent = "rename_tabset" } },
-  { key = "T", mods = "LEADER", action = wezterm.action { EmitEvent = "default_tabset" } },
+  { key = "S", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "save_tabset" } },
+  { key = "L", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "load_tabset" } },
+  { key = "D", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "delete_tabset" } },
+  { key = "R", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "rename_tabset" } },
+  { key = "T", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "default_tabset" } },
 })
 do table.insert(config.keys, v) end
 
