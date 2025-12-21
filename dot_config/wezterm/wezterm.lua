@@ -217,7 +217,7 @@ table.insert(palette_commands,
 table.insert(palette_commands,
   {
     brief = 'Update Plugins',
-    icon = 'md_rename_box',
+    icon = 'md_reload',
     action = wezterm.action_callback(
       function(window)
         wezterm.log_info("Updating plugins...")
@@ -235,17 +235,24 @@ local tabsets = wezterm.plugin.require("file:///home/srackham/share/projects/tab
 tabsets.setup({
   restore_colors = true,
   restore_dimensions = true,
+  fuzzy_selector = true,
 })
+
+local default_tabset = "default"
 
 -- Add tabsets key bindings
 wezterm.on("save_tabset", function(window) tabsets.save_tabset(window) end)
 wezterm.on("load_tabset", function(window) tabsets.load_tabset(window) end)
 wezterm.on("delete_tabset", function(window) tabsets.delete_tabset(window) end)
+wezterm.on("rename_tabset", function(window) tabsets.rename_tabset(window) end)
+wezterm.on("default_tabset", function(window) tabsets.load_tabset_by_name(window, default_tabset) end)
 
 for _, v in ipairs({
   { key = "S", mods = "LEADER", action = wezterm.action { EmitEvent = "save_tabset" } },
   { key = "L", mods = "LEADER", action = wezterm.action { EmitEvent = "load_tabset" } },
   { key = "D", mods = "LEADER", action = wezterm.action { EmitEvent = "delete_tabset" } },
+  { key = "R", mods = "LEADER", action = wezterm.action { EmitEvent = "rename_tabset" } },
+  { key = "T", mods = "LEADER", action = wezterm.action { EmitEvent = "default_tabset" } },
 })
 do table.insert(config.keys, v) end
 
@@ -258,13 +265,23 @@ for _, v in ipairs({
   },
   {
     brief = "Tabset: Load",
-    icon = "md_reload",
+    icon = "cod_terminal_tmux",
     action = wezterm.action_callback(tabsets.load_tabset),
   },
   {
     brief = "Tabset: Delete",
     icon = "md_delete",
     action = wezterm.action_callback(tabsets.delete_tabset),
+  },
+  {
+    brief = "Tabset: Rename",
+    icon = "md_rename_box",
+    action = wezterm.action_callback(tabsets.rename_tabset),
+  },
+  {
+    brief = "Tabset: Load default",
+    icon = "cod_terminal_tmux",
+    action = wezterm.action_callback(function(window) tabsets.load_tabset_by_name(window, default_tabset) end),
   },
 })
 do table.insert(palette_commands, v) end
