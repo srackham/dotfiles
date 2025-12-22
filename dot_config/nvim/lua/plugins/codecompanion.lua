@@ -6,19 +6,19 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require("codecompanion").setup({
+    require("codecompanion").setup {
       strategies = {
         chat = {
           -- adapter = "gemini",
           -- model = "gemini-2.5-flash"
           adapter = "openrouter",
-          model = "openai/gpt-4o-mini"
+          model = "openai/gpt-4o-mini",
         },
         inline = {
           -- adapter = "gemini",
           -- model = "gemini-2.5-flash"
           adapter = "openrouter",
-          model = "openai/gpt-4o-mini"
+          model = "openai/gpt-4o-mini",
         },
       },
       adapters = {
@@ -65,17 +65,37 @@ return {
           },
         },
       },
-    })
-    vim.keymap.set({ "n", "v" }, "<Leader>ap", "<cmd>CodeCompanionActions<cr>",
-      { noremap = true, silent = true, desc = "Open CodeCompanion Actions Palette" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ac", "<cmd>CodeCompanionChat Toggle<cr>",
-      { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" })
-    vim.keymap.set({ "n", "v" }, "\\", "<cmd>CodeCompanionChat Toggle<cr>",
-      { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" })
-    vim.keymap.set("v", "<Leader>aa", "<cmd>CodeCompanionChat Add<cr>",
-      { noremap = true, silent = true, desc = "Add selection to CodeCompanion chat window" })
-    vim.keymap.set("v", "<Leader>ae", "<cmd>CodeCompanion /explain Add<cr>",
-      { noremap = true, silent = true, desc = "Explain selection using CodeCompanion" })
-    vim.cmd([[cab cc CodeCompanion]])
+    }
+    vim.keymap.set(
+      { "n", "v" },
+      "<Leader>ap",
+      "<cmd>CodeCompanionActions<cr>",
+      { noremap = true, silent = true, desc = "Open CodeCompanion Actions Palette" }
+    )
+    vim.keymap.set(
+      { "n", "v" },
+      "<Leader>ac",
+      "<cmd>CodeCompanionChat Toggle<cr>",
+      { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" }
+    )
+    vim.keymap.set(
+      { "n", "v" },
+      "\\",
+      "<cmd>CodeCompanionChat Toggle<cr>",
+      { noremap = true, silent = true, desc = "Toggle CodeCompanion chat window" }
+    )
+    vim.keymap.set(
+      "v",
+      "<Leader>aa",
+      "<cmd>CodeCompanionChat Add<cr>",
+      { noremap = true, silent = true, desc = "Add selection to CodeCompanion chat window" }
+    )
+    vim.keymap.set(
+      "v",
+      "<Leader>ae",
+      "<cmd>CodeCompanion /explain Add<cr>",
+      { noremap = true, silent = true, desc = "Explain selection using CodeCompanion" }
+    )
+    vim.cmd [[cab cc CodeCompanion]]
   end,
 }

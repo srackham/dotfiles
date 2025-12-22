@@ -1,10 +1,10 @@
 return {
-  'meinside/gmn.nvim',
+  "meinside/gmn.nvim",
   enabled = false,
-  dependencies = { { 'nvim-lua/plenary.nvim' } },
+  dependencies = { { "nvim-lua/plenary.nvim" } },
   config = function()
-    require 'gmn'.setup {
-      configFilepath = vim.fn.stdpath('config') .. '/lua/plugins/gmn.json',
+    require("gmn").setup {
+      configFilepath = vim.fn.stdpath "config" .. "/lua/plugins/gmn.json",
     }
   end,
 }

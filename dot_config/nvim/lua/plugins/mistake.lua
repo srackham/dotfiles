@@ -1,4 +1,4 @@
 return {
-  'https://github.com/ck-zhang/mistake.nvim',
+  "https://github.com/ck-zhang/mistake.nvim",
   enabled = false,
 }

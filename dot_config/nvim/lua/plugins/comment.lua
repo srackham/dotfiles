@@ -1,14 +1,14 @@
 return {
-  'numToStr/Comment.nvim',
+  "numToStr/Comment.nvim",
   config = function()
-    require('Comment').setup({
+    require("Comment").setup {
       -- Non-default configuration
       toggler = {
-        block = 'gCC', ---Block-comment toggle keymap
+        block = "gCC", ---Block-comment toggle keymap
       },
       opleader = {
-        block = 'gC', ---Block-comment keymap
+        block = "gC", ---Block-comment keymap
       },
-    })
+    }
   end,
 }

@@ -1,4 +1,4 @@
-local util = require("lspconfig.util")
+local util = require "lspconfig.util"
 
 return {
   -- the root project directory for this language server will be determined by the presence

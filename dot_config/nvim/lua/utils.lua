@@ -4,14 +4,14 @@ local M = {}
 --- Checks if the current Vim mode is Visual ('v' or 'V').
 --- @return boolean true if in visual mode, false otherwise.
 function M.is_visual_mode()
-  return vim.fn.mode() == 'v' or vim.fn.mode() == 'V'
+  return vim.fn.mode() == "v" or vim.fn.mode() == "V"
 end
 
 --- Escapes Vim special regular expression characters plus the `/` character.
 --- @param s string The string to escape.
 --- @return string The escaped string.
 function M.escape_regexp(s)
-  return vim.fn.escape(s, '\\/.*$^~[]')
+  return vim.fn.escape(s, "\\/.*$^~[]")
 end
 
 --- Adds a local path to Lua's `package.path` for `require`.
@@ -19,7 +19,7 @@ end
 --- @param path string The directory path to prepend to `package.path`.
 function M.add_to_path(path)
   -- vim.opt.runtimepath:prepend(path) -- THIS DOESN'T SEEM NECESSARY
-  package.path = path .. '/?.lua;' .. path .. '/?/init.lua;' .. package.path
+  package.path = path .. "/?.lua;" .. path .. "/?/init.lua;" .. package.path
 end
 
 --- Reloads all modified buffers from disk.
@@ -29,16 +29,16 @@ function M.reload_modified_buffers()
   local buffers = vim.api.nvim_list_bufs()
   local msgs = {}
   for _, bufnr in ipairs(buffers) do
-    if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, 'modified') then
+    if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "modified") then
       local filename = vim.api.nvim_buf_get_name(bufnr)
       vim.api.nvim_buf_call(bufnr, function()
-        vim.cmd('e!')
+        vim.cmd "e!"
       end)
       table.insert(msgs, "Reloaded buffer: " .. filename)
     end
   end
   if #msgs > 0 then
-    vim.notify(table.concat(msgs, '\n'))
+    vim.notify(table.concat(msgs, "\n"))
   end
 end
 
@@ -60,21 +60,21 @@ end
 --- @return string The visually selected text.
 function M.get_visual_selection()
   -- Save the current register content and mode
-  local original_register = vim.fn.getreg('"')
+  local original_register = vim.fn.getreg '"'
   local original_mode = vim.fn.mode()
 
   -- Yank the selected text into the default register
-  vim.cmd('noau normal! "vy')
+  vim.cmd 'noau normal! "vy'
 
   -- Retrieve the yanked text from the default register
-  local selection = vim.fn.getreg('"')
+  local selection = vim.fn.getreg '"'
 
   -- Restore the original register content
   vim.fn.setreg('"', original_register)
 
   -- Restore visual mode if it was active
-  if original_mode:match('[vV]') then
-    vim.cmd('normal! gv')
+  if original_mode:match "[vV]" then
+    vim.cmd "normal! gv"
   end
 
   return selection
@@ -87,10 +87,10 @@ end
 --- @return string The selected text or the word under the cursor.
 function M.get_selection_or_word()
   local mode = vim.fn.mode()
-  local result = ''
-  if mode == 'n' then
-    result = vim.fn.expand('<cword>')
-  elseif mode == 'v' or mode == 'V' then
+  local result = ""
+  if mode == "n" then
+    result = vim.fn.expand "<cword>"
+  elseif mode == "v" or mode == "V" then
     result = M.get_visual_selection()
   end
   return result
@@ -103,7 +103,7 @@ end
 function M.find_help(query)
   -- Attempt to execute the command with pcall
   local success, _ = pcall(function()
-    vim.cmd('help ' .. query)
+    vim.cmd("help " .. query)
   end)
   if not success then
     vim.notify("Failed to open help for: " .. query, vim.log.levels.ERROR)
@@ -122,22 +122,22 @@ function M.toggle_help_window()
   local help_open = false
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     local buf = vim.api.nvim_win_get_buf(win)
-    if vim.bo[buf].filetype == 'help' then
+    if vim.bo[buf].filetype == "help" then
       help_open = true
       last_help.win = win
       last_help.buf = buf
       vim.api.nvim_win_close(win, true) -- Close the help window completely
-      vim.w.last_help = last_help       -- Save the state of the help buffer
+      vim.w.last_help = last_help -- Save the state of the help buffer
       return
     end
   end
   -- If no help window is open, restore or create a new one
   if not help_open then
     if last_help.buf and vim.api.nvim_buf_is_valid(last_help.buf) then
-      vim.cmd('split')                           -- Open a vertical split for the help window
+      vim.cmd "split" -- Open a vertical split for the help window
       vim.api.nvim_win_set_buf(0, last_help.buf) -- Restore the previous help buffer
     else
-      vim.cmd('help')                            -- Open a new help window if no previous buffer exists
+      vim.cmd "help" -- Open a new help window if no previous buffer exists
     end
   end
 end
@@ -146,15 +146,15 @@ end
 --- Captures the current filename, line number, column number, and line text
 --- and appends it as a new entry to the quickfix list.
 function M.add_current_location_to_quickfix()
-  local current_file = vim.fn.expand('%:p')
-  local current_line = vim.fn.line('.')
-  local current_col = vim.fn.col('.')
-  local current_text = vim.fn.getline('.')
+  local current_file = vim.fn.expand "%:p"
+  local current_line = vim.fn.line "."
+  local current_col = vim.fn.col "."
+  local current_text = vim.fn.getline "."
   local new_item = {
     filename = current_file,
     lnum = current_line,
     col = current_col,
-    text = current_text
+    text = current_text,
   }
   local qf_list = vim.fn.getqflist()
   table.insert(qf_list, new_item)
@@ -166,19 +166,19 @@ end
 --- Attempts to keep the cursor on the same line number or moves it to the
 --- preceding item if the last item was deleted. Opens the quickfix window.
 function M.delete_current_entry_from_quickfix()
-  local ol = vim.fn.line('.')
+  local ol = vim.fn.line "."
   local qf = vim.fn.getqflist()
   local ls = #qf
   if ol > 0 and ol <= ls then
     table.remove(qf, ol)
-    vim.fn.setqflist(qf, 'r')
+    vim.fn.setqflist(qf, "r")
     local nls = #qf
     if nls > 0 then
       local tl = math.min(ol, nls)
-      vim.cmd('cwindow')
+      vim.cmd "cwindow"
       pcall(vim.api.nvim_win_set_cursor, 0, { tl, 0 })
     else
-      vim.cmd('cwindow')
+      vim.cmd "cwindow"
     end
   end
 end
@@ -202,18 +202,18 @@ end
 --- @return table An array of strings representing the wrapped lines.
 function M.wrap_str(s, wrap_column)
   local result = {} -- Array to store wrapped lines
-  local line = ''   -- Current line being built
+  local line = "" -- Current line being built
 
   -- Iterate through words in the string
-  for word in s:gmatch('%S+') do
+  for word in s:gmatch "%S+" do
     -- Check if adding the word exceeds the column limit
     if #line + #word + 1 > wrap_column then
       table.insert(result, line) -- Save the current line
-      line = word                -- Start a new line with the current word
+      line = word -- Start a new line with the current word
     else
       -- Add the word to the current line (with a space if needed)
       if #line > 0 then
-        line = line .. ' ' .. word
+        line = line .. " " .. word
       else
         line = word
       end
@@ -249,13 +249,13 @@ function M.wrap_paragraphs(lines, opts)
     end
 
     -- Join all lines into a single string
-    local joined_text = table.concat(paragraph, ' ')
+    local joined_text = table.concat(paragraph, " ")
     local wrapped_lines
     if unwrap then
       wrapped_lines = { joined_text }
     else
       -- Split the text at the wrap column into an array of wrapped lines
-      local indent = joined_text:match('^(%s*)')
+      local indent = joined_text:match "^(%s*)"
       wrapped_lines = M.wrap_str(joined_text, column_number - #indent)
 
       -- Indent all lines with the same indent as the first line
@@ -271,7 +271,7 @@ function M.wrap_paragraphs(lines, opts)
   end
 
   for _, line in ipairs(lines) do
-    if line == '' then -- Paragraph break
+    if line == "" then -- Paragraph break
       wrap_paragraph()
       table.insert(result, line)
     else
@@ -291,19 +291,19 @@ end
 --- @return number end_line The 1-based end line number of the selection, or 0 on error.
 function M.get_selected_lines()
   if not M.is_visual_mode() then
-    vim.notify('This function must be executed in visual mode', vim.log.levels.ERROR)
+    vim.notify("This function must be executed in visual mode", vim.log.levels.ERROR)
     return nil, 0, 0
   end
 
   -- Exit visual mode (synchronously) to set `<` and `>` marks.
-  vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes('<Esc>', true, false, true))
+  vim.cmd("normal! " .. vim.api.nvim_replace_termcodes("<Esc>", true, false, true))
 
   -- Get the current buffer
   local buf = vim.api.nvim_get_current_buf()
 
   -- Get the start and end marks of the visual selection
-  local start_line = vim.api.nvim_buf_get_mark(buf, '<')[1] -- '<' is the start of the visual selection
-  local end_line = vim.api.nvim_buf_get_mark(buf, '>')[1]   -- '>' is the end of the visual selection
+  local start_line = vim.api.nvim_buf_get_mark(buf, "<")[1] -- '<' is the start of the visual selection
+  local end_line = vim.api.nvim_buf_get_mark(buf, ">")[1] -- '>' is the end of the visual selection
 
   -- Get the lines in the selected range
   local selected_lines = vim.api.nvim_buf_get_lines(buf, start_line - 1, end_line, false)
@@ -320,20 +320,19 @@ end
 --- @return number end_line The 1-based end line number of the paragraph, or 0 on error.
 function M.get_paragraph()
   -- Check we are not at a blank line
-  if vim.api.nvim_get_current_line():match('%S') == nil then
+  if vim.api.nvim_get_current_line():match "%S" == nil then
     vim.notify("No paragraph found", vim.log.levels.ERROR)
     return nil, 0, 0
   end
 
   -- Get the current paragraph's range
-  local start_line = vim.fn.search('^\\s*$', 'bW') + 1 -- Find the start line of the paragraph (1-based)
-  local end_line = vim.fn.search('^\\s*$', 'W') - 1    -- Find the last line of the paragraph (1-based)
+  local start_line = vim.fn.search("^\\s*$", "bW") + 1 -- Find the start line of the paragraph (1-based)
+  local end_line = vim.fn.search("^\\s*$", "W") - 1 -- Find the last line of the paragraph (1-based)
 
   -- NOTE: vim.fn.search returns 0 if a match is not found (start_line=1, end_line=-1).
   if end_line == -1 then
     end_line = vim.api.nvim_buf_line_count(0) -- Correct end_line
   end
-
 
   -- Get all lines in the paragraph
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
@@ -359,7 +358,7 @@ end
 --- @param start_line number The 1-based starting line number to select.
 --- @param end_line number The 1-based ending line number to select.
 function M.set_selection(start_line, end_line)
-  local cmd = string.format('normal! %dGV%dG', start_line, end_line)
+  local cmd = string.format("normal! %dGV%dG", start_line, end_line)
   vim.api.nvim_exec(cmd, false)
 end
 
@@ -395,21 +394,21 @@ local function parse_csv_line(line)
         end
       end
       -- Skip comma after quoted field, if present
-      if line:sub(i, i) == ',' then
+      if line:sub(i, i) == "," then
         i = i + 1
       end
     else
       -- Unquoted field
-      while i <= len and line:sub(i, i) ~= ',' do
+      while i <= len and line:sub(i, i) ~= "," do
         field = field .. line:sub(i, i)
         i = i + 1
       end
       -- Skip comma after field, if present
-      if line:sub(i, i) == ',' then
+      if line:sub(i, i) == "," then
         i = i + 1
       end
       -- Trim whitespace
-      field = field:match("^%s*(.-)%s*$")
+      field = field:match "^%s*(.-)%s*$"
     end
     table.insert(res, field)
   end
@@ -422,7 +421,7 @@ end
 -- @return string: The resulting Markdown table as a string.
 function M.csv_to_markdown(csv)
   local lines = {}
-  for line in csv:gmatch("[^\r\n]+") do
+  for line in csv:gmatch "[^\r\n]+" do
     table.insert(lines, line)
   end
 
@@ -449,7 +448,7 @@ function M.markdown_to_csv(md)
   local csv_lines = {}
   local lines = {}
   -- Split the input into lines
-  for line in md:gmatch("[^\r\n]+") do
+  for line in md:gmatch "[^\r\n]+" do
     table.insert(lines, line)
   end
   -- Process each relevant line
@@ -460,9 +459,9 @@ function M.markdown_to_csv(md)
       line = line:gsub("^%s*|", ""):gsub("|%s*$", "")
       -- Split by pipes
       local cells = {}
-      for cell in line:gmatch("[^|]+") do
+      for cell in line:gmatch "[^|]+" do
         -- Trim whitespace from cell
-        cell = cell:match("^%s*(.-)%s*$")
+        cell = cell:match "^%s*(.-)%s*$"
         -- Escape double quotes and wrap in double quotes
         cell = '"' .. cell:gsub('"', '""') .. '"'
         table.insert(cells, cell)
@@ -485,24 +484,24 @@ end
 -- @return string: The extracted base name.
 function M.url_base_name(url)
   -- Strip trailing slash if present
-  if url:sub(-1) == '/' then
+  if url:sub(-1) == "/" then
     url = url:sub(1, -2)
   end
 
   -- If starts with http:// or https://, strip and return immediately
-  local stripped = url:match('^https?://(.+)$')
+  local stripped = url:match "^https?://(.+)$"
   if stripped then
     return stripped
   end
 
   -- Strip text up to and including last slash if slash exists
-  local last_slash = url:match('.*/')
+  local last_slash = url:match ".*/"
   if last_slash then
     url = url:sub(#last_slash + 1)
   end
 
   -- If ends with .md, strip it
-  if url:sub(-3) == '.md' then
+  if url:sub(-3) == ".md" then
     url = url:sub(1, -4)
   end
 
@@ -531,7 +530,7 @@ function M.url_to_markdown_link(url, text)
   end
 
   if string.sub(url, 1, 1) == "~" then
-    local home = os.getenv("HOME") or "~"
+    local home = os.getenv "HOME" or "~"
     local expanded_url = home .. string.sub(url, 2)
     return string.format("[%s](file://%s)", text, expanded_url)
   end
@@ -550,19 +549,19 @@ end
 --- Converts a URL on the clipboard to a Markdown link string and returns it.
 -- Returns "" if conversion failed.
 function M.convert_clipboard_url_to_markdown_link()
-  local url = M.trim(vim.fn.getreg('+'))
-  if url == '' then
+  local url = M.trim(vim.fn.getreg "+")
+  if url == "" then
     vim.notify("Clipboard is empty", vim.log.levels.ERROR)
-    return ''
+    return ""
   end
-  if string.sub(url, 1, 1) == '[' then
+  if string.sub(url, 1, 1) == "[" then
     vim.notify("There is already is a link on the clipboard", vim.log.levels.ERROR)
     return
   end
   local link_text = M.url_base_name(url)
   link_text = vim.fn.input("Link text: ", link_text)
-  if link_text == '' then
-    return ''
+  if link_text == "" then
+    return ""
   end
   return M.url_to_markdown_link(url, link_text)
 end
@@ -608,10 +607,10 @@ end
 --- This function saves the current buffer to the new filename and deletes the original file
 --- from disk if the new filename differs. It preserves the buffer contents for continued editing.
 function M.rename_current_file(new_name)
-  local old_name = vim.fn.expand('%:p') -- get full current filename
-  vim.cmd('saveas ' .. new_name)        -- save buffer to new filename
-  if old_name ~= vim.fn.expand('%:p') then
-    vim.fn.delete(old_name)             -- delete the old file
+  local old_name = vim.fn.expand "%:p" -- get full current filename
+  vim.cmd("saveas " .. new_name) -- save buffer to new filename
+  if old_name ~= vim.fn.expand "%:p" then
+    vim.fn.delete(old_name) -- delete the old file
   end
 end
 

@@ -1,4 +1,4 @@
-local util = require("lspconfig.util")
+local util = require "lspconfig.util"
 
 return {
   -- If the project has a deno.json or deno.jsonc file in the hierarchy, the function returns nil.
@@ -7,7 +7,7 @@ return {
     if util.root_pattern("deno.json", "deno.jsonc")(fname) then
       return nil -- exclude tsserver in Deno projects
     else
-      return util.root_pattern("package.json")(fname)
+      return util.root_pattern "package.json"(fname)
     end
   end,
   single_file_support = false,

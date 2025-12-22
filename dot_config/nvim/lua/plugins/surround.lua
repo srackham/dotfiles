@@ -1,8 +1,8 @@
 return {
-  'kylechui/nvim-surround',
-  event = 'VeryLazy',
+  "kylechui/nvim-surround",
+  event = "VeryLazy",
   config = function()
-    require("nvim-surround").setup({
+    require("nvim-surround").setup {
       surrounds = {
         -- Add Markdown bold surround
         ["b"] = {
@@ -27,9 +27,9 @@ return {
         ["b"] = false,
         ["s"] = false,
         ["u"] = false,
-        ["i"] = "_",  -- Markdown italics
-        ["c"] = "`",  -- Markdown code
+        ["i"] = "_", -- Markdown italics
+        ["c"] = "`", -- Markdown code
       },
-    })
-  end
+    }
+  end,
 }

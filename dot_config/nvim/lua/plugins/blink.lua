@@ -20,29 +20,28 @@ See:
 
 ]]
 
-
 return {
   -- Completion engine: blink.cmp
   {
-    'saghen/blink.cmp',
-    version = '1.*', -- Use a release tag to download pre-built binaries
+    "saghen/blink.cmp",
+    version = "1.*", -- Use a release tag to download pre-built binaries
 
     dependencies = {
-      'rafamadriz/friendly-snippets',
+      "rafamadriz/friendly-snippets",
     },
 
     -- See https://cmp.saghen.dev/installation.html for options
     config = function()
-      local cmp = require('blink.cmp')
+      local cmp = require "blink.cmp"
       local cmp_enabled = true
 
       cmp.setup {
         keymap = {
-          preset = 'default',
+          preset = "default",
           ["<C-Space>"] = { "select_and_accept" },
         },
         appearance = {
-          nerd_font_variant = 'mono'
+          nerd_font_variant = "mono",
         },
         completion = {
           menu = {
@@ -59,7 +58,7 @@ return {
         },
         cmdline = { enabled = false },
         sources = {
-          default = { 'lsp', 'path', 'snippets', 'buffer' },
+          default = { "lsp", "path", "snippets", "buffer" },
           providers = {
             snippets = {
               min_keyword_length = 2,
@@ -79,7 +78,7 @@ return {
             },
           },
         },
-        fuzzy = { implementation = 'prefer_rust_with_warning' },
+        fuzzy = { implementation = "prefer_rust_with_warning" },
         enabled = function()
           return cmp_enabled
         end,
@@ -89,10 +88,9 @@ return {
         cmp_enabled = not cmp_enabled
         vim.notify("Completions " .. (cmp_enabled and "enabled" or "disabled"))
       end
-      vim.keymap.set("n", "<leader>ct", toggle_completions,
-        { noremap = true, silent = true, desc = "Toggle completions" })
+      vim.keymap.set("n", "<leader>ct", toggle_completions, { noremap = true, silent = true, desc = "Toggle completions" })
     end,
 
-    opts_extend = { 'sources.default' },
+    opts_extend = { "sources.default" },
   },
 }
