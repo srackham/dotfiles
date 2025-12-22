@@ -120,6 +120,8 @@ alias ocr="clipboard-paste -t image/png | tesseract -l eng - - 2>/dev/null"
 alias ta="tmux attach"
 alias tde="tde --session $(hostname)"
 alias ssh="wezterm ssh"
+alias stylua='stylua --config-path "$HOME/.config/nvim/stylua.toml"'
+alias stylua-all="stylua \$(find . -name '*.lua')" # Recursively format all .lua files in the current directory
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
