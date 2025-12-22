@@ -168,6 +168,40 @@ end
 vim.keymap.set('n', '<Leader>fc', toggle_case_sensitivity,
   { desc = 'Toggle search case sensitivity (smartcase ↔ case sensitive)' })
 
+local function format_with_stylua()
+  -- Check if current buffer filetype is lua
+  local filetype = vim.bo.filetype
+  if filetype ~= 'lua' then
+    vim.notify('Stylua only formats Lua files', vim.log.levels.WARN)
+    return
+  end
+
+  -- Save modified current buffer
+  vim.cmd('update')
+
+  -- Get the full path of the current buffer file
+  local source_file = vim.api.nvim_buf_get_name(0)
+
+  -- Check if buffer has a file
+  if source_file == '' then
+    vim.notify('No file in current buffer', vim.log.levels.WARN)
+    return
+  end
+
+  -- Save the current buffer then run the stylua command on the buffer file using the global configuration file.
+  local config_file = vim.fn.stdpath('config') .. "/stylua.toml"
+  local cmd = string.format('stylua --config-path "%s" "%s"', config_file, source_file)
+  local result = vim.fn.system(cmd)
+  if vim.v.shell_error == 0 then
+    -- Reload the buffer to reflect changes
+    vim.cmd('edit!')
+    vim.notify('Stylua formatting applied', vim.log.levels.INFO)
+  else
+    vim.notify('Stylua failed: ' .. result, vim.log.levels.ERROR)
+  end
+end
+vim.keymap.set('n', '<leader>cF', format_with_stylua, { noremap = true, silent = true, desc = 'Format file with StyLua' })
+
 -- Insert mode motion commands
 vim.keymap.set('i', '<C-h>', '<C-o>h',
   { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })
