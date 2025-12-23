@@ -1,6 +1,9 @@
 return {
   settings = {
     Lua = {
+      format = {
+        enable = true, -- Enable builtin lua_ls formatter
+      },
       diagnostics = {
         -- globals = { "vim", "Obsidian" },
       },

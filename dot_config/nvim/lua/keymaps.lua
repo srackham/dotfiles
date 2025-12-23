@@ -216,17 +216,19 @@ vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle sear
 -- Formatter commands
 
 -- Auto-format files on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    -- Ignore errors for file types without formatters
-    pcall(function()
-      vim.lsp.buf.format { async = false }
-    end)
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*",
+--   callback = function()
+--     -- Ignore errors for file types without formatters
+--     pcall(function()
+--       vim.lsp.buf.format { async = false }
+--     end)
+--   end,
+-- })
 
-vim.keymap.set("n", "<Leader>cf", function() vim.lsp.buf.format { async = true } end, { desc = "Format buffer" })
+vim.keymap.set("n", "<Leader>cf", function()
+  vim.lsp.buf.format { async = true }
+end, { desc = "Format buffer" })
 
 -- Use StyLua to format Lua files
 local function format_with_stylua()
