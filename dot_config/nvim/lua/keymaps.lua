@@ -215,7 +215,7 @@ vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle sear
 
 -- Formatter commands
 
--- Auto-format files on save
+-- DEPRECATED: 23-Dec-2025: Auto-format files on save
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = "*",
 --   callback = function()
@@ -226,9 +226,7 @@ vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle sear
 --   end,
 -- })
 
-vim.keymap.set("n", "<Leader>cf", function()
-  vim.lsp.buf.format { async = true }
-end, { desc = "Format buffer" })
+vim.keymap.set("n", "<Leader>cf", function() vim.lsp.buf.format { async = true } end, { desc = "Format buffer" })
 
 -- Use StyLua to format Lua files
 local function format_with_stylua()
@@ -256,7 +254,12 @@ local function format_with_stylua()
     vim.notify("Stylua failed: " .. result, vim.log.levels.ERROR)
   end
 end
-vim.keymap.set("n", "<leader>cF", format_with_stylua, { noremap = true, silent = true, desc = "Format file with StyLua" })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.keymap.set("n", "<leader>cf", format_with_stylua, { noremap = true, silent = true, desc = "Format Lua file with StyLua" })
+  end,
+})
 
 -- Insert mode motion commands
 vim.keymap.set("i", "<C-h>", "<C-o>h", { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })

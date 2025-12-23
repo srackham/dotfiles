@@ -2,7 +2,7 @@ return {
   settings = {
     Lua = {
       format = {
-        enable = true, -- Enable builtin lua_ls formatter
+        enable = false, -- Use external stylua command bound to <Leader>cf instead of the builtin lua_ls formatter
       },
       diagnostics = {
         -- globals = { "vim", "Obsidian" },
