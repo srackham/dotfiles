@@ -126,7 +126,7 @@ config.keys = {
         pane:send_text "\x1b:wa\r"
       end
       -- Wait for editor to save then execute previous command in the second pane
-      second_pane:send_text "sleep 0.1\n"
+      second_pane:send_text "sleep 0.2\n"
       second_pane:send_text "!-2\n"
     end),
   },
