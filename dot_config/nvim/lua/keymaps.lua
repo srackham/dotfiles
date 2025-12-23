@@ -213,6 +213,22 @@ local function toggle_case_sensitivity()
 end
 vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle search case sensitivity (smartcase ↔ case sensitive)" })
 
+-- Formatter commands
+
+-- Auto-format files on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    -- Ignore errors for file types without formatters
+    pcall(function()
+      vim.lsp.buf.format { async = false }
+    end)
+  end,
+})
+
+vim.keymap.set("n", "<Leader>cf", function() vim.lsp.buf.format { async = true } end, { desc = "Format buffer" })
+
+-- Use StyLua to format Lua files
 local function format_with_stylua()
   -- Check if current buffer filetype is lua
   local filetype = vim.bo.filetype
@@ -220,19 +236,12 @@ local function format_with_stylua()
     vim.notify("Stylua only formats Lua files", vim.log.levels.WARN)
     return
   end
-
-  -- Save modified current buffer
   vim.cmd "update"
-
-  -- Get the full path of the current buffer file
   local source_file = vim.api.nvim_buf_get_name(0)
-
-  -- Check if buffer has a file
   if source_file == "" then
     vim.notify("No file in current buffer", vim.log.levels.WARN)
     return
   end
-
   -- Save the current buffer then run the stylua command on the buffer file using the global configuration file.
   local config_file = vim.fn.stdpath "config" .. "/stylua.toml"
   local cmd = string.format('stylua --config-path "%s" "%s"', config_file, source_file)

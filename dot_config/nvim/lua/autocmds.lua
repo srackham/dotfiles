@@ -44,17 +44,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Auto-format files on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    -- Ignore errors for file types without formatters
-    pcall(function()
-      vim.lsp.buf.format { async = false }
-    end)
-  end,
-})
-
 -- Auto-save Rust source files after a period of inactivity
 -- FIXME: This is a kludge because I can't figure how to force the Rust LSP to do lint check without saving.
 local timer = vim.loop.new_timer()
