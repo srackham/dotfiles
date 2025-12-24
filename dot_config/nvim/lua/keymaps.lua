@@ -226,7 +226,9 @@ vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle sear
 --   end,
 -- })
 
-vim.keymap.set("n", "<Leader>cf", function() vim.lsp.buf.format { async = true } end, { desc = "Format buffer" })
+vim.keymap.set("n", "<Leader>cf", function()
+  vim.lsp.buf.format { async = true }
+end, { desc = "Format buffer" })
 
 -- Use StyLua to format Lua files
 local function format_with_stylua()
@@ -383,7 +385,9 @@ local function sanitize_buffer()
     [[%s/\%u200B\|\%u200C\|\%u200D//ge]], -- zero-width chars
     [[%s/[“”]/"/ge]], -- smart double quotes
     [[%s/[‘’]/'/ge]], -- smart single quotes
-    [[%s/[‐-–—]/-/ge]], -- unicode dashes
+    [[%s/[‐-–]/-/ge]], -- unicode dashes excluding the em dash
+    [[%s/^\[\d\+\]([^)]\+)\r\?$//ge]], -- deletes entire lines matching the Markdown reference definitions [number](URL)
+    [[%s/\[\d\+\]//ge]], -- delete Markdown reference links
   }
   for _, cmd in ipairs(cmds) do
     vim.cmd(cmd)
@@ -393,7 +397,7 @@ vim.keymap.set(
   "n",
   "<Leader>bs",
   sanitize_buffer,
-  { noremap = true, silent = false, desc = "Replace/delete Unicode characters in the current buffer" }
+  { noremap = true, silent = false, desc = "Replace/delete Unicode characters and Markdown references in the current buffer" }
 )
 
 -- Windows commands
