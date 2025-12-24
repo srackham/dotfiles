@@ -225,7 +225,9 @@ table.insert(palette_commands, {
 
 -- tabsets.wezterm plugin configuration.
 
-local tabsets = wezterm.plugin.require "file:///home/srackham/share/projects/tabsets.wezterm"
+-- local tabsets = wezterm.plugin.require "file:///home/srackham/share/projects/tabsets.wezterm"
+local tabsets = wezterm.plugin.require("https://github.com/srackham/tabsets.wezterm")
+
 tabsets.setup {
   restore_colors = true,
   restore_dimensions = true,
