@@ -29,7 +29,7 @@ config.initial_rows = 50
 config.initial_cols = 120
 config.audible_bell = "Disabled"
 
--- Palette commands are accumulated to this table and then installed at the end of the module.
+-- Palette commands are accumulated in this table and then installed with the "augment-command-palette" event
 local palette_commands = {}
 
 -- Utility functions --
