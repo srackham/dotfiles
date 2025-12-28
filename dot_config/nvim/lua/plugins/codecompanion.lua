@@ -9,16 +9,16 @@ return {
     require("codecompanion").setup {
       strategies = {
         chat = {
-          -- adapter = "gemini",
-          -- model = "gemini-2.5-flash"
-          adapter = "openrouter",
-          model = "openai/gpt-4o-mini",
+          adapter = "gemini",
+          model = "gemini-2.5-flash"
+          -- adapter = "openrouter",
+          -- model = "openai/gpt-4o-mini",
         },
         inline = {
-          -- adapter = "gemini",
-          -- model = "gemini-2.5-flash"
-          adapter = "openrouter",
-          model = "openai/gpt-4o-mini",
+          adapter = "gemini",
+          model = "gemini-2.5-flash"
+          -- adapter = "openrouter",
+          -- model = "openai/gpt-4o-mini",
         },
       },
       adapters = {
