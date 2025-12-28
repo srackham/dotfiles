@@ -49,18 +49,6 @@ return {
       },
       attachments = {
         img_folder = "images",
-        img_name_func = function()
-          return "" -- No default file name
-        end,
-        -- FIX: Leave path separators in encoded paths (see https://github.com/obsidian-nvim/obsidian.nvim/issues/119)
-        img_text_func = function(client, path)
-          path = client:vault_relative_path(path) or path
-          local caption = vim.fs.basename(tostring(path))
-          caption = caption:match "^(.*)%.([^%.]*)$" or caption -- Strip file name extension
-          local encoded_path = vim.uri_from_fname(tostring(path))
-          encoded_path = encoded_path:match "^file://(.*)" -- Strip leading 'file://'
-          return string.format("![%s](%s)", caption, encoded_path)
-        end,
       },
       templates = {
         folder = "templates",
