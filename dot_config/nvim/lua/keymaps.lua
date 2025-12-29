@@ -515,6 +515,10 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Selection commands
+vim.keymap.set("n", "<Leader>sa", "ggVG", { noremap = true, silent = true, desc = "Select buffer" })
+vim.keymap.set("n", "<Leader>sf", "?^```<CR>jV/^```<CR>k", { noremap = true, silent = true, desc = "Select fenced block" })
+
 -- Additional miscellaneous commands
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath "config" .. "/vim/init.vim",
