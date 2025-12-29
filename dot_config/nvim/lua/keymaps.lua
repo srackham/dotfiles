@@ -419,13 +419,13 @@ local function close_window()
 end
 vim.keymap.set("n", "<Leader>wc", close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set("n", "<Leader>wo", "<C-w>o", { noremap = true, silent = true, desc = "Leave only this window open" })
-vim.keymap.set("n", "<Leader>w=", "<C-w>=", { noremap = true, silent = true, desc = "Equalize window sizes" })
+vim.keymap.set("n", "<Leader>we", "<C-w>=", { noremap = true, silent = true, desc = "Equalize window sizes" })
 vim.keymap.set("n", "<Leader>ws", "<C-w>v", { noremap = true, silent = true, desc = "Split horizontally (left/right)" })
-vim.keymap.set("n", "<Leader>w|", "<C-w>v", { noremap = true, silent = true, desc = "Split horizontally (left/right)" })
 vim.keymap.set("n", "<Leader>wv", "<C-w>s", { noremap = true, silent = true, desc = "Split vertically (top/bottom)" })
-vim.keymap.set("n", "<Leader>w-", "<C-w>s", { noremap = true, silent = true, desc = "Split vertically (top/bottom)" })
-vim.keymap.set("n", "<Leader>w>", "<C-w>>", { noremap = true, silent = true, desc = "Expand window width" })
-vim.keymap.set("n", "<Leader>w<", "<C-w><", { noremap = true, silent = true, desc = "Shrink window width" })
+vim.keymap.set("n", "<Leader>w>", "<C-w>>", { noremap = true, silent = true, desc = "Increase window width" })
+vim.keymap.set("n", "<Leader>w<", "<C-w><", { noremap = true, silent = true, desc = "Decrease window width" })
+vim.keymap.set("n", "<Leader>w+", "<C-w>+", { noremap = true, silent = true, desc = "Increase window height" })
+vim.keymap.set("n", "<Leader>w-", "<C-w>-", { noremap = true, silent = true, desc = "Decrease window height" })
 
 local win_height_maximized = false
 local win_height_saved = 0
@@ -464,6 +464,11 @@ local function toggle_maximize_width()
   end
 end
 vim.keymap.set("n", "<leader>wM", toggle_maximize_width, { noremap = true, silent = true, desc = "Toggle window maximum width" })
+
+vim.keymap.set("n", "<Leader>ww", function()
+  vim.wo.wrap = not vim.wo.wrap
+  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
+end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
 -- Terminal commands
 vim.keymap.set("n", "<Leader>to", "<Cmd>terminal<CR>i", { noremap = true, silent = true, desc = "Open a new terminal buffer" })
@@ -509,12 +514,6 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
-
--- Toggle word-wrap
-vim.keymap.set("n", "<Leader>ww", function()
-  vim.wo.wrap = not vim.wo.wrap
-  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
-end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
 -- Additional miscellaneous commands
 vim.api.nvim_create_autocmd("BufWritePost", {
