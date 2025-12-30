@@ -1,6 +1,6 @@
 return {
   "olimorris/codecompanion.nvim",
-  tag = "v17.33.0",
+  version = "^18.0.0",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -10,13 +10,13 @@ return {
       strategies = {
         chat = {
           adapter = "gemini",
-          model = "gemini-2.5-flash"
+          model = "gemini-2.5-flash",
           -- adapter = "openrouter",
           -- model = "openai/gpt-4o-mini",
         },
         inline = {
           adapter = "gemini",
-          model = "gemini-2.5-flash"
+          model = "gemini-2.5-flash",
           -- adapter = "openrouter",
           -- model = "openai/gpt-4o-mini",
         },
