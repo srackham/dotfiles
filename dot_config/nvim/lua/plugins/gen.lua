@@ -18,6 +18,9 @@ return {
       prompt = "Fix spelling errors in the following text, just output the final text without additional quotes around it:\n$text",
       replace = true,
     }
+    gen.prompts["Explain_Code"] = {
+      prompt = "Explain the following code:\n```$filetype\n$text\n```",
+    }
 
     -- Custom key mappings
     vim.keymap.set({ "n", "v" }, "<leader>lg", ":Gen<CR>", { desc = "Gen.nvim generate" })
