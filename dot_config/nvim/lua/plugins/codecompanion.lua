@@ -4,6 +4,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
+    "ravitemer/codecompanion-history.nvim",
   },
   config = function()
     require("codecompanion").setup {
@@ -66,6 +67,15 @@ return {
             layout = "float",
             height = 0.8,
             width = 0.7,
+          },
+        },
+      },
+      extensions = {
+        history = {
+          enabled = true, -- defaults to true
+          opts = {
+            dir_to_save = vim.fn.stdpath "data" .. "/codecompanion_chats.json",
+            continue_last_chat = true,
           },
         },
       },
