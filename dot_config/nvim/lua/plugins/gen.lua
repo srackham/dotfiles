@@ -1,5 +1,7 @@
 return {
-  "David-Kunz/gen.nvim",
+  -- "David-Kunz/gen.nvim",
+  -- "srackham/gen.nvim",
+  dir = "/home/srackham/projects/forks/gen.nvim",
   enabled = true,
   config = function()
 
@@ -23,7 +25,7 @@ return {
     }
 
     -- Custom key mappings
-    vim.keymap.set({ "n", "v" }, "<leader>lg", ":Gen<CR>", { desc = "Gen.nvim generate" })
+    vim.keymap.set({ "n", "v" }, "<leader>lp", ":Gen<CR>", { desc = "Gen.nvim command palette" })
     vim.keymap.set({ "n", "v" }, "<leader>lc", ":Gen Chat<CR>", { desc = "Gen.nvim chat" })
     vim.keymap.set({ "n", "v" }, "<leader>ls", ":Gen Enhance_Grammar_Spelling<CR>", { desc = "Gen.nvim spelling and grammar" })
     vim.keymap.set({ "n", "v" }, "<leader>lm", function()
