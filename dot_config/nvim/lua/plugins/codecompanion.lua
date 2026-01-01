@@ -80,6 +80,9 @@ return {
         },
       },
     }
+
+    vim.cmd [[cab cc CodeCompanion]] -- Command-line abbreviation
+
     vim.keymap.set(
       { "n", "v" },
       "<Leader>ap",
@@ -110,6 +113,11 @@ return {
       "<cmd>CodeCompanion /explain Add<cr>",
       { noremap = true, silent = true, desc = "Explain selection using CodeCompanion" }
     )
-    vim.cmd [[cab cc CodeCompanion]]
+    vim.keymap.set(
+      { "n", "v" },
+      "<Leader>ah",
+      "<cmd>CodeCompanionHistory<cr>",
+      { noremap = true, silent = true, desc = "CodeCompanion history browser" }
+    )
   end,
 }
