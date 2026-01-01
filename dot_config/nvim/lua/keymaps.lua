@@ -418,6 +418,7 @@ local function close_window()
   end
 end
 vim.keymap.set("n", "<Leader>wc", close_window, { noremap = true, silent = false, desc = "Close window" })
+vim.keymap.set("n", "<M-w>", close_window, { noremap = true, silent = false, desc = "Close window" })
 vim.keymap.set("n", "<Leader>wo", "<C-w>o", { noremap = true, silent = true, desc = "Leave only this window open" })
 vim.keymap.set("n", "<Leader>we", "<C-w>=", { noremap = true, silent = true, desc = "Equalize window sizes" })
 vim.keymap.set("n", "<Leader>ws", "<C-w>v", { noremap = true, silent = true, desc = "Split horizontally (left/right)" })
