@@ -25,14 +25,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
--- Strip trailing white space from files before saving
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    vim.cmd [[%s/\s\+$//e]]
-  end,
-})
-
 -- Highlight text on yank
 -- Create an augroup to avoid duplicate autocmds on reload
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
