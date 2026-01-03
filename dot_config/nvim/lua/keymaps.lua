@@ -476,6 +476,28 @@ vim.keymap.set("n", "<Leader>ww", function()
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
 
+-- Function to toggle window orientation
+local function toggle_window_orientation()
+  -- Get the current window layout
+  local layout = vim.fn.winlayout()
+  -- Check if it's a horizontal split (row) or vertical split (col)
+  if layout[1] == "row" then
+    -- Change to vertical (stacked) layout
+    vim.cmd "wincmd K"
+  elseif layout[1] == "col" then
+    -- Change to horizontal (side-by-side) layout
+    vim.cmd "wincmd H"
+  end
+end
+
+vim.keymap.set(
+  "n",
+  "<Leader>wl",
+  toggle_window_orientation,
+  { noremap = true, silent = true, desc = "Toggle window horizontal and vertical layout" }
+)
+vim.keymap.set("n", "<leader>wr", "<C-w>r", { noremap = true, silent = true, desc = "Rotate windows" })
+
 -- Terminal commands
 vim.keymap.set("n", "<Leader>to", "<Cmd>terminal<CR>i", { noremap = true, silent = true, desc = "Open a new terminal buffer" })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
