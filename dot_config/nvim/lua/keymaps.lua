@@ -259,7 +259,12 @@ end
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "lua",
   callback = function()
-    vim.keymap.set("n", "<leader>cf", format_with_stylua, { noremap = true, silent = true, desc = "Format Lua file with StyLua" })
+    vim.keymap.set(
+      "n",
+      "<leader>cf",
+      format_with_stylua,
+      { buffer = true, noremap = true, silent = true, desc = "Format Lua file with StyLua" }
+    )
   end,
 })
 
