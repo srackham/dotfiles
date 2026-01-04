@@ -15,6 +15,33 @@ apply-dotfiles() {
     chezmoi apply
 }
 
+install-ollama-models() {
+    models=(
+        "mistral:latest"
+        "deepseek-v3.1:671b-cloud"
+        "kimi-k2-thinking:cloud"
+        "qwen3-coder:480b-cloud"
+        "dolphin3:latest"
+        "codellama:latest"
+        "gnokit/improve-grammar:latest"
+    )
+    for model in "${models[@]}"; do
+        echo "Installing model: $model"
+        ollama pull "$model"
+        echo "--"
+    done
+}
+
+update-ollama-models() {
+    ollama list | awk 'NR>1 {print $1}' | while read -r model; do
+        if [[ -n "$model" ]]; then
+            echo "Updating model: $model"
+            ollama pull "$model"
+            echo "--"
+        fi
+    done
+}
+
 daily-backup() {
     backup.sh
 }
@@ -66,6 +93,8 @@ gnome-settings() {
 # Define admin task menu items
 tasks=(
     "Apply Chezmoi dot files::apply-dotfiles"
+    "Install Ollama models::install-ollama-models"
+    "Update Ollama models::update-ollama-models"
     'Install Lazyvim plugins::nvim-plugins'
     "Install other applications::install-other"
     "Load GNOME keyboard shortcuts::gnome-settings"
