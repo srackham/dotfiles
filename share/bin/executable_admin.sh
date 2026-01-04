@@ -13,7 +13,6 @@ source "$HOME/.bashrc"
 
 apply-dotfiles() {
     chezmoi apply
-    tmux source-file ~/.config/tmux/tmux.conf
 }
 
 daily-backup() {
