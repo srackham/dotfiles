@@ -125,7 +125,6 @@ vim.keymap.set(
   "<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>",
   { noremap = true, silent = true, desc = "Go to previously edited buffer" }
 )
-vim.keymap.set("n", "<Leader>ew", "<Cmd>wa<CR>", { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set({ "i", "n" }, "<C-s>", "<Cmd>wa<CR>", { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set("n", "<Leader>eQ", "<Cmd>qa!<CR>", { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 vim.keymap.set("n", "<Leader>eq", "<Cmd>wqa<CR>", { noremap = true, silent = true, desc = "Write modified buffers and exit" })
@@ -212,6 +211,11 @@ local function toggle_case_sensitivity()
   end
 end
 vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle search case sensitivity (smartcase ↔ case sensitive)" })
+
+vim.keymap.set("n", "<Leader>ew", function()
+  vim.wo.wrap = not vim.wo.wrap
+  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
+end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
 -- Formatter commands
 
@@ -405,7 +409,7 @@ vim.keymap.set(
   { noremap = true, silent = false, desc = "Replace/delete Unicode characters and Markdown references in the current buffer" }
 )
 
--- Windows commands
+-- Window commands
 local function close_window()
   -- Close the current window. If the `close` command fails (it won't close the last window on a buffer) then,
   -- after checking the buffer hasn't been modified, close the window by deleting the buffer.
@@ -471,11 +475,6 @@ local function toggle_maximize_width()
 end
 vim.keymap.set("n", "<leader>wM", toggle_maximize_width, { noremap = true, silent = true, desc = "Toggle window maximum width" })
 
-vim.keymap.set("n", "<Leader>ww", function()
-  vim.wo.wrap = not vim.wo.wrap
-  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
-end, { noremap = true, silent = true, desc = "Toggle window word wrap" })
-
 -- Function to toggle window orientation
 local function toggle_window_orientation()
   -- Get the current window layout
@@ -494,7 +493,7 @@ vim.keymap.set(
   "n",
   "<Leader>wl",
   toggle_window_orientation,
-  { noremap = true, silent = true, desc = "Toggle window horizontal and vertical layout" }
+  { noremap = true, silent = true, desc = "Toggle between horizontal and vertical layouts" }
 )
 vim.keymap.set("n", "<leader>wr", "<C-w>r", { noremap = true, silent = true, desc = "Rotate windows" })
 
