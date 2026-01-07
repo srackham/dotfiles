@@ -2,7 +2,7 @@
 " Edit this file to manage persistant abbreviations et al; source it to load them.
 "
 
-" Align // and # style comments
+" Command line abbreviations to align // and # style comments
 :cab a/ EasyAlign /\/\//
 :cab a# EasyAlign #
 
@@ -28,7 +28,7 @@
 :iab Bk Bitcoin Knots
 :iab Btc Bitcoin
 :iab Cc CodeCompanion.nvim plugin
-:iab Cl command line
+:iab Cl command-line
 :iab Conf configuration
 :iab Confs configurations
 :iab Ctk Christ the King

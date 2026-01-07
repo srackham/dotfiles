@@ -1,5 +1,5 @@
 #
-# Global StyLua configuration used by Neovim <Leader>cF key mapping
+# Global StyLua configuration used by Neovim <Leader>cf key mapping
 #
 indent_type = "Spaces"
 indent_width = 2
