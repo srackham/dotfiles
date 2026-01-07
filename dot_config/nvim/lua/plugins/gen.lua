@@ -10,8 +10,10 @@ return {
     -- Non-default options
     gen.setup {
       model = "qwen3-coder:480b-cloud", -- The default model to use.
-      display_mode = "horizontal-split", -- The display mode. Can be "float" or "split" or "horizontal-split" or "vertical-split".
+      display_mode = "vertical-split", -- The display mode. Can be "float" or "split" or "horizontal-split" or "vertical-split".
       show_prompt = true, -- Shows the prompt submitted to Ollama. Can be true (3 lines) or "full".
+      show_model = true,
+      no_auto_close = true, -- Don't close the generation window.
     }
 
     -- Custom prompts
@@ -26,7 +28,9 @@ return {
 
     gen.prompts["Spelling"] = {
       prompt = "Correct spelling and minor grammar mistakes in the given text. Do not change the meaning, style or formatting.\n\n$text",
-      replace = true,
+      -- replace = true,
+      replace = "after",
+      -- replace = "before",
     }
     gen.prompts["Explain_Code"] = {
       prompt = "Explain the following $filetype code:\n\n```\n$text\n```",
@@ -34,32 +38,32 @@ return {
     gen.prompts["Meaning"] = {
       prompt = "Explain the meaning of the following text:\n$text",
     }
+    gen.prompts["Dictionary"] = {
+      prompt = "The meaning and etymology the following word: $input",
+    }
     gen.prompts["Synonyms"] = {
-      prompt = "List synonyms for the following word: $text",
+      prompt = "List synonyms for the following word: $input",
     }
     gen.prompts["Latin_to_English"] = {
       prompt = "Translate the following Latin text to English:\n\n$text",
     }
     rename_prompt("Enhance_Grammar_Spelling", "Grammar_and_Spelling")
+    gen.prompts["Grammar_and_Spelling"].replace = false
+
+    gen.prompts["Yanked_Register_\""] = {
+      prompt = "Explain the meaning of the following text:\n$register",
+    }
+    gen.prompts["Yanked_Register_0"] = {
+      prompt = "Explain the meaning of the following text:\n$register_0",
+    }
 
     -- Custom key mappings
-    local function execute_prompt(prompt)
-      -- If in normal mode select the word at the cursor.
-      local mode = vim.api.nvim_get_mode().mode
-      if mode == "n" then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("viw:Gen " .. prompt .. "<CR>", true, false, true), "n", false)
-      else
-        vim.cmd("Gen " .. prompt)
-      end
-    end
-
-    vim.keymap.set({ "n", "v" }, "<leader>ll", ":Gen<CR>", { desc = "Gen.nvim command palette" })
-    vim.keymap.set({ "n", "v" }, "<M-\\>", ":Gen<CR>", { desc = "Gen.nvim command palette" })
-    vim.keymap.set({ "n", "v" }, "<leader>lc", ":Gen Chat<CR>", { desc = "Gen.nvim chat" })
+    vim.keymap.set({ "n", "v" }, "<leader>lp", ":Gen<CR>", { desc = "Gen.nvim command palette" })
+    vim.keymap.set({ "n", "v" }, "<M-\\>", ":Gen<CR>", { desc = "Gen.nvim command open prompts palette" })
+    vim.keymap.set({ "n", "v" }, "<leader>la", ":Gen Chat<CR>", { desc = "Gen.nvim ask a question" })
     vim.keymap.set({ "n", "v" }, "<leader>lm", gen.select_model, { desc = "Gen.nvim model" })
     vim.keymap.set({ "n", "v" }, "<leader>ls", ":Gen Spelling<CR>", { desc = "Gen.nvim spelling correction" })
-    vim.keymap.set({ "n", "v" }, "<leader>lS", function()
-      execute_prompt "Synonyms"
-    end, { desc = "Gen.nvim list synonyms" })
+    vim.keymap.set({ "n", "v" }, "<leader>lS", "<cmd>Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
+    vim.keymap.set({ "n", "v" }, "<leader>ld", ":Gen Dictionary<CR>", { desc = "Gen.nvim dictionary lookup" })
   end,
 }
