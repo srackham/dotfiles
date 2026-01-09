@@ -186,13 +186,21 @@ end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a 
 vim.keymap.set("n", "<Leader>fR", function()
   local current_name = vim.fn.expand "%:t" -- current file name with extension
   local old_ext = vim.fn.expand "%:e" -- current file extension (without dot)
-  local input = vim.fn.input("New filename: ", current_name)
-  if input ~= "" then
-    -- If input has no extension, append old extension
-    if not input:match "%." and old_ext ~= "" then
-      input = input .. "." .. old_ext
+  local old_dir = vim.fn.expand "%:p:h" -- directory of current buffer file
+
+  local new_name = vim.fn.input("New filename: ", current_name)
+  if new_name ~= "" then
+    -- If input has no directory component, prepend current buffer directory
+    if vim.fn.fnamemodify(new_name, ":h") == "." then
+      new_name = old_dir .. "/" .. new_name
     end
-    Utils.rename_current_file(input)
+
+    -- If input has no extension, append old extension
+    if not new_name:match "%." and old_ext ~= "" then
+      new_name = new_name .. "." .. old_ext
+    end
+
+    Utils.rename_current_file(new_name)
   end
 end, { noremap = true, silent = true, desc = "Rename current file" })
 
@@ -406,7 +414,7 @@ vim.keymap.set(
   "n",
   "<Leader>bs",
   sanitize_buffer,
-  { noremap = true, silent = false, desc = "Replace/delete Unicode characters and Markdown references in the current buffer" }
+  { noremap = true, silent = false, desc = "Replace/delete undesirable Unicode characters and Markdown references in the current buffer" }
 )
 
 -- Window commands
