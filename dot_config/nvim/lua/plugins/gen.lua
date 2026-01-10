@@ -20,10 +20,10 @@ return {
     -- Custom key mappings
     vim.keymap.set({ "n", "v" }, "<leader>lp", ":Gen<CR>", { desc = "Gen.nvim command palette" })
     vim.keymap.set({ "n", "v" }, "<M-\\>", ":Gen<CR>", { desc = "Gen.nvim command open prompts palette" })
-    vim.keymap.set({ "n", "v" }, "<leader>la", ":Gen Ask a question<CR>", { desc = "Gen.nvim ask a question" })
-    vim.keymap.set({ "n", "v" }, "<leader>lm", gen.select_model, { desc = "Gen.nvim model" })
-    vim.keymap.set({ "n", "v" }, "<leader>ls", ":Gen Writing: Spelling and grammar<CR>", { desc = "Gen.nvim spelling correction" })
-    vim.keymap.set({ "n", "v" }, "<leader>lS", ":Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
+    vim.keymap.set({ "n", "v" }, "<leader>la", ":Gen Ask_a_question<CR>", { desc = "Gen.nvim ask a question" })
+    vim.keymap.set({ "n", "v" }, "<leader>ls", ":Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
     vim.keymap.set({ "n", "v" }, "<leader>ld", ":Gen Dictionary<CR>", { desc = "Gen.nvim dictionary lookup" })
+    vim.keymap.set({ "n", "v" }, "<leader>l.", ":Gen .<CR>", { desc = "Gen.nvim repeat previous command" })
+    vim.keymap.set({ "n", "v" }, "<leader>lm", gen.select_model, { desc = "Gen.nvim model" })
   end,
 }

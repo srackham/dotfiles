@@ -27,6 +27,16 @@ ___
 The meaning and etymology the following word: ${input:Enter word}
 
 ___
+name: Spell word
+___
+What is the correct spelling for "${input:Enter word}"
+
+___
+name: Pronounce word
+___
+What is the correct pronunciation for "${input:Enter word}"
+
+___
 name: Synonyms
 ___
 List synonyms for "${input:Enter word}"
