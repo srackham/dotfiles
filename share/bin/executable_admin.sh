@@ -104,7 +104,7 @@ tasks=(
     "Restore VirtualBox VMs::restore-vms"
     ""
     "Build and activate NixOS::build-nixos"
-    "Update and optimise NixOS::update-nixos"
+    "Update, optimise, and rebuild NixOS::update-nixos"
     ""
     "Show active services::list-services"
     "View system logs::view-journal"
