@@ -83,7 +83,7 @@ alias cryptor="cryptor.arm64"
 
 chezmoi_source="$(chezmoi source-path)"
 alias chezmoi-add-modified="chezmoi-dump-gnome-bindings && \
-    chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim ~/.local/share/nvim/gen_nvim/*.prompts.md"
+    chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim ~/.local/share/nvim/gen_nvim/prompts/*.prompts.md"
 alias chezmoi-dump-gnome-bindings="dconf dump /org/gnome/desktop/wm/keybindings/ > $chezmoi_source/exported/wm-keybindings.dconf && \
     dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > $chezmoi_source/exported/media-keys-keybindings.dconf && \
     dconf dump /org/gnome/shell/keybindings/ > $chezmoi_source/exported/shell-keybindings.dconf"
