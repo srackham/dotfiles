@@ -505,6 +505,24 @@ vim.keymap.set(
 )
 vim.keymap.set("n", "<leader>wr", "<C-w>r", { noremap = true, silent = true, desc = "Rotate windows" })
 
+local function float_current_window()
+  local wins = vim.api.nvim_list_wins()
+  if #wins <= 1 then
+    vim.notify("Cannot change last window into float", vim.log.levels.WARN, { title = "Float Window" })
+    return
+  end
+  local opts = {
+    relative = "editor",
+    width = math.floor(vim.o.columns * 0.8),
+    height = math.floor(vim.o.lines * 0.6),
+    col = math.floor((vim.o.columns - vim.o.columns * 0.8) / 2),
+    row = math.floor((vim.o.lines - vim.o.lines * 0.6) / 2),
+    style = "minimal",
+  }
+  vim.api.nvim_win_set_config(0, opts)
+end
+vim.keymap.set("n", "<leader>wf", float_current_window, { desc = "Float current window" })
+
 -- Terminal commands
 vim.keymap.set("n", "<Leader>to", "<Cmd>terminal<CR>i", { noremap = true, silent = true, desc = "Open a new terminal buffer" })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
