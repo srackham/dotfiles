@@ -4,7 +4,7 @@ ___
 ${input:Enter your question}
 
 ___
-name: Ask about text selection
+name: Ask about selected text
 ___
 Regarding the following text, ${input:Enter your question}:
 $select
@@ -27,12 +27,12 @@ ___
 The meaning and etymology the following word: ${input:Enter word}
 
 ___
-name: Spell word
+name: Spell
 ___
 What is the correct spelling for "${input:Enter word}"
 
 ___
-name: Pronounce word
+name: Pronunciation
 ___
 What is the correct pronunciation for "${input:Enter word}"
 
