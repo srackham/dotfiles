@@ -29,7 +29,7 @@ function M.reload_modified_buffers()
   local buffers = vim.api.nvim_list_bufs()
   local msgs = {}
   for _, bufnr in ipairs(buffers) do
-    if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "modified") then
+    if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].modified then
       local filename = vim.api.nvim_buf_get_name(bufnr)
       vim.api.nvim_buf_call(bufnr, function()
         vim.cmd "e!"
@@ -359,7 +359,7 @@ end
 --- @param end_line number The 1-based ending line number to select.
 function M.set_selection(start_line, end_line)
   local cmd = string.format("normal! %dGV%dG", start_line, end_line)
-  vim.api.nvim_exec(cmd, false)
+  vim.cmd(cmd)
 end
 
 --- Parse a CSV line into fields, handling optional double-quoted fields.
@@ -621,6 +621,35 @@ end
 function M.feed_keys(keys, mode)
   local termcoded = vim.api.nvim_replace_termcodes(keys, true, false, true)
   vim.api.nvim_feedkeys(termcoded, mode, false)
+end
+
+--- Open a file in a floating window
+---@param path string The path to the file to open
+---@return number The window handle of the created floating window
+function M.open_file_float(path)
+  -- Create or reuse a buffer
+  local buf = vim.fn.bufadd(path)
+  vim.fn.bufload(buf)
+
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.6)
+
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    border = "single",
+  })
+
+  vim.bo[buf].bufhidden = "wipe"
+  vim.bo[buf].buftype = ""
+  vim.bo[buf].modifiable = true
+  vim.bo[buf].swapfile = false
+  vim.bo[buf].undofile = false
+
+  return win
 end
 
 return M
