@@ -17,13 +17,14 @@ apply-dotfiles() {
 
 install-ollama-models() {
     models=(
-        "mistral:latest"
-        "deepseek-v3.1:671b-cloud"
-        "kimi-k2-thinking:cloud"
-        "qwen3-coder:480b-cloud"
-        "dolphin3:latest"
         "codellama:latest"
+        "deepseek-v3.1:671b-cloud"
+        "dolphin3:latest"
+        "gemini-3-flash-preview:cloud"
         "gnokit/improve-grammar:latest"
+        "kimi-k2-thinking:cloud"
+        "mistral:latest"
+        "qwen3-coder:480b-cloud"
     )
     for model in "${models[@]}"; do
         echo "Installing model: $model"
