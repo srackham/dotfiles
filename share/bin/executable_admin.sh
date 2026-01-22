@@ -25,6 +25,8 @@ install-ollama-models() {
         "kimi-k2-thinking:cloud"
         "mistral:latest"
         "qwen3-coder:480b-cloud"
+        "glm-4.7:cloud"
+        "minimax-m2.1:cloud"
     )
     for model in "${models[@]}"; do
         echo "Installing model: $model"
