@@ -35,3 +35,13 @@ Regarding the following code, ${input:Describe the desired changes}, only output
 ```$filetype
 $text
 ````
+
+___
+name: Coding: Generate Lua function documentation
+___
+Generate LuaCATS documentation headers for Lua functions in the following code:
+
+```$filetype
+$text
+```
+

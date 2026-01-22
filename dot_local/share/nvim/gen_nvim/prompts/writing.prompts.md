@@ -1,6 +1,6 @@
 ___
 name: Writing: Spelling and grammar
-replace: after
+replace: before
 ___
 Correct spelling and grammar mistakes in the following text. Do not change the meaning, style or formatting.
 $text
@@ -17,10 +17,3 @@ name: Writing: Summarize
 ___
 Summarize the following text:
 $select
-
-___
-name: Writing: Latin to English
-___
-Translate the following Latin text to English:
-$select
-

@@ -7,24 +7,27 @@ ___
 name: Ask about selected text
 ___
 Regarding the following text, ${input:Enter your question}:
+
 $select
 
 ___
 name:Count words and lines
 ___
 Tell me the total number of words and lines in the following text:
+
 $select
 
 ___
 name: Meaning
 ___
-Explain the meaning of the following text:
+Briefly explain the meaning of the following text:
+
 $select
 
 ___
 name: Dictionary
 ___
-The meaning and etymology the following word: ${input:Enter word}
+Briefly explain the meaning and etymology the following word: ${input:Enter word}
 
 ___
 name: Spell
