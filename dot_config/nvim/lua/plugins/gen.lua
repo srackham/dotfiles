@@ -43,16 +43,23 @@ return {
     vim.keymap.set({ "n" }, "<leader>ll", function()
       vim.cmd("edit " .. gen.log_file(gen))
     end, { desc = "Gen.nvim open current log file" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lg", function()
-      require("telescope.builtin").live_grep {
-        cwd = gen.logs_dir,
-      }
-    end, { desc = "Gen.nvim live-grep log files" })
     vim.keymap.set({ "n", "v" }, "<Leader>lf", function()
       require("telescope.builtin").find_files {
         cwd = gen.logs_dir,
-        sort_mtime = true,
+        prompt_title = "Find log files",
       }
     end, { desc = "Gen.nvim find log files" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lg", function()
+      require("telescope.builtin").live_grep {
+        cwd = gen.prompts_dir,
+        prompt_title = "Live Grep prompts files",
+      }
+    end, { desc = "Gen.nvim live-grep prompts files" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lG", function()
+      require("telescope.builtin").live_grep {
+        cwd = gen.logs_dir,
+        prompt_title = "Live Grep log files",
+      }
+    end, { desc = "Gen.nvim live-grep log files" })
   end,
 }
