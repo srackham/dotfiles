@@ -4,7 +4,7 @@ ___
 Explain the following code:
 
 ```$filetype
-$text
+$select
 ```
 
 ___
@@ -13,7 +13,7 @@ ___
 Review the following code and make concise suggestions:
 
 ```$filetype
-$text
+$select
 ```
 
 ___
@@ -22,7 +22,7 @@ ___
 Improve the following code, list the improvements and output the resulting code as a Markdown fenced code block:
 
 ```$filetype
-$text
+$select
 
 ```
 ___
@@ -33,7 +33,7 @@ ___
 Regarding the following code, ${input:Describe the desired changes}, only output the result as a Markdown fenced code block:
 
 ```$filetype
-$text
+$select
 ```
 
 ___
@@ -42,6 +42,6 @@ ___
 Generate LuaCATS documentation headers for Lua functions in the following code:
 
 ```$filetype
-$text
+$select
 ```
 

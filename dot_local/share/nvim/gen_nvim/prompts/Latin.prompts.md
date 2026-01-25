@@ -6,6 +6,13 @@ Translate the following Latin text to English:
 $select
 
 ___
+name: Latin: English to Latin
+___
+Translate the following English text to Latin:
+
+$select
+
+___
 name: Latin: Word analysis
 model: qwen3-coder:480b-cloud
 ___
