@@ -23,6 +23,7 @@ install-ollama-models() {
         "gemini-3-flash-preview:cloud"
         "gnokit/improve-grammar:latest"
         "kimi-k2-thinking:cloud"
+        "kimi-k2.5:cloud"
         "mistral:latest"
         "qwen3-coder:480b-cloud"
         "glm-4.7:cloud"
