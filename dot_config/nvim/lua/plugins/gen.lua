@@ -20,27 +20,31 @@ return {
       response_register = "+", -- Copy response to clipboard
       text_selection_only = true,
       log_rollover = "daily",
-      response_window_layout = { width = 0.9, height = 0.8 }, -- Floating response window layout
       prompt_picker_layout = { width = 0.8, height = 0.7 },
+      -- response_window_layout = { width = 0.9, height = 0.8 }, -- Floating response window layout
+      response_window_layout = { display_mode = "vertical-split-right" },
+      scratchpad_layout = { display_mode = "float", width = 0.7, height = 0.4, },
+      -- scratchpad_layout = { display_mode = "vertical-split-right" },
     }
 
     -- Custom key mappings
-    vim.keymap.set({ "n", "v" }, "<leader>lc", ":Gen<CR>", { desc = "Gen.nvim open prompts picker" })
+    vim.keymap.set({ "n", "v" }, "<leader>lp", ":Gen<CR>", { desc = "Gen.nvim open prompts picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lr", "<Cmd>Gen /responses<CR>", { desc = "Gen.nvim open responses window" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ls", "<Cmd>Gen /scratchpad<CR>", { desc = "Gen.nvim open scratchpad window" })
     vim.keymap.set({ "n", "v" }, "<leader>la", ":Gen Ask_a_question<CR>", { desc = "Gen.nvim ask a question" })
-    vim.keymap.set({ "n", "v" }, "<leader>ls", ":Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
+    vim.keymap.set({ "n", "v" }, "<leader>ly", ":Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
     vim.keymap.set({ "n", "v" }, "<leader>ld", ":Gen Dictionary<CR>", { desc = "Gen.nvim dictionary lookup" })
     vim.keymap.set({ "n", "v" }, "<leader>l.", ":Gen .<CR>", { desc = "Gen.nvim repeat previous command" })
-    vim.keymap.set({ "n", "v" }, "<leader>lp", "<Cmd>Gen /prompts<CR>", { desc = "Gen.nvim prompts file manager" })
+    vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Gen /prompts-files<CR>", { desc = "Gen.nvim prompts file manager" })
     vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Gen /models<CR>", { desc = "Gen.nvim model selection" })
-    vim.keymap.set({ "n", "v" }, "<M-\\>", "<Cmd>Gen /responses<CR>", { desc = "Gen.nvim toggle response window" })
     vim.keymap.set(
       { "n", "v" },
-      "<leader>lr",
+      "<leader>lc",
       "<Cmd>Gen /reset<CR>",
       { desc = "Gen.nvim reset the model context and clear the response window" }
     )
     vim.keymap.set({ "n", "v" }, "<leader>ll", function()
-      vim.cmd("edit " .. gen.log_file(gen))
+      vim.cmd("edit " .. gen.log_filename())
     end, { desc = "Gen.nvim open current log file" })
     vim.keymap.set({ "n", "v" }, "<Leader>lF", function()
       require("telescope.builtin").find_files {

@@ -6,7 +6,7 @@ ${input:Enter your question}
 ___
 name: Ask about selected text
 ___
-Regarding the following text, ${input:Enter your question}:
+${input:Enter your question}:
 
 $select
 
@@ -25,12 +25,12 @@ Briefly explain the meaning of the following text:
 $select
 
 ___
-name: Dictionary
+name: Dictionary definition
 ___
 Briefly explain the meaning and etymology the following word: ${input:Enter word}
 
 ___
-name: Spell
+name: Spell a word
 ___
 What is the correct spelling for "${input:Enter word}"
 

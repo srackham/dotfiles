@@ -1,15 +1,16 @@
 ___
-name: Writing: Spelling and grammar
+name: Writing: Check spelling and grammar
 replace: before
 ___
 Correct spelling and grammar mistakes in the following text. Do not change the meaning, style or formatting.
 $text
 
 ___
-name: Writing: Improve
+name: Writing: Improve text selection
 replace: after
 ___
 Improve the following text. Do not change the meaning.
+
 $text
 
 ___
