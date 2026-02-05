@@ -4,12 +4,12 @@ return {
   config = function()
     local render_markdown = require "render-markdown"
     local header_colors = {
-      { "#FFA500", "#2D282C" },
-      { "#FFA500", "#2D282C" },
-      { "#9FCB71", "#252C2C" },
-      { "#19BC9C", "#182931" },
-      { "#B89AF0", "#29273A" },
-      { "#9B7DD4", "#262336" },
+      -- { "#FFA500", "#2B1E00" },
+      { "#FAB387", "#2D1D13" },
+      { "#F9E2AF", "#28241A" },
+      { "#F5C2E7", "#271B24" },
+      { "#B89AF0", "#1D1A2B" },
+      { "#9B7DD4", "#191524" },
     }
     for i = 1, 6 do
       local fg, bg = header_colors[math.min(i, #header_colors)][1], header_colors[math.min(i, #header_colors)][2]
