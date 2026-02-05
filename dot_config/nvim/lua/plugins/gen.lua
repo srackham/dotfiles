@@ -9,10 +9,9 @@ return {
 
     -- Non-default options
     gen.setup {
-      model = "qwen3-coder:480b-cloud",
+      -- model = "qwen3-coder:480b-cloud",
       -- model = "glm-4.7:cloud",
-      -- model = "minimax-m2.1:cloud",
-      -- display_mode = "vertical-split-right",
+      model = "minimax-m2.1:cloud",
       show_prompt = 10,
       show_model = true,
       no_auto_close = true,
@@ -25,6 +24,7 @@ return {
       response_window_layout = { display_mode = "vertical-split-right" },
       scratchpad_layout = { display_mode = "float", width = 0.7, height = 0.4, },
       -- scratchpad_layout = { display_mode = "vertical-split-right" },
+      model_options = { think = false }, -- Suppress "thinking" field in message responses
     }
 
     -- Custom key mappings
@@ -39,12 +39,12 @@ return {
     vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Gen /models<CR>", { desc = "Gen.nvim model selection" })
     vim.keymap.set(
       { "n", "v" },
-      "<leader>lc",
+      "<leader>lx",
       "<Cmd>Gen /reset<CR>",
       { desc = "Gen.nvim reset the model context and clear the response window" }
     )
     vim.keymap.set({ "n", "v" }, "<leader>ll", function()
-      vim.cmd("edit " .. gen.log_filename())
+      vim.cmd("edit " .. gen.log_filename(gen))
     end, { desc = "Gen.nvim open current log file" })
     vim.keymap.set({ "n", "v" }, "<Leader>lF", function()
       require("telescope.builtin").find_files {
