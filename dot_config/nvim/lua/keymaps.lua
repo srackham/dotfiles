@@ -613,3 +613,15 @@ end, { noremap = true, desc = "Edit init.vim" })
 
 vim.keymap.set("n", "<C-j>", "<C-e>j", { silent = true, desc = "Scroll down one line" })
 vim.keymap.set("n", "<C-k>", "<C-y>k", { silent = true, desc = "Scroll up one line" })
+
+-- Manual key command to flash cursor line to draw attention
+local FLASH_DURATION = 200 -- milliseconds
+local FLASH_HL = { bg = "#505050" } -- intensified background
+local default_cursorline_hl = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false })
+local function flash_cursorline()
+  vim.api.nvim_set_hl(0, "CursorLine", FLASH_HL)
+  vim.defer_fn(function() -- Restore original highlight after delay
+    vim.api.nvim_set_hl(0, "CursorLine", default_cursorline_hl --[[@as vim.api.keyset.highlight]])
+  end, FLASH_DURATION)
+end
+vim.keymap.set({ "n", "i", "v" }, "<C-h>", flash_cursorline, { desc = "Flash cursor line" })
