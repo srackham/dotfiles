@@ -62,8 +62,12 @@ config.keys = {
   { key = "s", mods = "CTRL|SHIFT", action = act.ShowLauncherArgs { flags = "WORKSPACES" } },
 
   -- Cycle tabs forward / backward
-  { key = "]", mods = "ALT", action = act.ActivateTabRelative(1) },
   { key = "[", mods = "ALT", action = act.ActivateTabRelative(-1) },
+  { key = "]", mods = "ALT", action = act.ActivateTabRelative(1) },
+
+  -- Move tabs forward / backward
+  { key = "{", mods = "SHIFT|ALT", action = act.MoveTabRelative(-1) },
+  { key = "}", mods = "SHIFT|ALT", action = act.MoveTabRelative(1) },
 
   -- Cycle panes forward / backward (by ordinal in pane tree)
   { key = "l", mods = "ALT", action = act.ActivatePaneDirection "Next" },
@@ -226,7 +230,7 @@ table.insert(palette_commands, {
 -- tabsets.wezterm plugin configuration.
 
 -- local tabsets = wezterm.plugin.require "file:///home/srackham/share/projects/tabsets.wezterm"
-local tabsets = wezterm.plugin.require("https://github.com/srackham/tabsets.wezterm")
+local tabsets = wezterm.plugin.require "https://github.com/srackham/tabsets.wezterm"
 
 tabsets.setup {
   restore_colors = true,
