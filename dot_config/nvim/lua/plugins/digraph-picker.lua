@@ -1,5 +1,6 @@
 return {
-  "srackham/digraph-picker.nvim",
+  -- "srackham/digraph-picker.nvim",
+  dir = "/home/srackham/projects/digraph-picker.nvim",
   enabled = true,
   dependencies = {
     "nvim-telescope/telescope.nvim",

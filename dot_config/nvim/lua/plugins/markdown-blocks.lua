@@ -1,5 +1,6 @@
 return {
-  "srackham/markdown-blocks.nvim",
+  -- "srackham/markdown-blocks.nvim",
+  dir = "/home/srackham/projects/markdown-blocks.nvim",
   enabled = true,
   -- version = '*', -- Install latest tagged version
   config = function()
