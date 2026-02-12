@@ -67,23 +67,34 @@ return {
       vim.keymap.set({ "n", "v" }, "<Leader>fo", list_oldfiles, { desc = "List previously opened files" })
       vim.keymap.set({ "n", "v" }, "<Leader>ff", find_files, { desc = "Find files" })
       vim.keymap.set({ "n", "v" }, "<Leader>fg", live_grep, { desc = "Live-grep files" })
+
       vim.keymap.set({ "n", "v" }, "<leader>fG", function()
         builtin.live_grep { search_dirs = { vim.fn.expand "%:p" } }
       end, { desc = "Live-grep current file" })
+
+      vim.keymap.set("n", "<leader>fs", function()
+        local word = vim.fn.expand "<cword>"
+        require("telescope.builtin").live_grep { default_text = "\\b" .. word .. "\\b" }
+      end, { desc = "Live-grep word under cursor" })
+
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set({ "n", "v" }, "<Leader>fw", builtin.grep_string, { desc = "Search files for word or selection" })
+
       vim.keymap.set({ "n", "v" }, "<Leader>dd", function()
         builtin.diagnostics { bufnr = 0 }
       end, { desc = "List diagnostic messages in current buffer" })
+
       vim.keymap.set({ "n", "v" }, "<Leader>dD", builtin.diagnostics, { desc = "List diagnostic messages in all files" })
       vim.keymap.set({ "n", "v" }, "<Leader>fr", builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set({ "n", "v" }, "<Leader>hh", builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set({ "n", "v" }, "<Leader>fp", function()
+
         builtin.live_grep {
           cwd = vim.fn.stdpath "data" .. "/lazy/",
         }
       end, { desc = "Live-grep plugin files" })
+
       vim.keymap.set({ "n", "v" }, "<Leader>cr", function()
         vim.cmd "update" -- Write modified buffer
         builtin.lsp_references()
@@ -99,9 +110,11 @@ return {
         "constant",
         "type",
       }
+
       vim.keymap.set({ "n", "v" }, "<Leader>cs", function()
         require("telescope.builtin").lsp_document_symbols { symbols = symbols }
       end, { noremap = true, silent = true, desc = "List symbols" })
+
       vim.keymap.set({ "n", "v" }, "<Leader>cS", function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols { symbols = symbols }
       end, { noremap = true, silent = true, desc = "Live-grep workspace symbols" })
