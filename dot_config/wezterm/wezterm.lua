@@ -134,6 +134,13 @@ config.keys = {
       second_pane:send_text "!-2\n"
     end),
   },
+
+  -- force Shift+Enter to send the CSI‑u CSI 13;2u sequence instead of bare ^M
+  {
+    key = "Enter",
+    mods = "SHIFT",
+    action = wezterm.action.SendString "\x1b[13;2u",
+  },
 }
 
 -- Tab bar
