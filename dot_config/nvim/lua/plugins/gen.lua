@@ -28,44 +28,44 @@ return {
     }
 
     -- Custom key mappings
-    vim.keymap.set({ "n", "v" }, "<leader>lp", ":Gen<CR>", { desc = "Gen.nvim open prompts picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lr", "<Cmd>Gen /responses<CR>", { desc = "Gen.nvim open responses window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ls", "<Cmd>Gen /scratchpad<CR>", { desc = "Gen.nvim open scratchpad window" })
-    vim.keymap.set({ "n", "v" }, "<leader>la", ":Gen Ask_a_question<CR>", { desc = "Gen.nvim ask a question" })
-    vim.keymap.set({ "n", "v" }, "<leader>ly", ":Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
-    vim.keymap.set({ "n", "v" }, "<leader>ld", ":Gen Dictionary_definition<CR>", { desc = "Gen.nvim dictionary lookup" })
-    vim.keymap.set({ "n", "v" }, "<leader>l.", ":Gen .<CR>", { desc = "Gen.nvim repeat previous command" })
-    vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Gen /prompts-files<CR>", { desc = "Gen.nvim prompts file manager" })
-    vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Gen /models<CR>", { desc = "Gen.nvim model selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>zp", ":Gen<CR>", { desc = "Gen.nvim open prompts picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>zr", "<Cmd>Gen /responses<CR>", { desc = "Gen.nvim open responses window" })
+    vim.keymap.set({ "n", "v" }, "<Leader>zs", "<Cmd>Gen /scratchpad<CR>", { desc = "Gen.nvim open scratchpad window" })
+    vim.keymap.set({ "n", "v" }, "<leader>za", ":Gen Ask_a_question<CR>", { desc = "Gen.nvim ask a question" })
+    vim.keymap.set({ "n", "v" }, "<leader>zy", ":Gen Synonyms<cr>", { desc = "Gen.nvim list synonyms" })
+    vim.keymap.set({ "n", "v" }, "<leader>zd", ":Gen Dictionary_definition<CR>", { desc = "Gen.nvim dictionary lookup" })
+    vim.keymap.set({ "n", "v" }, "<leader>z.", ":Gen .<CR>", { desc = "Gen.nvim repeat previous command" })
+    vim.keymap.set({ "n", "v" }, "<leader>zP", "<Cmd>Gen /prompts-files<CR>", { desc = "Gen.nvim prompts file manager" })
+    vim.keymap.set({ "n", "v" }, "<leader>zm", "<Cmd>Gen /models<CR>", { desc = "Gen.nvim model selection" })
     vim.keymap.set(
       { "n", "v" },
-      "<leader>lx",
+      "<leader>zx",
       "<Cmd>Gen /reset<CR>",
       { desc = "Gen.nvim reset the model context and clear the response window" }
     )
-    vim.keymap.set({ "n", "v" }, "<leader>ll", function()
+    vim.keymap.set({ "n", "v" }, "<leader>zl", function()
       vim.cmd("edit " .. gen.log_filename(gen))
     end, { desc = "Gen.nvim open current log file" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lF", function()
+    vim.keymap.set({ "n", "v" }, "<Leader>zF", function()
       require("telescope.builtin").find_files {
         cwd = gen.logs_dir,
         prompt_title = "Find log files",
       }
     end, { desc = "Gen.nvim find log files" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lG", function()
+    vim.keymap.set({ "n", "v" }, "<Leader>zG", function()
       require("telescope.builtin").live_grep {
         cwd = gen.logs_dir,
         prompt_title = "Live Grep log files",
       }
     end, { desc = "Gen.nvim live-grep log files" })
 
-    vim.keymap.set({ "n", "v" }, "<Leader>lf", function()
+    vim.keymap.set({ "n", "v" }, "<Leader>zf", function()
       require("telescope.builtin").find_files {
         cwd = gen.prompts_dir,
         prompt_title = "Find prompts files",
       }
     end, { desc = "Gen.nvim find prompts files" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lg", function()
+    vim.keymap.set({ "n", "v" }, "<Leader>zg", function()
       require("telescope.builtin").live_grep {
         cwd = gen.prompts_dir,
         prompt_title = "Live Grep prompts files",
