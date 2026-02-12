@@ -80,7 +80,7 @@ return {
         builtin.diagnostics { bufnr = 0 }
       end, { desc = "List diagnostic messages in current buffer" })
 
-      vim.keymap.set({ "n", "v" }, "<Leader>dD", builtin.diagnostics, { desc = "List diagnostic messages in all files" })
+      vim.keymap.set({ "n", "v" }, "<Leader>da", builtin.diagnostics, { desc = "List diagnostic messages in all files" })
       vim.keymap.set({ "n", "v" }, "<Leader>fr", builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set({ "n", "v" }, "<Leader>hh", builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set({ "n", "v" }, "<Leader>fp", function()

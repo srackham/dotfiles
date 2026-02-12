@@ -69,7 +69,7 @@ return {
       note_id_func = function(title)
         Obsidian = Obsidian -- Kudge to suppress spurious LSP "Undefined global `Obsidian`" warning in next statement
         local dir = Obsidian.dir.filename
-        local id = Utils.slugify(title or "untitled", dir, ".md")
+        local id = utils.slugify(title or "untitled", dir, ".md")
         return id
       end,
       picker = {
