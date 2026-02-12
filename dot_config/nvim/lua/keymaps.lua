@@ -1,4 +1,4 @@
-Utils = require "utils" -- Load ./lua/utils.lua
+local utils = require "utils" -- Load ./lua/utils.lua
 
 -- Map custom next/previous navigation commands.
 local execute_cmd_and_map_n = function(next_cmd, prev_cmd)
@@ -171,19 +171,19 @@ vim.keymap.set("n", "<Leader>fl", function()
 end, { noremap = true, silent = true, desc = "Load current module file into variable 'M'" })
 
 vim.keymap.set({ "i", "n" }, "<C-M-l>", function()
-  local md_link = Utils.convert_clipboard_url_to_markdown_link()
+  local md_link = utils.convert_clipboard_url_to_markdown_link()
   if md_link ~= "" then
     vim.fn.setreg("+", md_link)
     vim.fn.setreg('"', md_link)
     if vim.fn.mode() == "i" then
-      Utils.feed_keys("<C-o>p", "i")
+      utils.feed_keys("<C-o>p", "i")
     else
       vim.cmd "normal! p"
     end
   end
 end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
 
-vim.keymap.set("n", "<Leader>fR", function()
+local function save_as(opts)
   local current_name = vim.fn.expand "%:t" -- current file name with extension
   local old_ext = vim.fn.expand "%:e" -- current file extension (without dot)
   local old_dir = vim.fn.expand "%:p:h" -- directory of current buffer file
@@ -200,9 +200,15 @@ vim.keymap.set("n", "<Leader>fR", function()
       new_name = new_name .. "." .. old_ext
     end
 
-    Utils.rename_current_file(new_name)
+    utils.save_current_file_as(new_name, opts)
   end
-end, { noremap = true, silent = true, desc = "Rename current file" })
+end
+
+vim.keymap.set("n", "<Leader>fC", save_as, { noremap = true, silent = true, desc = "Save file as" })
+
+vim.keymap.set("n", "<Leader>fR", function()
+  save_as { delete = true }
+end, { noremap = true, silent = true, desc = "Rename file" })
 
 local function toggle_case_sensitivity()
   -- Use the raw Nvim API to get the value, which avoids the vim.opt.smartcase:get() warning
@@ -359,11 +365,11 @@ vim.keymap.set(
 vim.keymap.set("n", "<Leader>et", "<Cmd>%s/\\s\\+$//e<CR>", { noremap = true, silent = true, desc = "Trim spaces from the ends of lines" })
 
 -- Help commands
-vim.keymap.set("n", "<Leader>ht", Utils.toggle_help_window, { desc = "Toggle help window" })
+vim.keymap.set("n", "<Leader>ht", utils.toggle_help_window, { desc = "Toggle help window" })
 vim.keymap.set({ "n", "v" }, "<Leader>hw", function()
-  local query = Utils.get_selection_or_word()
+  local query = utils.get_selection_or_word()
   if query ~= "" then
-    Utils.find_help(query)
+    utils.find_help(query)
   else
     vim.notify("No word or selection to search in help", vim.log.levels.ERROR)
   end
@@ -384,9 +390,9 @@ vim.keymap.set(
   "n",
   "<Leader>sN",
   execute_cmd_and_map_n(function()
-    Utils.feed_keys("]sz=", "n")
+    utils.feed_keys("]sz=", "n")
   end, function()
-    Utils.feed_keys("[sz=", "n")
+    utils.feed_keys("[sz=", "n")
   end),
   { noremap = true, silent = true, desc = "Correct next misspelt word" }
 )
@@ -394,9 +400,9 @@ vim.keymap.set(
   "n",
   "<Leader>sP",
   execute_cmd_and_map_n(function()
-    Utils.feed_keys("[sz=", "n")
+    utils.feed_keys("[sz=", "n")
   end, function()
-    Utils.feed_keys("]sz=", "n")
+    utils.feed_keys("]sz=", "n")
   end),
   { noremap = true, silent = true, desc = "Correct previous misspelt word" }
 )
@@ -563,14 +569,14 @@ vim.keymap.set("n", "<Leader>qD", "<Cmd>cexpr []<CR>", { noremap = true, silent 
 vim.keymap.set(
   "n",
   "<Leader>qa",
-  Utils.add_current_location_to_quickfix,
+  utils.add_current_location_to_quickfix,
   { noremap = true, silent = true, desc = "Append location to quickfix list" }
 )
 vim.keymap.set({ "n", "v" }, "<Leader>qw", function()
-  local visual_mode = Utils.is_visual_mode()
-  local query = Utils.get_selection_or_word()
+  local visual_mode = utils.is_visual_mode()
+  local query = utils.get_selection_or_word()
   if query ~= "" then
-    query = Utils.escape_regexp(query)
+    query = utils.escape_regexp(query)
     if not visual_mode then
       query = "\\<" .. query .. "\\>" -- Search for whole word
     end
@@ -590,7 +596,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set(
       "n",
       "<Leader>qd",
-      Utils.delete_current_entry_from_quickfix,
+      utils.delete_current_entry_from_quickfix,
       { noremap = true, silent = true, desc = "Delete current item from quickfix list" }
     )
   end,

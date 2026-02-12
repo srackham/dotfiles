@@ -604,12 +604,13 @@ end
 ---
 --- @param new_name string The new filename (with or without path) to rename the current file to.
 ---
---- This function saves the current buffer to the new filename and deletes the original file
+--- This function saves the current buffer to the new filename and optionally deletes the original file
 --- from disk if the new filename differs. It preserves the buffer contents for continued editing.
-function M.rename_current_file(new_name)
+function M.save_current_file_as(new_name,opts)
+  opts=opts or {}
   local old_name = vim.fn.expand "%:p" -- get full current filename
   vim.cmd("saveas " .. new_name) -- save buffer to new filename
-  if old_name ~= vim.fn.expand "%:p" then
+  if opts.delete and old_name ~= vim.fn.expand "%:p" then
     vim.fn.delete(old_name) -- delete the old file
   end
 end
