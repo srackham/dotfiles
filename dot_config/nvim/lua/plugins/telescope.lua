@@ -72,11 +72,6 @@ return {
         builtin.live_grep { search_dirs = { vim.fn.expand "%:p" } }
       end, { desc = "Live-grep current file" })
 
-      vim.keymap.set("n", "<leader>fs", function()
-        local word = vim.fn.expand "<cword>"
-        require("telescope.builtin").live_grep { default_text = "\\b" .. word .. "\\b" }
-      end, { desc = "Live-grep word under cursor" })
-
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set({ "n", "v" }, "<Leader>fw", builtin.grep_string, { desc = "Search files for word or selection" })
