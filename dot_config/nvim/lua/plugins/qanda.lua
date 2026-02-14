@@ -1,6 +1,9 @@
 return {
   -- "srackham/qanda.nvim",
   dir = "/home/srackham/projects/qanda.nvim",
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+  },
   enabled = true,
   config = function()
 
@@ -22,18 +25,18 @@ return {
     vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /models<CR>", { desc = "Qanda.nvim model selection" })
     vim.keymap.set({ "n", "v" }, "<leader>lv", "<Cmd>Qanda /providers<CR>", { desc = "Qanda.nvim provider selection" })
     vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /info<CR>", { desc = "Qanda.nvim info" })
-    vim.keymap.set({ "n", "v" }, "<leader>l.", "<Cmd>Qanda .<CR>", { desc = "Qanda.nvim repeat previous command" })
+    vim.keymap.set({ "n", "v" }, "<leader>l.", "<Cmd>Qanda .<CR>", { desc = "Qanda.nvim execute the previous prompt" })
 
     vim.keymap.set({ "n", "v" }, "<Leader>lf", function()
       require("telescope.builtin").find_files {
-        cwd = qanda.prompts_dir,
+        cwd = qanda.Config.prompts_dir,
         prompt_title = "Find prompts files",
       }
     end, { desc = "Qanda.nvim find prompts files" })
 
     vim.keymap.set({ "n", "v" }, "<Leader>lg", function()
       require("telescope.builtin").live_grep {
-        cwd = qanda.prompts_dir,
+        cwd = qanda.Config.prompts_dir,
         prompt_title = "Live Grep prompts files",
       }
     end, { desc = "Qanda.nvim live-grep prompts files" })
