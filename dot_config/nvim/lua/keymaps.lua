@@ -326,28 +326,41 @@ vim.keymap.set("n", "<Leader>mv", function()
   os.execute('brave "' .. vim.fn.expand "%:p" .. '" > /dev/null 2>&1 &')
 end, { desc = "View current file in Brave browser" })
 
--- Clipboard copy and paste commands
-vim.keymap.set({ "n", "v" }, "Y", '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
-vim.keymap.set("n", "YY", '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
+-- Clipboard cut, copy and paste commands
+vim.keymap.set({ "n", "v" }, "<leader>x", '"+d', { desc = "Cut to clipboard" })
+vim.keymap.set("n", "<leader>xx", '"+dd', { desc = "Cut line to clipboard" })
+vim.keymap.set({ "n", "v" }, "Y", '"+y', { desc = "Yank to clipboard" })
+vim.keymap.set("n", "YY", '"+yy', { desc = "Yank line to clipboard" })
+vim.keymap.set({ "n", "v" }, "<Leader>p", '"+p', { desc = "Paste clipboard after cursor" })
+vim.keymap.set({ "n", "v" }, "<Leader>P", '"+P', { desc = "Paste clipboard before cursor" })
 
-vim.keymap.set(
-  "n",
-  "<Leader>ya",
-  [[:let @+ = @+ . getline(".") . "\n"<CR>]],
-  { noremap = true, silent = true, desc = "Append line to clipboard" }
-)
-vim.keymap.set(
-  "v",
-  "<Leader>ya",
-  [[:<C-u>let @+ = @+ . join(getline("'<", "'>"), "\n") . "\n"<CR>]],
-  { noremap = true, silent = true, desc = "Append selection to clipboard" }
-)
+-- Append-motion-yank operator
+function _G.append_yank_operator(_)
+  -- Yank into the unnamed register using the motion
+  vim.cmd 'normal! `[v`]"zy'
 
-vim.keymap.set({ "n", "v" }, "<Leader>p", '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
-vim.keymap.set({ "n", "v" }, "<C-p>", '"+p', { noremap = true, silent = true, desc = "Paste clipboard after cursor" })
-vim.keymap.set({ "n", "v" }, "<Leader>P", '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
-vim.keymap.set({ "n", "v" }, "<C-M-p>", '"+P', { noremap = true, silent = true, desc = "Paste clipboard before cursor" })
-vim.keymap.set("i", "<C-p>", "<C-R>+", { noremap = true, silent = true, desc = "Paste clipboard" })
+  -- Get yanked text
+  local text = vim.fn.getreg "z"
+
+  -- Append to system clipboard
+  local current = vim.fn.getreg "+"
+  vim.fn.setreg("+", current .. text)
+end
+
+-- Map <Leader>ya as an operator
+vim.keymap.set("n", "<Leader>ya", function()
+  vim.o.operatorfunc = "v:lua.append_yank_operator"
+  return "g@"
+end, { expr = true, desc = "Append to clipboard" })
+
+vim.keymap.set("v", "<Leader>ya", function()
+  vim.cmd 'normal! "zy'
+  local text = vim.fn.getreg "z"
+  local regtype = vim.fn.getregtype "z"
+
+  local current = vim.fn.getreg "+"
+  vim.fn.setreg("+", current .. text, regtype)
+end, { silent = true, desc = "Append to clipboard" })
 
 -- Edit commands
 vim.keymap.set(
