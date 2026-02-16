@@ -1,7 +1,7 @@
 ___
 name: Ask a question
 ___
-${input:Enter your question}
+$select
 
 ___
 name: Ask about selected text

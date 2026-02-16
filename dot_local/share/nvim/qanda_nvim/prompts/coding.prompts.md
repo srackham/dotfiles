@@ -27,8 +27,9 @@ $select
 ```
 ___
 name: Coding: Change code
-<!-- replace: true -->
-<!-- extract: ```$filetype\n(.-)``` -->
+<!-- example comment -->
+paste: replace
+extract: ```$filetype\n(.-)```
 ___
 <!-- Regarding the following code, ${input:Describe the desired changes}, only output the result as a Markdown fenced code block: -->
 Regarding the following code, ${input:Describe the desired changes}, only output the code, do not output explanations, do not put the code inside a Markdown block:

@@ -29,7 +29,7 @@ return {
 
     vim.keymap.set({ "n", "v" }, "<Leader>lf", function()
       require("telescope.builtin").find_files {
-        cwd = qanda.Config.prompts_dir,
+        cwd = qanda.prompts_dir,
         prompt_title = "Find prompts files",
       }
     end, { desc = "Qanda.nvim find prompts files" })
