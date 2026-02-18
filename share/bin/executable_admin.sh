@@ -21,13 +21,11 @@ install-ollama-models() {
         "deepseek-v3.1:671b-cloud"
         "dolphin3:latest"
         "gemini-3-flash-preview:cloud"
-        "gnokit/improve-grammar:latest"
-        "kimi-k2-thinking:cloud"
+        "glm-5:cloud"
         "kimi-k2.5:cloud"
+        "minimax-m2.5:cloud"
         "mistral:latest"
         "qwen3-coder:480b-cloud"
-        "glm-4.7:cloud"
-        "minimax-m2.1:cloud"
     )
     for model in "${models[@]}"; do
         echo "Installing model: $model"

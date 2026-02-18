@@ -12,8 +12,8 @@ return {
     -- Override default options
     qanda.setup {
       -- model = "qwen3-coder:480b-cloud",
-      -- model = "glm-4.7:cloud",
-      model = "minimax-m2.1:cloud",
+      -- model = "glm-5:cloud",
+      model = "minimax-m2.5:cloud",
     }
 
     -- Custom key mappings
