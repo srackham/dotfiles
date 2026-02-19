@@ -1,6 +1,12 @@
-api_key = "enc2:ec81e5d57ea716cf9806af44fa69835ffcfc9ebf775a862196da57159543615a9d1118a2d0aa43fbf8eafacd8a867a5ded60b883f9d51dbbd9276d1b295c7b0eda151f310d67a9152a79270f97d4d2f790c1143de0764d609d33b126c333c2ffc025df85ce"
-default_provider = "openrouter"
-default_model = "anthropic/claude-sonnet-4.6"
+# default_provider = "openrouter"
+# default_model = "anthropic/claude-sonnet-4.6"
+# api_key = "enc2:ec81e5d57ea716cf9806af44fa69835ffcfc9ebf775a862196da57159543615a9d1118a2d0aa43fbf8eafacd8a867a5ded60b883f9d51dbbd9276d1b295c7b0eda151f310d67a9152a79270f97d4d2f790c1143de0764d609d33b126c333c2ffc025df85ce"
+
+default_provider = "ollama"
+default_model = "minimax-m2.5:cloud"
+api_url = "https://ollama.com"
+api_key = "enc2:31e39c34c115e736d7fef550256f26726888e1f0693e0e093559a78b66f51aa374ec486dffea90d2608d61cbea2ff67fabd2bb5568896a54037c32fd401da4b266070e7cd916fb64ac0d094e2c8e69d756f64904b5"
+
 default_temperature = 0.7
 model_routes = []
 
