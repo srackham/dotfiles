@@ -74,7 +74,13 @@ return {
 
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
-      vim.keymap.set({ "n", "v" }, "<Leader>fw", builtin.grep_string, { desc = "Search files for word or selection" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fW", builtin.grep_string, { desc = "Search files for word or selection" })
+      vim.keymap.set({ "n", "v" }, "<leader>fw", function()
+        builtin.grep_string {
+          word_match = "-w",
+          additional_args = { "--case-sensitive" },
+        }
+      end, { desc = "Case sensitive search for whole word under cursor" })
 
       vim.keymap.set({ "n", "v" }, "<Leader>dd", function()
         builtin.diagnostics { bufnr = 0 }
