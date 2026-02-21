@@ -159,9 +159,17 @@ Recursively grep the files in PATH for words matching REGEXP.
 - List top 40 files in ascending match order (the file with the
   best match is listed last).
 - Interactively narrow down the list using fzf.
-- Ctrl-o opens the selected file in the appopriate application.
+- Ctrl-o opens the selected file in the appropriate application.
 - Enter yanks the selected file to the clipboard, prints the file path, and exits."
 function ds() {
+
+    local clipboard_copy 
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        clipboard_copy="wl-copy"
+    elif command -v xclip &>/dev/null; then
+        clipboard_copy="xclip -selection clipboard"
+    fi
+
     if [ "$*" ]; then
         recoll -t -q -c "$HOME/.config/recoll" $*  2>/dev/null \
         | tail -n +3 \
@@ -169,7 +177,7 @@ function ds() {
         | perl -pe "s|^.*\[file:\/\/(.*?)\].*$|\1|" \
         | FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS/,hidden/}" \
         fzf --preview "bat --color=always {}" \
-        --bind "enter:become(echo {} | tee >(head -c -1 | clipboard-copy))" \
+        --bind "enter:become(echo {} | tee >(head -c -1 | $clipboard_copy))" \
         --bind "ctrl-o:become($open_file_cmd {1})"
     else
         echo $ds_manpage >&2
