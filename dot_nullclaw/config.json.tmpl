@@ -1,0 +1,63 @@
+{
+  "default_provider": "openrouter",
+  "default_temperature": 0.7,
+  "secrets": {
+    "encrypt": true
+  },
+  "models": {
+    "providers": {
+      "openrouter": {
+        "api_key": "{{ .secrets.openrouter_api_key }}"
+      },
+      "ollama_cloud": {
+        "api_key": "{{ .secrets.ollama_cloud_api_key }}",
+        "base_url": "https://ollama.com/api",
+        "model": "minimax-m2.5:cloud"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4.5"
+      }
+    }
+  },
+  "diagnostics": {
+    "backend": "none"
+  },
+  "autonomy": {
+    "level": "supervised",
+    "workspace_only": true,
+    "max_actions_per_hour": 20
+  },
+  "memory": {
+    "backend": "sqlite",
+    "auto_save": true,
+    "hygiene_enabled": true,
+    "archive_after_days": 7,
+    "purge_after_days": 30,
+    "conversation_retention_days": 30
+  },
+  "gateway": {
+    "port": 3000,
+    "host": "127.0.0.1",
+    "require_pairing": true
+  },
+  "cost": {
+    "enabled": false,
+    "daily_limit_usd": 10.0,
+    "monthly_limit_usd": 100.0
+  },
+  "tools": {
+    "shell_timeout_secs": 60,
+    "shell_max_output_bytes": 1048576,
+    "max_file_size_bytes": 10485760,
+    "web_fetch_max_chars": 50000
+  },
+  "hardware": {
+    "enabled": false,
+    "transport": "none",
+    "baud_rate": 115200
+  }
+}
