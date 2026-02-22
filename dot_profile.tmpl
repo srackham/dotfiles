@@ -62,3 +62,12 @@ fi
 #
 # Run custom login commands
 #
+
+# Export API keys
+export OLLAMA_CLOUD_API_KEY="{{ .secrets.ollama_cloud_api_key }}"
+export GEMINI_API_KEY="{{ .secrets.gemini_api_key }}"
+export OPENROUTER_API_KEY="{{ .secrets.openrouter_api_key }}"
+
+# Start ZeroClaw daemon and detach from terminal
+zeroclaw daemon &
+disown
