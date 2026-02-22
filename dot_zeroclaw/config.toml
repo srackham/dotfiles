@@ -7,6 +7,11 @@ api_key = "enc2:ec81e5d57ea716cf9806af44fa69835ffcfc9ebf775a862196da57159543615a
 # api_key = "enc2:51ffb9b557872e8f607460e68d78e67f8b2094d47f7d5c3555b6dc22ddacaf5a6d51c7dfead4ab3ff3677e8a2460cfb5486b1307ab058e8a4edea6b98fbd93397baba28f3a6df233fe6a04bd2ffeeec8701ccac259"
 # api_url = "https://ollama.com"
 
+# # FIXME: 22-Feb-2026: BUG: environment variable injection not working.
+# default_provider = "gemini"
+# default_model = "gemini-3-flash-preview"
+# api_key = "${GEMINI_API_KEY}"
+
 default_temperature = 0.7
 model_routes = []
 
