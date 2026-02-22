@@ -1,7 +1,12 @@
-api_key = "enc2:51ffb9b557872e8f607460e68d78e67f8b2094d47f7d5c3555b6dc22ddacaf5a6d51c7dfead4ab3ff3677e8a2460cfb5486b1307ab058e8a4edea6b98fbd93397baba28f3a6df233fe6a04bd2ffeeec8701ccac259"
-api_url = "https://ollama.com"
-default_provider = "ollama"
-default_model = "minimax-m2.5:cloud"
+default_provider = "openrouter"
+default_model = "minimax/minimax-m2.5"
+api_key = "enc2:ec81e5d57ea716cf9806af44fa69835ffcfc9ebf775a862196da57159543615a9d1118a2d0aa43fbf8eafacd8a867a5ded60b883f9d51dbbd9276d1b295c7b0eda151f310d67a9152a79270f97d4d2f790c1143de0764d609d33b126c333c2ffc025df85ce"
+
+# default_provider = "ollama"
+# default_model = "minimax-m2.5:cloud"
+# api_key = "enc2:51ffb9b557872e8f607460e68d78e67f8b2094d47f7d5c3555b6dc22ddacaf5a6d51c7dfead4ab3ff3677e8a2460cfb5486b1307ab058e8a4edea6b98fbd93397baba28f3a6df233fe6a04bd2ffeeec8701ccac259"
+# api_url = "https://ollama.com"
+
 default_temperature = 0.7
 model_routes = []
 
