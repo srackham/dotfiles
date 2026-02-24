@@ -55,22 +55,28 @@ return {
           find_command = { "rg", "--files", "--hidden", "--sortr", "modified" },
         }
       end
-      local live_grep = function()
+      local live_grep = function(additional_args)
         vim.cmd "OutlineFocusCode"
         vim.cmd "wa"
+        vim.list_extend({ "--hidden" }, additional_args or {})
         builtin.live_grep {
-          additional_args = { "--hidden" },
+          additional_args = additional_args,
         }
       end
       vim.keymap.set({ "n", "v" }, "<Leader>bb", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>.", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>fo", list_oldfiles, { desc = "List previously opened files" })
       vim.keymap.set({ "n", "v" }, "<Leader>ff", find_files, { desc = "Find files" })
-      vim.keymap.set({ "n", "v" }, "<Leader>fg", live_grep, { desc = "Live-grep files" })
-
-      vim.keymap.set({ "n", "v" }, "<leader>fG", function()
-        builtin.live_grep { search_dirs = { vim.fn.expand "%:p" } }
-      end, { desc = "Live-grep current file" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fF", function()
+        builtin.find_files {
+          hidden = true,
+          no_ignore = true,
+        }
+      end, { desc = "Find all files (hidden and those in .gitignore)" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fg", live_grep, { desc = "Live-grep files (includes hidden files)" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fG", function()
+        live_grep { "--no-ignore" }
+      end, { desc = "Live-grep files (includes hidden and .gitignore files)" })
 
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
