@@ -37,6 +37,11 @@ return {
           },
         },
         {
+          -- PRS development and documentation
+          name = "prs",
+         path = "~/share/methods/prs",
+        },
+        {
           -- For Obsidian experimentation and testing on local (non-NFS) drive
           name = "local-experimentation",
           path = "~/local/obsidian-experimentation",
