@@ -17,6 +17,8 @@ return {
         "lua",
         "markdown",
         "markdown_inline",
+        "powershell",
+        "python",
         "query",
         "rust",
         "typescript",
