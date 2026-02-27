@@ -14,6 +14,7 @@ return {
       -- model = "qwen3-coder:480b-cloud",
       -- model = "glm-5:cloud",
       model = "minimax-m2.5:cloud",
+      response_register = "+",
     }
 
     -- Custom key mappings
@@ -24,8 +25,15 @@ return {
     vim.keymap.set({ "n", "v" }, "<Leader>lp", "<Cmd>Qanda /prompts<CR>", { desc = "Qanda.nvim open prompts picker" })
     vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /models<CR>", { desc = "Qanda.nvim model selection" })
     vim.keymap.set({ "n", "v" }, "<leader>lv", "<Cmd>Qanda /providers<CR>", { desc = "Qanda.nvim provider selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /info<CR>", { desc = "Qanda.nvim info" })
+    vim.keymap.set({ "n", "v" }, "<leader>ls", "<Cmd>Qanda /info<CR>", { desc = "Qanda.nvim status information" })
     vim.keymap.set({ "n", "v" }, "<leader>l.", "<Cmd>Qanda .<CR>", { desc = "Qanda.nvim execute the previous prompt" })
+
+    vim.keymap.set("n", "<Leader>li", 'o<Esc>"' .. qanda.Config.response_register .. "p", {
+      desc = "Open line below and paste the model response",
+    })
+    vim.keymap.set("n", "<Leader>lI", 'O<Esc>"' .. qanda.Config.response_register .. "p", {
+      desc = "Open line above and paste the model response",
+    })
 
     vim.keymap.set({ "n", "v" }, "<Leader>lf", function()
       require("telescope.builtin").find_files {
