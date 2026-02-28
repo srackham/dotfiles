@@ -15,6 +15,8 @@ return {
       -- model = "glm-5:cloud",
       model = "minimax-m2.5:cloud",
       response_register = "+",
+      prompts_dir = "~/projects/qanda.nvim/data/prompts",
+      chats_dir = "~/projects/qanda.nvim/data/chats",
     }
 
     -- Custom key mappings
