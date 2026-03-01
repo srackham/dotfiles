@@ -31,6 +31,13 @@ vim.api.nvim_set_hl(0, "SpellLocal", { undercurl = true, sp = "#ffcccb" })
 
 vim.o.winborder = "single"
 
+-- File types
+vim.filetype.add {
+  extension = {
+    jsonl = "json",
+  },
+}
+
 -- Load abbreviations et al
 vim.cmd("source " .. vim.g.vim_init_file)
 
