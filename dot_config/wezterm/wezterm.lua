@@ -52,6 +52,9 @@ end
 -- Key bindings
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = {
+  { key = "(", mods = "CTRL|SHIFT", action = act.ActivateTab(8) }, -- Activate tab 9
+  { key = ")", mods = "CTRL|SHIFT", action = act.ActivateTab(9) }, -- Activate tab 10
+
   -- Split horizontally (left/right)
   { key = "s", mods = "LEADER", action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
 
