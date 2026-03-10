@@ -77,7 +77,7 @@ view-journal() {
 }
 
 install-other() {
-    npm i -g opencode-ai@latest
+    npm install -g opencode-ai@latest
     npm install -g @google/gemini-cli
     go install github.com/charmbracelet/crush@latest
     cargo install --locked bacon
