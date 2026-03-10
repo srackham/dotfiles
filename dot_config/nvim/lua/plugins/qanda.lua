@@ -20,20 +20,20 @@ return {
     }
 
     -- Custom key mappings
-    vim.keymap.set({ "n", "v" }, "<Leader>lq", "<Cmd>Qanda /prompt<CR>", { desc = "Qanda.nvim open prompt (questions) window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>la", "<Cmd>Qanda /chat<CR>", { desc = "Qanda.nvim open chat (answers) window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ln", "<Cmd>Qanda /new<CR>", { desc = "Qanda.nvim new chat" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lq", "<Cmd>Qanda /prompt<CR>", { desc = "Qanda.nvim open user prompt window (questions)" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lp", "<Cmd>Qanda /prompts<CR>", { desc = "Qanda.nvim open user prompts picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>la", "<Cmd>Qanda /chat<CR>", { desc = "Qanda.nvim open chat window (answers)" })
     vim.keymap.set({ "n", "v" }, "<Leader>lc", "<Cmd>Qanda /chats<CR>", { desc = "Qanda.nvim open chats picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lp", "<Cmd>Qanda /prompts<CR>", { desc = "Qanda.nvim open prompts picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ln", "<Cmd>Qanda /new<CR>", { desc = "Qanda.nvim new chat" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ls", "<Cmd>Qanda /system<CR>", { desc = "Qanda.nvim open system prompts picker" })
     vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /models<CR>", { desc = "Qanda.nvim model selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>lv", "<Cmd>Qanda /providers<CR>", { desc = "Qanda.nvim provider selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>ls", "<Cmd>Qanda /info<CR>", { desc = "Qanda.nvim status information" })
-    vim.keymap.set({ "n", "v" }, "<leader>l.", "<Cmd>Qanda .<CR>", { desc = "Qanda.nvim execute the previous prompt" })
+    vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Qanda /providers<CR>", { desc = "Qanda.nvim provider selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /info<CR>", { desc = "Qanda.nvim status information" })
 
-    vim.keymap.set("n", "<Leader>li", 'o<Esc>"' .. qanda.Config.response_register .. "p", {
+    vim.keymap.set("n", "<Leader>lo", 'o<Esc>"' .. qanda.Config.response_register .. "p", {
       desc = "Open line below and paste the model response",
     })
-    vim.keymap.set("n", "<Leader>lI", 'O<Esc>"' .. qanda.Config.response_register .. "p", {
+    vim.keymap.set("n", "<Leader>lO", 'O<Esc>"' .. qanda.Config.response_register .. "p", {
       desc = "Open line above and paste the model response",
     })
 
