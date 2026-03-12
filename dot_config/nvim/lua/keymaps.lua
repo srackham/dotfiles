@@ -315,9 +315,10 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Insert mode motion commands
+--[[ TODO: <C-h> conflicts, not sure these have been that useful.
 vim.keymap.set("i", "<C-h>", "<C-o>h", { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })
 vim.keymap.set("i", "<C-l>", "<C-o>l", { noremap = true, silent = true, desc = "Move cursor right one character (insert mode)" })
-vim.keymap.set("i", "<C-x>", "<C-o>x", { noremap = true, silent = true, desc = "Delete the character under cursor (insert mode)" })
+vim.keymap.set("i", "<C-x>", "<C-o>x", { noremap = true, silent = true, desc = "Delete the character under cursor (insert mode)" }) ]]
 
 -- Preview Markdown files in the browser with the Chrome Markdown Viewer extension
 -- https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk
@@ -643,4 +644,8 @@ local function flash_cursorline()
     vim.api.nvim_set_hl(0, "CursorLine", default_cursorline_hl --[[@as vim.api.keyset.highlight]])
   end, FLASH_DURATION)
 end
-vim.keymap.set({ "n", "i", "v" }, "<C-h>", flash_cursorline, { desc = "Flash cursor line" })
+vim.keymap.set({ "n", "i", "v" }, "<C-h>", function()
+  vim.cmd "nohlsearch"
+  vim.cmd "echo"
+  flash_cursorline()
+end, { desc = "Turn search higlighting of and flash the cursor line" })
