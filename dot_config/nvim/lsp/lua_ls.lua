@@ -1,6 +1,9 @@
 return {
   settings = {
     Lua = {
+      runtime = {
+        version = "LuaJIT", -- Tell LuaLS we're on LuaJIT/5.1
+      },
       format = {
         enable = false, -- Use external stylua command bound to <Leader>cf instead of the builtin lua_ls formatter
       },
