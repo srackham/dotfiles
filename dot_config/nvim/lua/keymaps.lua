@@ -493,43 +493,42 @@ vim.keymap.set("n", "<Leader>w<", "<C-w><", { noremap = true, silent = true, des
 vim.keymap.set("n", "<Leader>w+", "<C-w>+", { noremap = true, silent = true, desc = "Increase window height" })
 vim.keymap.set("n", "<Leader>w-", "<C-w>-", { noremap = true, silent = true, desc = "Decrease window height" })
 
-local win_height_maximized = false
-local win_height_saved = 0
+local win_maximized = false
+local win_saved_size = 0
+local last_direction = nil -- "h" for horizontal, "v" for vertical
 
-local function toggle_maximize_height()
+local function toggle_maximize()
   local win = vim.api.nvim_get_current_win()
-  if not win_height_maximized then
-    -- Save current window height
-    win_height_saved = vim.fn.winheight(win)
-    -- Maximize window height
-    vim.cmd "horizontal resize +999"
-    win_height_maximized = true
+
+  if not win_maximized then
+    -- Detect if we should maximize width or height
+    -- If width is less than the total screen width, we maximize width
+    if vim.api.nvim_win_get_width(win) < vim.o.columns then
+      win_saved_size = vim.fn.winwidth(win)
+      vim.cmd "vertical resize +999"
+      last_direction = "v"
+    else
+      win_saved_size = vim.fn.winheight(win)
+      vim.cmd "horizontal resize +999"
+      last_direction = "h"
+    end
+    win_maximized = true
   else
-    -- Restore saved height
-    vim.cmd("resize " .. win_height_saved)
-    win_height_maximized = false
+    -- Restore based on the last direction used
+    if last_direction == "v" then
+      vim.cmd("vertical resize " .. win_saved_size)
+    else
+      vim.cmd("resize " .. win_saved_size)
+    end
+    win_maximized = false
   end
 end
-vim.keymap.set("n", "<leader>wm", toggle_maximize_height, { noremap = true, silent = true, desc = "Toggle window maximum height" })
 
-local win_width_maximized = false
-local win_width_saved = 0
-
-local function toggle_maximize_width()
-  local win = vim.api.nvim_get_current_win()
-  if not win_width_maximized then
-    -- Save current window width
-    win_width_saved = vim.fn.winwidth(win)
-    -- Maximize window width
-    vim.cmd "vertical resize +999"
-    win_width_maximized = true
-  else
-    -- Restore saved width
-    vim.cmd("vertical resize " .. win_width_saved)
-    win_width_maximized = false
-  end
-end
-vim.keymap.set("n", "<leader>wM", toggle_maximize_width, { noremap = true, silent = true, desc = "Toggle window maximum width" })
+vim.keymap.set("n", "<leader>wm", toggle_maximize, {
+  noremap = true,
+  silent = true,
+  desc = "Toggle maximize window",
+})
 
 -- Function to toggle window orientation
 local function toggle_window_orientation()
