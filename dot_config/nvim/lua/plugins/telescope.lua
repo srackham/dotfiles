@@ -88,7 +88,7 @@ return {
         }
       end, { desc = "Case sensitive search for whole word under cursor" })
 
-      vim.keymap.set({ "n", "v" }, "<Leader>dd", function()
+      vim.keymap.set({ "n", "v" }, "<Leader>dl", function()
         builtin.diagnostics { bufnr = 0 }
       end, { desc = "List diagnostic messages in current buffer" })
 
@@ -125,6 +125,72 @@ return {
       vim.keymap.set({ "n", "v" }, "<Leader>cS", function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols { symbols = symbols }
       end, { noremap = true, silent = true, desc = "Live-grep workspace symbols" })
+
+      local function inject_file()
+        -- local builtin = require "telescope.builtin"
+        local actions = require "telescope.actions"
+        local action_state = require "telescope.actions.state"
+
+        -- Helper to check if a file is binary
+        local function is_binary(path)
+          local f = io.open(path, "rb")
+          if not f then
+            return false
+          end
+          local bytes = f:read(1024) -- Check the first KB
+          f:close()
+          return bytes and bytes:find "\0" ~= nil
+        end
+
+        builtin.find_files {
+          prompt_title = "Inject Text File",
+          attach_mappings = function(prompt_bufnr, _)
+            actions.select_default:replace(function()
+              local selection = action_state.get_selected_entry()
+              if selection == nil then
+                return
+              end
+
+              local file_path = selection.value
+
+              -- Guard clause: block binary files
+              if is_binary(file_path) then
+                actions.close(prompt_bufnr)
+                print "Error: Selected file is binary and cannot be injected."
+                return
+              end
+
+              actions.close(prompt_bufnr)
+
+              local file_ext = vim.fn.fnamemodify(file_path, ":e")
+              local lines = vim.fn.readfile(file_path)
+
+              local injection = {
+                "",
+                "`" .. file_path .. "`",
+                "",
+                "```" .. file_ext,
+              }
+
+              for _, line in ipairs(lines) do
+                table.insert(injection, line)
+              end
+
+              table.insert(injection, "```")
+              table.insert(injection, "")
+
+              local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+              vim.api.nvim_buf_set_lines(0, row, row, false, injection)
+
+              local new_row = row + #injection
+              vim.api.nvim_win_set_cursor(0, { new_row, 0 })
+            end)
+            return true
+          end,
+        }
+      end
+      vim.keymap.set({ "n", "v" }, "<Leader>fi", inject_file, { noremap = true, silent = true, desc = "List symbols" })
+
     end,
   },
 
