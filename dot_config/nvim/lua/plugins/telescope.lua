@@ -137,59 +137,72 @@ return {
           if not f then
             return false
           end
-          local bytes = f:read(1024) -- Check the first KB
+          local bytes = f:read(1024)
           f:close()
           return bytes and bytes:find "\0" ~= nil
         end
 
         builtin.find_files {
-          prompt_title = "Inject Text File",
-          attach_mappings = function(prompt_bufnr, _)
+          prompt_title = "Inject Text File(s)",
+          attach_mappings = function(picker_bufnr, map)
+            -- Allow TAB to mark multiple files
+            map("i", "<Tab>", actions.toggle_selection + actions.move_selection_next)
+            map("n", "<Tab>", actions.toggle_selection + actions.move_selection_next)
+
             actions.select_default:replace(function()
-              local selection = action_state.get_selected_entry()
-              if selection == nil then
+              local picker = action_state.get_current_picker(picker_bufnr)
+              local multi = picker:get_multi_selection()
+
+              -- If no multi-selection, use the current entry
+              if #multi == 0 then
+                local single = action_state.get_selected_entry()
+                if single then
+                  table.insert(multi, single)
+                end
+              end
+
+              actions.close(picker_bufnr)
+
+              if #multi == 0 then
                 return
               end
 
-              local file_path = selection.value
+              for _, entry in ipairs(multi) do
+                local injection = {}
+                local file_path = entry.value
 
-              -- Guard clause: block binary files
-              if is_binary(file_path) then
-                actions.close(prompt_bufnr)
-                print "Error: Selected file is binary and cannot be injected."
-                return
+                if is_binary(file_path) then
+                  vim.notify("Skipped binary file: " .. file_path, vim.log.levels.WARN)
+                else
+                  local file_ext = vim.fn.fnamemodify(file_path, ":e")
+                  local lines = vim.fn.readfile(file_path)
+
+                  table.insert(injection, "")
+                  table.insert(injection, "`" .. file_path .. "`")
+                  table.insert(injection, "")
+                  table.insert(injection, "```" .. file_ext)
+
+                  for _, line in ipairs(lines) do
+                    table.insert(injection, line)
+                  end
+
+                  table.insert(injection, "```")
+                  table.insert(injection, "")
+
+                  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+                  vim.api.nvim_buf_set_lines(0, row, row, false, injection)
+
+                  local new_row = row + #injection
+                  vim.api.nvim_win_set_cursor(0, { new_row, 0 })
+                end
               end
-
-              actions.close(prompt_bufnr)
-
-              local file_ext = vim.fn.fnamemodify(file_path, ":e")
-              local lines = vim.fn.readfile(file_path)
-
-              local injection = {
-                "",
-                "`" .. file_path .. "`",
-                "",
-                "```" .. file_ext,
-              }
-
-              for _, line in ipairs(lines) do
-                table.insert(injection, line)
-              end
-
-              table.insert(injection, "```")
-              table.insert(injection, "")
-
-              local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-              vim.api.nvim_buf_set_lines(0, row, row, false, injection)
-
-              local new_row = row + #injection
-              vim.api.nvim_win_set_cursor(0, { new_row, 0 })
             end)
+
             return true
           end,
         }
       end
-      vim.keymap.set({ "n", "v" }, "<Leader>fi", inject_file, { noremap = true, silent = true, desc = "List symbols" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fi", inject_file, { noremap = true, silent = true, desc = "Inject text files" })
 
     end,
   },
