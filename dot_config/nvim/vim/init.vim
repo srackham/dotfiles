@@ -68,7 +68,6 @@
 :iab Lv LazyVim
 :iab Mk Markdown
 :iab Nv Neovim
-:iab No NixOs
 :iab NO Novus Ordo
 :iab VO Vetus Ordo
 :iab TLM Tridentine Latin Mass
@@ -82,6 +81,7 @@
 :iab Re regular expression
 :iab Res regular expressions
 :iab Ot Old Testament
+:iab Mru most recently used
 :iab Nt New Testament
 :iab Nyi not yet implemented
 :iab Potus the president of the United States of America

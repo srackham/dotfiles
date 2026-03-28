@@ -314,12 +314,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Insert mode motion commands
---[[ TODO: <C-h> conflicts, not sure these have been that useful.
-vim.keymap.set("i", "<C-h>", "<C-o>h", { noremap = true, silent = true, desc = "Move cursor left one character (insert mode)" })
-vim.keymap.set("i", "<C-l>", "<C-o>l", { noremap = true, silent = true, desc = "Move cursor right one character (insert mode)" })
-vim.keymap.set("i", "<C-x>", "<C-o>x", { noremap = true, silent = true, desc = "Delete the character under cursor (insert mode)" }) ]]
-
 -- Preview Markdown files in the browser with the Chrome Markdown Viewer extension
 -- https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk
 vim.keymap.set("n", "<Leader>mv", function()
@@ -628,7 +622,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 vim.keymap.set("n", "<Leader>ea", function()
   vim.cmd("edit " .. vim.g.vim_init_file)
-end, { noremap = true, desc = "Edit init.vim" })
+end, { noremap = true, desc = "Edit abbreviations (init.vim)" })
 
 vim.keymap.set("n", "<C-j>", "<C-e>j", { silent = true, desc = "Scroll down one line" })
 vim.keymap.set("n", "<C-k>", "<C-y>k", { silent = true, desc = "Scroll up one line" })
