@@ -9,26 +9,43 @@ return {
 
     local qanda = require "qanda"
 
-    -- Override default options
+    -- Override default options --
     qanda.setup {
-      -- model = "qwen3-coder:480b-cloud",
-      -- model = "glm-5:cloud",
-      model = "minimax-m2.5:cloud",
-      response_register = "+",
-      prompts_dir = "~/projects/qanda.nvim/data/prompts",
-      chats_dir = "~/projects/qanda.nvim/data/chats",
+      data_dir = "~/projects/qanda.nvim/data",
+      chat_reload = true,
+      user_prompt_lines = 5,
+      system_prompt_lines = 5,
+      model_options = {
+        ollama = { temperature = 0.4 },
+        openrouter = {},
+      },
+      confirm_chat_file_deletion = false,
     }
 
-    -- Custom key mappings
-    vim.keymap.set({ "n", "v" }, "<Leader>lq", "<Cmd>Qanda /prompt<CR>", { desc = "Qanda.nvim open user prompt window (questions)" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lp", "<Cmd>Qanda /prompts<CR>", { desc = "Qanda.nvim open user prompts picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>la", "<Cmd>Qanda /chat<CR>", { desc = "Qanda.nvim open chat window (answers)" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lc", "<Cmd>Qanda /chats<CR>", { desc = "Qanda.nvim open chats picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ln", "<Cmd>Qanda /new<CR>", { desc = "Qanda.nvim new chat" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ls", "<Cmd>Qanda /system<CR>", { desc = "Qanda.nvim open system prompts picker" })
+    -- Key mappings for builtin commands --
+    vim.keymap.set("n", "<Tab>", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open user prompt window (questions)" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lq", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open user prompt window (questions)" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lp", "<Cmd>Qanda /prompt_picker<CR>", { desc = "Qanda.nvim open user prompts picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>la", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open chat window (answers)" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lc", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open chat picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ln", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ls", "<Cmd>Qanda /system_message_picker<CR>", { desc = "Qanda.nvim open system messages picker" })
     vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /models<CR>", { desc = "Qanda.nvim model selection" })
     vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Qanda /providers<CR>", { desc = "Qanda.nvim provider selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /info<CR>", { desc = "Qanda.nvim status information" })
+    vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
+    vim.keymap.set(
+      { "n", "v" },
+      "<leader>lr",
+      "<Cmd>Qanda /dump_diagnostics<CR>",
+      { desc = "Qanda.nvim insert request and response registers" }
+    )
+    vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
+
+    -- Key mappings for custom prompts --
+    vim.keymap.set({ "n", "v" }, "<Leader>lQ", "<Cmd>Qanda Ask a question<CR>", { desc = "Qanda.nvim ask a question" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lD", "<Cmd>Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lL", "<Cmd>Qanda Latin word morphology<CR>", { desc = "Qanda.nvim Latin word morphology" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lS", "<Cmd>Qanda Synonyms<CR>", { desc = "Qanda.nvim Latin word morphology" })
 
     vim.keymap.set("n", "<Leader>lo", 'o<Esc>"' .. qanda.Config.response_register .. "p", {
       desc = "Open line below and paste the model response",
@@ -50,24 +67,6 @@ return {
         prompt_title = "Live Grep prompts files",
       }
     end, { desc = "Qanda.nvim live-grep prompts files" })
-
-    -- vim.keymap.set({ "n", "v" }, "<leader>ll", function()
-    --   vim.cmd("edit " .. qanda.log_filename(qanda))
-    -- end, { desc = "Qanda.nvim open current log file" })
-    --
-    -- vim.keymap.set({ "n", "v" }, "<Leader>lF", function()
-    --   require("telescope.builtin").find_files {
-    --     cwd = qanda.logs_dir,
-    --     prompt_title = "Find log files",
-    --   }
-    -- end, { desc = "Qanda.nvim find log files" })
-    --
-    -- vim.keymap.set({ "n", "v" }, "<Leader>lG", function()
-    --   require("telescope.builtin").live_grep {
-    --     cwd = qanda.logs_dir,
-    --     prompt_title = "Live Grep log files",
-    --   }
-    -- end, { desc = "Qanda.nvim live-grep log files" })
 
   end,
 }
