@@ -112,6 +112,10 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Miscellaneous commands
+vim.keymap.set("n", "<Leader>dd", function()
+  vim.notify("<Leader>dd is a noop", vim.log.levels.WARN)
+end, { noremap = true, silent = true, desc = "Ensures inadvertent <Leader>dd does not pass through a dd command" })
+
 vim.keymap.set(
   "n",
   "<Leader>eh",
