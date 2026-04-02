@@ -131,6 +131,10 @@ return {
         local actions = require "telescope.actions"
         local action_state = require "telescope.actions.state"
 
+        -- Lock in the current buffer and window BEFORE opening Telescope
+        local target_buf = vim.api.nvim_get_current_buf()
+        local target_win = vim.api.nvim_get_current_win()
+
         -- Helper to check if a file is binary
         local function is_binary(path)
           local f = io.open(path, "rb")
@@ -189,11 +193,11 @@ return {
                   table.insert(injection, "```")
                   table.insert(injection, "")
 
-                  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-                  vim.api.nvim_buf_set_lines(0, row, row, false, injection)
+                  local row, _ = unpack(vim.api.nvim_win_get_cursor(target_win))
+                  vim.api.nvim_buf_set_lines(target_buf, row, row, false, injection)
 
                   local new_row = row + #injection
-                  vim.api.nvim_win_set_cursor(0, { new_row, 0 })
+                  vim.api.nvim_win_set_cursor(target_win, { new_row, 0 })
                 end
               end
             end)
