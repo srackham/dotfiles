@@ -1,19 +1,13 @@
 # vim: set filetype=toml:
 
-default_provider = "openrouter"
-default_model = "minimax/minimax-m2.5"
-api_key = "{{ .secrets.openrouter_api_key }}"
+default_provider = "gemini"
+default_model = "gemini-2.5-flash"
+
+# default_provider = "openrouter"
+# default_model = "minimax/minimax-m2.5"
 
 # default_provider = "ollama"
-# default_model = "minimax-m2.5:cloud"
-# api_key = "{{ .secrets.ollama_cloud_api_key }}"
-# api_url = "https://ollama.com"
-
-# default_provider = "gemini"
-# default_model = "gemini-3-flash-preview"
-# api_key = "{{ .secrets.gemini_api_key }}"
-# # 22-Feb-2026: BUG: environment variable injection not working.
-# # api_key = "${GEMINI_API_KEY}"
+# default_model = "gemma4:31b-cloud"
 
 default_temperature = 0.7
 model_routes = []
@@ -120,7 +114,7 @@ max_run_history = 50
 cli = true
 
 [channels_config.telegram]
-bot_token = "{{ .secrets.zeroclaw_bot_token }}"
+bot_token = "8448784146:AAG0WAi9Yz_xm1yly94RiJkHQ-VsIHa1U1A"
 allowed_users = ["5237636637"]
 stream_mode = "off"
 draft_update_interval_ms = 1000
