@@ -1,13 +1,13 @@
 # vim: set filetype=toml:
 
-default_provider = "gemini"
-default_model = "gemini-2.5-flash"
+# default_provider = "gemini"
+# default_model = "gemini-2.5-flash"
 
 # default_provider = "openrouter"
 # default_model = "minimax/minimax-m2.5"
 
-# default_provider = "ollama"
-# default_model = "gemma4:31b-cloud"
+default_provider = "ollama"
+default_model = "gemma4:31b-cloud"
 
 default_temperature = 0.7
 model_routes = []
@@ -114,7 +114,7 @@ max_run_history = 50
 cli = true
 
 [channels_config.telegram]
-bot_token = "8448784146:AAG0WAi9Yz_xm1yly94RiJkHQ-VsIHa1U1A"
+bot_token = "{{ .secrets.zeroclaw_bot_token }}"
 allowed_users = ["5237636637"]
 stream_mode = "off"
 draft_update_interval_ms = 1000
