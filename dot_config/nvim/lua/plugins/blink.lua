@@ -38,7 +38,7 @@ return {
       cmp.setup {
         keymap = {
           preset = "default",
-          ["<C-Space>"] = { "select_and_accept" },
+          ["<Tab>"] = { "select_and_accept" },
         },
         appearance = {
           nerd_font_variant = "mono",
