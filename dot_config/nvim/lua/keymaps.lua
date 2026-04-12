@@ -1,6 +1,6 @@
 local utils = require "utils" -- Load ./lua/utils.lua
 
--- Map custom next/previous navigation commands.
+-- Map custom next/previous navigation commands --
 local execute_cmd_and_map_n = function(next_cmd, prev_cmd)
   return function()
     local n = type(next_cmd) == "string" and function()
@@ -29,7 +29,7 @@ local function map_next_prev(next_key, next_cmd, prev_key, prev_cmd, desc)
   )
 end
 
--- Restore native n and N commands prior to the execution of search commands `/`, `*` and `#`.
+-- Restore native n and N commands prior to the execution of search commands `/`, `*` and `#` --
 local restore_next_prev = function()
   vim.keymap.set("n", "n", "n", { noremap = true, silent = true })
   vim.keymap.set("n", "N", "N", { noremap = true, silent = true })
@@ -47,7 +47,7 @@ vim.keymap.set("n", "#", function()
   return "#"
 end, { expr = true })
 
--- Install custom next/previous commands.
+-- Install custom next/previous commands --
 map_next_prev(
   "<Leader>dn",
   function()
@@ -79,7 +79,7 @@ map_next_prev("<Leader>wn", "wincmd w", "<Leader>wp", "wincmd W", "window")
 map_next_prev("<Leader>sn", "normal! ]s", "<Leader>sp", "normal! [s", "misspelt word")
 map_next_prev("g,", "normal! g,", "g;", "normal! g;", "change") -- Adds n/N functionality to `g,` and `g;` commands
 
--- Adds n/N functionality to Markdown section navigation commands
+-- Adds n/N functionality to Markdown section navigation commands --
 -- Builtin markdown section navigation commands have first to be explicitly deleted from the current buffer.
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
@@ -111,7 +111,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Miscellaneous commands
+-- Miscellaneous commands --
 vim.keymap.set("n", "<Leader>dd", function()
   vim.notify("<Leader>dd is a noop", vim.log.levels.WARN)
 end, { noremap = true, silent = true, desc = "Ensures inadvertent <Leader>dd does not pass through a dd command" })
@@ -263,18 +263,7 @@ end, {
   silent = true,
 })
 
--- Formatter commands
-
--- DEPRECATED: 23-Dec-2025: Auto-format files on save
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = "*",
---   callback = function()
---     -- Ignore errors for file types without formatters
---     pcall(function()
---       vim.lsp.buf.format { async = false }
---     end)
---   end,
--- })
+-- Formatter commands --
 
 vim.keymap.set("n", "<Leader>cf", function()
   vim.lsp.buf.format { async = true }
@@ -325,32 +314,17 @@ vim.keymap.set("n", "<Leader>mv", function()
   os.execute('brave "' .. vim.fn.expand "%:p" .. '" > /dev/null 2>&1 &')
 end, { desc = "View current file in Brave browser" })
 
--- Clipboard cut, copy and paste commands
-vim.keymap.set({ "n", "v" }, "<leader>x", '"+d', { desc = "Cut to clipboard" })
-vim.keymap.set("n", "<leader>xx", '"+dd', { desc = "Cut line to clipboard" })
-vim.keymap.set({ "n", "v" }, "Y", '"+y', { desc = "Yank to clipboard" })
-vim.keymap.set("n", "YY", '"+yy', { desc = "Yank line to clipboard" })
+-- Clipboard cut, copy and paste commands --
+-- NOTE: I have been unable to find reliable way to yank/append or yank/delete to clipboard, <Leader>ya is visual mode only.
 vim.keymap.set({ "n", "v" }, "<Leader>p", '"+p', { desc = "Paste clipboard after cursor" })
 vim.keymap.set({ "n", "v" }, "<Leader>P", '"+P', { desc = "Paste clipboard before cursor" })
 
--- Append-motion-yank operator
-function _G.append_yank_operator(_)
-  -- Yank into the unnamed register using the motion
-  vim.cmd 'normal! `[v`]"zy'
+vim.keymap.set("n", "YY", '"+yy', { desc = "Yank line to clipboard" })
+vim.keymap.set({ "n", "v" }, "Y", '"+y', { desc = "Yank to clipboard (with selection or motion)" })
+vim.keymap.set({ "n", "v" }, "<Leader>yy", '"+y', { desc = "Yank to clipboard (with selection or motion)" })
 
-  -- Get yanked text
-  local text = vim.fn.getreg "z"
-
-  -- Append to system clipboard
-  local current = vim.fn.getreg "+"
-  vim.fn.setreg("+", current .. text)
-end
-
--- Map <Leader>ya as an operator
-vim.keymap.set("n", "<Leader>ya", function()
-  vim.o.operatorfunc = "v:lua.append_yank_operator"
-  return "g@"
-end, { expr = true, desc = "Append to clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>yd", '"+d', { desc = "Delete to clipboard" })
+vim.keymap.set("n", "<leader>yD", '"+dd', { desc = "Delete line to clipboard" })
 
 vim.keymap.set("v", "<Leader>ya", function()
   vim.cmd 'normal! "zy'
@@ -359,9 +333,9 @@ vim.keymap.set("v", "<Leader>ya", function()
 
   local current = vim.fn.getreg "+"
   vim.fn.setreg("+", current .. text, regtype)
-end, { silent = true, desc = "Append to clipboard" })
+end, { silent = true, desc = "Append visual selection to clipboard" })
 
--- Edit commands
+-- Edit commands --
 vim.keymap.set(
   "v",
   "<Leader>ed",
@@ -376,7 +350,7 @@ vim.keymap.set(
 )
 vim.keymap.set("n", "<Leader>et", "<Cmd>%s/\\s\\+$//e<CR>", { noremap = true, silent = true, desc = "Trim spaces from the ends of lines" })
 
--- Help commands
+-- Help commands --
 vim.keymap.set("n", "<Leader>ht", utils.toggle_help_window, { desc = "Toggle help window" })
 vim.keymap.set({ "n", "v" }, "<Leader>hw", function()
   local query = utils.get_selection_or_word()
@@ -387,7 +361,7 @@ vim.keymap.set({ "n", "v" }, "<Leader>hw", function()
   end
 end, { desc = "Open help for word under cursor or selected text" })
 
--- Spelling commands
+-- Spelling commands --
 local spellfile_path = vim.api.nvim_get_option_value("spellfile", {})
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = spellfile_path,
@@ -429,7 +403,7 @@ local function toggle_spell_checker()
 end
 vim.keymap.set("n", "<Leader>st", toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 
--- Buffer commands
+-- Buffer commands --
 vim.keymap.set("n", "<Leader>bd", "<Cmd>bd!<CR>", { noremap = true, silent = false, desc = "Discard current buffer" })
 vim.api.nvim_set_keymap(
   "n",
@@ -463,7 +437,7 @@ vim.keymap.set(
   { noremap = true, silent = false, desc = "Replace/delete undesirable Unicode characters and Markdown references in the current buffer" }
 )
 
--- Window commands
+-- Window commands --
 local function close_window()
   -- Close the current window. If the `close` command fails (it won't close the last window on a buffer) then,
   -- after checking the buffer hasn't been modified, close the window by deleting the buffer.
@@ -568,11 +542,11 @@ local function float_current_window()
 end
 vim.keymap.set("n", "<leader>wf", float_current_window, { desc = "Float current window" })
 
--- Terminal commands
+-- Terminal commands --
 vim.keymap.set("n", "<Leader>to", "<Cmd>terminal<CR>i", { noremap = true, silent = true, desc = "Open a new terminal buffer" })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
 
--- Quickfix commands
+-- Quickfix commands --
 vim.keymap.set("n", "<Leader>qc", "<Cmd>cclose<CR>", { noremap = true, silent = true, desc = "Close Quickfix window" })
 vim.keymap.set("n", "<Leader>qo", "<Cmd>copen<CR>", { noremap = true, silent = true, desc = "Open Quickfix window" })
 vim.keymap.set("n", "<Leader>dq", vim.diagnostic.setqflist, { desc = "Copy buffer diagnostics to the quickfix list" })
@@ -613,11 +587,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Selection commands
+-- Selection commands --
 vim.keymap.set("n", "<Leader>sa", "ggVG", { noremap = true, silent = true, desc = "Select buffer" })
 vim.keymap.set("n", "<Leader>sf", "?^```<CR>jV/^```<CR>k", { noremap = true, silent = true, desc = "Select fenced block" })
 
--- Additional miscellaneous commands
+-- Additional miscellaneous commands --
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath "config" .. "/vim/init.vim",
   command = "abc | source <afile>",
