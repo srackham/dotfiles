@@ -1,5 +1,6 @@
 default_provider = "openrouter"
-default_model = "anthropic/claude-sonnet-4.6"
+default_model = "anthropic/claude-opus-4.6"
+# default_model = "anthropic/claude-sonnet-4.6"
 default_temperature = 0.7
 provider_timeout_secs = 120
 model_routes = []
@@ -308,7 +309,7 @@ debounce_ms = 0
 
 [channels_config.telegram]
 enabled = true
-bot_token = "enc2:194a7cbe9dbf1aa3d8fa31ad3ddaf57e3f00c8e48698a2dd24de23577a86ed93cc17b9e95c906a5e2762d95f858493e6e60d185ade7622efe7ba991b04e15465af652e6a3561df3ab577"
+bot_token = "enc2:58689589a53c079bdf1b3cac407bfab03f49b090f58f3617458e433a9e7a654b33b99c4f86dae97c86013b14c9b0e7b09842b068c5304737673253df4de7006d43fc1943ef2a58d013c0"
 allowed_users = ["srackham"]
 stream_mode = "off"
 draft_update_interval_ms = 1000
@@ -374,7 +375,7 @@ port = 42617
 host = "127.0.0.1"
 require_pairing = true
 allow_public_bind = false
-paired_tokens = []
+paired_tokens = ["enc2:930fc713163729f3c9dc6a8fe81a8cde38e8fbaef9af5b75149c89b0c32a04bad602aaf0520ac3d5f8b80ef11cfc9c385e6a396c60f6acc5763675a0f7d83e9ed1a2076c0e6d4b75575c8efc7bae903d744e8257d406c7d746020e75"]
 pair_rate_limit_per_minute = 10
 webhook_rate_limit_per_minute = 60
 trust_forwarded_headers = false
@@ -508,37 +509,37 @@ allow_override = false
 input = 3.0
 output = 15.0
 
-[cost.prices."anthropic/claude-3-haiku"]
-input = 0.25
-output = 1.25
-
-[cost.prices."anthropic/claude-3.5-sonnet"]
-input = 3.0
-output = 15.0
+[cost.prices."google/gemini-1.5-pro"]
+input = 1.25
+output = 5.0
 
 [cost.prices."anthropic/claude-opus-4-20250514"]
 input = 15.0
 output = 75.0
 
-[cost.prices."google/gemini-2.0-flash"]
-input = 0.1
-output = 0.4
+[cost.prices."openai/gpt-4o-mini"]
+input = 0.15
+output = 0.6
+
+[cost.prices."anthropic/claude-3.5-sonnet"]
+input = 3.0
+output = 15.0
+
+[cost.prices."anthropic/claude-3-haiku"]
+input = 0.25
+output = 1.25
 
 [cost.prices."openai/o1-preview"]
 input = 15.0
 output = 60.0
 
+[cost.prices."google/gemini-2.0-flash"]
+input = 0.1
+output = 0.4
+
 [cost.prices."openai/gpt-4o"]
 input = 5.0
 output = 15.0
-
-[cost.prices."openai/gpt-4o-mini"]
-input = 0.15
-output = 0.6
-
-[cost.prices."google/gemini-1.5-pro"]
-input = 1.25
-output = 5.0
 
 [cost.enforcement]
 mode = "warn"
