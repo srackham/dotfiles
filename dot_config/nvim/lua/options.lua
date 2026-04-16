@@ -18,6 +18,9 @@ vim.opt.spellcapcheck = "" -- Disable the check for capitalization at the start 
 vim.opt.cursorline = true
 vim.api.nvim_set_hl(0, "CursorLine", { bg = "#303030" })
 
+-- Increase shada maximum lines saved for each register to 999
+vim.opt.shada = "!,'100,<999,s10,h"
+
 vim.opt.swapfile = false
 vim.opt.undofile = true -- Persistent undo across sessions
 vim.opt.spellfile = vim.fn.expand "$HOME/doc/nvim/spell/en.utf-8.add"

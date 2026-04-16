@@ -321,9 +321,10 @@ vim.keymap.set({ "n", "v" }, "<Leader>P", '"+P', { desc = "Paste clipboard befor
 
 vim.keymap.set("n", "YY", '"+yy', { desc = "Yank line to clipboard" })
 vim.keymap.set({ "n", "v" }, "Y", '"+y', { desc = "Yank to clipboard (with selection or motion)" })
+vim.keymap.set("n", "<Leader>yY", '"+yy', { desc = "Yank line to clipboard" })
 vim.keymap.set({ "n", "v" }, "<Leader>yy", '"+y', { desc = "Yank to clipboard (with selection or motion)" })
 
-vim.keymap.set({ "n", "v" }, "<leader>yd", '"+d', { desc = "Delete to clipboard" })
+vim.keymap.set({ "n", "v" }, "<Leader>yd", '"+d', { desc = "Delete to clipboard" })
 vim.keymap.set("n", "<leader>yD", '"+dd', { desc = "Delete line to clipboard" })
 
 vim.keymap.set("v", "<Leader>ya", function()

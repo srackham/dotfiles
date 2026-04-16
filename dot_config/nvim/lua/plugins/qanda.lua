@@ -17,6 +17,7 @@ return {
       model_options = {
         ollama = { temperature = 0.4 },
         openrouter = {},
+        gemini = {},
       },
       confirm_chat_file_deletion = false,
     }
@@ -39,36 +40,15 @@ return {
       { "n", "v" },
       "<leader>ld",
       "<Cmd>Qanda /dump_diagnostics<CR>",
-      { desc = "Qanda.nvim insert request and response registers" }
+      { desc = "Qanda.nvim display request/response diagnostics" }
     )
     vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
-    -- Key mappings for commonly used prompts --
+    -- Key mappings for commonly used custom prompts --
     -- Convention: 2nd letter in uppercase
     vim.keymap.set({ "n", "v" }, "<Leader>lD", "<Cmd>Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
     vim.keymap.set({ "n", "v" }, "<Leader>lL", "<Cmd>Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
     vim.keymap.set({ "n", "v" }, "<Leader>lS", "<Cmd>Qanda Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
-
-    vim.keymap.set("n", "<Leader>lo", 'o<Esc>"' .. qanda.Config.response_register .. "p", {
-      desc = "Open line below and paste the model response",
-    })
-    vim.keymap.set("n", "<Leader>lO", 'O<Esc>"' .. qanda.Config.response_register .. "p", {
-      desc = "Open line above and paste the model response",
-    })
-
-    vim.keymap.set({ "n", "v" }, "<Leader>lf", function()
-      require("telescope.builtin").find_files {
-        cwd = qanda.prompts_dir,
-        prompt_title = "Find prompts files",
-      }
-    end, { desc = "Qanda.nvim find prompts files" })
-
-    vim.keymap.set({ "n", "v" }, "<Leader>lg", function()
-      require("telescope.builtin").live_grep {
-        cwd = qanda.Config.prompts_dir,
-        prompt_title = "Live Grep prompts files",
-      }
-    end, { desc = "Qanda.nvim live-grep prompts files" })
 
   end,
 }
