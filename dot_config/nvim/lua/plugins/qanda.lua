@@ -9,9 +9,9 @@ return {
 
     local qanda = require "qanda"
 
-    -- Override default options --
+    -- Override default options here --
     qanda.setup {
-      data_dir = "~/projects/qanda.nvim/data",
+      data_dir = "~/share/data/qanda_nvim",
       user_prompt_lines = 5,
       system_prompt_lines = 5,
       model_options = {
@@ -31,8 +31,8 @@ return {
     vim.keymap.set({ "n", "v" }, "<Leader>lc", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
     vim.keymap.set({ "n", "v" }, "<Leader>ln", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
     vim.keymap.set({ "n", "v" }, "<Leader>ls", "<Cmd>Qanda /system_message_picker<CR>", { desc = "Qanda.nvim open System Messages picker" })
-    vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /model_selector<CR>", { desc = "Qanda.nvim model selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Qanda /provider_selector<CR>", { desc = "Qanda.nvim provider selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /model_picker<CR>", { desc = "Qanda.nvim model selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Qanda /provider_picker<CR>", { desc = "Qanda.nvim provider selection" })
     vim.keymap.set({ "n", "v" }, "<leader>lr", "<Cmd>Qanda /recent_models<CR>", { desc = "Qanda.nvim recent model selection" })
     vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
     vim.keymap.set({ "n", "v" }, "<leader>lk", "<Cmd>Qanda /abort<CR>", { desc = "Qanda.nvim abort the current request" })
@@ -44,7 +44,7 @@ return {
     )
     vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
-    -- Key mappings for commonly used custom prompts --
+    -- Key mappings for commonly used custom prompt templates --
     -- Convention: 2nd letter in uppercase
     vim.keymap.set({ "n", "v" }, "<Leader>lD", "<Cmd>Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
     vim.keymap.set({ "n", "v" }, "<Leader>lL", "<Cmd>Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
