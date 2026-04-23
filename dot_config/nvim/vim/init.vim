@@ -52,6 +52,7 @@
 :iab H4 ####
 :iab H5 #####
 :iab H6 ######
+:iab Ha Hermes Agent
 :iab Hw hardware
 :iab Id identifier
 :iab Ids identifiers
@@ -72,6 +73,7 @@
 :iab VO Vetus Ordo
 :iab TLM Tridentine Latin Mass
 :iab Ob Obsidian
+:iab Oc OpenClaw
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
 :iab Os operating system
