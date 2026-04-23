@@ -19,7 +19,6 @@ install-ollama-models() {
     models=(
         "codellama:latest"
         "deepseek-v3.1:671b-cloud"
-        "dolphin3:latest"
         "gemini-3-flash-preview:cloud"
         "glm-5:cloud"
         "kimi-k2.5:cloud"
