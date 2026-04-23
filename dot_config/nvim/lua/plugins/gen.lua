@@ -2,7 +2,7 @@ return {
   -- "David-Kunz/gen.nvim",
   -- "srackham/gen.nvim",
   dir = "/home/srackham/projects/forks/gen.nvim",
-  enabled = true,
+  enabled = false,
   config = function()
 
     local gen = require "gen"
