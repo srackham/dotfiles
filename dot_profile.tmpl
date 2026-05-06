@@ -69,5 +69,13 @@ export GEMINI_API_KEY="{{ .secrets.gemini_api_key }}"
 export OPENROUTER_API_KEY="{{ .secrets.openrouter_api_key }}"
 
 # Start ZeroClaw daemon and detach from terminal
-zeroclaw daemon &
-disown
+# zeroclaw daemon
+
+# Start Ollama in a Podman container
+# podman start ollama & disown
+
+# Start Hermes Agent gateway
+if [ "$(hostname)" = "dell7090" ]; then
+    hermes gateway &
+    disown
+fi
