@@ -17,13 +17,11 @@ apply-dotfiles() {
 
 install-ollama-models() {
     models=(
-        "codellama:latest"
         "deepseek-v3.1:671b-cloud"
         "gemini-3-flash-preview:cloud"
         "glm-5:cloud"
         "kimi-k2.5:cloud"
         "minimax-m2.5:cloud"
-        "mistral:latest"
         "qwen3-coder:480b-cloud"
     )
     for model in "${models[@]}"; do
