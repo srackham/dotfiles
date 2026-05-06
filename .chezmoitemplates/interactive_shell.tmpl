@@ -122,6 +122,13 @@ alias ssh="wezterm ssh"
 alias stylua='stylua --config-path "$HOME/.config/nvim/stylua.toml"'
 alias stylua-all="stylua \$(find . -name '*.lua')" # Recursively format all .lua files in the current directory
 
+alias ha="hermes"  # Start new session
+alias hb="hermes sessions browse"  # Start new session
+alias hc="hermes --continue"  # Continue previous session
+alias hl="hermes sessions list"
+# alias hermes='podman exec -it hermes /opt/hermes/.venv/bin/hermes'
+# alias hermes='$HOME/hermes-install/hermes-agent/.venv/bin/hermes'
+
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
 alias pkgs="pacman -Sl --color=always | fzf --preview 'pacman -Si {2}'"
