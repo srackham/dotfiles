@@ -3,6 +3,7 @@
 -- Pull in the wezterm API
 local wezterm = require "wezterm"
 local act = wezterm.action
+local mux = wezterm.mux
 local config = wezterm.config_builder()
 
 -- Differentiate active pane
@@ -49,12 +50,238 @@ local function pane_at_index(window, index)
   return target_pane
 end
 
+-- Tab definitions
+local tabs = {
+  {
+    tab_name = "Notes",
+    shell_command_before = { "cd ~/notes" },
+    panes = {
+      {
+        shell_command = "nvim",
+      },
+      {
+        split = "Right",
+      },
+    },
+  },
+  {
+    tab_name = "Pi",
+    panes = {
+      {
+        shell_command = "pi --resume",
+      },
+      {
+        split = "Right",
+      },
+    },
+  },
+  {
+    tab_name = "Chezmoi",
+    shell_command_before = "cd ~/share/projects/chezmoi",
+    panes = {
+      {
+        shell_command = "nvim",
+      },
+      {
+        split = "Right",
+      },
+      {
+        shell_command = "lazygit",
+        split = "Bottom",
+      },
+    },
+  },
+  {
+    tab_name = "NixOS",
+    shell_command_before = "cd ~/share/projects/nixos-configurations",
+    panes = {
+      {
+        shell_command = "nvim",
+      },
+      {
+        split = "Right",
+      },
+      {
+        shell_command = "lazygit",
+        split = "Bottom",
+      },
+    },
+  },
+  {
+    tab_name = "PRS",
+    shell_command_before = "cd ~/share/methods/prs",
+    panes = {
+      {
+        shell_command = "nvim",
+      },
+      {
+        split = "Right",
+      },
+      {
+        shell_command = "lazygit",
+        split = "Bottom",
+      },
+    },
+  },
+  {
+    tab_name = "Tabsets",
+    shell_command_before = "cd ~/share/projects/tabsets.wezterm",
+    panes = {
+      {
+        shell_command = "nvim",
+      },
+      {
+        split = "Right",
+      },
+      {
+        shell_command = "lazygit",
+        split = "Bottom",
+      },
+    },
+  },
+  {
+    tab_name = "qanda.nvim",
+    shell_command_before = "cd ~/share/projects/qanda.nvim",
+    panes = {
+      {
+        shell_command = "nvim",
+      },
+      {
+        split = "Right",
+      },
+      {
+        shell_command = "lazygit",
+        split = "Bottom",
+      },
+    },
+  },
+  {
+    tab_name = "Example",
+    shell_command_before = { "cd ~/tmp" },
+    panes = {
+      {
+        shell_command = { "cd /var/log", "ls -al | grep \\.log" },
+      },
+      {
+        shell_command = { "echo second pane" },
+        split = "Right",
+        size = 0.45,
+      },
+      {
+        shell_command = "echo third pane",
+        split = "Bottom",
+        size = 0.5,
+      },
+    },
+  },
+}
+
+-- Tabs loader.
+local function apply_tab(tab_def, mux_win)
+
+  local system_shell = os.getenv "SHELL" or "bash"
+  local first_pane = nil
+  local tab = nil
+
+  local cmd_before = tab_def.shell_command_before or {}
+  if type(cmd_before) == "string" then
+    cmd_before = { cmd_before }
+  end
+
+  local last_pane = nil
+
+  for i, p_conf in ipairs(tab_def.panes or {}) do
+    local p_cmds = {}
+
+    -- Prepend "before" commands
+    for _, c in ipairs(cmd_before) do
+      table.insert(p_cmds, c)
+    end
+
+    -- Extract pane commands
+    local raw_cmd = p_conf.shell_command
+    if type(raw_cmd) == "table" then
+      for _, c in ipairs(raw_cmd) do
+        table.insert(p_cmds, c)
+      end
+    elseif type(raw_cmd) == "string" then
+      table.insert(p_cmds, raw_cmd)
+    end
+
+    -- The shell is executed when the pane commands finish so that the pane doesn't close.
+    local p_cmd_string = table.concat(p_cmds, " && ") .. "; exec " .. system_shell
+    local split_dir = p_conf.split or "Bottom"
+    local split_size = p_conf.size
+
+    if i == 1 then
+      -- Spawn the actual tab
+      tab, first_pane = mux_win:spawn_tab {
+        args = { system_shell, "-c", p_cmd_string },
+      }
+      if tab_def.tab_name then
+        tab:set_title(tab_def.tab_name)
+      end
+      last_pane = first_pane
+    elseif last_pane then
+      -- Split from the previous pane
+      last_pane = last_pane:split {
+        direction = split_dir,
+        size = split_size,
+        args = { system_shell, "-c", p_cmd_string },
+      }
+    end
+  end
+
+  -- Activate the first pane of this specific tab
+  if first_pane then
+    first_pane:activate()
+  end
+
+  return tab
+end
+
+local function apply_tabs(tab_defs, mux_win)
+  if not tab_defs or not mux_win then
+    return
+  end
+
+  local first_created_tab = nil
+
+  for i, tab_def in ipairs(tab_defs) do
+    local tab = apply_tab(tab_def, mux_win)
+
+    if i == 1 then
+      first_created_tab = tab
+    end
+  end
+
+  -- Activate the very first tab in the list
+  assert(first_created_tab)
+  -- Schedule this to execute after all the pane activations queued by `apply_tab` have settled
+  wezterm.time.call_after(0.1, function()
+    first_created_tab:activate()
+  end)
+end
+
 -- Key bindings
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = {
   { key = "a", mods = "CTRL|SHIFT", action = act.ActivateTab(1) }, -- Activate tab 2 (AI agent)
   { key = "(", mods = "CTRL|SHIFT", action = act.ActivateTab(8) }, -- Activate tab 9
   { key = ")", mods = "CTRL|SHIFT", action = act.ActivateTab(9) }, -- Activate tab 10
+
+  -- Load tab definitions
+  {
+    key = "t",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      -- Close the current tab (assumed empty, sitting at the shell prompt)
+      pane:send_text "exit\n"
+      -- This converts the GUI window handle into the Mux window handle
+      local mux_win = mux.get_window(win:window_id())
+      apply_tabs(tabs, mux_win)
+    end),
+  },
 
   -- Split horizontally (left/right)
   { key = "s", mods = "LEADER", action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
