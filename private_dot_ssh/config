@@ -1,0 +1,13 @@
+Host nuc1
+    User super
+    IdentityFile ~/.ssh/id_rsa
+    WarnWeakCrypto no-pq-kex
+
+Host nuc2
+    User super
+    IdentityFile ~/.ssh/id_rsa
+    WarnWeakCrypto no-pq-kex
+
+Host nuc3
+    User super
+    IdentityFile ~/.ssh/id_rsa
