@@ -391,6 +391,7 @@ local tabs = {
 }
 
 -- Tabs loader.
+-- Published as a Github Gist: https://gist.github.com/srackham/2004f9a0ac4e555deba548c2e7549f2b
 local function apply_tab(tab_def, mux_win)
 
   local system_shell = os.getenv "SHELL" or "bash"
@@ -413,7 +414,7 @@ local function apply_tab(tab_def, mux_win)
     if i == 1 then
       -- Spawn the tab
       tab, first_pane = mux_win:spawn_tab {
-        args = { system_shell, "-c", full_cmd },
+        args = { system_shell, "-ic", full_cmd },
       }
       if tab_def.tab_name then
         tab:set_title(tab_def.tab_name)
@@ -424,7 +425,7 @@ local function apply_tab(tab_def, mux_win)
       last_pane = last_pane:split {
         direction = split_dir,
         size = split_size,
-        args = { system_shell, "-c", full_cmd },
+        args = { system_shell, "-ic", full_cmd },
       }
     end
   end
@@ -459,7 +460,7 @@ local function apply_tabs(tab_defs, mux_win)
   end)
 end
 
--- Map <Leader>t key binding to load tab definitions
+-- Bind <Leader>t keys to load tab definitions
 local load_tabs = {
   key = "t",
   mods = "LEADER",
