@@ -33,6 +33,88 @@ config.audible_bell = "Disabled"
 -- Palette commands are accumulated in this table and then installed with the "augment-command-palette" event
 local palette_commands = {}
 
+-- Tab definitions
+local tabs = {
+  {
+    tab_name = "Notes",
+    shell_command_before = "cd ~/notes",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+    },
+  },
+  {
+    tab_name = "Pi",
+    panes = {
+      { shell_command = "pi --resume" },
+      { split = "Right" },
+    },
+  },
+  {
+    tab_name = "Chezmoi",
+    shell_command_before = "cd ~/share/projects/chezmoi",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+      { shell_command = "lazygit", split = "Bottom" },
+    },
+  },
+  {
+    tab_name = "NixOS",
+    shell_command_before = "cd ~/share/projects/nixos-configurations",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+      { shell_command = "lazygit", split = "Bottom" },
+    },
+  },
+  {
+    tab_name = "PRS",
+    shell_command_before = "cd ~/share/methods/prs",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+      { shell_command = "lazygit", split = "Bottom" },
+    },
+  },
+  {
+    tab_name = "Tabsets",
+    shell_command_before = "cd ~/share/projects/tabsets.wezterm",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+      { shell_command = "lazygit", split = "Bottom" },
+    },
+  },
+  {
+    tab_name = "qanda.nvim",
+    shell_command_before = "cd ~/share/projects/qanda.nvim",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+      { shell_command = "lazygit", split = "Bottom" },
+    },
+  },
+  {
+    tab_name = "Deno app",
+    shell_command_before = "cd ~/share/projects/deno-web-app",
+    panes = {
+      { shell_command = "nvim" },
+      { split = "Right" },
+      { shell_command = "lazygit", split = "Bottom" },
+    },
+  },
+  {
+    tab_name = "Example",
+    shell_command_before = "cd ~/tmp",
+    panes = {
+      { shell_command = "cd /var/log && ls -al | grep \\.log" },
+      { shell_command = "echo second pane", split = "Right", size = 0.45 },
+      { shell_command = "echo third pane", split = "Bottom", size = 0.3 },
+    },
+  },
+}
+
 -- Utility functions --
 
 -- Return the pane in the active tab with topological index (zero-based) or nil if it does not exist.
@@ -239,156 +321,10 @@ table.insert(palette_commands, {
   end),
 })
 
--- tabsets.wezterm plugin configuration.
-
--- local tabsets = wezterm.plugin.require "file:///home/srackham/share/projects/tabsets.wezterm"
-local tabsets = wezterm.plugin.require "https://github.com/srackham/tabsets.wezterm"
-
-tabsets.setup {
-  restore_colors = true,
-  restore_dimensions = true,
-  fuzzy_selector = true,
-}
-
-local default_tabset = "default"
-
--- Add tabsets key bindings
-wezterm.on("save_tabset", function(window)
-  tabsets.save_tabset(window)
-end)
-wezterm.on("load_tabset", function(window)
-  tabsets.load_tabset(window)
-end)
-wezterm.on("delete_tabset", function(window)
-  tabsets.delete_tabset(window)
-end)
-wezterm.on("rename_tabset", function(window)
-  tabsets.rename_tabset(window)
-end)
-wezterm.on("default_tabset", function(window)
-  tabsets.load_tabset_by_name(window, default_tabset)
-end)
-
-for _, v in ipairs {
-  { key = "S", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "save_tabset" } },
-  { key = "L", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "load_tabset" } },
-  { key = "D", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "delete_tabset" } },
-  { key = "R", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "rename_tabset" } },
-  { key = "T", mods = "LEADER|SHIFT", action = wezterm.action { EmitEvent = "default_tabset" } },
-} do
-  table.insert(config.keys, v)
-end
-
--- Add tabsets Palette bindings
-for _, v in ipairs {
-  {
-    brief = "Tabset: Save",
-    icon = "md_content_save",
-    action = wezterm.action_callback(tabsets.save_tabset),
-  },
-  {
-    brief = "Tabset: Load",
-    icon = "cod_terminal_tmux",
-    action = wezterm.action_callback(tabsets.load_tabset),
-  },
-  {
-    brief = "Tabset: Delete",
-    icon = "md_delete",
-    action = wezterm.action_callback(tabsets.delete_tabset),
-  },
-  {
-    brief = "Tabset: Rename",
-    icon = "md_rename_box",
-    action = wezterm.action_callback(tabsets.rename_tabset),
-  },
-  {
-    brief = "Tabset: Load default",
-    icon = "cod_terminal_tmux",
-    action = wezterm.action_callback(function(window)
-      tabsets.load_tabset_by_name(window, default_tabset)
-    end),
-  },
-} do
-  table.insert(palette_commands, v)
-end
-
 -- Install Palette commands
 wezterm.on("augment-command-palette", function()
   return palette_commands
 end)
-
--- Tab definitions
-local tabs = {
-  {
-    tab_name = "Notes",
-    shell_command_before = "cd ~/notes",
-    panes = {
-      { shell_command = "nvim" },
-      { split = "Right" },
-    },
-  },
-  {
-    tab_name = "Pi",
-    panes = {
-      { shell_command = "pi --resume" },
-      { split = "Right" },
-    },
-  },
-  {
-    tab_name = "Chezmoi",
-    shell_command_before = "cd ~/share/projects/chezmoi",
-    panes = {
-      { shell_command = "nvim" },
-      { split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "NixOS",
-    shell_command_before = "cd ~/share/projects/nixos-configurations",
-    panes = {
-      { shell_command = "nvim" },
-      { split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "PRS",
-    shell_command_before = "cd ~/share/methods/prs",
-    panes = {
-      { shell_command = "nvim" },
-      { split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "Tabsets",
-    shell_command_before = "cd ~/share/projects/tabsets.wezterm",
-    panes = {
-      { shell_command = "nvim" },
-      { split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "qanda.nvim",
-    shell_command_before = "cd ~/share/projects/qanda.nvim",
-    panes = {
-      { shell_command = "nvim" },
-      { split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "Example",
-    shell_command_before = "cd ~/tmp",
-    panes = {
-      { shell_command = "cd /var/log && ls -al | grep \\.log" },
-      { shell_command = "echo second pane", split = "Right", size = 0.45 },
-      { shell_command = "echo third pane", split = "Bottom", size = 0.3 },
-    },
-  },
-}
 
 -- Tabs loader.
 -- Published as a Github Gist: https://gist.github.com/srackham/2004f9a0ac4e555deba548c2e7549f2b
