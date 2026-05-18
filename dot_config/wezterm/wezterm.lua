@@ -100,7 +100,7 @@ local tabs = {
     shell_command_before = "cd ~/share/projects/deno-web-app",
     panes = {
       { shell_command = "nvim" },
-      { split = "Right" },
+      { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
   },
