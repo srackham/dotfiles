@@ -503,6 +503,46 @@ vim.keymap.set("n", "<leader>wm", toggle_maximize, {
   desc = "Toggle maximize window",
 })
 
+local win_maxheight = false
+local win_saved_height = 0
+
+local function toggle_maximize_height()
+  if not win_maxheight then
+    win_saved_height = vim.fn.winheight(0)
+    vim.cmd "resize +999"
+    win_maxheight = true
+  else
+    vim.cmd("resize " .. win_saved_height)
+    win_maxheight = false
+  end
+end
+
+vim.keymap.set("n", "<leader>wh", toggle_maximize_height, {
+  noremap = true,
+  silent = true,
+  desc = "Toggle maximize window height",
+})
+
+local win_maxwidth = false
+local win_saved_width = 0
+
+local function toggle_maximize_width()
+  if not win_maxwidth then
+    win_saved_width = vim.fn.winwidth(0)
+    vim.cmd "vertical resize +999"
+    win_maxwidth = true
+  else
+    vim.cmd("vertical resize " .. win_saved_width)
+    win_maxwidth = false
+  end
+end
+
+vim.keymap.set("n", "<leader>ww", toggle_maximize_width, {
+  noremap = true,
+  silent = true,
+  desc = "Toggle maximize window width",
+})
+
 -- Function to toggle window orientation
 local function toggle_window_orientation()
   -- Get the current window layout
