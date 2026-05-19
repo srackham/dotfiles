@@ -40,6 +40,7 @@ local tabs = {
     shell_command_before = "cd ~/notes",
     panes = {
       { shell_command = "nvim" },
+      { shell_command = "pi -c", split = "Right" },
       { split = "Right" },
     },
   },
@@ -55,7 +56,7 @@ local tabs = {
     shell_command_before = "cd ~/share/projects/chezmoi",
     panes = {
       { shell_command = "nvim" },
-      { split = "Right" },
+      { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
   },
