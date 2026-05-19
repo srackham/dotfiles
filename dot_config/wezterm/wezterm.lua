@@ -170,6 +170,12 @@ config.keys = {
   -- Alt+f: toggle pane full-screen (zoom)
   { key = "f", mods = "ALT", action = act.TogglePaneZoomState },
 
+  -- Adjust pane sizes
+  { key = "H", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Left", 33 } },
+  { key = "J", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Down", 33 } },
+  { key = "K", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Up", 33 } },
+  { key = "L", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Right", 33 } },
+
   -- Alt+p: previous active tab (jump back to the last active tab)
   { key = "p", mods = "ALT", action = act.ActivateLastTab },
 
