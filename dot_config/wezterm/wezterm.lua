@@ -41,14 +41,7 @@ local tabs = {
     panes = {
       { shell_command = "nvim" },
       { shell_command = "pi -c", split = "Right" },
-      { split = "Right" },
-    },
-  },
-  {
-    tab_name = "Pi",
-    panes = {
-      { shell_command = "pi --resume" },
-      { split = "Right" },
+      { split = "Bottom" },
     },
   },
   {
