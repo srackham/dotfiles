@@ -140,6 +140,9 @@ config.keys = {
   { key = "(", mods = "CTRL|SHIFT", action = act.ActivateTab(8) }, -- Activate tab 9
   { key = ")", mods = "CTRL|SHIFT", action = act.ActivateTab(9) }, -- Activate tab 10
 
+  -- Show debug overlay
+  { key = "d", mods = "CTRL|SHIFT", action = act.ShowDebugOverlay },
+
   -- Split horizontally (left/right)
   { key = "s", mods = "LEADER", action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
 
@@ -171,10 +174,10 @@ config.keys = {
   { key = "f", mods = "ALT", action = act.TogglePaneZoomState },
 
   -- Adjust pane sizes
-  { key = "H", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Left", 33 } },
-  { key = "J", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Down", 33 } },
-  { key = "K", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Up", 33 } },
-  { key = "L", mods = "ALT|SHIFT", action = act.AdjustPaneSize { "Right", 33 } },
+  { key = "H", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Left", 33 } },
+  { key = "J", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Down", 33 } },
+  { key = "K", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Up", 33 } },
+  { key = "L", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Right", 33 } },
 
   -- Alt+p: previous active tab (jump back to the last active tab)
   { key = "p", mods = "ALT", action = act.ActivateLastTab },
