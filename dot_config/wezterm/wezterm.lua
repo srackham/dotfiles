@@ -166,6 +166,26 @@ config.keys = {
   -- Alt+f: toggle pane full-screen (zoom)
   { key = "f", mods = "ALT", action = act.TogglePaneZoomState },
 
+  -- Alt+o: Select pane 2 and maximize height
+  {
+    key = "o",
+    mods = "ALT",
+    action = wezterm.action.Multiple {
+      act.ActivatePaneByIndex(1),
+      act.AdjustPaneSize { "Down", 999 },
+    },
+  },
+
+  -- Alt+Shift+o: Select pane 3 and maximize height
+  {
+    key = "O",
+    mods = "SHIFT|ALT",
+    action = wezterm.action.Multiple {
+      act.ActivatePaneByIndex(2),
+      act.AdjustPaneSize { "Up", 999 },
+    },
+  },
+
   -- Adjust pane sizes
   { key = "H", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Left", 33 } },
   { key = "J", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Down", 33 } },
