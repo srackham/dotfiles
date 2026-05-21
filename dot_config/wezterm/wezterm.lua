@@ -72,8 +72,8 @@ local tabs = {
     },
   },
   {
-    tab_name = "Tabsets",
-    shell_command_before = "cd ~/share/projects/tabsets.wezterm",
+    tab_name = "HTMX Todo",
+    shell_command_before = "cd ~/share/projects/htmx-todos",
     panes = {
       { shell_command = "nvim" },
       { split = "Right" },
@@ -124,6 +124,21 @@ local function pane_at_index(window, index)
     end
   end
   return target_pane
+end
+
+local toggle_maximise_panes_state = false
+
+local function toggle_maximise_panes(window, pane)
+  toggle_maximise_panes_state = not toggle_maximise_panes_state
+  local target_idx = toggle_maximise_panes_state and 2 or 1
+  local direction = toggle_maximise_panes_state and "Up" or "Down"
+  window:perform_action(
+    wezterm.action.Multiple {
+      act.ActivatePaneByIndex(target_idx),
+      act.AdjustPaneSize { direction, 999 },
+    },
+    pane
+  )
 end
 
 -- Key bindings
@@ -185,6 +200,9 @@ config.keys = {
       act.AdjustPaneSize { "Up", 999 },
     },
   },
+
+  -- Toggle-maximise the height of left hand panes
+  { key = ";", mods = "ALT", action = wezterm.action_callback(toggle_maximise_panes) },
 
   -- Adjust pane sizes
   { key = "H", mods = "CTRL|SHIFT", action = act.AdjustPaneSize { "Left", 33 } },
