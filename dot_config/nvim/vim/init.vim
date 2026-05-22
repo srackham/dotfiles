@@ -59,6 +59,7 @@
 :iab Imo In my opinion
 :iab Info information
 :iab Jj Jujutsu
+:iab Js JavaScript
 :iab Kjv King James Version
 :iab Lh left hand
 :iab Lhs left hand side
@@ -69,6 +70,7 @@
 :iab Lv LazyVim
 :iab Mk Markdown
 :iab Nv Neovim
+:iab Nj Node.js
 :iab NO Novus Ordo
 :iab VO Vetus Ordo
 :iab TLM Tridentine Latin Mass
@@ -95,6 +97,7 @@
 :iab STM Saint Thomas More Church
 :iab Tbsp tablespoon
 :iab Tsp teaspoon
+:iab Ts TypeScript
 :iab Ui user interface
 :iab Uk United Kingdom
 :iab Usa United States of America
