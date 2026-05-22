@@ -44,9 +44,9 @@ return {
 
     -- Key mappings for commonly used custom prompt templates --
     -- Convention: 2nd letter in uppercase
-    vim.keymap.set({ "n", "v" }, "<Leader>lD", "<Cmd>Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lL", "<Cmd>Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lS", "<Cmd>Qanda Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lD", ":Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lL", ":Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
+    vim.keymap.set({ "n", "v" }, "<Leader>lS", ":Qanda Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
 
   end,
 }
