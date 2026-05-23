@@ -58,7 +58,7 @@ local tabs = {
     shell_command_before = "cd ~/share/projects/nixos-configurations",
     panes = {
       { shell_command = "nvim" },
-      { split = "Right" },
+      { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
   },
@@ -67,7 +67,7 @@ local tabs = {
     shell_command_before = "cd ~/share/methods/prs",
     panes = {
       { shell_command = "nvim" },
-      { split = "Right" },
+      { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
   },
@@ -76,7 +76,7 @@ local tabs = {
     shell_command_before = "cd ~/share/projects/htmx-todos",
     panes = {
       { shell_command = "nvim" },
-      { split = "Right" },
+      { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
   },
@@ -85,7 +85,7 @@ local tabs = {
     shell_command_before = "cd ~/share/projects/qanda.nvim",
     panes = {
       { shell_command = "nvim" },
-      { split = "Right" },
+      { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
   },
