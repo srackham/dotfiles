@@ -34,80 +34,37 @@ config.audible_bell = "Disabled"
 local palette_commands = {}
 
 -- Tab definitions
-local tabs = {
-  {
-    tab_name = "Notes",
-    shell_command_before = "cd ~/notes",
-    panes = {
-      { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "Chezmoi",
-    shell_command_before = "cd ~/share/projects/chezmoi",
+local tabs = {}
+
+-- Append a normative 3-pane tab to the tabs definitions
+local function append_tab(name, path)
+  table.insert(tabs, {
+    tab_name = name,
+    shell_command_before = path,
     panes = {
       { shell_command = "nvim" },
       { shell_command = "pi -c", split = "Right" },
       { shell_command = "lazygit", split = "Bottom" },
     },
+  })
+end
+
+append_tab("Notes", "cd ~/notes")
+append_tab("Chezmoi", "cd ~/share/projects/chezmoi")
+append_tab("NixOS", "cd ~/share/projects/nixos-configurations")
+append_tab("PRS", "cd ~/share/methods/prs")
+append_tab("HTMX Todo", "cd ~/share/projects/htmx-todos")
+append_tab("qanda.nvim", "cd ~/share/projects/qanda.nvim")
+append_tab("Deno app", "cd ~/share/projects/deno-web-app")
+table.insert(tabs, {
+  tab_name = "Example",
+  shell_command_before = "cd ~/tmp",
+  panes = {
+    { shell_command = "cd /var/log && ls -al | grep \\.log" },
+    { shell_command = "echo second pane", split = "Right", size = 0.45 },
+    { shell_command = "echo third pane", split = "Bottom", size = 0.3 },
   },
-  {
-    tab_name = "NixOS",
-    shell_command_before = "cd ~/share/projects/nixos-configurations",
-    panes = {
-      { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "PRS",
-    shell_command_before = "cd ~/share/methods/prs",
-    panes = {
-      { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "HTMX Todo",
-    shell_command_before = "cd ~/share/projects/htmx-todos",
-    panes = {
-      { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "qanda.nvim",
-    shell_command_before = "cd ~/share/projects/qanda.nvim",
-    panes = {
-      { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "Deno app",
-    shell_command_before = "cd ~/share/projects/deno-web-app",
-    panes = {
-      { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
-    },
-  },
-  {
-    tab_name = "Example",
-    shell_command_before = "cd ~/tmp",
-    panes = {
-      { shell_command = "cd /var/log && ls -al | grep \\.log" },
-      { shell_command = "echo second pane", split = "Right", size = 0.45 },
-      { shell_command = "echo third pane", split = "Bottom", size = 0.3 },
-    },
-  },
-}
+})
 
 -- Utility functions --
 
