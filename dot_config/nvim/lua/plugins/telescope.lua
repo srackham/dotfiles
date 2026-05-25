@@ -73,10 +73,12 @@ return {
           no_ignore = true,
         }
       end, { desc = "Find all files (hidden and those in .gitignore)" })
-      vim.keymap.set({ "n", "v" }, "<Leader>fg", live_grep, { desc = "Live-grep files (includes hidden files)" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fg", function()
+        live_grep { "--ignore-case" }
+      end, { desc = "Live-grep files (case insensitive; includes hidden files)" })
       vim.keymap.set({ "n", "v" }, "<Leader>fG", function()
-        live_grep { "--no-ignore" }
-      end, { desc = "Live-grep files (includes hidden and .gitignore files)" })
+        live_grep { "--no-ignore", "--ignore-case" }
+      end, { desc = "Live-grep files (case insensitive; includes hidden and .gitignore files)" })
 
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
