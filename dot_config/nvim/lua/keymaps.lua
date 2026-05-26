@@ -584,7 +584,64 @@ end
 vim.keymap.set("n", "<leader>wf", float_current_window, { desc = "Float current window" })
 
 -- Terminal commands --
-vim.keymap.set("n", "<Leader>to", "<Cmd>terminal<CR>i", { noremap = true, silent = true, desc = "Open a new terminal buffer" })
+local state = {
+  floating = {
+    buf = -1,
+    win = -1,
+  },
+}
+
+local function create_floating_window(opts)
+  opts = opts or {}
+  -- Get current screen dimensions
+  local width = opts.width or math.floor(vim.o.columns * 0.8)
+  local height = opts.height or math.floor(vim.o.lines * 0.8)
+
+  -- Calculate centered position
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
+
+  -- Create a valid buffer
+  local buf = nil
+  if vim.api.nvim_buf_is_valid(opts.buf) then
+    buf = opts.buf
+  else
+    buf = vim.api.nvim_create_buf(false, true) -- No file, scratch buffer
+  end
+
+  -- Window configuration
+  local win_config = {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+    style = "minimal",
+    border = "rounded",
+  }
+
+  local win = vim.api.nvim_open_win(buf, true, win_config)
+
+  return { buf = buf, win = win }
+end
+
+local function toggle_terminal()
+  if not vim.api.nvim_win_is_valid(state.floating.win) then
+    -- If window doesn't exist, create it
+    state.floating = create_floating_window { buf = state.floating.buf }
+    if vim.bo[state.floating.buf].buftype ~= "terminal" then
+      vim.cmd.term() -- Open terminal if it's a new buffer
+    end
+    -- Automatically enter Insert mode when opening
+    vim.cmd "startinsert"
+  else
+    -- If window is open, hide it (but keep the buffer alive)
+    vim.api.nvim_win_hide(state.floating.win)
+  end
+end
+
+vim.keymap.set({ "n", "t" }, "<C-t>", toggle_terminal, { desc = "Toggle Floating Terminal" })
+vim.keymap.set({ "n", "t" }, "<Leader>tt", toggle_terminal, { desc = "Toggle Floating Terminal" })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
 
 -- Quickfix commands --
