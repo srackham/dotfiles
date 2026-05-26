@@ -7,7 +7,16 @@ return {
       "neovim/nvim-lspconfig",
     },
     opts = {
-      ensure_installed = { "gopls", "jsonls", "lua_ls", "ts_ls", "denols", "bashls" },
+      ensure_installed = {
+        "gopls",
+        "jsonls",
+        "lua_ls",
+        "ts_ls",
+        "denols",
+        "bashls",
+        "html",
+        "cssls",
+      },
     },
   },
 }
