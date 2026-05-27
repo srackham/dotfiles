@@ -43,8 +43,8 @@ local function append_tab(name, path)
     shell_command_before = path,
     panes = {
       { shell_command = "nvim" },
-      { shell_command = "pi -c", split = "Right" },
-      { shell_command = "lazygit", split = "Bottom" },
+      { shell_command = "pi -c", split = "Right", size = 0.5 },
+      { shell_command = "lazygit", split = "Bottom", size = 0.5 },
     },
   })
 end
@@ -55,7 +55,6 @@ append_tab("NixOS", "cd ~/share/projects/nixos-configurations")
 append_tab("PRS", "cd ~/share/methods/prs")
 append_tab("HTMX Todo", "cd ~/share/projects/htmx-todos")
 append_tab("qanda.nvim", "cd ~/share/projects/qanda.nvim")
-append_tab("Deno app", "cd ~/share/projects/deno-web-app")
 table.insert(tabs, {
   tab_name = "Example",
   shell_command_before = "cd ~/tmp",
