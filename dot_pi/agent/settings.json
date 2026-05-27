@@ -1,6 +1,9 @@
 {
-  "lastChangelogVersion": "0.75.4",
+  "lastChangelogVersion": "0.76.0",
   "defaultProvider": "openrouter",
-  "defaultModel": "google/gemini-3.5-flash",
-  "defaultThinkingLevel": "high"
+  "defaultModel": "google/gemini-2.5-flash",
+  "defaultThinkingLevel": "high",
+  "packages": [
+    "npm:pi-voice-stt"
+  ]
 }
