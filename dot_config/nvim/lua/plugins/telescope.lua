@@ -98,7 +98,6 @@ return {
       vim.keymap.set({ "n", "v" }, "<Leader>fr", builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set({ "n", "v" }, "<Leader>hh", builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set({ "n", "v" }, "<Leader>fp", function()
-
         builtin.live_grep {
           cwd = vim.fn.stdpath "data" .. "/lazy/",
         }
