@@ -626,6 +626,7 @@ local function create_floating_window(opts)
 end
 
 local function toggle_terminal()
+  vim.cmd "wa" -- Save all modified buffers
   if not vim.api.nvim_win_is_valid(state.floating.win) then
     -- If window doesn't exist, create it
     state.floating = create_floating_window { buf = state.floating.buf }
