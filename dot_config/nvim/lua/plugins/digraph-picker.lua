@@ -34,6 +34,8 @@ return {
         { digraph = "la", symbol = "←", name = "Left arrow" },
         { digraph = "le", symbol = "≤", name = "Less than or equal" },
         { digraph = "lq", symbol = "“", name = "Left double quote" },
+        { digraph = "mf", symbol = "♭", name = "Music flat sign" },
+        { digraph = "ms", symbol = "♯", name = "Music sharp sign" },
         { digraph = "mn", symbol = "☽", name = "Moon" },
         { digraph = "ne", symbol = "≠", name = "Not equal" },
         { digraph = "pi", symbol = "π", name = "Pi" },
