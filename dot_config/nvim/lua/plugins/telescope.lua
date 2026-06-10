@@ -127,6 +127,12 @@ return {
         require("telescope.builtin").lsp_dynamic_workspace_symbols { symbols = symbols }
       end, { noremap = true, silent = true, desc = "Live-grep workspace symbols" })
 
+      vim.keymap.set("n", "<leader>fb", function()
+        require("telescope.builtin").live_grep {
+          search_dirs = { vim.fn.expand "%:p" },
+        }
+      end, { desc = "Live grep current buffer" })
+
       local function inject_file()
         -- local builtin = require "telescope.builtin"
         local actions = require "telescope.actions"
