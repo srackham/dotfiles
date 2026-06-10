@@ -1,12 +1,14 @@
 {
-  "lastChangelogVersion": "0.78.0",
+  "lastChangelogVersion": "0.79.0",
   "defaultProvider": "openrouter",
-  "defaultModel": "google/gemini-2.5-flash",
+  "defaultModel": "minimax/minimax-m3",
   "defaultThinkingLevel": "high",
   "packages": [],
   "enabledModels": [
+    "openrouter/perplexity/sonar",
     "openrouter/google/gemini-2.5-flash",
     "openrouter/minimax/minimax-m2.7",
+    "openrouter/minimax/minimax-m3",
     "openrouter/google/gemini-3.5-flash",
     "openrouter/anthropic/claude-sonnet-4.6",
     "openrouter/anthropic/claude-opus-4.6"

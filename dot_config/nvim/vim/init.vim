@@ -72,6 +72,7 @@
 :iab Nv Neovim
 :iab Nj Node.js
 :iab NO Novus Ordo
+:iab Nz New Zealand
 :iab VO Vetus Ordo
 :iab TLM Tridentine Latin Mass
 :iab Ob Obsidian
@@ -94,6 +95,7 @@
 :iab Rh right hand
 :iab Rhs right hand side
 :iab St Saint
+:iab Stt speech-to-text
 :iab STM Saint Thomas More Church
 :iab Tbsp tablespoon
 :iab Tsp teaspoon

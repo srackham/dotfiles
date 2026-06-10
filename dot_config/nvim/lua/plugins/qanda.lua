@@ -18,6 +18,7 @@ return {
         ollama = { temperature = 0.4 },
       },
       confirm_chat_file_deletion = false,
+      filter_mode = "substring",
     }
 
     -- Key mappings for builtin commands --
