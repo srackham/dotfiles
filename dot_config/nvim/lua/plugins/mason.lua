@@ -16,6 +16,7 @@ return {
         "bashls",
         "html",
         "cssls",
+        "pyright",
       },
     },
   },
