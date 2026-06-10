@@ -75,8 +75,8 @@ export GROQ_API_KEY="{{ .secrets.groq_api_key }}"
 # Start Ollama in a Podman container
 # podman start ollama & disown
 
-# Start Hermes Agent gateway
-if [ "$(hostname)" = "dell7090" ]; then
-    hermes gateway &
-    disown
-fi
+# # Start Hermes Agent gateway
+# if [ "$(hostname)" = "dell7090" ]; then
+#     hermes gateway &
+#     disown
+# fi
