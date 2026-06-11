@@ -63,9 +63,8 @@ return {
           additional_args = additional_args,
         }
       end
-      vim.keymap.set({ "n", "v" }, "<Leader>bb", list_buffers, { desc = "List buffers" })
+      vim.keymap.set({ "n", "v" }, "<Leader>bl", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>.", list_buffers, { desc = "List buffers" })
-      vim.keymap.set({ "n", "v" }, "<Leader>fo", list_oldfiles, { desc = "List previously opened files" })
       vim.keymap.set({ "n", "v" }, "<Leader>ff", find_files, { desc = "Find files" })
       vim.keymap.set({ "n", "v" }, "<Leader>fF", function()
         builtin.find_files {

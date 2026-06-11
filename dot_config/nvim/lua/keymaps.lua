@@ -691,6 +691,10 @@ vim.keymap.set("n", "<Leader>sa", "ggVG", { noremap = true, silent = true, desc 
 vim.keymap.set("n", "<Leader>sf", "?^```<CR>jV/^```<CR>k", { noremap = true, silent = true, desc = "Select fenced block" })
 
 -- Additional miscellaneous commands --
+vim.keymap.set("n", "<leader>fo", function()
+  vim.ui.open(vim.fn.expand "%:p")
+end, { desc = "Open current file in the associated application" })
+
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath "config" .. "/vim/init.vim",
   command = "abc | source <afile>",
