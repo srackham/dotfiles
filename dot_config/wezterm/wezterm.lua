@@ -52,7 +52,8 @@ end
 append_tab("Notes", "cd ~/notes")
 append_tab("Chezmoi", "cd ~/share/projects/chezmoi")
 append_tab("NixOS", "cd ~/share/projects/nixos-configurations")
-append_tab("PRS", "cd ~/share/methods/prs")
+append_tab("PRS Dev", "cd ~/share/methods/prs")
+append_tab("PRS Website", "cd ~/share/methods/prs/prs-website")
 append_tab("HTMX Todo", "cd ~/share/projects/htmx-todos")
 append_tab("qanda.nvim", "cd ~/share/projects/qanda.nvim")
 table.insert(tabs, {
