@@ -40,14 +40,17 @@ return {
         end,
       })
 
+      -- Don't include terminal window buffers in buffer lists
+      vim.api.nvim_create_autocmd("TermOpen", {
+        callback = function()
+          vim.opt_local.buflisted = false
+        end,
+      })
+
       -- Key bindings
       local list_buffers = function()
         vim.cmd "OutlineFocusCode"
         builtin.buffers { sort_mru = true, ignore_current_buffer = true }
-      end
-      local list_oldfiles = function()
-        vim.cmd "OutlineFocusCode"
-        builtin.oldfiles { sort_mru = true, ignore_current_buffer = true }
       end
       local find_files = function()
         vim.cmd "OutlineFocusCode"
