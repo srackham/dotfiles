@@ -1,0 +1,13 @@
+[tools]
+age = "latest"
+fnox = "latest"
+
+[env]
+# mise secrets management
+FNOX_CONFIG = "~/.config/fnox/fnox.toml"
+
+# Evaluates on the fly when any shell or task asks for this key
+OPENROUTER_API_KEY = "{{exec('fnox get -c ~/.config/fnox/fnox.toml OPENROUTER_API_KEY')}}"
+GEMINI_API_KEY = "{{exec('fnox get -c ~/.config/fnox/fnox.toml GEMINI_API_KEY')}}"
+OLLAMA_CLOUD_API_KEY = "{{exec('fnox get -c ~/.config/fnox/fnox.toml OLLAMA_CLOUD_API_KEY')}}"
+GROQ_API_KEY = "{{exec('fnox get -c ~/.config/fnox/fnox.toml GROQ_API_KEY')}}"
