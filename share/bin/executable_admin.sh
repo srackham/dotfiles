@@ -31,13 +31,15 @@ install-ollama-models() {
     done
 }
 
-update-ollama-models() {
-    ollama list | awk 'NR>1 {print $1}' | while read -r model; do
-        if [[ -n "$model" ]]; then
-            echo "Updating model: $model"
-            ollama pull "$model"
-            echo "--"
-        fi
+install-mise-tools() {
+    tools=(
+        "age@latest"
+        "fnox@latest"
+    )
+    for tool in "${tools[@]}"; do
+        echo "Installing mise tool: $tool"
+        mise use --global "$tool"
+        echo "--"
     done
 }
 
@@ -92,8 +94,8 @@ gnome-settings() {
 # Define admin task menu items
 tasks=(
     "Apply Chezmoi dot files::apply-dotfiles"
-    "Install Ollama models::install-ollama-models"
-    "Update Ollama models::update-ollama-models"
+    "Install/Update Ollama models::install-ollama-models"
+    "Install/Update mise tools::install-mise-tools"
     'Install Lazyvim plugins::nvim-plugins'
     "Install other applications::install-other"
     "Load GNOME keyboard shortcuts::gnome-settings"
