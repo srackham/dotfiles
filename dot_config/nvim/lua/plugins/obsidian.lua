@@ -1,10 +1,7 @@
 return {
-  -- "srackham/obsidian.nvim",
-  -- branch = "case_insensitive_tag_picker",
-
   "obsidian-nvim/obsidian.nvim",
   -- version = "*",   -- Use latest release instead of latest commit
-  version = "3.14.8", -- Because 3.15.0 has :Obsidian new_from_template regression
+  version = "3.*",
 
   lazy = true,
   ft = "markdown",
@@ -39,7 +36,7 @@ return {
         {
           -- PRS development and documentation
           name = "prs",
-         path = "~/share/methods/prs",
+          path = "~/share/methods/prs",
         },
         {
           -- For Obsidian experimentation and testing on local (non-NFS) drive
