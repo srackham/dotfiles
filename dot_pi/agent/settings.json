@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.79.4",
+  "lastChangelogVersion": "0.79.5",
   "defaultProvider": "openrouter",
   "defaultModel": "google/gemini-2.5-flash",
   "defaultThinkingLevel": "high",
