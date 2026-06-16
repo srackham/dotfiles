@@ -6,6 +6,8 @@ local act = wezterm.action
 local mux = wezterm.mux
 local config = wezterm.config_builder()
 
+config.term = "wezterm"
+
 -- Differentiate active pane
 -- As of 02-Dec-2025 the is no way to set the active pane border color, only the HSB value
 config.inactive_pane_hsb = {
