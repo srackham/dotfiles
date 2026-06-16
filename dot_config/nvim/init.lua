@@ -38,6 +38,15 @@ vim.filetype.add {
   },
 }
 
+-- nvim-treesitter highlighting and indentation
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "<filetype>" },
+  callback = function()
+    vim.treesitter.start()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
 -- Load abbreviations et al
 vim.cmd("source " .. vim.g.vim_init_file)
 

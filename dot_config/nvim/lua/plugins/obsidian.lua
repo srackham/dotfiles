@@ -50,16 +50,12 @@ return {
         },
       },
       attachments = {
-        img_folder = "images",
+        folder = "images",
       },
       templates = {
         folder = "templates",
         date_format = "%Y-%m-%d",
         time_format = "%H:%M",
-      },
-      completion = {
-        blink = true, -- Enables completion using blink.cmp
-        min_chars = 0, -- Completion trigger length
       },
       daily_notes = {
         folder = "journal",

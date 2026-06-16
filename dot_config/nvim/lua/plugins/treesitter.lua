@@ -1,47 +1,35 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  enabled = false,
-  version = "0.10.*",
+  enabled = true,
+  branch = "main",
+  lazy = false,
   build = ":TSUpdate",
   config = function()
-    local configs = require "nvim-treesitter.configs"
-    configs.setup {
-      ensure_installed = {
-        "bash",
-        "c",
-        "css",
-        "gleam",
-        "go",
-        "gotmpl",
-        "html",
-        "javascript",
-        "json",
-        "jsonc",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "powershell",
-        "python",
-        "query",
-        "rust",
-        "templ",
-        "toml",
-        "typescript",
-        "vim",
-        "vimdoc",
-        "yaml",
-      },
-      highlight = { enable = true },
-      indent = { enable = true },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<M-k>", -- Start selection
-          node_incremental = "<M-k>", -- Expand to next node
-          scope_incremental = false, -- Expand by scope
-          node_decremental = "<M-j>", -- Shrink selection
-        },
-      },
+    local ts = require "nvim-treesitter"
+    ts.setup {}
+    ts.install {
+      "bash",
+      "c",
+      "css",
+      "gleam",
+      "go",
+      "gotmpl",
+      "html",
+      "javascript",
+      "json",
+      "lua",
+      "markdown",
+      "markdown_inline",
+      "powershell",
+      "python",
+      "query",
+      "rust",
+      "templ",
+      "toml",
+      "typescript",
+      "vim",
+      "vimdoc",
+      "yaml",
     }
   end,
 }
