@@ -44,10 +44,10 @@ return {
     vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
     -- Key mappings for commonly used custom prompt templates --
-    -- Convention: 2nd letter in uppercase
-    vim.keymap.set({ "n", "v" }, "<Leader>lD", ":Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lL", ":Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lS", ":Qanda Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ad", ":Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
+    vim.keymap.set({ "n", "v" }, "<Leader>al", ":Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
+    vim.keymap.set({ "n", "v" }, "<Leader>as", ":Qanda Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aS", ":Qanda Spell a word<CR>", { desc = "Qanda.nvim spell a word" })
 
   end,
 }
