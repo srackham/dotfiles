@@ -263,6 +263,12 @@ end, {
   silent = true,
 })
 
+-- Visual mode incremental selection (Neovim 0.12)
+vim.keymap.set("v", "<M-k>", "an", { remap = true, desc = "Incremental selection: outer node" })
+vim.keymap.set("v", "<M-j>", "in", { remap = true, desc = "Incremental selection: inner node" })
+vim.keymap.set("v", "<M-S-k>", "[n", { remap = true, desc = "Incremental selection: previous node" })
+vim.keymap.set("v", "<M-S-j>", "]n", { remap = true, desc = "Incremental selection: next node" })
+
 -- Formatter commands --
 
 vim.keymap.set("n", "<Leader>cf", function()
