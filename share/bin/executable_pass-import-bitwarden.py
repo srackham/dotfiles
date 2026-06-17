@@ -3,6 +3,7 @@
 # Import Bitwarden CSV file into the pass password manager.
 
 import csv
+import os
 import subprocess
 import sys
 
@@ -21,13 +22,23 @@ def main():
             password = row["login_password"]
             notes = row.get("notes", "")
 
-            content = f"{password}\nlogin: {username}\n\n{notes}\n"
+            if row.get("type") == "note":
+                content = f"{notes}\n"
+                pass_name = f"bitwarden/notes/{name}"
+            else:
+                content = f"{password}\nlogin: {username}\n\n{notes}\n"
+                pass_name = f"bitwarden/logins/{name}"
 
             subprocess.run(
-                ["pass", "insert", "--force", "--multiline", name],
+                ["pass", "insert", "--force", "--multiline", pass_name],
                 input=content.encode(),
                 check=True,
             )
+
+    answer = input(f"Shred and delete '{csv_path}'? [Y/n] ").strip().lower()
+    if answer in ("", "y", "yes"):
+        subprocess.run(["shred", "--remove", csv_path], check=True)
+        print(f"Shredded and deleted '{csv_path}'.")
 
 
 if __name__ == "__main__":
