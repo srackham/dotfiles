@@ -1,14 +1,12 @@
-local util = require "lspconfig.util"
-
 return {
-  -- If the project has a deno.json or deno.jsonc file in the hierarchy, the function returns nil.
-  -- This excludes ts_ls activation in Deno projects and avoids conflicts with Deno's own language server.
-  root_dir = function(fname)
-    if util.root_pattern("deno.json", "deno.jsonc")(fname) then
-      return nil -- exclude ts_ls in Deno projects
-    else
-      return util.root_pattern "package.json"(fname)
+  root_dir = function(bufnr, on_dir)
+    -- Exclude Deno projects
+    if vim.fs.root(bufnr, { "deno.json", "deno.jsonc" }) then
+      return
+    end
+    local root = vim.fs.root(bufnr, { "package.json", "tsconfig.json" })
+    if root then
+      on_dir(root)
     end
   end,
-  single_file_support = false,
 }

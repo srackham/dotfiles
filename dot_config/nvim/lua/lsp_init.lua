@@ -19,6 +19,7 @@ vim.lsp.enable {
 -- Shared diagnostic config
 vim.diagnostic.config {
   virtual_text = true,
+  severity_sort = true, -- Highly recommended in 0.12 to prioritize errors over warnings/hints in UI
 }
 
 -- LSP related keymaps
