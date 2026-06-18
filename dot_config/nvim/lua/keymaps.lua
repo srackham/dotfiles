@@ -269,6 +269,12 @@ vim.keymap.set("v", "<M-j>", "in", { remap = true, desc = "Incremental selection
 vim.keymap.set("v", "<M-S-k>", "[n", { remap = true, desc = "Incremental selection: previous node" })
 vim.keymap.set("v", "<M-S-j>", "]n", { remap = true, desc = "Incremental selection: next node" })
 
+-- Normal mode equivalents that first enter visual mode before performing the selection
+vim.keymap.set("n", "<M-k>", "van", { remap = true, desc = "Incremental selection: outer node (from normal mode)" })
+vim.keymap.set("n", "<M-j>", "vin", { remap = true, desc = "Incremental selection: inner node (from normal mode)" })
+vim.keymap.set("n", "<M-S-k>", "v[n", { remap = true, desc = "Incremental selection: previous node (from normal mode)" })
+vim.keymap.set("n", "<M-S-j>", "v]n", { remap = true, desc = "Incremental selection: next node (from normal mode)" })
+
 -- Formatter commands --
 
 vim.keymap.set("n", "<Leader>cf", function()
