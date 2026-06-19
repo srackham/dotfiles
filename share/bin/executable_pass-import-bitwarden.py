@@ -3,7 +3,6 @@
 # Import Bitwarden CSV file into the pass password manager.
 
 import csv
-import os
 import subprocess
 import sys
 

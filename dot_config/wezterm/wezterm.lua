@@ -67,7 +67,7 @@ table.insert(tabs, {
     { shell_command = "echo third pane", split = "Bottom", size = 0.3 },
   },
 })
-append_tab("Python STT", "cd ~/projects/experiments/stt")
+append_tab("Hello TS", "cd ~/projects/hello/hello-typescript")
 
 -- Utility functions --
 
