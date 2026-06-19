@@ -1,3 +1,10 @@
+require("vim._core.ui2").enable()
+
+-- Command-line completion
+vim.o.wildoptions = "pum"
+vim.o.wildmode = "longest:full,full"
+vim.o.wildmenu = true
+
 -- Bootstrap lazy.nvim https://lazy.folke.io/installation
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
