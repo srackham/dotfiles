@@ -9,6 +9,8 @@ shopt -s expand_aliases
 # shellcheck source=/dev/null # Suppress spurious "No such file or directory" warning
 source "$HOME/.bashrc"
 
+SOURCE_HOST="dell7090" # The source of the up to date configuration data
+
 # --- Task functions ---
 
 apply-dotfiles() {
@@ -89,6 +91,25 @@ gnome-settings() {
     dconf load /org/gnome/shell/keybindings/ <"$chezmoi_repo_dir/exported/shell-keybindings.dconf"
 }
 
+copy-pass() {
+    if [ "$(hostname -s)" = "$SOURCE_HOST" ]; then
+        printf '%s\n' "you cannot copy to self" >&2
+        return 1
+    fi
+
+    scp -r "$SOURCE_HOST":.password-store/ "$HOME"
+    gpg2 --import ~/.password-store/keyfile.gpg
+}
+
+copy-fnox() {
+    if [ "$(hostname -s)" = "$SOURCE_HOST" ]; then
+        printf '%s\n' "you cannot copy to self" >&2
+        return 1
+    fi
+
+    scp -r "$SOURCE_HOST":.config/fnox ~/.config/
+}
+
 # --- fzf menu ---
 
 # Define admin task menu items
@@ -99,6 +120,9 @@ tasks=(
     'Install Lazyvim plugins::nvim-plugins'
     "Install other applications::install-other"
     "Load GNOME keyboard shortcuts::gnome-settings"
+    ""
+    "Copy pass password store from $SOURCE_HOST::copy-pass"
+    "Copy fnox secrets store from $SOURCE_HOST::copy-fnox"
     ""
     "Daily backup::daily-backup"
     "Weekly archive::weekly-archive"
