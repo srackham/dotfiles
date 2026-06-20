@@ -138,6 +138,12 @@ alias paste-image="clipboard-paste -t image/png"   # Paste clipboard PNG image t
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser
 alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
 
+# List name paths of pass entries
+alias pass-names="find ~/.password-store -name '*.gpg' -type f | sed \"s|^$HOME/.password-store/||; s|\.gpg||\""
+# Copy password from pass password manager to the clipboard
+alias pass-clip="pass-names | fzf | xargs -d '\n' pass show -c"
+# Print entry from pass password manager stdout
+alias pass-show="pass-names | fzf | xargs -d '\n' pass show"
 
 #
 # Shared functions
