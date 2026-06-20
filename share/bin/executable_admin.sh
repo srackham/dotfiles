@@ -98,7 +98,7 @@ copy-pass() {
     fi
 
     scp -r "$SOURCE_HOST":.password-store/ "$HOME"
-    gpg2 --import ~/.password-store/keyfile.gpg
+    gpg2 --import ~/.password-store/keyfile
 }
 
 copy-fnox() {
