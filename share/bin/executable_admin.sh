@@ -97,8 +97,11 @@ copy-pass() {
         return 1
     fi
 
+    rm -rf "$HOME/.password-store.BAK"
+    mv "$HOME/.password-store" "$HOME/.password-store.BAK"
     scp -r "$SOURCE_HOST":.password-store/ "$HOME"
-    gpg2 --import ~/.password-store/keyfile
+    scp -r "$SOURCE_HOST":.gnupg/keyfile "$HOME/.gnupg/keyfile"
+    gpg2 --import ~/.gnupg/keyfile
 }
 
 copy-fnox() {
