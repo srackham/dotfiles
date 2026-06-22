@@ -44,6 +44,7 @@ return {
     vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
     -- Key mappings for commonly used custom prompt templates --
+    vim.keymap.set({ "n", "v" }, "<Leader>aa", ":Qanda Query<CR>", { desc = "Qanda.nvim ask a question" })
     vim.keymap.set({ "n", "v" }, "<Leader>ad", ":Qanda Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
     vim.keymap.set({ "n", "v" }, "<Leader>al", ":Qanda Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
     vim.keymap.set({ "n", "v" }, "<Leader>as", ":Qanda Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
