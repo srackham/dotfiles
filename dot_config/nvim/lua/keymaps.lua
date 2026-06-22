@@ -744,3 +744,14 @@ vim.keymap.set("n", "<leader>u", function()
   vim.cmd "packadd nvim.undotree"
   vim.cmd "Undotree"
 end, { desc = "Toggle undo tree" })
+
+-- `q` closes the undo tree UI
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "nvim-undotree",
+  callback = function(args)
+    vim.keymap.set("n", "q", function()
+      -- Directly calls the toggle function to close the undo tree UI
+      require("undotree").open()
+    end, { buffer = args.buf, silent = true, desc = "Close undo tree" })
+  end,
+})
