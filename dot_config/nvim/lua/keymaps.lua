@@ -111,170 +111,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Miscellaneous commands --
-vim.keymap.set("n", "<Leader>dd", function()
-  vim.notify("<Leader>dd is a noop", vim.log.levels.WARN)
-end, { noremap = true, silent = true, desc = "Ensures inadvertent <Leader>dd does not pass through a dd command" })
-
-vim.keymap.set(
-  "n",
-  "<Leader>eh",
-  "<Cmd>nohlsearch<CR><Cmd>echo<CR>", -- Turn off search highlighting and clear status line
-  { silent = true, desc = "Turn highlighting off and clear status line" }
-)
-vim.keymap.set("n", "U", "<C-r>", { noremap = true, silent = true, desc = "Redo last change" })
-vim.keymap.set(
-  "n",
-  "<Leader>,",
-  "<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>",
-  { noremap = true, silent = true, desc = "Go to previously edited buffer" }
-)
-vim.keymap.set({ "i", "n" }, "<C-s>", "<Cmd>wa<CR>", { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set("n", "<Leader>eQ", "<Cmd>qa!<CR>", { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set("n", "<Leader>eq", "<Cmd>wqa<CR>", { noremap = true, silent = true, desc = "Write modified buffers and exit" })
-vim.keymap.set("n", "<Leader>md", "<Cmd>delmarks!<CR>", { silent = true, desc = "Delete local marks" })
-vim.keymap.set("n", "<Leader>mD", "<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>", { silent = true, desc = "Delete global and local marks" })
-vim.keymap.set("n", "<Leader>fn", function()
-  local path = vim.fn.expand "%:p"
-  vim.fn.setreg("+", path)
-  vim.notify("File path copied to clipboard: " .. path)
-end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
-vim.keymap.set("c", "<C-w>", function()
-  return vim.fn.expand "<cword>"
-end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
-
-local is_numbered = false -- Show line numbers
-local is_relative = true -- Use relative line numbers
-local function set_numbered()
-  if is_numbered then
-    vim.wo.relativenumber = is_relative
-    vim.wo.number = not is_relative
-    vim.notify((is_relative and "Relative" or "Absolute") .. " line numbering enabled")
-  else
-    vim.wo.relativenumber = false
-    vim.wo.number = false
-    vim.notify "Line numbering disabled"
-  end
-end
-vim.keymap.set("n", "<Leader>nt", function()
-  is_numbered = not is_numbered
-  set_numbered()
-end, { noremap = true, silent = true, desc = "Toggle line numbering" })
-vim.keymap.set("n", "<Leader>nr", function()
-  is_relative = not is_relative
-  set_numbered()
-end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
-vim.keymap.set("n", "<Leader>fl", function()
-  if vim.bo.modified then
-    vim.cmd "write"
-  end
-
-  local file_path = vim.fn.expand "%:p" -- Get the full path of the current file
-  M = assert(loadfile(file_path))()
-  vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
-end, { noremap = true, silent = true, desc = "Load current module file into variable 'M' for debugging inspection" })
-
-vim.keymap.set({ "i", "n" }, "<C-M-l>", function()
-  local md_link = utils.convert_clipboard_url_to_markdown_link()
-  if md_link ~= "" then
-    vim.fn.setreg("+", md_link)
-    vim.fn.setreg('"', md_link)
-    if vim.fn.mode() == "i" then
-      utils.feed_keys("<C-o>p", "i")
-    else
-      vim.cmd "normal! p"
-    end
-  end
-end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
-
-local function save_as(opts)
-  local current_name = vim.fn.expand "%:t" -- current file name with extension
-  local old_ext = vim.fn.expand "%:e" -- current file extension (without dot)
-  local old_dir = vim.fn.expand "%:p:h" -- directory of current buffer file
-
-  local new_name = vim.fn.input("New filename: ", current_name)
-  if new_name ~= "" then
-    -- If input has no directory component, prepend current buffer directory
-    if vim.fn.fnamemodify(new_name, ":h") == "." then
-      new_name = old_dir .. "/" .. new_name
-    end
-
-    -- If input has no extension, append old extension
-    if not new_name:match "%." and old_ext ~= "" then
-      new_name = new_name .. "." .. old_ext
-    end
-
-    utils.save_current_file_as(new_name, opts)
-  end
-end
-
-vim.keymap.set("n", "<Leader>fC", save_as, { noremap = true, silent = true, desc = "Save file as" })
-
-vim.keymap.set("n", "<Leader>fR", function()
-  save_as { delete = true }
-end, { noremap = true, silent = true, desc = "Rename file" })
-
-local function toggle_case_sensitivity()
-  -- Use the raw Nvim API to get the value, which avoids the vim.opt.smartcase:get() warning
-  local smartcase_enabled = vim.api.nvim_get_option_value("smartcase", {})
-  if smartcase_enabled then
-    vim.opt.smartcase = false
-    vim.opt.ignorecase = false
-    vim.notify("Search: Case Sensitive", vim.log.levels.INFO)
-  else
-    -- This combination enables the "smartcase" behavior.
-    vim.opt.smartcase = true
-    vim.opt.ignorecase = true
-    vim.notify("Search: Smart Case", vim.log.levels.INFO)
-  end
-end
-vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle search case sensitivity (smartcase ↔ case sensitive)" })
-
-vim.keymap.set("n", "<Leader>ew", function()
-  vim.wo.wrap = not vim.wo.wrap
-  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
-end, { noremap = true, silent = true, desc = "Toggle word wrap" })
-
-vim.keymap.set("v", "<Leader>sd", function()
-  local source_win = vim.api.nvim_get_current_win()
-
-  -- Yank visual selection to unnamed register
-  vim.cmd.normal "y"
-
-  -- Create split for selection, paste it
-  vim.cmd "vsplit | enew | setlocal buftype=nofile bufhidden=wipe noswapfile"
-  vim.cmd.normal "P"
-  vim.api.nvim_buf_set_name(0, "Selection")
-
-  -- Hide original source window
-  vim.api.nvim_win_hide(source_win)
-
-  -- Create split for clipboard, paste it
-  vim.cmd "vsplit | enew | setlocal buftype=nofile bufhidden=wipe noswapfile"
-  vim.cmd.normal '"+P'
-  vim.api.nvim_buf_set_name(0, "Clipboard")
-
-  -- Enable diff and wrap in both windows
-  vim.cmd "windo set wrap"
-  vim.cmd "windo diffthis"
-end, {
-  desc = "Diff visual selection and clipboard",
-  noremap = true,
-  silent = true,
-})
-
--- Visual mode incremental selection (Neovim 0.12)
-vim.keymap.set("v", "<M-k>", "an", { remap = true, desc = "Incremental selection: outer node" })
-vim.keymap.set("v", "<M-j>", "in", { remap = true, desc = "Incremental selection: inner node" })
-vim.keymap.set("v", "<M-S-k>", "[n", { remap = true, desc = "Incremental selection: previous node" })
-vim.keymap.set("v", "<M-S-j>", "]n", { remap = true, desc = "Incremental selection: next node" })
-
--- Normal mode equivalents that first enter visual mode before performing the selection
-vim.keymap.set("n", "<M-k>", "van", { remap = true, desc = "Incremental selection: outer node (from normal mode)" })
-vim.keymap.set("n", "<M-j>", "vin", { remap = true, desc = "Incremental selection: inner node (from normal mode)" })
-vim.keymap.set("n", "<M-S-k>", "v[n", { remap = true, desc = "Incremental selection: previous node (from normal mode)" })
-vim.keymap.set("n", "<M-S-j>", "v]n", { remap = true, desc = "Incremental selection: next node (from normal mode)" })
-
 -- Formatter commands --
 
 vim.keymap.set("n", "<Leader>cf", function()
@@ -702,21 +538,188 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set("n", "<Leader>sa", "ggVG", { noremap = true, silent = true, desc = "Select buffer" })
 vim.keymap.set("n", "<Leader>sf", "?^```<CR>jV/^```<CR>k", { noremap = true, silent = true, desc = "Select fenced block" })
 
--- Additional miscellaneous commands --
+-- Miscellaneous commands --
+vim.keymap.set("n", "<Leader>dd", function()
+  vim.notify("<Leader>dd is a noop", vim.log.levels.WARN)
+end, { noremap = true, silent = true, desc = "Ensures inadvertent <Leader>dd does not pass through a dd command" })
+
+vim.keymap.set(
+  "n",
+  "<Leader>eh",
+  "<Cmd>nohlsearch<CR><Cmd>echo<CR>", -- Turn off search highlighting and clear status line
+  { silent = true, desc = "Turn highlighting off and clear status line" }
+)
+vim.keymap.set("n", "U", "<C-r>", { noremap = true, silent = true, desc = "Redo last change" })
+vim.keymap.set(
+  "n",
+  "<Leader>,",
+  "<Cmd>OutlineFocusCode<CR><Cmd>b#<CR>",
+  { noremap = true, silent = true, desc = "Go to previously edited buffer" }
+)
+vim.keymap.set({ "i", "n" }, "<C-s>", "<Cmd>wa<CR>", { noremap = true, silent = true, desc = "Write modified buffers" })
+vim.keymap.set("n", "<Leader>eQ", "<Cmd>qa!<CR>", { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
+vim.keymap.set("n", "<Leader>eq", "<Cmd>wqa<CR>", { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set("n", "<Leader>md", "<Cmd>delmarks!<CR>", { silent = true, desc = "Delete local marks" })
+vim.keymap.set("n", "<Leader>mD", "<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>", { silent = true, desc = "Delete global and local marks" })
+vim.keymap.set("n", "<Leader>fn", function()
+  local path = vim.fn.expand "%:p"
+  vim.fn.setreg("+", path)
+  vim.notify("File path copied to clipboard: " .. path)
+end, { noremap = true, silent = true, desc = "Copy file path to clipboard" })
+vim.keymap.set("c", "<C-w>", function()
+  return vim.fn.expand "<cword>"
+end, { expr = true, noremap = true, desc = "Insert the word under the cursor into the command prompt" })
+
+local is_numbered = false -- Show line numbers
+local is_relative = true -- Use relative line numbers
+local function set_numbered()
+  if is_numbered then
+    vim.wo.relativenumber = is_relative
+    vim.wo.number = not is_relative
+    vim.notify((is_relative and "Relative" or "Absolute") .. " line numbering enabled")
+  else
+    vim.wo.relativenumber = false
+    vim.wo.number = false
+    vim.notify "Line numbering disabled"
+  end
+end
+vim.keymap.set("n", "<Leader>nt", function()
+  is_numbered = not is_numbered
+  set_numbered()
+end, { noremap = true, silent = true, desc = "Toggle line numbering" })
+vim.keymap.set("n", "<Leader>nr", function()
+  is_relative = not is_relative
+  set_numbered()
+end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
+vim.keymap.set("n", "<Leader>fl", function()
+  if vim.bo.modified then
+    vim.cmd "write"
+  end
+
+  local file_path = vim.fn.expand "%:p" -- Get the full path of the current file
+  M = assert(loadfile(file_path))()
+  vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
+end, { noremap = true, silent = true, desc = "Load current module file into variable 'M' for debugging inspection" })
+
+vim.keymap.set({ "i", "n" }, "<C-M-l>", function()
+  local md_link = utils.convert_clipboard_url_to_markdown_link()
+  if md_link ~= "" then
+    vim.fn.setreg("+", md_link)
+    vim.fn.setreg('"', md_link)
+    if vim.fn.mode() == "i" then
+      utils.feed_keys("<C-o>p", "i")
+    else
+      vim.cmd "normal! p"
+    end
+  end
+end, { noremap = true, silent = true, desc = "Convert URL on the clipboard to a Markdown link" })
+
+local function save_as(opts)
+  local current_name = vim.fn.expand "%:t" -- current file name with extension
+  local old_ext = vim.fn.expand "%:e" -- current file extension (without dot)
+  local old_dir = vim.fn.expand "%:p:h" -- directory of current buffer file
+
+  local new_name = vim.fn.input("New filename: ", current_name)
+  if new_name ~= "" then
+    -- If input has no directory component, prepend current buffer directory
+    if vim.fn.fnamemodify(new_name, ":h") == "." then
+      new_name = old_dir .. "/" .. new_name
+    end
+
+    -- If input has no extension, append old extension
+    if not new_name:match "%." and old_ext ~= "" then
+      new_name = new_name .. "." .. old_ext
+    end
+
+    utils.save_current_file_as(new_name, opts)
+  end
+end
+
+vim.keymap.set("n", "<Leader>fC", save_as, { noremap = true, silent = true, desc = "Save file as" })
+
+vim.keymap.set("n", "<Leader>fR", function()
+  save_as { delete = true }
+end, { noremap = true, silent = true, desc = "Rename file" })
+
+local function toggle_case_sensitivity()
+  -- Use the raw Nvim API to get the value, which avoids the vim.opt.smartcase:get() warning
+  local smartcase_enabled = vim.api.nvim_get_option_value("smartcase", {})
+  if smartcase_enabled then
+    vim.opt.smartcase = false
+    vim.opt.ignorecase = false
+    vim.notify("Search: Case Sensitive", vim.log.levels.INFO)
+  else
+    -- This combination enables the "smartcase" behavior.
+    vim.opt.smartcase = true
+    vim.opt.ignorecase = true
+    vim.notify("Search: Smart Case", vim.log.levels.INFO)
+  end
+end
+vim.keymap.set("n", "<Leader>fc", toggle_case_sensitivity, { desc = "Toggle search case sensitivity (smartcase ↔ case sensitive)" })
+
+vim.keymap.set("n", "<Leader>ew", function()
+  vim.wo.wrap = not vim.wo.wrap
+  vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
+end, { noremap = true, silent = true, desc = "Toggle word wrap" })
+
+vim.keymap.set("v", "<Leader>sd", function()
+  local source_win = vim.api.nvim_get_current_win()
+
+  -- Yank visual selection to unnamed register
+  vim.cmd.normal "y"
+
+  -- Create split for selection, paste it
+  vim.cmd "vsplit | enew | setlocal buftype=nofile bufhidden=wipe noswapfile"
+  vim.cmd.normal "P"
+  vim.api.nvim_buf_set_name(0, "Selection")
+
+  -- Hide original source window
+  vim.api.nvim_win_hide(source_win)
+
+  -- Create split for clipboard, paste it
+  vim.cmd "vsplit | enew | setlocal buftype=nofile bufhidden=wipe noswapfile"
+  vim.cmd.normal '"+P'
+  vim.api.nvim_buf_set_name(0, "Clipboard")
+
+  -- Enable diff and wrap in both windows
+  vim.cmd "windo set wrap"
+  vim.cmd "windo diffthis"
+end, {
+  desc = "Diff visual selection and clipboard",
+  noremap = true,
+  silent = true,
+})
+
+-- Visual mode incremental selection (Neovim 0.12)
+vim.keymap.set("v", "<M-k>", "an", { remap = true, desc = "Incremental selection: outer node" })
+vim.keymap.set("v", "<M-j>", "in", { remap = true, desc = "Incremental selection: inner node" })
+vim.keymap.set("v", "<M-S-k>", "[n", { remap = true, desc = "Incremental selection: previous node" })
+vim.keymap.set("v", "<M-S-j>", "]n", { remap = true, desc = "Incremental selection: next node" })
+
+-- Normal mode equivalents that first enter visual mode before performing the selection
+vim.keymap.set("n", "<M-k>", "van", { remap = true, desc = "Incremental selection: outer node (from normal mode)" })
+vim.keymap.set("n", "<M-j>", "vin", { remap = true, desc = "Incremental selection: inner node (from normal mode)" })
+vim.keymap.set("n", "<M-S-k>", "v[n", { remap = true, desc = "Incremental selection: previous node (from normal mode)" })
+vim.keymap.set("n", "<M-S-j>", "v]n", { remap = true, desc = "Incremental selection: next node (from normal mode)" })
+
+-- Open file in associated application
 vim.keymap.set("n", "<leader>fo", function()
   vim.ui.open(vim.fn.expand "%:p")
 end, { desc = "Open current file in the associated application" })
 
+-- Reload abbreviations when they are updated
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.stdpath "config" .. "/vim/init.vim",
   command = "abc | source <afile>",
   desc = "Source init.vim on save",
 })
 
+-- Edit abbreviations
 vim.keymap.set("n", "<Leader>ea", function()
   vim.cmd("edit " .. vim.g.vim_init_file)
 end, { noremap = true, desc = "Edit abbreviations (init.vim)" })
 
+-- Scroll buffer without moving the cursor
 vim.keymap.set("n", "<C-j>", "<C-e>j", { silent = true, desc = "Scroll down one line" })
 vim.keymap.set("n", "<C-k>", "<C-y>k", { silent = true, desc = "Scroll up one line" })
 
@@ -735,3 +738,9 @@ vim.keymap.set({ "n", "i", "v" }, "<C-h>", function()
   vim.cmd "echo"
   flash_cursorline()
 end, { desc = "Turn search higlighting of and flash the cursor line" })
+
+-- Open undotree window
+vim.keymap.set("n", "<leader>u", function()
+  vim.cmd "packadd nvim.undotree"
+  vim.cmd "Undotree"
+end, { desc = "Toggle undo tree" })
