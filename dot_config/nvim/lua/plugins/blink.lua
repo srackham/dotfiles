@@ -57,6 +57,7 @@ return {
             },
           },
         },
+        signature = { enabled = true },
         cmdline = { enabled = false },
         sources = {
           default = { "lsp", "path", "snippets", "buffer" },
@@ -74,7 +75,7 @@ return {
               score_offset = 2,
             },
             buffer = {
-              min_keyword_length = 3,
+              min_keyword_length = 2,
               score_offset = 1,
             },
           },
