@@ -58,7 +58,18 @@ return {
           },
         },
         signature = { enabled = true },
-        cmdline = { enabled = false },
+        cmdline = {
+          enabled = true,
+          keymap = { preset = "inherit" },
+          -- Disable completion if a forward search ('/') or backward search ('?').
+          completion = {
+            menu = {
+              auto_show = function(ctx)
+                return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
+              end,
+            },
+          },
+        },
         sources = {
           default = { "lsp", "path", "snippets", "buffer" },
           providers = {
