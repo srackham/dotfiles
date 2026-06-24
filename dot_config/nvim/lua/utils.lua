@@ -606,8 +606,8 @@ end
 ---
 --- This function saves the current buffer to the new filename and optionally deletes the original file
 --- from disk if the new filename differs. It preserves the buffer contents for continued editing.
-function M.save_current_file_as(new_name,opts)
-  opts=opts or {}
+function M.save_current_file_as(new_name, opts)
+  opts = opts or {}
   local old_name = vim.fn.expand "%:p" -- get full current filename
   vim.cmd("saveas " .. new_name) -- save buffer to new filename
   if opts.delete and old_name ~= vim.fn.expand "%:p" then
@@ -651,6 +651,80 @@ function M.open_file_float(path)
   vim.bo[buf].undofile = false
 
   return win
+end
+
+ --- Custom input function that supports multiple submission keys.
+ ---
+ --- BUG: 25-Jun-2026: There is no input cursor, no reliable solution was found.
+ ---
+ -- Example Usage:
+ ---
+--- ```lua
+--- local text, key = M.multikey_input("Enter description: ", { "<CR>", "<S-CR>" })
+--- if not text then
+---   print("Input cancelled.")
+--- else
+---   print("You typed: " .. text)
+---   if key == "<S-CR>" then
+---     print("Submitted via Shift+Enter (e.g., execute and stay open)")
+---   else
+---     print("Submitted via standard Enter")
+---   end
+--- end
+--- ```
+--- @param prompt string The prompt message to display.
+--- @param submission_keys table A list of keys that will submit the input.
+--- @return string|nil text The text entered by the user (nil if cancelled).
+--- @return string|nil key The key used to submit the input (nil if cancelled).
+function M.multikey_input(prompt, submission_keys)
+  -- Map submission keys to a lookup table for quick checking
+  local is_submit_key = {}
+  for _, k in ipairs(submission_keys) do
+    -- Translate standard termcodes (e.g., "<CR>" becomes the actual carriage return byte)
+    local decoded = vim.api.nvim_replace_termcodes(k, true, true, true)
+    is_submit_key[decoded] = k
+  end
+
+  -- Add standard cancellation keys
+  local cancel_keys = {
+    [vim.api.nvim_replace_termcodes("<Esc>", true, true, true)] = true,
+    [vim.api.nvim_replace_termcodes("<C-c>", true, true, true)] = true,
+  }
+
+  local input_text = ""
+
+  -- Prevent screen redraw issues during manual echo
+  vim.cmd "redraw"
+
+  while true do
+    -- Echo prompt and current text (simulating standard input look)
+    vim.api.nvim_echo({ { prompt, "Question" }, { input_text, "None" } }, false, {})
+
+    -- Force a redraw so the cursor appears at the end of the line
+    vim.cmd "redraw"
+
+    -- Get next keypress
+    local char = vim.fn.getcharstr()
+
+    if is_submit_key[char] then
+      -- Clear the command line before returning
+      vim.cmd "redraw | echo ''"
+      return input_text, is_submit_key[char]
+    elseif cancel_keys[char] then
+      vim.cmd "redraw | echo ''"
+      return nil, nil
+
+    elseif char == vim.api.nvim_replace_termcodes("<BS>", true, true, true) or char == "\b" then
+      -- Handle Backspace
+      if #input_text > 0 then
+        -- Handle UTF-8 safely by removing the last character, not just the last byte
+        input_text = vim.fn.strcharpart(input_text, 0, vim.fn.strchars(input_text) - 1)
+      end
+    else
+      -- Append the character to the input string
+      input_text = input_text .. char
+    end
+  end
 end
 
 return M
