@@ -38,6 +38,7 @@ return {
       cmp.setup {
         keymap = {
           preset = "default",
+          ["<C-k>"] = {}, -- disables the default <C-k> action
           ["<C-y>"] = { "select_and_accept" },
           ["<C-Space>"] = { "select_and_accept" },
         },
