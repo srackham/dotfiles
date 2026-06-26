@@ -586,16 +586,16 @@ end
 vim.keymap.set("n", "<Leader>nt", function()
   is_numbered = not is_numbered
   set_numbered()
-end, { noremap = true, silent = true, desc = "Toggle line numbering" })
+end, { noremap = true, silent = true, desc = "Toggle line numbering on and off" })
 vim.keymap.set("n", "<Leader>nr", function()
   is_relative = not is_relative
   set_numbered()
-end, { noremap = true, silent = true, desc = "Toggle relative line numbering" })
+end, { noremap = true, silent = true, desc = "Toggle between absolute and relative line numbering" })
+
 vim.keymap.set("n", "<Leader>fl", function()
   if vim.bo.modified then
     vim.cmd "write"
   end
-
   local file_path = vim.fn.expand "%:p" -- Get the full path of the current file
   M = assert(loadfile(file_path))()
   vim.notify("Module loaded into global variable 'M'", vim.log.levels.INFO)
@@ -755,3 +755,5 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { buffer = args.buf, silent = true, desc = "Close undo tree" })
   end,
 })
+
+vim.keymap.set("n", "gm", "<Cmd>messages<CR>", { noremap = true, silent = true, desc = "Open messages window" })
