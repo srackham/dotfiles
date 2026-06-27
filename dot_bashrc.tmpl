@@ -41,3 +41,7 @@ fi
 if command -v jj &>/dev/null; then
     source <(jj util completion bash)
 fi
+
+# Activate mise for current shell
+# IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
+eval "$(mise activate bash)"

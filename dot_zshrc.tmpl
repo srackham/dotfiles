@@ -88,3 +88,7 @@ fi
 # Next/previous in command-line history
 bindkey '^n' down-line-or-history
 bindkey '^p' up-line-or-history
+
+# Activate mise for current shell
+# IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
+eval "$(mise activate zsh)"
