@@ -33,7 +33,8 @@ install-ollama-models() {
     done
 }
 
-install-mise-tools() {
+install-tools() {
+    # Install global mise tools
     tools=(
         "age@latest"
         "fnox@latest"
@@ -43,6 +44,8 @@ install-mise-tools() {
         mise use --global "$tool"
         echo "--"
     done
+    # Update applications
+    pi update
 }
 
 daily-backup() {
@@ -118,10 +121,10 @@ copy-fnox() {
 # Define admin task menu items
 tasks=(
     "Apply Chezmoi dot files::apply-dotfiles"
-    "Install/Update Ollama models::install-ollama-models"
-    "Install/Update mise tools::install-mise-tools"
     'Install Lazyvim plugins::nvim-plugins'
-    "Install other applications::install-other"
+    "Install/Update pi, mise tools::install-tools"
+    "Install/Update opencode, gemini-cli, crush::install-other"
+    "Install/Update Ollama models::install-ollama-models"
     "Load GNOME keyboard shortcuts::gnome-settings"
     ""
     "Copy pass password store from $SOURCE_HOST::copy-pass"
