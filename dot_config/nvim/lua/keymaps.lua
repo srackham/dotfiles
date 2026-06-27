@@ -757,3 +757,11 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.keymap.set("n", "gm", "<Cmd>messages<CR>", { noremap = true, silent = true, desc = "Open messages window" })
+
+vim.keymap.set("n", "<Leader>td", function()
+  local text = "TODO: " .. vim.fn.strftime "%d-%b-%Y" .. ": "
+  vim.cmd "startinsert"
+  vim.api.nvim_put({ text }, "c", true, true)
+end, {
+  desc = "Insert TODO with today's date",
+})
