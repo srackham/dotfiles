@@ -38,6 +38,7 @@
 + /users/srackham/music/cds/**
 - /users/srackham/photos/Google Photos/**
 + /users/srackham/photos/**
+- /users/srackham/projects/chezmoi/.chezmoidata/secrets.toml
 + /users/srackham/projects/**
 - /users/srackham/methods/prs/{prs2k_81*,releases,prs_training_videos}/**
 + /users/srackham/methods/prs/**
