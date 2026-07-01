@@ -27,7 +27,7 @@
 :iab Apps applications
 :iab Bk Bitcoin Knots
 :iab Btc Bitcoin
-:iab Cc CodeCompanion.nvim plugin
+:iab Cc Catholic Church
 :iab Cl command-line
 :iab Conf configuration
 :iab Confs configurations
@@ -90,6 +90,7 @@
 :iab Nt New Testament
 :iab Nyi not yet implemented
 :iab Potus the president of the United States of America
+:iab Rc Roman Catholic Church
 :iab Repo repository
 :iab Repos repositories
 :iab Rh right hand
