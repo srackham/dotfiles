@@ -29,6 +29,7 @@ return {
         { digraph = "hc", symbol = "✔", name = "Heavy check mark (tick)" },
         { digraph = "ht", symbol = "♥", name = "Heart" },
         { digraph = "hx", symbol = "✘", name = "Heavy cross mark" },
+        { digraph = "id", symbol = "≡", name = "Identical to" },
         { digraph = "im", symbol = "", name = "Image" },
         { digraph = "in", symbol = "∞", name = "Infinity" },
         { digraph = "la", symbol = "←", name = "Left arrow" },
