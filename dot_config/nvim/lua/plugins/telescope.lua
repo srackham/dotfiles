@@ -84,6 +84,9 @@ return {
 
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
+      vim.keymap.set("n", "<Leader>fm", function()
+        builtin.marks()
+      end, { desc = "List marks" })
       vim.keymap.set({ "n", "v" }, "<Leader>fW", builtin.grep_string, { desc = "Search files for word or selection" })
       vim.keymap.set({ "n", "v" }, "<leader>fw", function()
         builtin.grep_string {
