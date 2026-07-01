@@ -60,7 +60,7 @@ return {
         },
         signature = { enabled = true },
         cmdline = {
-          enabled = true,
+          enabled = false,
           keymap = { preset = "inherit" },
           -- Disable completion if a forward search ('/') or backward search ('?').
           completion = {
