@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.80.2",
+  "lastChangelogVersion": "0.80.3",
   "defaultProvider": "openrouter",
-  "defaultModel": "google/gemini-3.5-flash",
+  "defaultModel": "minimax/minimax-m2.7",
   "defaultThinkingLevel": "medium",
   "packages": [],
   "enabledModels": [
