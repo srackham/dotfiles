@@ -52,12 +52,6 @@ return {
         vim.cmd "OutlineFocusCode"
         builtin.buffers { sort_mru = true, ignore_current_buffer = true }
       end
-      local find_files = function()
-        vim.cmd "OutlineFocusCode"
-        builtin.find_files {
-          find_command = { "rg", "--files", "--hidden", "--sortr", "modified" },
-        }
-      end
       local live_grep = function(additional_args)
         vim.cmd "OutlineFocusCode"
         vim.cmd "wa"
@@ -68,7 +62,12 @@ return {
       end
       vim.keymap.set({ "n", "v" }, "<Leader>bl", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>.", list_buffers, { desc = "List buffers" })
-      vim.keymap.set({ "n", "v" }, "<Leader>ff", find_files, { desc = "Find files" })
+      vim.keymap.set({ "n", "v" }, "<Leader>ff", function()
+        builtin.find_files {
+          hidden = false,
+          no_ignore = false,
+        }
+      end, { desc = "Find files" })
       vim.keymap.set({ "n", "v" }, "<Leader>fF", function()
         builtin.find_files {
           hidden = true,
