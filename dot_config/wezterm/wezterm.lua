@@ -52,6 +52,7 @@ local function append_tab(name, path)
 end
 
 append_tab("Notes", "cd ~/notes")
+tabs[1].panes[3].shell_command = nil -- Don't open Lazygit in the 3rd Notes pane
 append_tab("Chezmoi", "cd ~/share/projects/chezmoi")
 append_tab("NixOS", "cd ~/share/projects/nixos-configurations")
 append_tab("PRS Dev", "cd ~/share/methods/prs")
