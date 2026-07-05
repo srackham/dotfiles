@@ -79,38 +79,6 @@ map_next_prev("<Leader>wn", "wincmd w", "<Leader>wp", "wincmd W", "window")
 map_next_prev("<Leader>sn", "normal! ]s", "<Leader>sp", "normal! [s", "misspelt word")
 map_next_prev("g,", "normal! g,", "g;", "normal! g;", "change") -- Adds n/N functionality to `g,` and `g;` commands
 
--- Adds n/N functionality to Markdown section navigation commands --
--- Builtin markdown section navigation commands have first to be explicitly deleted from the current buffer.
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
-  callback = function()
-    pcall(vim.keymap.del, "n", "]]", { buffer = 0 })
-    pcall(vim.keymap.del, "n", "[[", { buffer = 0 })
-    map_next_prev(
-      "<Leader>mn",
-      function()
-        vim.fn.search("^#\\{1,5}\\s\\+\\S", "W")
-      end,
-      "<Leader>mp",
-      function()
-        vim.fn.search("^#\\{1,5}\\s\\+\\S", "Wb")
-      end,
-      "markdown section"
-    )
-    map_next_prev(
-      "]]",
-      function()
-        vim.fn.search("^#\\{1,5}\\s\\+\\S", "W")
-      end,
-      "[[",
-      function()
-        vim.fn.search("^#\\{1,5}\\s\\+\\S", "Wb")
-      end,
-      "markdown section"
-    )
-  end,
-})
-
 -- Formatter commands --
 
 vim.keymap.set("n", "<Leader>cf", function()
@@ -561,6 +529,31 @@ vim.keymap.set("n", "<Leader>eQ", "<Cmd>qa!<CR>", { noremap = true, silent = tru
 vim.keymap.set("n", "<Leader>eq", "<Cmd>wqa<CR>", { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set("n", "<Leader>md", "<Cmd>delmarks!<CR>", { silent = true, desc = "Delete local marks" })
 vim.keymap.set("n", "<Leader>mD", "<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>", { silent = true, desc = "Delete global and local marks" })
+
+-- Go to next/previous mark mappings
+local function goto_mark(next_cmd)
+  local wrap_cmd = next_cmd == "]'" and "gg" or "G"
+  -- Attempt to move to the next mark
+  local start_pos = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal(next_cmd)
+  local new_pos = vim.api.nvim_win_get_cursor(0)
+  -- If the cursor position didn't change, go to the start/end of the buffer and retry
+  if start_pos[1] == new_pos[1] and start_pos[2] == new_pos[2] then
+    vim.cmd.normal(wrap_cmd .. next_cmd)
+  end
+end
+map_next_prev(
+  "<Leader>mn",
+  function()
+    goto_mark "]'"
+  end,
+  "<Leader>mp",
+  function()
+    goto_mark "['"
+  end,
+  "mark"
+)
+
 vim.keymap.set("n", "<Leader>fn", function()
   local path = vim.fn.expand "%:p"
   vim.fn.setreg("+", path)
