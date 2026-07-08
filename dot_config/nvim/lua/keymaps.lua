@@ -458,7 +458,6 @@ local function toggle_terminal()
 end
 
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-t>", toggle_terminal, { desc = "Toggle Floating Terminal" })
-vim.keymap.set({ "n", "i", "v", "t" }, "<Leader>tt", toggle_terminal, { desc = "Toggle Floating Terminal" })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to insert mode" })
 
 -- Quickfix commands --
