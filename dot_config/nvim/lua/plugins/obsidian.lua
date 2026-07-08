@@ -38,16 +38,6 @@ return {
           name = "prs",
           path = "~/share/methods/prs",
         },
-        {
-          -- For Obsidian experimentation and testing on local (non-NFS) drive
-          name = "local-experimentation",
-          path = "~/local/obsidian-experimentation",
-          overrides = {
-            templates = {
-              folder = vim.NIL,
-            },
-          },
-        },
       },
       attachments = {
         folder = "images",
