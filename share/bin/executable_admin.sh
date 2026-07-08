@@ -19,6 +19,7 @@ apply-dotfiles() {
 
 install-ollama-models() {
     models=(
+        "dolphin3" # Local model for testing
         "deepseek-v3.1:671b-cloud"
         "gemini-3-flash-preview:cloud"
         "glm-5:cloud"
