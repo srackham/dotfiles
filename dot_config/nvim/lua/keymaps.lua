@@ -532,6 +532,10 @@ vim.keymap.set("n", "<Leader>mD", "<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>", { si
 
 -- Go to next/previous mark mappings
 local function goto_mark(next_cmd)
+  if not utils.has_lowercase_marks(0) then
+    vim.notify("No lowercase marks in current buffer",vim.log.levels.WARN )
+    return
+  end
   local wrap_cmd = next_cmd == "]'" and "gg" or "G"
   -- Attempt to move to the next mark
   local start_pos = vim.api.nvim_win_get_cursor(0)

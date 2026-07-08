@@ -653,12 +653,12 @@ function M.open_file_float(path)
   return win
 end
 
- --- Custom input function that supports multiple submission keys.
- ---
- --- BUG: 25-Jun-2026: There is no input cursor, no reliable solution was found.
- ---
- -- Example Usage:
- ---
+--- Custom input function that supports multiple submission keys.
+---
+--- BUG: 25-Jun-2026: There is no input cursor, no reliable solution was found.
+---
+-- Example Usage:
+---
 --- ```lua
 --- local text, key = M.multikey_input("Enter description: ", { "<CR>", "<S-CR>" })
 --- if not text then
@@ -725,6 +725,20 @@ function M.multikey_input(prompt, submission_keys)
       input_text = input_text .. char
     end
   end
+end
+
+--- Returns `true` if the buffer has a lowercase mark.
+function M.has_lowercase_marks(bufnr)
+  -- Loop through ascii codes for 'a' (97) to 'z' (122)
+  for i = 97, 122 do
+    local mark = string.char(i)
+    local pos = vim.api.nvim_buf_get_mark(bufnr, mark)
+    -- If line number is greater than 0, the mark exists in the current buffer
+    if pos[1] > 0 then
+      return true
+    end
+  end
+  return false
 end
 
 return M
