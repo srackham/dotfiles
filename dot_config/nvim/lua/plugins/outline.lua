@@ -36,5 +36,13 @@ return {
       end
     end
     vim.keymap.set("n", "<Leader>eo", toggle_focus, { desc = "Toggle outline focus" })
+
+    -- Map "O" to "o<Esc>" in outline window to open location and close outline
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "Outline",
+      callback = function()
+        vim.keymap.set("n", "O", "o<Esc>", { buffer = true, remap = true })
+      end,
+    })
   end,
 }
