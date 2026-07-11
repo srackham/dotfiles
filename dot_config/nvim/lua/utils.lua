@@ -741,4 +741,43 @@ function M.has_lowercase_marks(bufnr)
   return false
 end
 
+function M.has_unsaved_buffers()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].buflisted and vim.bo[buf].modified then
+      return true
+    end
+  end
+  return false
+end
+
+function M.has_active_terminal()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].buftype == "terminal" then
+      return true
+    end
+  end
+  return false
+end
+
+function M.confirm(prompt)
+  local answer = vim.fn.input(prompt .. " (y/N): ")
+  return answer:lower() == "y" or answer:lower() == "yes"
+end
+
+function M.smart_quit()
+  if M.has_unsaved_buffers() then
+    if not M.confirm "You have unsaved changes. Quit anyway?" then
+      return
+    end
+  end
+  if M.has_active_terminal() then
+    if not M.confirm "A terminal window is active. Close it and exit anyway?" then
+      return
+    end
+    vim.cmd "wqa!" -- bang forces the job(s) to be terminated
+    return
+  end
+  vim.cmd "wqa"
+end
+
 return M

@@ -524,15 +524,14 @@ vim.keymap.set(
   { noremap = true, silent = true, desc = "Go to previously edited buffer" }
 )
 vim.keymap.set({ "i", "n" }, "<C-s>", "<Cmd>wa<CR>", { noremap = true, silent = true, desc = "Write modified buffers" })
-vim.keymap.set("n", "<Leader>eQ", "<Cmd>qa!<CR>", { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
-vim.keymap.set("n", "<Leader>eq", "<Cmd>wqa<CR>", { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 vim.keymap.set("n", "<Leader>md", "<Cmd>delmarks!<CR>", { silent = true, desc = "Delete local marks" })
 vim.keymap.set("n", "<Leader>mD", "<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>", { silent = true, desc = "Delete global and local marks" })
+vim.keymap.set("n", "<Leader>eq", utils.smart_quit, { noremap = true, silent = true, desc = "Write modified buffers and exit" })
 
 -- Go to next/previous mark mappings
 local function goto_mark(next_cmd)
   if not utils.has_lowercase_marks(0) then
-    vim.notify("No lowercase marks in current buffer",vim.log.levels.WARN )
+    vim.notify("No lowercase marks in current buffer", vim.log.levels.WARN)
     return
   end
   local wrap_cmd = next_cmd == "]'" and "gg" or "G"
