@@ -9,7 +9,7 @@ My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io
 - `,fn` - replace `$HOME` with `~`.
 - `,fN` - file name only.
 - `,fp` - file directory path only.
-- `,bd` - If buffer is modified prompt user "Save changes? (y/N)".
+- ✅`,bd` - If buffer is modified prompt user "Save changes? (y/N)".
 - ✅`,eq` - check for running terminal window process before exiting an prompt user "Running job(s) in terminal window. Close? (y/N)".
 - ✅ `O` - in outline window to go to and close outline window, equals `o<Esc>`.
 

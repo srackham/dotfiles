@@ -221,18 +221,35 @@ end
 vim.keymap.set("n", "<Leader>st", toggle_spell_checker, { noremap = true, silent = true, desc = "Toggle spell checker" })
 
 -- Buffer commands --
-vim.keymap.set("n", "<Leader>bd", "<Cmd>bd!<CR>", { noremap = true, silent = false, desc = "Discard current buffer" })
-vim.api.nvim_set_keymap(
-  "n",
-  "<Leader>bD",
-  "<Cmd>%bd|e#|bd#<CR>",
-  { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" }
-)
+vim.keymap.set("n", "<Leader>bd", function()
+  if utils.has_unsaved_buffers() then
+    if not utils.confirm "Discard unsaved changes?" then
+      return
+    end
+  end
+  vim.cmd "bd!"
+end, { noremap = true, silent = true, desc = "Discard current buffer" })
+
+vim.keymap.set("n", "<Leader>bD", function()
+  if utils.has_unsaved_buffers() then
+    if not utils.confirm "Discard unsaved changes?" then
+      return
+    end
+  end
+  vim.cmd "%bd | e# | bd#"
+end, { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
+
 vim.keymap.set("n", "<Leader>fD", function()
+  if utils.has_unsaved_buffers() then
+    if not utils.confirm "Discard unsaved changes?" then
+      return
+    end
+  end
   local file = vim.api.nvim_buf_get_name(0)
   vim.api.nvim_buf_delete(0, { force = true })
   os.remove(file)
 end, { noremap = true, silent = true, desc = "Discard the current buffer and delete the underlying file" })
+
 local function sanitize_buffer()
   local cmds = {
     [[%s/\%u00A0/ /ge]], -- NBSP → space

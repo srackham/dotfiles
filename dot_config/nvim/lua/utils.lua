@@ -759,9 +759,9 @@ function M.has_active_terminal()
   return false
 end
 
+--- @return boolean `true` if the user answers yes, `false` otherwise.
 function M.confirm(prompt)
-  local answer = vim.fn.input(prompt .. " (y/N): ")
-  return answer:lower() == "y" or answer:lower() == "yes"
+  return vim.fn.confirm(prompt, "&Yes\n&No", 2) == 1
 end
 
 function M.smart_quit()
