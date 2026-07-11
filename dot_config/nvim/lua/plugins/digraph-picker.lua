@@ -39,6 +39,7 @@ return {
         { digraph = "ms", symbol = "♯", name = "Music sharp sign" },
         { digraph = "mn", symbol = "☽", name = "Moon" },
         { digraph = "ne", symbol = "≠", name = "Not equal" },
+        { digraph = "ob", symbol = "␣", name = "Open box" },
         { digraph = "pi", symbol = "π", name = "Pi" },
         { digraph = "pp", symbol = "¶", name = "Pilcrow (paragraph sign)" },
         { digraph = "pr", symbol = "🙏", name = "Praying" },

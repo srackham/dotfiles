@@ -97,7 +97,7 @@
 :iab Rhs right hand side
 :iab St Saint
 :iab Stt speech-to-text
-:iab STM Saint Thomas More Church
+:iab Stm Saint Thomas More Church
 :iab Tbsp tablespoon
 :iab Tsp teaspoon
 :iab Ts TypeScript

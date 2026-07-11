@@ -4,14 +4,24 @@
 
 My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io/).
 
+### TODO:
+
+- `,fn` - replace `$HOME` with `~`.
+- `,fN` - file name only.
+- `,fp` - file directory path only.
+- `,bd` - If buffer is modified prompt user "Save changes? (y/N)".
+- ✅`,eq` - check for running terminal window process before exiting an prompt user "Running job(s) in terminal window. Close? (y/N)".
+- ✅ `O` - in outline window to go to and close outline window, equals `o<Esc>`.
+
 ## Applications
 
-Here's the list of application configurations managed by Chezmoi:
+Here's the list of some of the application configurations managed by Chezmoi (run `git ls-files` for a full list):
 
 - bash
 - GNOME desktop shortcuts (installed manually)
 - Helix
 - lazygit
+- mise
 - neovim
 - nushell
 - recoll
