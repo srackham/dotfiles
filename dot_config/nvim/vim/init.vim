@@ -69,6 +69,7 @@
 :iab Lg Lazygit
 :iab Lv LazyVim
 :iab Mk Markdown
+:iab Ms Microsoft
 :iab Nv Neovim
 :iab Nj Node.js
 :iab NO Novus Ordo

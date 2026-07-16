@@ -22,7 +22,7 @@ return {
     }
 
     -- Key mappings for builtin commands --
-    vim.keymap.set("n", "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open user chat window" })
+    vim.keymap.set({ "n", "v" }, "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open user Chat window" })
     vim.keymap.set({ "n", "v" }, "<Leader>lq", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open Prompt window" })
     vim.keymap.set({ "n", "v", "i" }, "<C-Del>", "<Cmd>Qanda /new_prompt<CR>", { desc = "Qanda.nvim open new prompt" })
     vim.keymap.set(
