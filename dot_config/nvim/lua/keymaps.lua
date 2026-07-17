@@ -548,7 +548,8 @@ vim.keymap.set(
 vim.keymap.set({ "i", "n" }, "<C-s>", "<Cmd>wa<CR>", { noremap = true, silent = true, desc = "Write modified buffers" })
 vim.keymap.set("n", "<Leader>md", "<Cmd>delmarks!<CR>", { silent = true, desc = "Delete local marks" })
 vim.keymap.set("n", "<Leader>mD", "<Cmd>delmarks!<Bar>delmarks A-Z0-9<CR>", { silent = true, desc = "Delete global and local marks" })
-vim.keymap.set("n", "<Leader>eq", utils.smart_quit, { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set("n", "<Leader>eq", "<Cmd>wqa!<CR>", { noremap = true, silent = true, desc = "Write modified buffers and exit" })
+vim.keymap.set("n", "<Leader>eQ", "<Cmd>qa!<CR>", { noremap = true, silent = true, desc = "Discard unsaved changes and exit" })
 
 -- Go to next/previous mark mappings
 local function goto_mark(next_cmd)

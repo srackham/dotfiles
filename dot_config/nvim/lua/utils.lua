@@ -764,21 +764,4 @@ function M.confirm(prompt)
   return vim.fn.confirm(prompt, "&Yes\n&No", 2) == 1
 end
 
-function M.smart_quit()
-  if M.has_unsaved_buffers() then
-    local choice = vim.fn.confirm("You have unsaved changes.", "&Cancel\n&Save and quit\n&Discard and quit", 1)
-    if choice == 1 then
-      return
-    elseif choice == 2 then
-      vim.cmd ":wa"
-    end
-  end
-  if M.has_active_terminal() then
-    if not M.confirm "A terminal window is active, close it and exit anyway?" then
-      return
-    end
-  end
-  vim.cmd ":qa!"
-end
-
 return M
