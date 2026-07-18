@@ -52,14 +52,17 @@ return {
         vim.cmd "OutlineFocusCode"
         builtin.buffers { sort_mru = true, ignore_current_buffer = true }
       end
-      local live_grep = function(additional_args)
+
+      local live_grep = function(opts)
+        opts = opts or {}
+        opts = vim.tbl_deep_extend("force", {}, opts)
+        opts.additional_args = opts.additional_args or {}
+        vim.list_extend(opts.additional_args, { "--hidden" })
         vim.cmd "OutlineFocusCode"
         vim.cmd "wa"
-        vim.list_extend({ "--hidden" }, additional_args or {})
-        builtin.live_grep {
-          additional_args = additional_args,
-        }
+        builtin.live_grep(opts)
       end
+
       vim.keymap.set({ "n", "v" }, "<Leader>bl", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>.", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>ff", function()
@@ -75,11 +78,18 @@ return {
         }
       end, { desc = "Find all files (hidden and those in .gitignore)" })
       vim.keymap.set({ "n", "v" }, "<Leader>fg", function()
-        live_grep { "--ignore-case" }
+        live_grep { additional_args = { "--ignore-case" } }
       end, { desc = "Live-grep files (case insensitive; includes hidden files)" })
       vim.keymap.set({ "n", "v" }, "<Leader>fG", function()
-        live_grep { "--no-ignore", "--ignore-case" }
+        live_grep { additional_args = { "--no-ignore", "--ignore-case" } }
       end, { desc = "Live-grep files (case insensitive; includes hidden and .gitignore files)" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fs", function()
+        live_grep {
+          default_text = "^##+\\s+",
+          type_filter = "markdown",
+          additional_args = { "--ignore-case" },
+        }
+      end, { desc = "Live-grep Markdown files for level 2 and greater section headers" })
 
       vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
@@ -102,7 +112,7 @@ return {
       vim.keymap.set({ "n", "v" }, "<Leader>fr", builtin.resume, { desc = "Resume last Telescope picker" })
       vim.keymap.set({ "n", "v" }, "<Leader>hh", builtin.help_tags, { desc = "Search documentation" })
       vim.keymap.set({ "n", "v" }, "<Leader>fp", function()
-        builtin.live_grep {
+        live_grep {
           cwd = vim.fn.stdpath "data" .. "/lazy/",
         }
       end, { desc = "Live-grep plugin files" })
@@ -132,7 +142,7 @@ return {
       end, { noremap = true, silent = true, desc = "Live-grep workspace symbols" })
 
       vim.keymap.set("n", "<leader>fb", function()
-        require("telescope.builtin").live_grep {
+        live_grep {
           search_dirs = { vim.fn.expand "%:p" },
         }
       end, { desc = "Live grep current buffer" })
