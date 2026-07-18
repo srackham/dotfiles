@@ -252,6 +252,7 @@ return {
           mappings = {
             i = {
               ["<Esc>"] = actions.close,
+              ["<C-u>"] = false, -- Unset mapping to fall back to Vim behaviour
             },
           },
         },
