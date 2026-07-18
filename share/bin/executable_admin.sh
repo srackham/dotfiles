@@ -20,12 +20,11 @@ apply-dotfiles() {
 install-ollama-models() {
     models=(
         "dolphin3" # Local model for testing
-        "deepseek-v3.1:671b-cloud"
-        "gemini-3-flash-preview:cloud"
-        "glm-5:cloud"
-        "kimi-k2.5:cloud"
-        "minimax-m2.5:cloud"
-        "qwen3-coder:480b-cloud"
+        "deepseek-v4-flash:cloud"
+        "glm-5.2:cloud"
+        "kimi-k2.6:cloud"
+        "minimax-m2.7:cloud"
+        "qwen3.5:cloud"
     )
     for model in "${models[@]}"; do
         echo "Installing model: $model"
