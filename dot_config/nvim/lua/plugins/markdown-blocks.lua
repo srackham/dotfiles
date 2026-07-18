@@ -27,7 +27,8 @@ return {
       { noremap = true, silent = true, desc = "Toggle list item bullets in paragraph/selection at the cursor" }
     )
     vim.keymap.set({ "n", "v" }, "<Leader>mw", function()
-      local col = vim.fn.input("Wrap at column number: ", tostring(wrap_column))
+      local col
+      col = vim.fn.input("Wrap at column number: ", tostring(wrap_column))
       if col == "" then
         return
       end
@@ -65,7 +66,7 @@ return {
       noremap = true,
       desc = "Toggle code fence delimiters with language code",
     })
-    vim.keymap.set({ "n", "v" }, "<Leader>mh", function()
+    vim.keymap.set({ "n", "v" }, "<Leader>mH", function()
       mb.delimiters_toggle("<!--", "-->")
     end, { silent = true, noremap = true, desc = "Toggle HTML block comment delimiters" })
     vim.keymap.set(

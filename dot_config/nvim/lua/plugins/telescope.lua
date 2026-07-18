@@ -83,7 +83,7 @@ return {
       vim.keymap.set({ "n", "v" }, "<Leader>fG", function()
         live_grep { additional_args = { "--no-ignore", "--ignore-case" } }
       end, { desc = "Live-grep files (case insensitive; includes hidden and .gitignore files)" })
-      vim.keymap.set({ "n", "v" }, "<Leader>fs", function()
+      vim.keymap.set({ "n", "v" }, "<Leader>fh", function()
         live_grep {
           default_text = "^##+\\s+",
           type_filter = "markdown",
@@ -91,7 +91,7 @@ return {
         }
       end, { desc = "Live-grep Markdown files for level 2 and greater section headers" })
 
-      vim.keymap.set({ "n", "v" }, "<Leader>fh", builtin.highlights, { desc = "List highlights" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fH", builtin.highlights, { desc = "List highlights" })
       vim.keymap.set({ "n", "v" }, "<Leader>fk", builtin.keymaps, { desc = "List normal mode key mappings" })
       vim.keymap.set("n", "<Leader>fm", function()
         builtin.marks()
@@ -283,7 +283,7 @@ return {
         },
       }
       telescope.load_extension "heading"
-      vim.keymap.set({ "n", "v" }, "<Leader>ms", telescope.extensions.heading.heading, { desc = "Markdown section headers picker" })
+      vim.keymap.set({ "n", "v" }, "<Leader>mh", telescope.extensions.heading.heading, { desc = "Markdown section headers picker" })
     end,
   },
 }
