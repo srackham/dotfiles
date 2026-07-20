@@ -3,21 +3,10 @@
 set -e
 set -o pipefail
 
-read -r -p "Choose a restore option: [L]ocal drive or [R]emovable drive? [L/R/N] " -n 1 -r
-echo
-REPLY_LOWER=$(echo "$REPLY" | tr '[:upper:]' '[:lower:]')
-if [[ $REPLY_LOWER == "l" ]]; then
-    SRC_DRIVE_LABEL=data
-elif [[ $REPLY_LOWER == "r" ]]; then
-    SRC_DRIVE_LABEL=backups
-else
-    # Handles "N" or any other input
-    echo "Operation cancelled."
-    exit 1
-fi
+SRC_DRIVE_LABEL=archives
 
 src_mount_dir="/run/media/$USER/$SRC_DRIVE_LABEL"
-src="$src_mount_dir/backups/VirtualBox VMs"
+src="$src_mount_dir/vms"
 src_device="/dev/disk/by-label/$SRC_DRIVE_LABEL"
 
 dst="$HOME/VirtualBox VMs"

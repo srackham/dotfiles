@@ -3,26 +3,18 @@
 set -e
 set -o pipefail
 
-DRIVE_LABEL=data
+vms="/run/media/srackham/vms"
+backups="/run/media/srackham/backups"
 
-src="$HOME"
-dst="/run/media/srackham/$DRIVE_LABEL/backups"
-
-echo "Backing up data and VMs from '$src' to '$dst'"
+echo "Backing up data from $HOME and VMs from '$vms' to '$backups'"
 
 # rsync is preferable to rclone for strict replication of permissions and ownership.
-# --inplace overwrites destination files directly instead of creating a temporary file and renaming whic benefits SSD drives.
+# --inplace overwrites destination files directly instead of creating a temporary file and renaming which benefits SSD drives.
 sudo rsync -av --delete --inplace \
-    --include "/VirtualBox VMs/***" \
     --include "/.config/***" \
     --include "/share/***" \
     --include "/public/***" \
     --exclude "/*" \
-    "$src/" "$dst"
+    "$HOME/" "$backups/home"
 
-# rclone check --progress --links --modify-window=5s \
-#     --include "/VirtualBox VMs/**" \
-#     --include "/.config/**" \
-#     --include "/share/**" \
-#     --include "/public/**" \
-#     "$src" "$dst"
+sudo rsync -av --delete --inplace "$vms/" "$backups/vms"

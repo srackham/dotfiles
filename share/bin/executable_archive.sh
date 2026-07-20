@@ -5,14 +5,14 @@
 set -e
 set -o pipefail
 
-SRC_DRIVE_LABEL=data
-DST_DRIVE_LABEL=backups
+SRC_DRIVE_LABEL=backups
+DST_DRIVE_LABEL=archives
 
 src_mount_dir="/run/media/$USER/$SRC_DRIVE_LABEL"
-src="$src_mount_dir/backups"
+src="$src_mount_dir"
 
 dst_mount_dir="/run/media/$USER/$DST_DRIVE_LABEL"
-dst="$dst_mount_dir/backups"
+dst="$dst_mount_dir"
 dst_device="/dev/disk/by-label/$DST_DRIVE_LABEL"
 
 # Cleanup function to unmount the drive
