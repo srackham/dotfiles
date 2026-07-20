@@ -17,4 +17,4 @@ sudo rsync -av --delete --inplace \
     --exclude "/*" \
     "$HOME/" "$backups/home"
 
-sudo rsync -av --delete --inplace "$vms/" "$backups/vms"
+sudo rsync -av --delete --inplace --exclude='/lost+found' --exclude='/*.OLD' "$vms/" "$backups/vms"
