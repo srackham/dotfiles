@@ -44,6 +44,7 @@
     nil
     nixd
     nixfmt-rfc-style
+    ntfs3g
     prettierd
     rclone
     ripgrep
