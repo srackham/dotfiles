@@ -31,7 +31,7 @@ vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" 
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
 vim.keymap.set("n", "<Leader>cR", vim.lsp.buf.rename, { desc = "Rename symbol" })
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-vim.keymap.set("n", "<Leader>dv", function()
+vim.keymap.set("n", "<Leader>dt", function()
   local enable = not vim.diagnostic.config().virtual_text
   vim.diagnostic.config { virtual_text = enable }
   local status = enable and "enabled" or "disabled"
