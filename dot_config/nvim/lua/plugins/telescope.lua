@@ -96,8 +96,12 @@ return {
       vim.keymap.set("n", "<Leader>fm", function()
         builtin.marks()
       end, { desc = "List marks" })
-      vim.keymap.set({ "n", "v" }, "<Leader>fW", builtin.grep_string, { desc = "Search files for word or selection" })
+      vim.keymap.set({ "n", "v" }, "<Leader>fW", function()
+        vim.cmd "wa" -- Save all modified buffers
+        builtin.grep_string()
+      end, { desc = "Search files for word or selection" })
       vim.keymap.set({ "n", "v" }, "<leader>fw", function()
+        vim.cmd "wa" -- Save all modified buffers
         builtin.grep_string {
           word_match = "-w",
           additional_args = { "--case-sensitive" },
