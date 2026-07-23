@@ -5,6 +5,7 @@ vim.lsp.enable {
   "denols",
   "gleam",
   "gopls",
+  "harper",
   "html",
   "jsonls",
   "lua_ls",
