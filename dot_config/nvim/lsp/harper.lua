@@ -19,16 +19,18 @@ return {
 
   settings = {
     ["harper-ls"] = {
+      userDictPath = "~/.config/harper/dict.txt",
       diagnosticSeverity = "hint",
 
-      -- Turn off overly strict style/grammar rules that cause noise
-      linters = {
-        spell_check = false,
-        spelled_numbers = false, -- Stop complaining about "3" vs "three"
-        long_sentences = false,
-        sentence_capitalization = false,
-        repeated_words = true,
-        spaces = true,
+      linters = { -- See https://writewithharper.com/docs/rules
+        SpellCheck = false,
+        SpelledNumbers = false,
+        AnA = true,
+        LongSentences = false,
+        SentenceCapitalization = true,
+        RepeatedWords = true,
+        Spaces = true,
+        UseTitleCase = false,
       },
     },
   },
