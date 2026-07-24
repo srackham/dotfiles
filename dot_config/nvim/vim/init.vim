@@ -111,6 +111,7 @@
 :iab Vcss version control systems
 :iab Vm virtual machine
 :iab Vms virtual machines
+:iab Vs Microsoft Visual Studio
 :iab Vsc VSCode
 :iab Wrt with respect to
 :iab Wt WezTerm
