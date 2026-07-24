@@ -1,5 +1,6 @@
 local harper_enabled = true -- track whether harper is enabled
 
+-- TODO: Have harper-ls disabled by default, then globally toggle.
 vim.keymap.set("n", "<Leader>dh", function()
   local clients = vim.lsp.get_clients { name = "harper" }
 
@@ -11,7 +12,7 @@ vim.keymap.set("n", "<Leader>dh", function()
     harper_enabled = false
     vim.notify "Harper LSP server disabled"
   else
-    -- Enable: re-attach harper to current and future buffers
+    -- Enable: reattach harper to current and future buffers
     vim.lsp.enable "harper"
     harper_enabled = true
     vim.notify "Harper LSP server enabled"
@@ -25,16 +26,6 @@ return {
   filetypes = {
     "markdown",
     "text",
-    "typst",
-    "tex",
-    "lua",
-    "python",
-    "rust",
-    "go",
-    "javascript",
-    "typescript",
-    "c",
-    "cpp",
   },
 
   settings = {
@@ -43,7 +34,7 @@ return {
       diagnosticSeverity = "hint",
 
       linters = { -- See https://writewithharper.com/docs/rules
-        SpellCheck = false, -- Set `true` to enable spell checking
+        SpellCheck = false, -- The Vim spell checker is used for spelling
         SpelledNumbers = false,
         AnA = true,
         LongSentences = false,
