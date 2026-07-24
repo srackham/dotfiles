@@ -222,7 +222,7 @@ vim.keymap.set("n", "<Leader>st", toggle_spell_checker, { noremap = true, silent
 
 -- Buffer commands --
 vim.keymap.set("n", "<Leader>bd", function()
-  if utils.has_unsaved_buffers() then
+  if utils.has_unsaved_buffers { buffers = "active" } then
     if not utils.confirm "Discard unsaved changes?" then
       return
     end
@@ -231,7 +231,8 @@ vim.keymap.set("n", "<Leader>bd", function()
 end, { noremap = true, silent = true, desc = "Discard current buffer" })
 
 vim.keymap.set("n", "<Leader>bD", function()
-  if utils.has_unsaved_buffers() then
+
+  if utils.has_unsaved_buffers { buffers = "inactive" } then
     if not utils.confirm "Discard unsaved changes?" then
       return
     end
@@ -240,7 +241,7 @@ vim.keymap.set("n", "<Leader>bD", function()
 end, { noremap = true, silent = true, desc = "Discard all buffers except the current buffer" })
 
 vim.keymap.set("n", "<Leader>fD", function()
-  if utils.has_unsaved_buffers() then
+  if utils.has_unsaved_buffers { buffers = "active" } then
     if not utils.confirm "Discard unsaved changes?" then
       return
     end

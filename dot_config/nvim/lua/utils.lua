@@ -741,10 +741,30 @@ function M.has_lowercase_marks(bufnr)
   return false
 end
 
-function M.has_unsaved_buffers()
+--- Returns `true` if one or more of the specified buffers is modified.
+--- The optional `opts.buffers` can be:
+---   "all": check all buffers (default).
+---   "active": check the current active buffer.
+---   "inactive": check all buffers except the current active buffer.
+--- @param opts table?
+--- @return boolean
+function M.has_unsaved_buffers(opts)
+  opts = opts or {}
+  local buffers = opts.buffers or "all"
+  assert(
+    buffers == "all" or buffers == "active" or buffers == "inactive",
+    string.format("invalid opts.buffers value: %q (expected 'all', 'active', or 'inactive')", tostring(buffers))
+  )
+  local current_buf = vim.api.nvim_get_current_buf()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.bo[buf].buflisted and vim.bo[buf].modified then
-      return true
+      if buffers == "all" then
+        return true
+      elseif buffers == "active" and buf == current_buf then
+        return true
+      elseif buffers == "inactive" and buf ~= current_buf then
+        return true
+      end
     end
   end
   return false
