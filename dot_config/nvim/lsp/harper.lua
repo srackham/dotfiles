@@ -43,7 +43,7 @@ return {
       diagnosticSeverity = "hint",
 
       linters = { -- See https://writewithharper.com/docs/rules
-        SpellCheck = true,
+        SpellCheck = false, -- Set `true` to enable spell checking
         SpelledNumbers = false,
         AnA = true,
         LongSentences = false,
