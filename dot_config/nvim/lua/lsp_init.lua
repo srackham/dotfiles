@@ -1,4 +1,5 @@
 -- Load LSP config files in ~/.config/nvim/lsp/ then activate the LSP servers.
+
 vim.lsp.enable {
   "bashls",
   "cssls",
