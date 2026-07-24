@@ -1,7 +1,6 @@
 local harper_enabled = true -- track whether harper is enabled
 
--- TODO: Have harper-ls disabled by default, then globally toggle.
-vim.keymap.set("n", "<Leader>dh", function()
+vim.keymap.set("n", "<Leader>dg", function()
   local clients = vim.lsp.get_clients { name = "harper" }
 
   if harper_enabled then
@@ -22,12 +21,10 @@ end, { desc = "Toggle Harper LSP server on/off" })
 return {
   cmd = { "harper-ls", "--stdio" },
   root_markers = { ".git" },
-
   filetypes = {
     "markdown",
     "text",
   },
-
   settings = {
     ["harper-ls"] = {
       userDictPath = "~/.config/harper/dict.txt",
