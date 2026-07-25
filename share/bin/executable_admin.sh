@@ -41,7 +41,7 @@ install-tools() {
     )
     for tool in "${tools[@]}"; do
         echo "Installing mise tool: $tool"
-        mise use --global "$tool"
+        MISE_GITHUB_ATTESTATIONS=false mise use --global "$tool"
         echo "--"
     done
     # Update applications
