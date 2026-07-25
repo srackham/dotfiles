@@ -1,13 +1,18 @@
 local harper_enabled = true -- track whether harper is enabled
 
-vim.keymap.set("n", "<Leader>dg", function()
+--- Disable: stop all harper LSP clients
+local function stop_all_clients()
   local clients = vim.lsp.get_clients { name = "harper" }
+  for _, client in ipairs(clients) do
+    client:stop()
+  end
+end
 
+vim.keymap.set("n", "<Leader>dg", function()
   if harper_enabled then
-    -- Disable: stop all harper clients
-    for _, client in ipairs(clients) do
-      client:stop()
-    end
+    vim.schedule(function()
+      stop_all_clients()
+    end)
     harper_enabled = false
     vim.notify "Harper LSP server disabled"
   else
@@ -17,6 +22,17 @@ vim.keymap.set("n", "<Leader>dg", function()
     vim.notify "Harper LSP server enabled"
   end
 end, { desc = "Toggle Harper LSP server on/off" })
+
+-- When a file is opened turn the Harper LSP off if it is currently disabled.
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  callback = function()
+    if not harper_enabled then
+      vim.schedule(function()
+        stop_all_clients()
+      end)
+    end
+  end,
+})
 
 return {
   cmd = { "harper-ls", "--stdio" },
