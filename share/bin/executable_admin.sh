@@ -19,7 +19,8 @@ apply-dotfiles() {
 
 install-ollama-models() {
     models=(
-        "dolphin3" # Local model for testing
+        "gemma4:e4b" # Local model
+        "dolphin3" # Local model
         "deepseek-v4-flash:cloud"
         "glm-5.2:cloud"
         "kimi-k2.6:cloud"
