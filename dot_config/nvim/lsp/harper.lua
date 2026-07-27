@@ -1,25 +1,32 @@
 local harper_enabled = true -- track whether harper is enabled
 
+--- Reattach Harper LSP to current and future buffers
+local function start_clients()
+  vim.lsp.enable("harper", true)
+  harper_enabled = true
+  vim.notify "Harper LSP server enabled"
+end
+
 --- Disable: stop all harper LSP clients
-local function stop_all_clients()
+local function stop_clients()
+  vim.lsp.enable("harper", false) -- Prevents auto-attaching to future buffers
   local clients = vim.lsp.get_clients { name = "harper" }
   for _, client in ipairs(clients) do
     client:stop()
   end
+  harper_enabled = false
+  vim.notify "Harper LSP server disabled"
 end
 
 vim.keymap.set("n", "<Leader>dg", function()
   if harper_enabled then
     vim.schedule(function()
-      stop_all_clients()
+      stop_clients()
     end)
-    harper_enabled = false
-    vim.notify "Harper LSP server disabled"
   else
-    -- Enable: reattach harper to current and future buffers
-    vim.lsp.enable "harper"
-    harper_enabled = true
-    vim.notify "Harper LSP server enabled"
+    vim.schedule(function()
+      start_clients()
+    end)
   end
 end, { desc = "Toggle Harper LSP server on/off" })
 
@@ -28,7 +35,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   callback = function()
     if not harper_enabled then
       vim.schedule(function()
-        stop_all_clients()
+        stop_clients()
       end)
     end
   end,
@@ -47,7 +54,7 @@ return {
       diagnosticSeverity = "hint",
 
       linters = { -- See https://writewithharper.com/docs/rules
-        SpellCheck = false, -- The Vim spell checker is used for spelling
+        SpellCheck = true, -- The Vim spell checker is used for spelling
         SpelledNumbers = false,
         AnA = true,
         LongSentences = false,
