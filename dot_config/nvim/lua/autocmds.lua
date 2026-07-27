@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "asciidoc", "markdown", "text" },
   callback = function()
-    vim.opt_local.spell = true
+    -- TODO: necessary? vim.opt_local.spell = true
     -- Soft-wrapped line navigation for markdown and text files
     vim.keymap.set("n", "j", "gj", { buffer = true })
     vim.keymap.set("n", "k", "gk", { buffer = true })
@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Auto-save Rust source files after a period of inactivity
--- FIXME: This is a kludge because I can't figure how to force the Rust LSP to do lint check without saving.
+-- TODO: FIXME: This is a kludge because I can't figure how to force the Rust LSP to do lint check without saving.
 local timer = vim.loop.new_timer()
 local save_delay = 500
 

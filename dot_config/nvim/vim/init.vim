@@ -57,7 +57,10 @@
 :iab Id identifier
 :iab Ids identifiers
 :iab Imo In my opinion
-:iab Info information
+:iab info information
+:iab Info Information
+:iab intro introduction
+:iab Intro Introduction
 :iab Jj Jujutsu
 :iab Js JavaScript
 :iab Kjv King James Version
@@ -83,6 +86,8 @@
 :iab Os operating system
 :iab Otoh on the other hand
 :iab Pkm Personal Knowledge Management (PKM)
+:iab pls please
+:iab Pls Please
 :iab Pr pull request
 :iab Re regular expression
 :iab Res regular expressions
