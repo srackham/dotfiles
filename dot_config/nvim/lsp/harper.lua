@@ -1,43 +1,40 @@
-local harper_enabled = true -- track whether harper is enabled
+-- Use vim.g to persist state across file re-evaluations
+-- Sets whether Harper is enabled at startup
+vim.g.harper_enabled = false
 
 --- Reattach Harper LSP to current and future buffers
 local function start_clients()
-  vim.lsp.enable("harper", true)
-  harper_enabled = true
+  vim.cmd "lsp enable harper"
+  -- vim.lsp.enable("harper", true)
+  vim.g.harper_enabled = true
   vim.notify "Harper LSP server enabled"
 end
 
---- Disable: stop all harper LSP clients
+--- Stop all harper LSP clients
 local function stop_clients()
-  vim.lsp.enable("harper", false) -- Prevents auto-attaching to future buffers
-  local clients = vim.lsp.get_clients { name = "harper" }
-  for _, client in ipairs(clients) do
-    client:stop()
-  end
-  harper_enabled = false
+  vim.cmd "lsp disable harper"
+  -- vim.lsp.enable("harper", false) -- Prevents auto-attaching to future buffers
+  vim.g.harper_enabled = false
   vim.notify "Harper LSP server disabled"
 end
 
 vim.keymap.set("n", "<Leader>dg", function()
-  if harper_enabled then
-    vim.schedule(function()
-      stop_clients()
-    end)
+  if vim.g.harper_enabled then
+    stop_clients()
   else
-    vim.schedule(function()
-      start_clients()
-    end)
+    start_clients()
   end
 end, { desc = "Toggle Harper LSP server on/off" })
 
--- When a file is opened turn the Harper LSP off if it is currently disabled.
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+-- Establish the initial state once Neovim has loaded and the Harper LSP is configured.
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
   callback = function()
-    if not harper_enabled then
-      vim.schedule(function()
+    vim.schedule(function()
+      if not vim.g.harper_enabled then
         stop_clients()
-      end)
-    end
+      end
+    end)
   end,
 })
 
@@ -54,7 +51,7 @@ return {
       diagnosticSeverity = "hint",
 
       linters = { -- See https://writewithharper.com/docs/rules
-        SpellCheck = true, -- The Vim spell checker is used for spelling
+        SpellCheck = false, -- The Vim spell checker is used for spelling
         SpelledNumbers = false,
         AnA = true,
         LongSentences = false,
