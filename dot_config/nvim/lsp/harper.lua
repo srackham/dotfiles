@@ -4,16 +4,14 @@ vim.g.harper_enabled = false
 
 --- Reattach Harper LSP to current and future buffers
 local function start_clients()
-  vim.cmd "lsp enable harper"
-  -- vim.lsp.enable("harper", true)
+  vim.lsp.enable("harper", true)
   vim.g.harper_enabled = true
   vim.notify "Harper LSP server enabled"
 end
 
 --- Stop all harper LSP clients
 local function stop_clients()
-  vim.cmd "lsp disable harper"
-  -- vim.lsp.enable("harper", false) -- Prevents auto-attaching to future buffers
+  vim.lsp.enable("harper", false) -- Prevents auto-attaching to future buffers
   vim.g.harper_enabled = false
   vim.notify "Harper LSP server disabled"
 end
