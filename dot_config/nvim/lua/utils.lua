@@ -784,4 +784,18 @@ function M.confirm(prompt)
   return vim.fn.confirm(prompt, "&Yes\n&No", 2) == 1
 end
 
+--- Reattach Harper LSP to current and future buffers
+function M.start_lsp(lsp_name)
+  vim.lsp.enable(lsp_name, true)
+  vim.g.harper_enabled = true
+  vim.notify "Harper LSP server enabled"
+end
+
+--- Stop all harper LSP clients
+function M.stop_lsp(lsp_name)
+  vim.lsp.enable(lsp_name, false) -- Prevents auto-attaching to future buffers
+  vim.g.harper_enabled = false
+  vim.notify "Harper LSP server disabled"
+end
+
 return M

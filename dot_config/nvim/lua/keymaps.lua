@@ -1,4 +1,4 @@
-local utils = require "utils" -- Load ./lua/utils.lua
+local utils = require "utils"
 
 -- Map custom next/previous navigation commands --
 local execute_cmd_and_map_n = function(next_cmd, prev_cmd)
