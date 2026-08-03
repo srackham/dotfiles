@@ -85,7 +85,7 @@ home-manager switch
 
 # Install dot files with Chezmoi
 # Create local repo, pull from Github, then update dot files with a single command (clones repo to `$HOME/.local/share/chezmoi`)
-chezmoi init https://github.com/srackham/dotfiles.git
+chezmoi --source=~/.local/share/chezmoi init https://github.com/srackham/dotfiles.git
 
 # Install the dot files
 chezmoi --source=~/.local/share/chezmoi apply
