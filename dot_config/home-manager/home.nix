@@ -7,7 +7,7 @@
 {
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 
   home.packages = with pkgs; [
     bat
@@ -17,6 +17,7 @@
     deno
     dig
     eza
+    fastfetch
     fd
     ffmpeg
     fio
