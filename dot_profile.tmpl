@@ -75,12 +75,6 @@ fi
 #     disown
 # fi
 
-# Export API keys (13-Jun-2026: these are redundant since I've migrated to mise.
-# export OLLAMA_CLOUD_API_KEY="{{ .secrets.ollama_cloud_api_key }}"
-# export GEMINI_API_KEY="{{ .secrets.gemini_api_key }}"
-# export OPENROUTER_API_KEY="{{ .secrets.openrouter_api_key }}"
-# export GROQ_API_KEY="{{ .secrets.groq_api_key }}"
-
 # Activate mise for current shell
 # IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
 eval "$(mise activate)"
