@@ -260,6 +260,10 @@ local function sanitize_buffer()
     [[%s/[‐-–]/-/ge]], -- unicode dashes excluding the em dash
     [[%s/^\[\d\+\]([^)]\+)\r\?$//ge]], -- deletes entire lines matching the Markdown reference definitions [number](URL)
     [[%s/\[\d\+\]//ge]], -- delete Markdown reference links
+    [[%s/\(\S\)—/\1 —/g]], -- Ensure em-dashes are surrounded by single space characters
+    [[%s/—\(\S\)/— \1/g]],
+    [[%s/\v +—/ —/g]],
+    [[%s/\v— +/— /g]],
   }
   for _, cmd in ipairs(cmds) do
     vim.cmd(cmd)
