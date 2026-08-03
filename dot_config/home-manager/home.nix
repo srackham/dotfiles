@@ -26,12 +26,14 @@
     gh
     git
     gnumake
+    gnupg
     go
     golangci-lint
     golangci-lint-langserver
     gopls
     gotests
     gotools
+    harper
     htop
     iotop
     iperf
@@ -46,6 +48,9 @@
     nixd
     nixfmt-rfc-style
     ntfs3g
+    ollama
+    parted
+    pass
     prettierd
     rclone
     ripgrep
