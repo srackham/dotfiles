@@ -45,8 +45,6 @@ install-tools() {
         MISE_GITHUB_ATTESTATIONS=false mise use --global "$tool"
         echo "--"
     done
-    # Update applications
-    pi update
 }
 
 daily-backup() {
@@ -123,7 +121,7 @@ copy-fnox() {
 tasks=(
     "Apply Chezmoi dot files::apply-dotfiles"
     'Install Lazyvim plugins::nvim-plugins'
-    "Install/Update pi, mise tools::install-tools"
+    "Install/Update mise tools::install-tools"
     "Install/Update opencode, gemini-cli, crush::install-other"
     "Install/Update Ollama models::install-ollama-models"
     "Load GNOME keyboard shortcuts::gnome-settings"
