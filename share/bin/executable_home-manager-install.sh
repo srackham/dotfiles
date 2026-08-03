@@ -90,6 +90,9 @@ chezmoi init https://github.com/srackham/dotfiles.git
 # Install the dot files
 chezmoi --source=~/.local/share/chezmoi apply
 
+# Install mise
+curl https://mise.run | sh
+
 echo
 echo "Install completed successfully."
 echo
