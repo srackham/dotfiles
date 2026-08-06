@@ -60,7 +60,8 @@
     tesseract
     tmux
     tree
-    busybox
+    # Dropped busybox because of incompatibilities
+    # busybox
     unzip
     xclip
     zoxide
