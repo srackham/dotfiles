@@ -101,8 +101,3 @@ echo "2. Start nvim and wait for all the plugin updates to complete."
 echo "3.  Prepend the Nix binary path '$HOME/.nix-profile/bin' to 'secure_path' in '/etc/sudoers'"
 echo
 echo "NOTE: Wait for all the Neovim plugins to install, don't quit do anything until complete (may take a couple of minutes), just keep an eye on the Neovim status messages line."
-echo ""
-echo "If you need the secrets, remote copy secrets.toml and reapply Chezmoi:"
-echo
-echo "    scp srackham@nixos1:/home/srackham/.local/share/chezmoi/.chezmoidata/secrets.toml ~/.local/share/chezmoi/.chezmoidata/"
-echo "    chezmoi apply"
