@@ -20,7 +20,8 @@ vim.lsp.enable {
 
 -- Shared diagnostic config
 vim.diagnostic.config {
-  virtual_text = true,
+  virtual_text = false,
+  virtual_lines = true,
   severity_sort = true, -- Highly recommended in 0.12 to prioritize errors over warnings/hints in UI
 }
 
@@ -33,8 +34,8 @@ vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementa
 vim.keymap.set("n", "<Leader>cR", vim.lsp.buf.rename, { desc = "Rename symbol" })
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 vim.keymap.set("n", "<Leader>dt", function()
-  local enable = not vim.diagnostic.config().virtual_text
-  vim.diagnostic.config { virtual_text = enable }
+  local enable = not vim.diagnostic.config().virtual_lines
+  vim.diagnostic.config { virtual_lines = enable }
   local status = enable and "enabled" or "disabled"
   vim.notify("Diagnostics virtual text " .. status)
 end, { desc = "Toggle diagnostics virtual text" })
