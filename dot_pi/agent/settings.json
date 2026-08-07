@@ -1,17 +1,20 @@
 {
-  "lastChangelogVersion": "0.83.0",
-  "defaultProvider": "openrouter",
   "defaultModel": "minimax/minimax-m2.7",
+  "defaultProvider": "openrouter",
   "defaultThinkingLevel": "medium",
-  "packages": [],
   "enabledModels": [
-    "openrouter/perplexity/sonar",
     "openrouter/google/gemini-2.5-flash",
     "openrouter/minimax/minimax-m2.7",
     "openrouter/minimax/minimax-m3",
     "openrouter/google/gemini-3.5-flash",
     "openrouter/anthropic/claude-sonnet-4.6",
-    "openrouter/anthropic/claude-opus-4.6"
+    "openrouter/anthropic/claude-opus-4.6",
+    "openrouter/perplexity/sonar",
+    "ollama/gemma4:e4b"
+  ],
+  "lastChangelogVersion": "0.84.0",
+  "packages": [
+    "npm:@ollama/pi-web-search"
   ],
   "theme": "dark"
 }

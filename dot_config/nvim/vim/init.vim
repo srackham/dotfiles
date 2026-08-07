@@ -110,6 +110,7 @@
 :iab Ui user interface
 :iab Uk United Kingdom
 :iab Usa United States of America
+:iab Usm United Seafarers Mission
 :iab V2 Vatican II
 :iab Vb VirtualBox
 :iab Vcs version control system
