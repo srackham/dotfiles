@@ -81,8 +81,8 @@ eval "$(mise activate)"
 
 # Export API keys with fnox
 # IMPORTANT: Comes after mise activation so that fnox is available.
-# export OLLAMA_CLOUD_API_KEY="$(fnox get -c $FNOX_CONFIG OLLAMA_CLOUD_API_KEY)"
-# export GEMINI_API_KEY="$(fnox get -c $FNOX_CONFIG GEMINI_API_KEY)"
-# export OPENROUTER_API_KEY="$(fnox get -c $FNOX_CONFIG OPENROUTER_API_KEY)"
-# export GROQ_API_KEY="$(fnox get -c $FNOX_CONFIG GROQ_API_KEY)"
-# export GITHUB_TOKEN="$(fnox get -c $FNOX_CONFIG GITHUB_TOKEN)"
+export OLLAMA_CLOUD_API_KEY="$(fnox get -c $FNOX_CONFIG OLLAMA_CLOUD_API_KEY)"
+export GEMINI_API_KEY="$(fnox get -c $FNOX_CONFIG GEMINI_API_KEY)"
+export OPENROUTER_API_KEY="$(fnox get -c $FNOX_CONFIG OPENROUTER_API_KEY)"
+export GROQ_API_KEY="$(fnox get -c $FNOX_CONFIG GROQ_API_KEY)"
+export GITHUB_TOKEN="$(fnox get -c $FNOX_CONFIG GITHUB_TOKEN)"
