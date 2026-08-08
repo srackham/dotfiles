@@ -1,3 +1,4 @@
 [/]
+show-screenshot-ui=['<Super><Shift>S', 'Print']
 toggle-application-view=['<Alt><Super>a']
 toggle-overview=['disabled']
