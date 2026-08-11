@@ -39,3 +39,13 @@ vim.keymap.set("n", "<Leader>dt", function()
   local status = enable and "enabled" or "disabled"
   vim.notify("Diagnostics virtual text " .. status)
 end, { desc = "Toggle diagnostics virtual text" })
+
+local diag_errors_only = false
+
+vim.keymap.set("n", "<Leader>dT", function()
+  diag_errors_only = not diag_errors_only
+  vim.diagnostic.config {
+    virtual_lines = diag_errors_only and { severity = vim.diagnostic.severity.ERROR } or true,
+  }
+  vim.notify("LSP virtual_lines: " .. (diag_errors_only and "errors only" or "all"))
+end, { desc = "Toggle LSP diagnostics: all vs errors only" })
