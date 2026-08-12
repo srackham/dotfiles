@@ -7,26 +7,26 @@ SERVER="nuc1"
 DATE="date +%Y-%m-%d-%a\ %H:%M:%S"
 
 if [ "$(hostname)" != "nuc1" ]; then
-    echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
+    echo "$(hostname): $(eval "$DATE"): FAILED $0: must be executed on host $SERVER" >&2
     exit 1
 fi
 
 logfiles="/var/log/messages.1 /var/log/messages"
 
 echo RSNAPSHOT BACKUPS
-grep 'rsnapshot.*completed' $logfiles | tail -8
+grep 'rsnapshot.*completed' "$logfiles" | tail -8
 echo
 
 echo BACKUP RSNAPSHOT ARCHIVE TO USB DRIVE
-grep 'to removable drive completed successfully' $logfiles | tail -4
+grep 'to removable drive completed successfully' "$logfiles" | tail -4
 echo
 
 echo BACKUP ALL DATA TO nuc2
-grep 'to nuc2 completed' $logfiles | tail -4
+grep 'to nuc2 completed' "$logfiles" | tail -4
 echo
 
 echo BACKUP ALL DATA TO nuc3
-grep 'to nuc3 completed' $logfiles | tail -4
+grep 'to nuc3 completed' "$logfiles" | tail -4
 echo
 
 # echo BACKUP ALL DATA TO rpi2

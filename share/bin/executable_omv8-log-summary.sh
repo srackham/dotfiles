@@ -5,9 +5,10 @@
 
 SERVER="nuc2"
 DATE="date +%Y-%m-%d-%a\ %H:%M:%S"
+SUPER_HOME=/home/super
 
 if [ "$(hostname)" != "nuc2" ]; then
-    echo "$(hostname): $(eval $DATE): FAILED $0: must be executed on host $SERVER" >&2
+    echo "$(hostname): $(eval "$DATE"): FAILED $0: must be executed on host $SERVER" >&2
     exit 1
 fi
 
@@ -21,8 +22,8 @@ echo BACKUP RSNAPSHOT ARCHIVE TO USB DRIVE
 $journal_log | grep 'to removable drive completed successfully' | tail -4
 echo
 
-echo BACKUP ALL DATA TO nuc2
-$journal_log | grep 'to nuc2 completed' | tail -4
+echo BACKUP ALL DATA TO nuc1
+$journal_log | grep 'to nuc1 completed' | tail -4
 echo
 
 echo BACKUP ALL DATA TO nuc3
@@ -34,18 +35,9 @@ echo
 # echo
 
 echo dell7090 JOBS
-grep 'Finished\|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
-grep 'Finished\|FAILED' /files/users/srackham/bin/sync-local.log | tail -1
+grep --text -E 'Finished|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
 echo
 
-# echo gnome-2204 JOBS
-# $journal_log | grep ': gnome-2204:' | tail -6
-# echo
-#
-# echo manjaro JOBS
-# $journal_log | grep ': manjaro:' | tail -6
-# echo
-
 echo GOOGLE DRIVE BACKUPS
-tail -8 /var/log/rclone-backup.log
+tail -8 $SUPER_HOME/var/rclone-backup.log
 echo

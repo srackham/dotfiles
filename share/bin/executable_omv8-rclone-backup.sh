@@ -12,14 +12,14 @@ set -u # No unbound variables.
 set -e # Exit on error.
 #set -x  # Echo commands
 
-CMD=$(basename $0 .sh)
+CMD=$(basename "$0" .sh)
 
 # Configuration variables.
 # Do not use the $HOME env variable (the script is run by root).
-BIN=/files/users/srackham/bin
-CONFIG=/home/super/.config/rclone/rclone.conf
-LOGFILE=/var/log/$CMD.log
-FILTERS=$BIN/rclone-backup-filters
+SUPER_HOME=/home/super
+CONFIG=$SUPER_HOME/bin/rclone.conf
+LOGFILE=$SUPER_HOME/var/rclone-backup.log
+FILTERS=$SUPER_HOME/bin/rclone-backup-filters
 SRC=/files
 #REMOTE=gdrive     # Google remote drive (default rclone client).
 REMOTE=gdrive2 # Google remote drive (custom rclone client).
@@ -83,7 +83,7 @@ help | -h | --help)
 	;;
 esac
 
-echo $(date): Starting $CMD | tee $LOGFILE
+echo "$(date): Starting $CMD" | tee "$LOGFILE"
 err_msg=""
 case $CMD in
 rclone-backup)
@@ -91,7 +91,7 @@ rclone-backup)
 		$SRC \
 		$DST \
 		--config $CONFIG \
-		--backup-dir $BACKUP_DIR \
+		--backup-dir "$BACKUP_DIR" \
 		--filter-from $FILTERS \
 		--delete-during \
 		--delete-excluded \
@@ -100,7 +100,7 @@ rclone-backup)
 		--stats 30m \
 		--log-level INFO \
 		$@ \
-		2>&1 | tee --append $LOGFILE
+		2>&1 | tee --append "$LOGFILE"
 	exit_code=$?
 	;;
 rclone-restore)
@@ -108,7 +108,7 @@ rclone-restore)
 		--config $CONFIG \
 		--stats 30m \
 		--log-level INFO \
-		2>&1 | tee --append $LOGFILE
+		2>&1 | tee --append "$LOGFILE"
 	exit_code=$?
 	;;
 *)
@@ -118,13 +118,13 @@ rclone-restore)
 esac
 
 if [ $exit_code -eq 0 ]; then
-	echo "$(date): Finished $CMD" | tee --append $LOGFILE
+	echo "$(date): Finished $CMD" | tee --append "$LOGFILE"
 else
-	if [ err_msg = "" ]; then
+	if [ "$err_msg" = "" ]; then
 		err_msg="exit code: $exit_code"
 	fi
 	err_msg="$(date): FAILED $CMD: $err_msg"
-	echo err_msg >>$LOGFILE
+	echo err_msg >>"$LOGFILE"
 	echo err_msg >&2
 	echo "See $LOGFILE" >&2
 fi
