@@ -55,9 +55,8 @@ append_tab("Notes", "cd ~/notes")
 tabs[1].panes[3].shell_command = nil -- Don't open Lazygit in the 3rd Notes pane
 append_tab("Chezmoi", "cd ~/share/projects/chezmoi")
 append_tab("NixOS", "cd ~/share/projects/nixos-configurations")
-append_tab("PRS Dev", "cd ~/share/methods/prs")
-append_tab("PRS Website", "cd ~/share/methods/prs/prs-website")
 append_tab("HTMX Todo", "cd ~/share/projects/htmx-todos")
+append_tab("Cryptor", "cd ~/share/projects/cryptor")
 append_tab("qanda.nvim", "cd ~/share/projects/qanda.nvim")
 table.insert(tabs, {
   tab_name = "Example",
@@ -69,6 +68,8 @@ table.insert(tabs, {
   },
 })
 append_tab("Hello TS", "cd ~/projects/hello/hello-typescript")
+append_tab("PRS Dev", "cd ~/share/methods/prs")
+append_tab("PRS Website", "cd ~/share/methods/prs/prs-website")
 
 -- Utility functions --
 
