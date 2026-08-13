@@ -17,9 +17,11 @@ vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
   callback = function()
     vim.schedule(function()
-      if not vim.g.harper_enabled then
-        utils.stop_lsp "harper"
-      end
+      vim.defer_fn(function() -- This delay should not be necessary but some directories seem to require it
+        if not vim.g.harper_enabled then
+          utils.stop_lsp "harper"
+        end
+      end, 100)
     end)
   end,
 })
