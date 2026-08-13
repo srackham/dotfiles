@@ -11,9 +11,9 @@ alias ...='cd ../..'
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -Al'         # long, all
 alias lr='ls --color=auto -Altr'       # long, all, reverse chronological ordering
-alias g=grep -i
-alias h=history
-alias l=less
+alias g='grep -i'
+alias h='fc -l 1'
+alias l='less'
 
 # Command-line history
 HISTSIZE=200000
@@ -30,8 +30,10 @@ bindkey '^P' up-line-or-history
 setopt hist_ignore_all_dups   				# Remove duplicate commands
 setopt interactive_comments  				# comments in shell; good for copy/paste
 
-bindkey '^F' history-incremental-search-backward        # zsh native command recall with Ctrl+F
+# zsh native command recall with Ctrl+F
+bindkey '^F' history-incremental-search-backward
 
+# fzf command recall with Ctrl+R
 fzf-history-widget() {
   BUFFER=$(fc -rl 1 | awk '!seen[$0]++' | fzf | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//')
   CURSOR=${#BUFFER}
@@ -40,7 +42,8 @@ fzf-history-widget() {
 zle -N fzf-history-widget
 bindkey '^R' fzf-history-widget
 
-autoload -Uz run-help; alias help=run-help              # zsh help command for builtin commands
+# zsh help command for builtin commands
+autoload -Uz run-help; alias help=run-help
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
