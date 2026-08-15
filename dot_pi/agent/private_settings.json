@@ -1,8 +1,9 @@
 {
-  "defaultModel": "minimax/minimax-m2.7",
+  "defaultModel": "google/gemini-3.6-flash",
   "defaultProvider": "openrouter",
   "defaultThinkingLevel": "medium",
   "enabledModels": [
+    "openrouter/google/gemini-3.6-flash",
     "openrouter/google/gemini-2.5-flash",
     "openrouter/minimax/minimax-m2.7",
     "openrouter/minimax/minimax-m3",
@@ -12,7 +13,7 @@
     "openrouter/perplexity/sonar",
     "ollama/gemma4:e4b"
   ],
-  "lastChangelogVersion": "0.84.0",
+  "lastChangelogVersion": "0.84.2",
   "packages": [
     "npm:@ollama/pi-web-search"
   ],
