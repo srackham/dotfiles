@@ -8,17 +8,22 @@ fi
 
 {{template "interactive_shell.tmpl" .}}
 
-bindkey -v # vi command-line editing
-bindkey '^N' down-line-or-history
-bindkey '^P' up-line-or-history
-setopt hist_ignore_all_dups
-setopt interactive_comments
+setopt hist_ignore_all_dups   		  # Remove duplicate commands
+setopt interactive_comments  			  # comments in shell; good for copy/paste
 
-# zsh native command recall with Ctrl+F
-bindkey '^F' history-incremental-search-backward
+# zsh native command recall
+bindkey -v                          # vi command-line editing
+bindkey -M viins '^R' history-incremental-pattern-search-backward
+bindkey -M vicmd '^R' history-incremental-pattern-search-backward
+bindkey -M viins '^F' history-incremental-pattern-search-forward
+bindkey -M vicmd '^F' history-incremental-pattern-search-forward
+bindkey -M viins '^N' down-line-or-history
+bindkey -M vicmd '^N' down-line-or-history
+bindkey -M viins '^P' up-line-or-history
+bindkey -M vicmd '^P' up-line-or-history
 
 # fzf command recall with Ctrl+R
-source <(fzf --zsh)
+# source <(fzf --zsh)
 
 # zsh help command for builtin commands
 autoload -Uz run-help; alias help=run-help
