@@ -81,6 +81,7 @@
 :iab TLM Tridentine Latin Mass
 :iab Ob Obsidian
 :iab Oc OpenClaw
+:iab Ot Old Testament
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault
 :iab Os operating system
@@ -91,7 +92,6 @@
 :iab Pr pull request
 :iab Re regular expression
 :iab Res regular expressions
-:iab Ot Old Testament
 :iab Mru most recently used
 :iab Nt New Testament
 :iab Nyi not yet implemented
