@@ -47,3 +47,8 @@ fi
 # Activate mise for current shell
 # IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
 eval "$(mise activate zsh)"
+
+# Highlight valid paths using the zsh-syntax-highlighting package
+export ZSH_HIGHLIGHT_STYLES[path]='fg=cyan,underline'
+export ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=cyan,underline'
+export ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=cyan,underline'
