@@ -53,13 +53,25 @@ return {
     )
     vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
-    -- Key mappings for commonly used custom prompt templates --
+    -- Key mappings for prompt templates --
     vim.keymap.set({ "n", "v" }, "<C-q>", ":Qanda !Query<CR>", { desc = "Qanda.nvim ask a question" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ad", ":Qanda !Dictionary definition<CR>", { desc = "Qanda.nvim dictionary definition" })
-    vim.keymap.set({ "n", "v" }, "<Leader>al", ":Qanda !Latin word meaning<CR>", { desc = "Qanda.nvim Latin word to English" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aa", ":Qanda !Antonyms<CR>", { desc = "Qanda.nvim antonyms for word" })
-    vim.keymap.set({ "n", "v" }, "<Leader>as", ":Qanda !Synonyms<CR>", { desc = "Qanda.nvim synonyms for word" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aS", ":Qanda !Spell a word<CR>", { desc = "Qanda.nvim spell a word" })
+    -- English
+    vim.keymap.set({ "n", "v" }, "<Leader>aem", ":Qanda !Word meaning<CR>", { desc = "Qanda.nvim word meaning" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aep", ":Qanda !Word pronunciation<CR>", { desc = "Qanda.nvim word pronunciation" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aea", ":Qanda !Antonyms<CR>", { desc = "Qanda.nvim antonyms for a word" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aes", ":Qanda !Synonyms<CR>", { desc = "Qanda.nvim synonyms for a word" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aeS", ":Qanda !Spell a word<CR>", { desc = "Qanda.nvim spell a word" })
+    -- Latin
+    vim.keymap.set({ "n", "v" }, "<Leader>alm", ":Qanda !Latin word meaning<CR>", { desc = "Qanda.nvim Latin word meaning" })
+    vim.keymap.set({ "n", "v" }, "<Leader>alp", ":Qanda !Latin word pronunciation<CR>", { desc = "Qanda.nvim Latin word pronunciation" })
+    -- Spanish
+    vim.keymap.set({ "n", "v" }, "<Leader>asm", ":Qanda !Spanish word meaning<CR>", { desc = "Qanda.nvim Spanish word meaning" })
+    vim.keymap.set(
+      { "n", "v" },
+      "<Leader>asp",
+      ":Qanda !Spanish word pronunciation<CR>",
+      { desc = "Qanda.nvim Spanish word pronunciation" }
+    )
 
   end,
 }
