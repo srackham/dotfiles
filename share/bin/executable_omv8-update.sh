@@ -38,5 +38,17 @@ destination="$HOME/.zshrc"
 
 trap 'rm -f -- "$source_file"' EXIT
 
+# Set prompt color
 sed "0,/%F{[^}]*}/s//%F{$color}/" "$source_file" > "$destination"
+
+# Update Debian packages
+sudo apt update
+sudo apt install --yes curl sshpass parted rsnapshot rclone htop man-db manpages zsh tmux jq bat zsh-syntax-highlighting eza
+
+# Create /root/.zshrc file
+sudo zsh -c 'cat > /root/.zshrc' <<'EOF'
+source ~super/.zshrc
+export PROMPT=$'\n%B%F{white}%n@%m %F{cyan}%~%f%b\n$ '
+EOF
+
 REMOTE
