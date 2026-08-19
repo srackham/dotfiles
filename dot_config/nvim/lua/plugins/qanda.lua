@@ -22,56 +22,36 @@ return {
     }
 
     -- Key mappings for builtin commands --
+    vim.keymap.set({ "n", "v" }, "<C-Del>", "<Cmd>Qanda /new_prompt<CR>", { desc = "Qanda.nvim open new prompt" })
     vim.keymap.set({ "n", "v" }, "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open user Chat window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aq", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open Prompt window" })
-    vim.keymap.set({ "n", "v", "i" }, "<C-Del>", "<Cmd>Qanda /new_prompt<CR>", { desc = "Qanda.nvim open new prompt" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aa", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open Chat window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ac", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>an", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
-    vim.keymap.set(
-      { "n", "v" },
-      "<Leader>ap",
-      "<Cmd>Qanda /prompt_template_picker<CR>",
-      { desc = "Qanda.nvim open prompts template picker" }
-    )
-    vim.keymap.set(
-      { "n", "v" },
-      "<Leader>aP",
-      "<Cmd>Qanda /system_template_picker<CR>",
-      { desc = "Qanda.nvim open System template picker" }
-    )
-    vim.keymap.set({ "n", "v" }, "<leader>am", "<Cmd>Qanda /model_picker<CR>", { desc = "Qanda.nvim model selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>aM", "<Cmd>Qanda /provider_picker<CR>", { desc = "Qanda.nvim provider selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>ar", "<Cmd>Qanda /recent_models<CR>", { desc = "Qanda.nvim recent model selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>ai", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
-    vim.keymap.set({ "n", "v" }, "<leader>ak", "<Cmd>Qanda /abort<CR>", { desc = "Qanda.nvim abort the current request" })
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>ad",
-      "<Cmd>Qanda /dump_diagnostics<CR>",
-      { desc = "Qanda.nvim display request/response diagnostics" }
-    )
-    vim.keymap.set({ "n", "v" }, "<leader>at", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
+    vim.keymap.set({ "n", "v" }, "aq", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open Prompt window" })
+    vim.keymap.set({ "n", "v" }, "aa", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open Chat window" })
+    vim.keymap.set({ "n", "v" }, "ac", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
+    vim.keymap.set({ "n", "v" }, "an", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
+    vim.keymap.set({ "n", "v" }, "ap", "<Cmd>Qanda /prompt_template_picker<CR>", { desc = "Qanda.nvim open prompts template picker" })
+    vim.keymap.set({ "n", "v" }, "aP", "<Cmd>Qanda /system_template_picker<CR>", { desc = "Qanda.nvim open System template picker" })
+    vim.keymap.set({ "n", "v" }, "am", "<Cmd>Qanda /model_picker<CR>", { desc = "Qanda.nvim model selection" })
+    vim.keymap.set({ "n", "v" }, "aM", "<Cmd>Qanda /provider_picker<CR>", { desc = "Qanda.nvim provider selection" })
+    vim.keymap.set({ "n", "v" }, "ar", "<Cmd>Qanda /recent_models<CR>", { desc = "Qanda.nvim recent model selection" })
+    vim.keymap.set({ "n", "v" }, "ai", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
+    vim.keymap.set({ "n", "v" }, "ak", "<Cmd>Qanda /abort<CR>", { desc = "Qanda.nvim abort the current request" })
+    vim.keymap.set({ "n", "v" }, "ad", "<Cmd>Qanda /dump_diagnostics<CR>", { desc = "Qanda.nvim display request/response diagnostics" })
+    vim.keymap.set({ "n", "v" }, "at", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
     -- Key mappings for prompt templates --
     vim.keymap.set({ "n", "v" }, "<C-q>", ":Qanda !Query<CR>", { desc = "Qanda.nvim ask a question" })
     -- English
-    vim.keymap.set({ "n", "v" }, "<Leader>aem", ":Qanda !Word meaning<CR>", { desc = "Qanda.nvim word meaning" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aep", ":Qanda !Word pronunciation<CR>", { desc = "Qanda.nvim word pronunciation" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aea", ":Qanda !Antonyms<CR>", { desc = "Qanda.nvim antonyms for a word" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aes", ":Qanda !Synonyms<CR>", { desc = "Qanda.nvim synonyms for a word" })
-    vim.keymap.set({ "n", "v" }, "<Leader>aeS", ":Qanda !Spell a word<CR>", { desc = "Qanda.nvim spell a word" })
+    vim.keymap.set({ "n", "v" }, "aem", ":Qanda !Word meaning<CR>", { desc = "Qanda.nvim word meaning" })
+    vim.keymap.set({ "n", "v" }, "aep", ":Qanda !Word pronunciation<CR>", { desc = "Qanda.nvim word pronunciation" })
+    vim.keymap.set({ "n", "v" }, "aea", ":Qanda !Antonyms<CR>", { desc = "Qanda.nvim antonyms for a word" })
+    vim.keymap.set({ "n", "v" }, "aes", ":Qanda !Synonyms<CR>", { desc = "Qanda.nvim synonyms for a word" })
+    vim.keymap.set({ "n", "v" }, "aeS", ":Qanda !Spell a word<CR>", { desc = "Qanda.nvim spell a word" })
     -- Latin
-    vim.keymap.set({ "n", "v" }, "<Leader>alm", ":Qanda !Latin word meaning<CR>", { desc = "Qanda.nvim Latin word meaning" })
-    vim.keymap.set({ "n", "v" }, "<Leader>alp", ":Qanda !Latin word pronunciation<CR>", { desc = "Qanda.nvim Latin word pronunciation" })
+    vim.keymap.set({ "n", "v" }, "alm", ":Qanda !Latin word meaning<CR>", { desc = "Qanda.nvim Latin word meaning" })
+    vim.keymap.set({ "n", "v" }, "alp", ":Qanda !Latin word pronunciation<CR>", { desc = "Qanda.nvim Latin word pronunciation" })
     -- Spanish
-    vim.keymap.set({ "n", "v" }, "<Leader>asm", ":Qanda !Spanish word meaning<CR>", { desc = "Qanda.nvim Spanish word meaning" })
-    vim.keymap.set(
-      { "n", "v" },
-      "<Leader>asp",
-      ":Qanda !Spanish word pronunciation<CR>",
-      { desc = "Qanda.nvim Spanish word pronunciation" }
-    )
+    vim.keymap.set({ "n", "v" }, "asm", ":Qanda !Spanish word meaning<CR>", { desc = "Qanda.nvim Spanish word meaning" })
+    vim.keymap.set({ "n", "v" }, "asp", ":Qanda !Spanish word pronunciation<CR>", { desc = "Qanda.nvim Spanish word pronunciation" })
 
   end,
 }
