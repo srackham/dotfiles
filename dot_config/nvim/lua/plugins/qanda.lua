@@ -23,35 +23,35 @@ return {
 
     -- Key mappings for builtin commands --
     vim.keymap.set({ "n", "v" }, "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open user Chat window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lq", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open Prompt window" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aq", "<Cmd>Qanda /prompt_window<CR>", { desc = "Qanda.nvim open Prompt window" })
     vim.keymap.set({ "n", "v", "i" }, "<C-Del>", "<Cmd>Qanda /new_prompt<CR>", { desc = "Qanda.nvim open new prompt" })
+    vim.keymap.set({ "n", "v" }, "<Leader>aa", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open Chat window" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ac", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>an", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
     vim.keymap.set(
       { "n", "v" },
-      "<Leader>lp",
+      "<Leader>ap",
       "<Cmd>Qanda /prompt_template_picker<CR>",
       { desc = "Qanda.nvim open prompts template picker" }
     )
-    vim.keymap.set({ "n", "v" }, "<Leader>la", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open Chat window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>lc", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ln", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
     vim.keymap.set(
       { "n", "v" },
-      "<Leader>ls",
+      "<Leader>aP",
       "<Cmd>Qanda /system_template_picker<CR>",
       { desc = "Qanda.nvim open System template picker" }
     )
-    vim.keymap.set({ "n", "v" }, "<leader>lm", "<Cmd>Qanda /model_picker<CR>", { desc = "Qanda.nvim model selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>lP", "<Cmd>Qanda /provider_picker<CR>", { desc = "Qanda.nvim provider selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>lr", "<Cmd>Qanda /recent_models<CR>", { desc = "Qanda.nvim recent model selection" })
-    vim.keymap.set({ "n", "v" }, "<leader>li", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
-    vim.keymap.set({ "n", "v" }, "<leader>lk", "<Cmd>Qanda /abort<CR>", { desc = "Qanda.nvim abort the current request" })
+    vim.keymap.set({ "n", "v" }, "<leader>am", "<Cmd>Qanda /model_picker<CR>", { desc = "Qanda.nvim model selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>aM", "<Cmd>Qanda /provider_picker<CR>", { desc = "Qanda.nvim provider selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>ar", "<Cmd>Qanda /recent_models<CR>", { desc = "Qanda.nvim recent model selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>ai", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
+    vim.keymap.set({ "n", "v" }, "<leader>ak", "<Cmd>Qanda /abort<CR>", { desc = "Qanda.nvim abort the current request" })
     vim.keymap.set(
       { "n", "v" },
-      "<leader>ld",
+      "<leader>ad",
       "<Cmd>Qanda /dump_diagnostics<CR>",
       { desc = "Qanda.nvim display request/response diagnostics" }
     )
-    vim.keymap.set({ "n", "v" }, "<leader>lt", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
+    vim.keymap.set({ "n", "v" }, "<leader>at", "<Cmd>Qanda /turn_picker<CR>", { desc = "Qanda.nvim open turn picker" })
 
     -- Key mappings for prompt templates --
     vim.keymap.set({ "n", "v" }, "<C-q>", ":Qanda !Query<CR>", { desc = "Qanda.nvim ask a question" })
