@@ -13,8 +13,8 @@ if [[ ! -x $update_script ]]; then
     exit 1
 fi
 
-remote_hosts=(nuc2 nuc3)
-colors=(red blue)
+remote_hosts=(nuc1 nuc2 nuc3)
+colors=(yellow red blue)
 
 for i in "${!remote_hosts[@]}"; do
     remote_host=${remote_hosts[$i]}
