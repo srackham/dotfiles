@@ -22,8 +22,8 @@ cat >"$TMP_FILE" <<'EOF'
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# At 45 minutes past the hour, every 8 hours
-45 */8 * * * root mount -L omv-backups /media/omv-backups && { rsync -aH --delete /files/backups /media/omv-backups/nuc1; RC=$?; umount /media/omv-backups; exit $RC; } && logger "Backup /files/backups/ to removable drive completed successfully"
+# At 07:50 AM
+50 7 * * * root /home/super/bin/log-summary.sh
 
 # At 15 minutes past the hour, every 4 hours
 15 */4 * * * root /usr/bin/rsnapshot hourly && logger "Hourly rsnapshot backup completed successfully"
@@ -37,8 +37,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # At 11:30 AM, on day 1 of the month
 30 11 1 * * root /usr/bin/rsnapshot monthly && logger "Monthly rsnapshot backup completed successfully"
 
-# At 07:50 AM
-50 7 * * * root /home/super/bin/log-summary.sh
+# At 45 minutes past the hour, every 8 hours
+45 */8 * * * root mount -L omv-backups /media/omv-backups && { rsync -aH --delete /files/backups /media/omv-backups/nuc1; RC=$?; umount /media/omv-backups; exit $RC; } && logger "Backup /files/backups/ to removable drive completed successfully"
 
 # At 36 minutes past the hour, every 4 hours (Note: Replace sshpass with SSH keys)
 36 */4 * * * root sshpass -p super rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' --filter 'protect bitcoin/' /files/ super@nuc3:/files && logger "Backup /files/ to nuc3 completed successfully"
