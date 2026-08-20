@@ -47,7 +47,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 20 */4 * * * root /home/super/bin/rclone-backup.sh --log-level INFO >/dev/null
 
 # At 08:05 AM
-5 8 * * * root /home/super/bin/cryptor_value -save -aggregate-only -currency nzd -confdir /files/users/srackham/bin/.cryptor
+5 8 * * * root /home/super/bin/cryptor valuate -save -aggregate-only -currency nzd -confdir /files/users/srackham/bin/.cryptor
 EOF
 
 if [[ "$DRY_RUN" == true ]]; then
