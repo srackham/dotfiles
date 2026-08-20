@@ -47,11 +47,11 @@ return {
     vim.keymap.set({ "n", "v" }, "aes", ":Qanda !Synonyms<CR>", { desc = "Qanda.nvim synonyms for a word" })
     vim.keymap.set({ "n", "v" }, "aeS", ":Qanda !Spell a word<CR>", { desc = "Qanda.nvim spell a word" })
     -- Latin
-    vim.keymap.set({ "n", "v" }, "alm", ":Qanda !Latin word meaning<CR>", { desc = "Qanda.nvim Latin word meaning" })
-    vim.keymap.set({ "n", "v" }, "alp", ":Qanda !Latin word pronunciation<CR>", { desc = "Qanda.nvim Latin word pronunciation" })
+    vim.keymap.set({ "n", "v" }, "alm", ":Qanda !Latin text meaning<CR>", { desc = "Qanda.nvim Latin text meaning" })
+    vim.keymap.set({ "n", "v" }, "alp", ":Qanda !Latin text pronunciation<CR>", { desc = "Qanda.nvim Latin text pronunciation" })
     -- Spanish
-    vim.keymap.set({ "n", "v" }, "asm", ":Qanda !Spanish word meaning<CR>", { desc = "Qanda.nvim Spanish word meaning" })
-    vim.keymap.set({ "n", "v" }, "asp", ":Qanda !Spanish word pronunciation<CR>", { desc = "Qanda.nvim Spanish word pronunciation" })
+    vim.keymap.set({ "n", "v" }, "asm", ":Qanda !Spanish text meaning<CR>", { desc = "Qanda.nvim Spanish text meaning" })
+    vim.keymap.set({ "n", "v" }, "asp", ":Qanda !Spanish text pronunciation<CR>", { desc = "Qanda.nvim Spanish text pronunciation" })
 
   end,
 }
