@@ -44,7 +44,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 36 */4 * * * root sshpass -p super rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' --filter 'protect bitcoin/' /files/ super@nuc3:/files && logger "Backup /files/ to nuc3 completed successfully"
 
 # At 20 minutes past the hour, every 4 hours
-20 */4 * * * root /home/super/bin/rclone-backup.sh --log-level INFO
+20 */4 * * * root /home/super/bin/rclone-backup.sh --log-level INFO >/dev/null
 
 # At 08:05 AM
 5 8 * * * root /home/super/bin/cryptor_value -save -aggregate-only -currency nzd -confdir /files/users/srackham/bin/.cryptor
