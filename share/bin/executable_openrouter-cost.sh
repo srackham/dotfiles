@@ -3,7 +3,7 @@
 set -euo pipefail
 
 show_help() {
-    cat << 'EOF'
+    cat <<'EOF'
 Usage: openrouter_cost.sh [POLL_MINUTES] [OPTIONS]
        openrouter_cost.sh [OPTIONS] [POLL_MINUTES]
 
@@ -33,44 +33,44 @@ CONTINUOUS=false
 # Parse options and positional arguments anywhere in command line
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -h|--help)
-            show_help
-            exit 0
-            ;;
-        -c|--continuous)
-            CONTINUOUS=true
-            shift
-            ;;
-        -r|--reset)
-            RESET_LOG=true
-            shift
-            ;;
-        -l|--log-file)
-            if [[ -n "${2:-}" && ! "$2" =~ ^- ]]; then
-                LOG_FILE="$2"
-                shift 2
-            else
-                echo "Error: Option '$1' requires a file path argument." >&2
-                exit 1
-            fi
-            ;;
-        -l=*|--log-file=*)
-            LOG_FILE="${1#*=}"
-            shift
-            ;;
-        -*)
-            echo "Error: Unknown option '$1'" >&2
+    -h | --help)
+        show_help
+        exit 0
+        ;;
+    -c | --continuous)
+        CONTINUOUS=true
+        shift
+        ;;
+    -r | --reset)
+        RESET_LOG=true
+        shift
+        ;;
+    -l | --log-file)
+        if [[ -n "${2:-}" && ! "$2" =~ ^- ]]; then
+            LOG_FILE="$2"
+            shift 2
+        else
+            echo "Error: Option '$1' requires a file path argument." >&2
             exit 1
-            ;;
-        *)
-            if [[ -z "$POLL_MINUTES" ]]; then
-                POLL_MINUTES="$1"
-                shift
-            else
-                echo "Error: Unknown or extra argument '$1'" >&2
-                exit 1
-            fi
-            ;;
+        fi
+        ;;
+    -l=* | --log-file=*)
+        LOG_FILE="${1#*=}"
+        shift
+        ;;
+    -*)
+        echo "Error: Unknown option '$1'" >&2
+        exit 1
+        ;;
+    *)
+        if [[ -z "$POLL_MINUTES" ]]; then
+            POLL_MINUTES="$1"
+            shift
+        else
+            echo "Error: Unknown or extra argument '$1'" >&2
+            exit 1
+        fi
+        ;;
     esac
 done
 
@@ -95,7 +95,7 @@ fi
 
 # Dependency check
 for cmd in curl jq sleep date; do
-    if ! command -v "$cmd" &> /dev/null; then
+    if ! command -v "$cmd" &>/dev/null; then
         echo "Error: Required command '$cmd' is not installed." >&2
         exit 1
     fi
@@ -122,15 +122,15 @@ trap 'echo -e "\nStopping OpenRouter cost monitor."; exit 0' INT TERM
 
 # Truncate log file if reset flag is present
 if [[ "$RESET_LOG" == true && -n "$LOG_FILE" ]]; then
-    true > "$LOG_FILE"
+    true >"$LOG_FILE"
 fi
 
 # Initialize prior cumulative cost from log file if specified and exists
-PRIOR_CUMULATIVE="0.00"
+PRIOR_CUMULATIVE="0"
 if [[ -n "$LOG_FILE" && -f "$LOG_FILE" ]]; then
     LAST_LINE=$(tail -n 1 "$LOG_FILE" 2>/dev/null || true)
     if [[ -n "$LAST_LINE" ]]; then
-        # Parse value following 'Cumulative cost: $'
+        # Extract full precision float value following 'Cumulative cost: $'
         EXTRACTED=$(echo "$LAST_LINE" | sed -n 's/.*Cumulative cost: \$\([0-9.]*\) USD.*/\1/p')
         if [[ -n "$EXTRACTED" ]]; then
             PRIOR_CUMULATIVE="$EXTRACTED"
@@ -140,10 +140,11 @@ fi
 
 CURRENT_API_USAGE=$(get_current_usage)
 PREV_USAGE="$CURRENT_API_USAGE"
-# Baseline API usage for session calculations: API Usage - Prior Cumulative Cost
+
+# Baseline API usage calculated with full precision: API Usage - Prior Cumulative Cost
 INITIAL_BASELINE=$(jq -n --arg usage "$CURRENT_API_USAGE" --arg prior "$PRIOR_CUMULATIVE" '$usage | tonumber - ($prior | tonumber)')
 
-echo "Starting continuous polling every ${POLL_MINUTES} minute(s)..."
+echo "Starting polling every ${POLL_MINUTES} minute(s)..."
 
 while true; do
     sleep "$SLEEP_SECONDS"
@@ -151,22 +152,26 @@ while true; do
     CURRENT_USAGE=$(get_current_usage)
     TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
-    # Calculate interval cost and cumulative session cost using jq
+    # Calculate interval cost and cumulative session cost with full precision
     COST_DIFF=$(jq -n --arg prev "$PREV_USAGE" --arg curr "$CURRENT_USAGE" '$curr | tonumber - ($prev | tonumber)')
     CUMULATIVE_COST=$(jq -n --arg base "$INITIAL_BASELINE" --arg curr "$CURRENT_USAGE" '$curr | tonumber - ($base | tonumber)')
 
     # Check if cost > 0
     IS_NON_ZERO=$(jq -n --arg cost "$COST_DIFF" '$cost | tonumber > 0')
 
-    # Print if continuous flag is set OR cost is non-zero
+    # Process output if continuous flag is set OR cost is non-zero
     if [[ "$CONTINUOUS" == true ]] || [[ "$IS_NON_ZERO" == "true" ]]; then
-        OUTPUT_MSG=$(printf "[%s] Cost past %d min: \$%.2f USD | Cumulative cost: \$%.2f USD" \
+        # Format for terminal: costs truncated to 2 decimal places
+        PRINT_MSG=$(printf "[%s] Cost past %d min: \$%.2f USD | Cumulative cost: \$%.2f USD" \
             "$TIMESTAMP" "$POLL_MINUTES" "$COST_DIFF" "$CUMULATIVE_COST")
-        
-        echo "$OUTPUT_MSG"
 
+        echo "$PRINT_MSG"
+
+        # Save to log file: full floating-point precision retained
         if [[ -n "$LOG_FILE" ]]; then
-            echo "$OUTPUT_MSG" >> "$LOG_FILE"
+            LOG_MSG=$(printf "[%s] Cost past %d min: \$%s USD | Cumulative cost: \$%s USD" \
+                "$TIMESTAMP" "$POLL_MINUTES" "$COST_DIFF" "$CUMULATIVE_COST")
+            echo "$LOG_MSG" >>"$LOG_FILE"
         fi
     fi
 
