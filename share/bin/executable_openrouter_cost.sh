@@ -5,6 +5,7 @@ set -euo pipefail
 show_help() {
     cat << 'EOF'
 Usage: openrouter_cost.sh [POLL_MINUTES] [OPTIONS]
+       openrouter_cost.sh [OPTIONS] [POLL_MINUTES]
 
 Polls OpenRouter usage at a set interval and displays period costs 
 and cumulative cost accumulated during the script run.
@@ -29,7 +30,7 @@ POLL_MINUTES=""
 RESET_LOG=false
 CONTINUOUS=false
 
-# Parse options and positional arguments
+# Parse options and positional arguments anywhere in command line
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -h|--help)
@@ -56,6 +57,10 @@ while [[ $# -gt 0 ]]; do
         -l=*|--log-file=*)
             LOG_FILE="${1#*=}"
             shift
+            ;;
+        -*)
+            echo "Error: Unknown option '$1'" >&2
+            exit 1
             ;;
         *)
             if [[ -z "$POLL_MINUTES" ]]; then
