@@ -1,5 +1,5 @@
 {
-  "defaultModel": "google/gemini-3.6-flash",
+  "defaultModel": "google/gemini-3.7-flash",
   "defaultProvider": "openrouter",
   "defaultThinkingLevel": "medium",
   "enabledModels": [
@@ -10,8 +10,8 @@
     "openrouter/google/gemini-3.5-flash",
     "openrouter/anthropic/claude-sonnet-4.6",
     "openrouter/anthropic/claude-opus-4.6",
-    "openrouter/perplexity/sonar",
-    "ollama/gemma4:e4b"
+    "ollama/gemma4:e4b",
+    "openrouter/google/gemini-3.7-flash"
   ],
   "lastChangelogVersion": "0.84.2",
   "packages": [
