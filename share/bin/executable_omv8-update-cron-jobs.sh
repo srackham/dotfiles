@@ -38,7 +38,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 30 11 1 * * root /usr/bin/rsnapshot monthly && logger "Monthly rsnapshot backup completed successfully"
 
 # At 45 minutes past the hour, every 8 hours
-45 */8 * * * root mount -L omv-backups /media/omv-backups && { rsync -aH --delete /files/backups /media/omv-backups/nuc1; RC=$?; umount /media/omv-backups; exit $RC; } && logger "Backup /files/backups/ to removable drive completed successfully"
+45 */8 * * * root mount -L omv-backups /media/omv-backups && ( rsync -aH --delete /files/backups /media/omv-backups/nuc1; RC=$?; sync; umount /media/omv-backups; exit $RC; ) && logger "Backup /files/backups/ to removable drive completed successfully"
 
 # At 36 minutes past the hour, every 4 hours (Note: Replace sshpass with SSH keys)
 36 */4 * * * root sshpass -p super rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' --filter 'protect bitcoin/' /files/ super@nuc3:/files && logger "Backup /files/ to nuc3 completed successfully"
