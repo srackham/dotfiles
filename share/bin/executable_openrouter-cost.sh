@@ -7,7 +7,7 @@ show_help() {
 Usage: openrouter_cost.sh [POLL_MINUTES] [OPTIONS]
        openrouter_cost.sh [OPTIONS] [POLL_MINUTES]
 
-Polls OpenRouter usage at a set interval and displays period costs 
+Polls OpenRouter usage at a set interval and displays period costs
 and cumulative cost accumulated during the script run.
 
 Arguments:
@@ -15,7 +15,7 @@ Arguments:
 
 Options:
   -c, --continuous          Print output every polling interval even if period cost is zero.
-  -l, --log-file FILE       File to append cost logs to. Initializes cumulative cost
+  -l, --log-file FILE       File to append cost logs to. Initializes cumulative stats
                             from the last entry if the file exists.
   -r, --reset               Clears/truncates the log file on startup (requires -l/--log-file).
   -h, --help                Show this help message and exit.
@@ -105,6 +105,7 @@ SLEEP_SECONDS=$((POLL_MINUTES * 60))
 
 get_current_usage() {
     local response
+
     response=$(curl -s -X GET "https://openrouter.ai/api/v1/auth/key" \
         -H "Authorization: Bearer ${OPENROUTER_API_KEY}")
 
@@ -125,15 +126,18 @@ if [[ "$RESET_LOG" == true && -n "$LOG_FILE" ]]; then
     true >"$LOG_FILE"
 fi
 
-# Initialize prior cumulative cost from log file if specified and exists
-PRIOR_CUMULATIVE="0"
+# Initialize prior cumulative stats from log file if specified and exists
+PRIOR_CUMULATIVE_COST="0"
+
 if [[ -n "$LOG_FILE" && -f "$LOG_FILE" ]]; then
     LAST_LINE=$(tail -n 1 "$LOG_FILE" 2>/dev/null || true)
+
     if [[ -n "$LAST_LINE" ]]; then
-        # Extract full precision float value following 'Cumulative cost: $'
-        EXTRACTED=$(echo "$LAST_LINE" | sed -n 's/.*Cumulative cost: \$\([0-9.]*\) USD.*/\1/p')
-        if [[ -n "$EXTRACTED" ]]; then
-            PRIOR_CUMULATIVE="$EXTRACTED"
+        # Parse 'Cumulative: $' value
+        EXTRACTED_COST=$(echo "$LAST_LINE" | sed -n 's/.*Cumulative: \$\([0-9.]*\) USD.*/\1/p')
+
+        if [[ -n "$EXTRACTED_COST" ]]; then
+            PRIOR_CUMULATIVE_COST="$EXTRACTED_COST"
         fi
     fi
 fi
@@ -141,10 +145,13 @@ fi
 CURRENT_API_USAGE=$(get_current_usage)
 PREV_USAGE="$CURRENT_API_USAGE"
 
-# Baseline API usage calculated with full precision: API Usage - Prior Cumulative Cost
-INITIAL_BASELINE=$(jq -n --arg usage "$CURRENT_API_USAGE" --arg prior "$PRIOR_CUMULATIVE" '$usage | tonumber - ($prior | tonumber)')
+# Establish baseline for lifetime tracking relative to session
+INITIAL_COST_BASELINE=$(jq -n \
+    --arg usage "$CURRENT_API_USAGE" \
+    --arg prior "$PRIOR_CUMULATIVE_COST" \
+    '$usage | tonumber - ($prior | tonumber)')
 
-echo "Starting polling every ${POLL_MINUTES} minute(s)..."
+echo "Starting continuous polling every ${POLL_MINUTES} minute(s)..."
 
 while true; do
     sleep "$SLEEP_SECONDS"
@@ -152,26 +159,29 @@ while true; do
     CURRENT_USAGE=$(get_current_usage)
     TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
-    # Calculate interval cost and cumulative session cost with full precision
-    COST_DIFF=$(jq -n --arg prev "$PREV_USAGE" --arg curr "$CURRENT_USAGE" '$curr | tonumber - ($prev | tonumber)')
-    CUMULATIVE_COST=$(jq -n --arg base "$INITIAL_BASELINE" --arg curr "$CURRENT_USAGE" '$curr | tonumber - ($base | tonumber)')
+    # Calculate period and cumulative costs
+    CALCS=$(jq -n \
+        --arg prev_u "$PREV_USAGE" \
+        --arg curr_u "$CURRENT_USAGE" \
+        --arg base_u "$INITIAL_COST_BASELINE" \
+        '{
+            cost_diff: (($curr_u | tonumber) - ($prev_u | tonumber)),
+            cumulative_cost: (($curr_u | tonumber) - ($base_u | tonumber))
+        }')
+
+    COST_DIFF=$(echo "$CALCS" | jq -r '.cost_diff')
+    CUMULATIVE_COST=$(echo "$CALCS" | jq -r '.cumulative_cost')
 
     # Check if cost > 0
     IS_NON_ZERO=$(jq -n --arg cost "$COST_DIFF" '$cost | tonumber > 0')
 
-    # Process output if continuous flag is set OR cost is non-zero
     if [[ "$CONTINUOUS" == true ]] || [[ "$IS_NON_ZERO" == "true" ]]; then
-        # Format for terminal: costs truncated to 2 decimal places
-        PRINT_MSG=$(printf "[%s] Cost past %d min: \$%.2f USD | Cumulative cost: \$%.2f USD" \
-            "$TIMESTAMP" "$POLL_MINUTES" "$COST_DIFF" "$CUMULATIVE_COST")
+        PRINT_MSG="[$TIMESTAMP] Past $POLL_MINUTES min: \$$COST_DIFF USD | Cumulative: \$$CUMULATIVE_COST USD"
 
         echo "$PRINT_MSG"
 
-        # Save to log file: full floating-point precision retained
         if [[ -n "$LOG_FILE" ]]; then
-            LOG_MSG=$(printf "[%s] Cost past %d min: \$%s USD | Cumulative cost: \$%s USD" \
-                "$TIMESTAMP" "$POLL_MINUTES" "$COST_DIFF" "$CUMULATIVE_COST")
-            echo "$LOG_MSG" >>"$LOG_FILE"
+            echo "$PRINT_MSG" >>"$LOG_FILE"
         fi
     fi
 
