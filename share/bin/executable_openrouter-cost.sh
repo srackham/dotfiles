@@ -151,7 +151,7 @@ INITIAL_COST_BASELINE=$(jq -n \
     --arg prior "$PRIOR_CUMULATIVE_COST" \
     '$usage | tonumber - ($prior | tonumber)')
 
-echo "Starting continuous polling every ${POLL_MINUTES} minute(s)..."
+echo "Starting polling every ${POLL_MINUTES} minute(s)..."
 
 while true; do
     sleep "$SLEEP_SECONDS"
@@ -176,7 +176,7 @@ while true; do
     IS_NON_ZERO=$(jq -n --arg cost "$COST_DIFF" '$cost | tonumber > 0')
 
     if [[ "$CONTINUOUS" == true ]] || [[ "$IS_NON_ZERO" == "true" ]]; then
-        PRINT_MSG="[$TIMESTAMP] Past $POLL_MINUTES min: \$$COST_DIFF USD | Cumulative: \$$CUMULATIVE_COST USD"
+        PRINT_MSG="$TIMESTAMP | Past $POLL_MINUTES min: \$$COST_DIFF USD | Session: \$$CUMULATIVE_COST USD"
 
         echo "$PRINT_MSG"
 
