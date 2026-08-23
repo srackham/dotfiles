@@ -81,6 +81,7 @@
 :iab TLM Tridentine Latin Mass
 :iab Ob Obsidian
 :iab Oc OpenClaw
+:iab Ol Omarchy Linux
 :iab Ot Old Testament
 :iab Onv `obsidian.nvim`
 :iab Omv OpenMediaVault

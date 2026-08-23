@@ -17,5 +17,6 @@
   "packages": [
     "npm:@ollama/pi-web-search"
   ],
-  "theme": "dark"
+  "theme": "dark",
+  "hideThinkingBlock": true
 }
