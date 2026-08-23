@@ -133,8 +133,8 @@ if [[ -n "$LOG_FILE" && -f "$LOG_FILE" ]]; then
     LAST_LINE=$(tail -n 1 "$LOG_FILE" 2>/dev/null || true)
 
     if [[ -n "$LAST_LINE" ]]; then
-        # Parse 'Cumulative: $' value
-        EXTRACTED_COST=$(echo "$LAST_LINE" | sed -n 's/.*Cumulative: \$\([0-9.]*\) USD.*/\1/p')
+        # Parse 'Cumulative: ' value
+        EXTRACTED_COST=$(echo "$LAST_LINE" | sed -n 's/.*Cumulative: \([0-9.]*\) USD.*/\1/p')
 
         if [[ -n "$EXTRACTED_COST" ]]; then
             PRIOR_CUMULATIVE_COST="$EXTRACTED_COST"
@@ -176,7 +176,7 @@ while true; do
     IS_NON_ZERO=$(jq -n --arg cost "$COST_DIFF" '$cost | tonumber > 0')
 
     if [[ "$CONTINUOUS" == true ]] || [[ "$IS_NON_ZERO" == "true" ]]; then
-        PRINT_MSG="$TIMESTAMP | Past $POLL_MINUTES min: \$$COST_DIFF USD | Session: \$$CUMULATIVE_COST USD"
+        PRINT_MSG="$TIMESTAMP | Past $POLL_MINUTES min: $COST_DIFF USD | Session: $CUMULATIVE_COST USD"
 
         echo "$PRINT_MSG"
 
