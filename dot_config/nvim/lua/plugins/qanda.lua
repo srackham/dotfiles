@@ -22,6 +22,8 @@ return {
     }
 
     -- Key mappings for builtin commands --
+    vim.keymap.set({ "n", "v" }, "<C-Del>", "<Cmd>Qanda /new_prompt<CR>", { desc = "Qanda.nvim open new prompt" })
+    vim.keymap.set({ "n", "v" }, "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open user Chat window" })
     vim.keymap.set({ "n", "v" }, "aa", "<Cmd>Qanda /repeat<CR>", { desc = "Qanda.nvim execute previous command" })
     vim.keymap.set({ "n", "v" }, "aC", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
     vim.keymap.set({ "n", "v" }, "ac", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open Chat window" })
