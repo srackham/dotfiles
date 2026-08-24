@@ -18,10 +18,13 @@ Options:
   -l, --log-file FILE       File to append cost logs to. Initializes cumulative stats
                             from the last entry if the file exists.
   -r, --reset               Clears/truncates the log file on startup (requires -l/--log-file).
+  -s, --summary             Fetch and display the last 30 days of activity from the
+                            OpenRouter Management API, then exit.
   -h, --help                Show this help message and exit.
 
 Environment Variables:
   OPENROUTER_API_KEY        Required. Your OpenRouter API key.
+  OPENROUTER_MANAGEMENT_KEY Required for --summary. Your OpenRouter Management API key.
 EOF
 }
 
@@ -29,6 +32,7 @@ LOG_FILE=""
 POLL_MINUTES=""
 RESET_LOG=false
 CONTINUOUS=false
+SUMMARY=false
 
 # Parse options and positional arguments anywhere in command line
 while [[ $# -gt 0 ]]; do
@@ -36,6 +40,10 @@ while [[ $# -gt 0 ]]; do
     -h | --help)
         show_help
         exit 0
+        ;;
+    -s | --summary)
+        SUMMARY=true
+        shift
         ;;
     -c | --continuous)
         CONTINUOUS=true
@@ -80,6 +88,53 @@ if [[ "$RESET_LOG" == true && -z "$LOG_FILE" ]]; then
     exit 1
 fi
 
+# Dependency check
+for cmd in curl jq sleep date; do
+    if ! command -v "$cmd" &>/dev/null; then
+        echo "Error: Required command '$cmd' is not installed." >&2
+        exit 1
+    fi
+done
+
+# --summary mode: fetch and display 30-day activity, then exit
+if [[ "$SUMMARY" == true ]]; then
+    if [[ -z "${OPENROUTER_MANAGEMENT_KEY:-}" ]]; then
+        echo "Error: OPENROUTER_MANAGEMENT_KEY environment variable is not set." >&2
+        exit 1
+    fi
+
+    response=$(curl -s -X GET "https://openrouter.ai/api/v1/activity" \
+        -H "Authorization: Bearer ${OPENROUTER_MANAGEMENT_KEY}")
+
+    if echo "$response" | jq -e '.error' >/dev/null 2>&1; then
+        echo "API Error:" >&2
+        echo "$response" | jq -r '.error.message // .error' >&2
+        exit 1
+    fi
+
+    # Aggregate usage per day (sum across all models/endpoints), sort chronologically
+    echo "$response" | jq -r '
+        .data
+        | group_by(.date)
+        | map({
+            date: .[0].date,
+            total: (map(.usage) | add // 0)
+          })
+        | sort_by(.date)
+        | .[] | "\(.date) | $\((.total * 100 | round) / 100 | tostring | if contains(".") then . else . + ".00" end) USD"
+    '
+
+    # Print total
+    echo ""
+    echo "$response" | jq -r '
+        .data | map(.usage) | add // 0
+        | . * 100 | round | . / 100
+        | "Total cost for all 30 days: $" + (tostring | if contains(".") then . else . + ".00" end)
+    '
+
+    exit 0
+fi
+
 POLL_MINUTES="${POLL_MINUTES:-1}"
 
 if ! [[ "$POLL_MINUTES" =~ ^[0-9]+$ ]] || [ "$POLL_MINUTES" -le 0 ]; then
@@ -92,14 +147,6 @@ if [[ -z "${OPENROUTER_API_KEY:-}" ]]; then
     echo "Error: OPENROUTER_API_KEY environment variable is not set." >&2
     exit 1
 fi
-
-# Dependency check
-for cmd in curl jq sleep date; do
-    if ! command -v "$cmd" &>/dev/null; then
-        echo "Error: Required command '$cmd' is not installed." >&2
-        exit 1
-    fi
-done
 
 SLEEP_SECONDS=$((POLL_MINUTES * 60))
 
