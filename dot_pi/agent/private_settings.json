@@ -1,5 +1,5 @@
 {
-  "defaultModel": "google/gemini-3.7-flash",
+  "defaultModel": "google/gemini-2.5-flash",
   "defaultProvider": "openrouter",
   "defaultThinkingLevel": "medium",
   "enabledModels": [
