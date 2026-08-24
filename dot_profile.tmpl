@@ -79,10 +79,12 @@ fi
 # IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
 eval "$(mise activate)"
 
-# Export API keys with fnox
+# Export secrets with fnox
 # IMPORTANT: Comes after mise activation so that fnox is available.
+export OMV_SUPER_PASSWORD="$(fnox get -c $FNOX_CONFIG OMV_SUPER_PASSWORD)"
 export OLLAMA_CLOUD_API_KEY="$(fnox get -c $FNOX_CONFIG OLLAMA_CLOUD_API_KEY)"
 export GEMINI_API_KEY="$(fnox get -c $FNOX_CONFIG GEMINI_API_KEY)"
 export OPENROUTER_API_KEY="$(fnox get -c $FNOX_CONFIG OPENROUTER_API_KEY)"
+export OPENROUTER_MANAGEMENT_KEY="$(fnox get -c $FNOX_CONFIG OPENROUTER_MANAGEMENT_KEY)"
 export GROQ_API_KEY="$(fnox get -c $FNOX_CONFIG GROQ_API_KEY)"
 export GITHUB_TOKEN="$(fnox get -c $FNOX_CONFIG GITHUB_TOKEN)"
