@@ -21,6 +21,7 @@ trap 'rm -f "$TMP_FILE"' EXIT
 cat >"$TMP_FILE" <<'EOF'
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+BASH_ENV=/root/.cron_env.sh
 
 # At 07:50 AM
 50 7 * * * root /home/super/bin/log-summary.sh
@@ -41,10 +42,10 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 45 */8 * * * root mount -L omv-backups /media/omv-backups && ( rsync -aH --delete /files/backups /media/omv-backups/nuc1; RC=$?; sync; umount /media/omv-backups; exit $RC; ) && logger "Backup /files/backups/ to removable drive completed successfully"
 
 # At 46 minutes past the hour, every 4 hours
-36 */4 * * * root sshpass -p super rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' /files/ super@nuc1:/files && logger Backup /files/ to nuc1 completed successfully
+36 */4 * * * root sshpass -p $OMV_SUPER_PASSWORD rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' /files/ super@nuc1:/files && logger Backup /files/ to nuc1 completed successfully
 
 # At 36 minutes past the hour, every 4 hours
-36 */4 * * * root sshpass -p super rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' --filter 'protect bitcoin/' /files/ super@nuc3:/files && logger "Backup /files/ to nuc3 completed successfully"
+36 */4 * * * root sshpass -p $OMV_SUPER_PASSWORD rsync -aH --delete -e ssh --rsync-path='sudo rsync' --exclude '/aquota.*' --filter 'protect bitcoin/' /files/ super@nuc3:/files && logger "Backup /files/ to nuc3 completed successfully"
 
 # At 20 minutes past the hour, every 4 hours
 20 */4 * * * root /home/super/bin/rclone-backup.sh --log-level INFO >/dev/null
