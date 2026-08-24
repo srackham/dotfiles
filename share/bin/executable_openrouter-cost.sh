@@ -124,12 +124,22 @@ if [[ "$SUMMARY" == true ]]; then
         | .[] | "\(.date) | $\((.total * 100 | round) / 100 | tostring | if contains(".") then . else . + ".00" end) USD"
     '
 
-    # Print total
+    # Print total with actual day span derived from first and last dates in the data
     echo ""
     echo "$response" | jq -r '
-        .data | map(.usage) | add // 0
-        | . * 100 | round | . / 100
-        | "Total cost for all 30 days: $" + (tostring | if contains(".") then . else . + ".00" end)
+        .data
+        | group_by(.date)
+        | map({ date: .[0].date, total: (map(.usage) | add // 0) })
+        | sort_by(.date)
+        | {
+            days: (if length < 2 then 1
+                   else (( (last.date  | strptime("%Y-%m-%d") | mktime)
+                          - (first.date | strptime("%Y-%m-%d") | mktime)
+                        ) / 86400 | round) + 1
+                   end),
+            total: (map(.total) | add // 0)
+          }
+        | "Total cost for \(.days) day(s): $" + ((.total * 100 | round) / 100 | tostring | if contains(".") then . else . + ".00" end)
     '
 
     exit 0
