@@ -84,7 +84,7 @@ alias dmesg="sudo dmesg --human --color=always"
 alias diff="diff --color=always -u"
 alias drake="deno run -A Drakefile.ts"
 alias rg="rg --colors path:style:bold  --colors path:fg:yellow"
-alias g="rg --max-depth 1 -z"
+alias g='grep -i'
 alias gd="git diff --color"
 alias gg="git grep -P"
 alias gl="git log --graph --color=always --pretty=format:'%C(auto)%h %C(auto)%d %Cgreen%cr%Creset %s' | fzf --ansi --preview 'git show --color {2}'"
