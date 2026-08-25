@@ -109,6 +109,7 @@
 :iab Tsp teaspoon
 :iab Ts TypeScript
 :iab Ui user interface
+:iab Um [United Seafarers' Mission IT Manual](./linked/usm/USM_IT_Manual.pdf)
 :iab Uk United Kingdom
 :iab Usa United States of America
 :iab Usm United Seafarers Mission
