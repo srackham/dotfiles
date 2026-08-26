@@ -13,14 +13,10 @@ SOURCE_HOST="dell7090" # The source of the up to date configuration data
 
 # --- Task functions ---
 
-apply-dotfiles() {
-    chezmoi apply
-}
-
 install-ollama-models() {
     models=(
         "gemma4:e4b" # Local model
-        "dolphin3" # Local model
+        "dolphin3"   # Local model
         "deepseek-v4-flash:cloud"
         "glm-5.2:cloud"
         "kimi-k2.6:cloud"
@@ -45,38 +41,6 @@ install-tools() {
         MISE_GITHUB_ATTESTATIONS=false mise use --global "$tool"
         echo "--"
     done
-}
-
-daily-backup() {
-    backup.sh
-}
-
-weekly-archive() {
-    archive.sh
-}
-
-restore-vms() {
-    restore.sh
-}
-
-nvim-plugins() {
-    nvim --headless -c "Lazy! sync" -c "qa"
-}
-
-build-nixos() {
-    mknixos switch
-}
-
-update-nixos() {
-    upgrade-nixos
-}
-
-list-services() {
-    systemctl list-units --type=service --state=active
-}
-
-view-journal() {
-    journalctl -xe
 }
 
 install-other() {
@@ -119,8 +83,8 @@ copy-fnox() {
 
 # Define admin task menu items
 tasks=(
-    "Apply Chezmoi dot files::apply-dotfiles"
-    'Install Lazyvim plugins::nvim-plugins'
+    "Apply Chezmoi dot files::chezmoi apply"
+    'Install Lazyvim plugins::nvim --headless -c "Lazy! sync" -c "qa"'
     "Install/Update mise tools::install-tools"
     "Install/Update opencode, gemini-cli, crush::install-other"
     "Install/Update Ollama models::install-ollama-models"
@@ -129,20 +93,20 @@ tasks=(
     "Copy pass password store from $SOURCE_HOST::copy-pass"
     "Copy fnox secrets store from $SOURCE_HOST::copy-fnox"
     ""
-    "Daily backup::daily-backup"
-    "Weekly archive::weekly-archive"
-    "Restore VirtualBox VMs::restore-vms"
+    "Daily backup::backup.sh"
+    "Weekly archive::archive.sh"
+    "Restore VirtualBox VMs::restore.sh"
     ""
-    "Build and activate NixOS::build-nixos"
-    "Update, optimise, and rebuild NixOS::update-nixos"
+    "Build and activate NixOS::mknixos switch"
+    "Update, optimise, and rebuild NixOS::upgrade-nixos"
     ""
     "OpenRouter month to date cost::openrouter-cost.sh -s"
     "OpenRouter cost monitor::openrouter-cost.sh -l ~/.local/state/openrouter_cost.log 5"
     ""
     "LAN inventory scan::net-inventory.sh"
     ""
-    "Show active services::list-services"
-    "View system logs::view-journal"
+    "Show active services::systemctl list-units --type=service --state=active"
+    "View system logs::journalctl -xe"
 )
 
 # Extract descriptions for menu display
