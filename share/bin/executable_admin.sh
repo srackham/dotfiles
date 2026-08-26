@@ -136,6 +136,11 @@ tasks=(
     "Build and activate NixOS::build-nixos"
     "Update, optimise, and rebuild NixOS::update-nixos"
     ""
+    "OpenRouter month to date cost::openrouter-cost.sh -s"
+    "OpenRouter cost monitor::openrouter-cost.sh -l ~/.local/state/openrouter_cost.log 5"
+    ""
+    "LAN inventory scan::net-inventory.sh"
+    ""
     "Show active services::list-services"
     "View system logs::view-journal"
 )
