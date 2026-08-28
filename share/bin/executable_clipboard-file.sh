@@ -14,14 +14,17 @@
 #                 clipboard to the clipboard file
 #     cat         Reads the text from the clipboard file to the system clipboard
 #                 and writes it to stdout
+#     watch       Continuously monitors the clipboard file and system clipboard,
+#                 synchronising changes at a 5 second polling interval
 
 set -e
 
 CLIPBOARD_FILE="$HOME/vboxsf/clipboard.txt"
+POLL_INTERVAL=5
 
 usage() {
     echo "Usage: $(basename "$0") COMMAND" >&2
-    echo "Commands: read, write, append, cat" >&2
+    echo "Commands: read, write, append, cat, watch" >&2
     exit 1
 }
 
@@ -41,6 +44,26 @@ case "$1" in
     cat)
         wl-copy <"$CLIPBOARD_FILE"
         cat "$CLIPBOARD_FILE"
+        ;;
+    watch)
+        prev_file=$(cat "$CLIPBOARD_FILE" 2>/dev/null || true)
+        prev_clipboard=$(wl-paste 2>/dev/null || true)
+        trap 'exit 0' INT TERM HUP
+        while sleep "$POLL_INTERVAL"; do
+            new_file=$(cat "$CLIPBOARD_FILE" 2>/dev/null || true)
+            if [ "$new_file" != "$prev_file" ]; then
+                wl-copy <"$CLIPBOARD_FILE"
+                prev_clipboard=$(wl-paste 2>/dev/null || true)
+                prev_file=$new_file
+            else
+                new_clipboard=$(wl-paste 2>/dev/null || true)
+                if [ "$new_clipboard" != "$prev_clipboard" ]; then
+                    wl-paste >"$CLIPBOARD_FILE"
+                    prev_file=$(cat "$CLIPBOARD_FILE" 2>/dev/null || true)
+                    prev_clipboard=$new_clipboard
+                fi
+            fi
+        done
         ;;
     *)
         usage
