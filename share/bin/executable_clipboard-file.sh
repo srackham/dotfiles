@@ -19,7 +19,7 @@
 
 set -e
 
-CLIPBOARD_FILE="$HOME/vboxsf/clipboard.txt"
+CLIP_FILE="$HOME/vboxsf/clipboard.txt"
 POLL_INTERVAL=5
 
 if command -v wl-copy >/dev/null 2>&1; then
@@ -41,42 +41,46 @@ usage() {
 
 [ $# -eq 1 ] || usage
 
+touch "$CLIP_FILE"
+
 case "$1" in
-    read)
-        $COPY_CMD <"$CLIPBOARD_FILE"
-        ;;
-    write)
-        $PASTE_CMD >"$CLIPBOARD_FILE"
-        ;;
-    append)
-        $PASTE_CMD >>"$CLIPBOARD_FILE"
-        printf '\n' >>"$CLIPBOARD_FILE"
-        ;;
-    cat)
-        $COPY_CMD <"$CLIPBOARD_FILE"
-        cat "$CLIPBOARD_FILE"
-        ;;
-    watch)
-        prev_file=$(cat "$CLIPBOARD_FILE" 2>/dev/null || true)
-        prev_clipboard=$($PASTE_CMD 2>/dev/null || true)
-        trap 'exit 0' INT TERM HUP
-        while sleep "$POLL_INTERVAL"; do
-            new_file=$(cat "$CLIPBOARD_FILE" 2>/dev/null || true)
-            if [ "$new_file" != "$prev_file" ]; then
-                $COPY_CMD <"$CLIPBOARD_FILE"
-                prev_clipboard=$($PASTE_CMD 2>/dev/null || true)
-                prev_file=$new_file
-            else
-                new_clipboard=$($PASTE_CMD 2>/dev/null || true)
-                if [ "$new_clipboard" != "$prev_clipboard" ]; then
-                    $PASTE_CMD >"$CLIPBOARD_FILE"
-                    prev_file=$(cat "$CLIPBOARD_FILE" 2>/dev/null || true)
-                    prev_clipboard=$new_clipboard
-                fi
-            fi
-        done
-        ;;
-    *)
-        usage
-        ;;
+read)
+    $COPY_CMD <"$CLIP_FILE"
+    ;;
+write)
+    $PASTE_CMD >"$CLIP_FILE"
+    ;;
+append)
+    $PASTE_CMD >>"$CLIP_FILE"
+    printf '\n' >>"$CLIP_FILE"
+    ;;
+cat)
+    $COPY_CMD <"$CLIP_FILE"
+    cat "$CLIP_FILE"
+    ;;
+watch)
+    prev_file=$(cat "$CLIP_FILE")
+    prev_clip=$($PASTE_CMD 2>/dev/null || echo "")
+
+    while true; do
+        cur_file=$(cat "$CLIP_FILE")
+        cur_clip=$($PASTE_CMD 2>/dev/null || echo "")
+
+        if [ "$cur_file" != "$prev_file" ]; then
+            printf '%s' "$cur_file" | $COPY_CMD
+            prev_clip="$cur_file"
+        elif [ "$cur_clip" != "$prev_clip" ]; then
+            printf '%s' "$cur_clip" >"$CLIP_FILE"
+            prev_file="$cur_clip"
+        fi
+
+        prev_file="$cur_file"
+        prev_clip="$cur_clip"
+
+        sleep "$POLL_INTERVAL"
+    done
+    ;;
+*)
+    usage
+    ;;
 esac
