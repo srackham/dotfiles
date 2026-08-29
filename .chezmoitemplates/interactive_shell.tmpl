@@ -50,13 +50,13 @@ alias ......="cd ../../../../.."
 
 alias b="brave"
 alias l="bat --plain"
-alias ls="eza"
-alias ll="eza -l --icons  -a"
-alias lr="eza -l --icons  -as modified"
-alias lt="eza --tree --long --icons"
-alias td="eza --tree --only-dirs --icons"
-alias tr="eza --tree --icons"
-alias tg="eza --tree --icons --git-ignore"
+alias ls="eza -al --group-directories-first --icons=auto"
+alias lsf="eza -a"
+alias lsp="eza -a --absolute"
+alias lsm="ls --sort modified"
+alias lt="eza -a --tree --long --icons"
+alias ltd="lt --only-dirs"
+alias ltg="lt --git-ignore"
 
 alias btc='echo $(date +'%H:%M'): $(ccp BTC)'
 
@@ -71,13 +71,6 @@ alias chezmoi-dump-gnome-bindings="dconf dump /org/gnome/desktop/wm/keybindings/
     dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > $chezmoi_source/exported/media-keys-keybindings.dconf && \
     dconf dump /org/gnome/shell/keybindings/ > $chezmoi_source/exported/shell-keybindings.dconf"
 
-if [ -n "$WAYLAND_DISPLAY" ]; then
-    alias clipboard-copy="wl-copy"
-    alias clipboard-paste="wl-paste"
-elif command -v xclip &> /dev/null; then
-    alias clipboard-copy="xclip -selection clipboard"
-    alias clipboard-paste="xclip -selection clipboard -o"
-fi
 alias cryptor-summary="cryptor valuate -currency nzd -confdir ~/bin/.cryptor -aggregate-only"
 alias cryptor-plot="cryptor history -confdir ~/bin/.cryptor -portfolio aggregate | plot-history.sh"
 alias dmesg="sudo dmesg --human --color=always"
