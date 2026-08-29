@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 # Usage:
-#     clipboard-file.sh COMMAND
+#     clipboard-file.sh [OPTIONS] COMMAND
+#
+# Options:
+#     -v, --verbose   Print clipboard updates to stdout
 #
 # Description:
 #     Reads, writes and appends the $HOME/vboxsf/clipboard.txt clipboard
@@ -34,25 +37,55 @@ else
 fi
 
 usage() {
-    echo "Usage: $(basename "$0") COMMAND" >&2
+    echo "Usage: $(basename "$0") [OPTIONS] COMMAND" >&2
+    echo "Options: -v, --verbose  Print clipboard updates to stdout" >&2
     echo "Commands: read, write, append, cat, watch" >&2
     exit 1
 }
 
-[ $# -eq 1 ] || usage
+VERBOSE=0
+command=
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -v | --verbose)
+            VERBOSE=1
+            ;;
+        -*)
+            usage
+            ;;
+        *)
+            if [ -n "$command" ]; then
+                usage
+            fi
+            command=$1
+            ;;
+    esac
+    shift
+done
+
+[ -n "$command" ] || usage
 
 touch "$CLIP_FILE"
 
-case "$1" in
+case "$command" in
 read)
     $COPY_CMD <"$CLIP_FILE"
+    if [ "$VERBOSE" -eq 1 ]; then
+        cat "$CLIP_FILE"
+    fi
     ;;
 write)
     $PASTE_CMD >"$CLIP_FILE"
+    if [ "$VERBOSE" -eq 1 ]; then
+        cat "$CLIP_FILE"
+    fi
     ;;
 append)
-    $PASTE_CMD >>"$CLIP_FILE"
-    printf '\n' >>"$CLIP_FILE"
+    clip_text=$($PASTE_CMD 2>/dev/null || echo "")
+    printf '%s\n' "$clip_text" >>"$CLIP_FILE"
+    if [ "$VERBOSE" -eq 1 ]; then
+        printf '%s\n' "$clip_text"
+    fi
     ;;
 cat)
     $COPY_CMD <"$CLIP_FILE"
@@ -68,9 +101,17 @@ watch)
 
         if [ "$cur_file" != "$prev_file" ]; then
             printf '%s' "$cur_file" | $COPY_CMD
+            if [ "$VERBOSE" -eq 1 ]; then
+                echo "Clipboard updated from $CLIP_FILE:"
+                printf '%s\n' "$cur_file"
+            fi
             prev_clip="$cur_file"
         elif [ "$cur_clip" != "$prev_clip" ]; then
             printf '%s' "$cur_clip" >"$CLIP_FILE"
+            if [ "$VERBOSE" -eq 1 ]; then
+                echo "$CLIP_FILE updated from clipboard:"
+                printf '%s\n' "$cur_clip"
+            fi
             prev_file="$cur_clip"
         fi
 
