@@ -10,12 +10,13 @@
     "openrouter/anthropic/claude-sonnet-4.6",
     "ollama/gemma4:e4b",
     "openrouter/google/gemini-3.7-flash",
-    "openrouter/~deepseek/deepseek-v4-flash-latest"
+    "openrouter/~deepseek/deepseek-v4-flash-latest",
+    "openrouter/perplexity/sonar"
   ],
   "lastChangelogVersion": "0.84.3",
   "packages": [
     "npm:@ollama/pi-web-search"
   ],
   "theme": "dark",
-  "hideThinkingBlock": true
+  "hideThinkingBlock": false
 }
