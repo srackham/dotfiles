@@ -33,10 +33,10 @@ echo
 # grep 'to rpi2 completed' $logfiles | tail -4
 # echo
 
-echo dell7090 JOBS
-grep 'Finished\|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
-grep 'Finished\|FAILED' /files/users/srackham/bin/sync-local.log | tail -1
-echo
+# echo dell7090 JOBS
+# grep 'Finished\|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
+# grep 'Finished\|FAILED' /files/users/srackham/bin/sync-local.log | tail -1
+# echo
 
 # echo gnome-2204 JOBS
 # grep ': gnome-2204:' $logfiles | tail -6

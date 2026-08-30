@@ -34,9 +34,9 @@ echo
 # $journal_log | grep 'to rpi2 completed' | tail -4
 # echo
 
-echo dell7090 JOBS
-grep --text -E 'Finished|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
-echo
+# echo dell7090 JOBS
+# grep --text -E 'Finished|FAILED' /files/users/srackham/bin/recollindex.log | tail -1
+# echo
 
 echo GOOGLE DRIVE BACKUPS
 tail -8 $SUPER_HOME/var/rclone-backup.log
