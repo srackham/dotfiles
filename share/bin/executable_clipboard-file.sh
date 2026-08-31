@@ -47,18 +47,18 @@ VERBOSE=0
 command=
 while [ $# -gt 0 ]; do
     case "$1" in
-        -v | --verbose)
-            VERBOSE=1
-            ;;
-        -*)
+    -v | --verbose)
+        VERBOSE=1
+        ;;
+    -*)
+        usage
+        ;;
+    *)
+        if [ -n "$command" ]; then
             usage
-            ;;
-        *)
-            if [ -n "$command" ]; then
-                usage
-            fi
-            command=$1
-            ;;
+        fi
+        command=$1
+        ;;
     esac
     shift
 done
