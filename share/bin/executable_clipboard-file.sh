@@ -97,17 +97,17 @@ watch)
         if [ "$cur_file" != "$prev_file" ]; then
             printf '%s' "$cur_file" | $COPY_CMD
             if [ "$VERBOSE" -eq 1 ]; then
-                echo "▶ $(date "+%Y-%m-%d %H:%M") ◀"
+                echo "▶ $(date "+%Y-%m-%d %H:%M"): CLIPBOARD IMPORTED ◀"
                 printf '%s\n' "$cur_file"
             fi
-            prev_clip="$cur_file"
+            cur_clip="$cur_file"
         elif [ "$cur_clip" != "$prev_clip" ]; then
             printf '%s' "$cur_clip" >"$CLIP_FILE"
             if [ "$VERBOSE" -eq 1 ]; then
-                echo "▶ $(date "+%Y-%m-%d %H:%M") ◀"
+                echo "▶ $(date "+%Y-%m-%d %H:%M"): CLIPBOARD EXPORTED ◀"
                 printf '%s\n' "$cur_clip"
             fi
-            prev_file="$cur_clip"
+            cur_file="$cur_clip"
         fi
 
         prev_file="$cur_file"
