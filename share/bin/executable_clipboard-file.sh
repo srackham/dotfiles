@@ -4,7 +4,8 @@
 #     clipboard-file.sh [OPTIONS] COMMAND
 #
 # Options:
-#     -v, --verbose   Print clipboard updates to stdout
+#     -p, --polling-interval INTERVAL   Polling interval in milliseconds (default: 2000)
+#     -v, --verbose                     Print clipboard updates to stdout
 #
 # Description:
 #     Reads, writes and appends the $HOME/vboxsf/clipboard.txt clipboard
@@ -18,12 +19,12 @@
 #     cat         Reads the text from the clipboard file to the system clipboard
 #                 and writes it to stdout
 #     watch       Continuously monitors the clipboard file and system clipboard,
-#                 synchronising changes at a 5 second polling interval
+#                 synchronising changes at the polling interval
 
 set -e
 
 CLIP_FILE="$HOME/vboxsf/clipboard.txt"
-POLL_INTERVAL=5
+POLL_INTERVAL=5000
 
 if command -v wl-copy >/dev/null 2>&1; then
     COPY_CMD=wl-copy
@@ -38,7 +39,9 @@ fi
 
 usage() {
     echo "Usage: $(basename "$0") [OPTIONS] COMMAND" >&2
-    echo "Options: -v, --verbose  Print clipboard updates to stdout" >&2
+    echo "Options:" >&2
+    echo "    -p, --polling-interval INTERVAL   Polling interval in milliseconds (default: 5000)" >&2
+    echo "    -v, --verbose                     Print clipboard updates to stdout" >&2
     echo "Commands: read, write, append, cat, watch" >&2
     exit 1
 }
@@ -47,6 +50,16 @@ VERBOSE=0
 command=
 while [ $# -gt 0 ]; do
     case "$1" in
+    -p | --polling-interval)
+        if [ $# -lt 2 ] || [ -z "$2" ]; then
+            usage
+        fi
+        POLL_INTERVAL=$2
+        shift
+        ;;
+    -p=* | --polling-interval=*)
+        POLL_INTERVAL="${1#*=}"
+        ;;
     -v | --verbose)
         VERBOSE=1
         ;;
@@ -87,6 +100,7 @@ cat)
     cat "$CLIP_FILE"
     ;;
 watch)
+    poll_seconds=$(awk -v ms="$POLL_INTERVAL" 'BEGIN { print ms / 1000 }')
     prev_file=$(cat "$CLIP_FILE")
     prev_clip=$($PASTE_CMD 2>/dev/null || echo "")
 
@@ -113,7 +127,7 @@ watch)
         prev_file="$cur_file"
         prev_clip="$cur_clip"
 
-        sleep "$POLL_INTERVAL"
+        sleep "$poll_seconds"
     done
     ;;
 *)
