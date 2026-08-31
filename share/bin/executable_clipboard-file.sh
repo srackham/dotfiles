@@ -50,20 +50,15 @@ while [ $# -gt 0 ]; do
     -v | --verbose)
         VERBOSE=1
         ;;
-    -*)
-        usage
+    read | write | append | cat | watch)
+        command=$1
         ;;
     *)
-        if [ -n "$command" ]; then
-            usage
-        fi
-        command=$1
+        usage
         ;;
     esac
     shift
 done
-
-[ -n "$command" ] || usage
 
 touch "$CLIP_FILE"
 
