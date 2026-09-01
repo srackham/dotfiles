@@ -10,17 +10,14 @@ alias sudo='sudo '  # So aliases can be used
 alias ..='cd ..'
 alias ...='cd ../..'
 
-# alias ls='ls --color=auto'
-# alias ll='ls --color=auto -Al'
-# alias lr='ls --color=auto -Altr'
-
-alias ls="eza"
-alias ll="eza -l --icons  -a"
-alias lr="eza -l --icons  -as modified"
-alias lt="eza --tree --long --icons"
-alias td="eza --tree --only-dirs --icons"
-alias tr="eza --tree --icons"
-alias tg="eza --tree --icons --git-ignore"
+alias l="batcat --plain"
+alias ls="eza -al --group-directories-first --icons=auto"
+alias lsf="eza -a"
+alias lsp="eza -a --absolute"
+alias lsm="ls --sort modified"
+alias lt="eza -a --tree --long --icons --level=2"
+alias ltd="lt --only-dirs"
+alias ltg="lt --git-ignore"
 
 alias g='grep -i'
 alias h='fc -l 1'
@@ -34,8 +31,8 @@ HISTFILE=~/.zsh_history
 setopt hist_ignore_all_dups   		  # Remove duplicate commands
 setopt interactive_comments  		  # comments in shell; good for copy/paste
 
-# zsh native command recall
-bindkey -v                            # vi command-line editing
+# vi command-line editing
+bindkey -v
 bindkey -M viins '^R' history-incremental-pattern-search-backward
 bindkey -M vicmd '^R' history-incremental-pattern-search-backward
 bindkey -M viins '^F' history-incremental-pattern-search-forward
@@ -44,6 +41,9 @@ bindkey -M viins '^N' down-line-or-history
 bindkey -M vicmd '^N' down-line-or-history
 bindkey -M viins '^P' up-line-or-history
 bindkey -M vicmd '^P' up-line-or-history
+
+# fzf command recall with Ctrl+R, fuzzy cd with Alt+C
+source <(fzf --zsh)
 
 # zsh help command for builtin commands
 autoload -Uz run-help; alias help=run-help

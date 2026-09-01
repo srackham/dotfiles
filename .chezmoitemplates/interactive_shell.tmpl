@@ -17,8 +17,8 @@ export PROMPT=$'\n%B%F{magenta}%n@%m %F{cyan}%~%f%b\n$ '
 export HISTFILE=~/.shared_history
 export HISTSIZE=100000
 
-export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview,ctrl-j:down,ctrl-k:up,alt-j:page-down,alt-k:page-up,ctrl-b:preview-page-up,ctrl-f:preview-page-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,shift-up:preview-up,shift-down:preview-down --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
-export FZF_DEFAULT_COMMAND="fd --type f"
+# export FZF_DEFAULT_OPTS="--ansi --multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-space:toggle+down,ctrl-t:toggle-preview,ctrl-j:down,ctrl-k:up,alt-j:page-down,alt-k:page-up,ctrl-b:preview-page-up,ctrl-f:preview-page-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,shift-up:preview-up,shift-down:preview-down --preview 'bat --color=always --style=plain {}' --preview-window 'wrap,hidden,up,60%,border-bottom'"
+# export FZF_DEFAULT_COMMAND="fd --type f"
 
 export BAT_THEME="Dracula"
 
@@ -31,16 +31,16 @@ export EDITOR=nvim
 
 {{if .chezmoi.hostname | hasPrefix "nuc"}}
 {{/* Workarounds for using system commands installed by Home Manager */}}
-alias crontab="/usr/bin/crontab"                # Use system crontab instead of busybox crontab
-alias iotop="$HOME/.nix-profile/bin/iotop"      # So `sudo iotop` works
-alias nethogs="$HOME/.nix-profile/bin/nethogs"  # So `sudo nethogs` works
+alias crontab="/usr/bin/crontab"               # Use system crontab instead of busybox crontab
+alias iotop="$HOME/.nix-profile/bin/iotop"     # So `sudo iotop` works
+alias nethogs="$HOME/.nix-profile/bin/nethogs" # So `sudo nethogs` works
 {{end}}
 
 {{/*
 Shared bash and zsh configuration settings for interactive shells.
 */}}
 # Shared bash and zsh aliases
-alias sudo='sudo '  # So aliases can be used
+alias sudo='sudo ' # So aliases can be used
 alias ,="cd -"
 alias ..="cd .."
 alias ...="cd ../.."
@@ -100,23 +100,19 @@ alias ssh='TERM=xterm-256color ssh'
 alias stylua='stylua --config-path "$HOME/.config/nvim/stylua.toml"'
 alias stylua-all="stylua \$(find . -name '*.lua')" # Recursively format all .lua files in the current directory
 
-alias ha="hermes"  # Start new session
-alias hb="hermes sessions browse"  # Start new session
-alias hc="hermes --continue"  # Continue previous session
+alias ha="hermes"                 # Start new session
+alias hb="hermes sessions browse" # Start new session
+alias hc="hermes --continue"      # Continue previous session
 alias hl="hermes sessions list"
 # alias hermes='podman exec -it hermes /opt/hermes/.venv/bin/hermes'
 # alias hermes='$HOME/hermes-install/hermes-agent/.venv/bin/hermes'
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
-alias pkgs="pacman -Sl --color=always | fzf --preview 'pacman -Si {2}'"
 alias pkg-install="sudo pacman -S"
 alias pkg-remove="sudo pacman -Rsun"
 alias pkgs-upgrade="sudo pacman -Syu"
-{{else if or (eq .chezmoi.osRelease.id "ubuntu")   (eq .chezmoi.osRelease.id "debian")}}
-alias pkgs="apt-cache search . 2>/dev/null | fzf --preview 'apt-cache depends {1}'"
 {{else if eq .chezmoi.osRelease.id "nixos"}}
-
 alias mknixos="sudo nixos-rebuild -I nixos-config=$HOME/share/projects/nixos-configurations/hosts/$(hostname)/configuration.nix"
 alias optimise-nixos="sudo nix-collect-garbage --delete-old && sudo nix-store --optimise"
 alias upgrade-nixos="optimise-nixos && sudo nix-channel --update && mknixos boot"
@@ -125,10 +121,10 @@ alias upgrade-user="npm update -g"
 {{/* Update user Home Manager packages */}}
 alias home-manager-upgrade="nix-collect-garbage --delete-old && nix-store --optimise && nix-channel --update && home-manager switch"
 
-alias paste-text="clipboard-paste -t text/plain"   # Paste clipboard text to stdout
-alias paste-image="clipboard-paste -t image/png"   # Paste clipboard PNG image to stdout
+alias paste-text="clipboard-paste -t text/plain"                                          # Paste clipboard text to stdout
+alias paste-image="clipboard-paste -t image/png"                                          # Paste clipboard PNG image to stdout
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser
-alias resize-image="mogrify -quality 25 -resize 800"             # Resize and compress images
+alias resize-image="mogrify -quality 25 -resize 800"                                      # Resize and compress images
 
 # List name paths of pass entries
 alias pass-names="find ~/.password-store -name '*.gpg' -type f | sed \"s|^$HOME/.password-store/||; s|\.gpg||\""
@@ -154,7 +150,7 @@ Recursively grep the files in PATH for words matching REGEXP.
 - Enter yanks the selected file to the clipboard, prints the file path, and exits."
 function ds() {
 
-    local clipboard_copy 
+    local clipboard_copy
     if [ -n "$WAYLAND_DISPLAY" ]; then
         clipboard_copy="wl-copy"
     elif command -v xclip &>/dev/null; then
@@ -162,14 +158,14 @@ function ds() {
     fi
 
     if [ "$*" ]; then
-        recoll -t -q -c "$HOME/.config/recoll" $*  2>/dev/null \
-        | tail -n +3 \
-        | head -n 40 \
-        | perl -pe "s|^.*\[file:\/\/(.*?)\].*$|\1|" \
-        | FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS/,hidden/}" \
-        fzf --preview "bat --color=always {}" \
-        --bind "enter:become(echo {} | tee >(head -c -1 | $clipboard_copy))" \
-        --bind "ctrl-o:become($open_file_cmd {1})"
+        recoll -t -q -c "$HOME/.config/recoll" $* 2>/dev/null |
+            tail -n +3 |
+            head -n 40 |
+            perl -pe "s|^.*\[file:\/\/(.*?)\].*$|\1|" |
+            FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS/,hidden/}" \
+                fzf --preview "bat --color=always {}" \
+                --bind "enter:become(echo {} | tee >(head -c -1 | $clipboard_copy))" \
+                --bind "ctrl-o:become($open_file_cmd {1})"
     else
         echo $ds_manpage >&2
         return 1
