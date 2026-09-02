@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Usage:
-#     clipboard-file.sh [OPTIONS] COMMAND
+#     share-clipboard.sh [OPTIONS] COMMAND
 #
 # Options:
 #     -p, --polling-interval INTERVAL   Polling interval in milliseconds (default: 5000)
