@@ -113,7 +113,6 @@ append)
     fi
     ;;
 cat)
-    $COPY_CMD <"$CLIP_FILE"
     cat "$CLIP_FILE"
     ;;
 watch)
