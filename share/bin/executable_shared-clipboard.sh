@@ -14,8 +14,8 @@
 #     rich text with no plain-text fallback, etc.) is ignored.
 #
 # Commands:
-#     read        Reads the text from the clipboard file to the system clipboard
-#     write       Writes the text from the system clipboard to the clipboard file
+#     copy       Reads the text from the clipboard file to the system clipboard
+#     paste       Writes the text from the system clipboard to the clipboard file
 #     append      Appends the text starting on a new line from the system
 #                 clipboard to the clipboard file
 #     cat         Reads the text from the clipboard file to the system clipboard
@@ -51,7 +51,7 @@ usage() {
     echo "Options:" >&2
     echo "    -p, --polling-interval INTERVAL   Polling interval in milliseconds (default: 5000)" >&2
     echo "    -v, --verbose                     Print clipboard updates to stdout" >&2
-    echo "Commands: read, write, append, cat, watch" >&2
+    echo "Commands: copy, paste, append, cat, watch" >&2
     exit 1
 }
 
@@ -72,7 +72,7 @@ while [ $# -gt 0 ]; do
     -v | --verbose)
         VERBOSE=1
         ;;
-    read | write | append | cat | watch)
+    copy | paste | append | cat | watch)
         command=$1
         ;;
     *)
@@ -85,13 +85,13 @@ done
 touch "$CLIP_FILE"
 
 case "$command" in
-read)
+copy)
     $COPY_CMD <"$CLIP_FILE"
     if [ "$VERBOSE" -eq 1 ]; then
         cat "$CLIP_FILE"
     fi
     ;;
-write)
+paste)
     if clipboard_has_text; then
         $PASTE_CMD 2>/dev/null >"$CLIP_FILE" || : >"$CLIP_FILE"
         if [ "$VERBOSE" -eq 1 ]; then
