@@ -13,7 +13,7 @@
     "openrouter/~deepseek/deepseek-v4-flash-latest",
     "openrouter/perplexity/sonar"
   ],
-  "lastChangelogVersion": "0.84.4",
+  "lastChangelogVersion": "0.85.0",
   "packages": [
     "npm:@ollama/pi-web-search"
   ],
