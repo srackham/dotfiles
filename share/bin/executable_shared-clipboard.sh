@@ -51,7 +51,12 @@ usage() {
     echo "Options:" >&2
     echo "    -p, --polling-interval INTERVAL   Polling interval in milliseconds (default: 5000)" >&2
     echo "    -v, --verbose                     Print clipboard updates to stdout" >&2
-    echo "Commands: copy, paste, append, cat, watch" >&2
+    echo "Commands:" >&2
+    echo "    copy       Copy clipboard file to system clipboard" >&2
+    echo "    paste      Paste system clipboard to clipboard file" >&2
+    echo "    append     Append system clipboard to clipboard file" >&2
+    echo "    cat        Print clipboard file contents" >&2
+    echo "    watch      Monitor and sync clipboard file and system clipboard" >&2
     exit 1
 }
 
