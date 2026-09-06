@@ -82,6 +82,56 @@ configure-nfs() {
     sudo systemctl daemon-reload
 }
 
+check-recovery-mode() {
+    # Recovery mode means: logged in at a real Linux virtual console (not an
+    # SSH session or a GUI terminal emulator), with the system isolated to
+    # multi-user.target (no display manager / graphical desktop running).
+    local console
+    console=$(tty 2>/dev/null || true)
+    if [[ ! "$console" =~ ^/dev/tty[0-9]+$ ]]; then
+        printf 'Error: not at a Linux virtual console (found: %s). See recovery mode notes.\n' "${console:-none}" >&2
+        exit 1
+    fi
+    if systemctl is-active --quiet graphical.target; then
+        printf '%s\n' "Error: system is in graphical mode. Run 'systemctl isolate multi-user.target' first." >&2
+        exit 1
+    fi
+    if ! systemctl is-active --quiet multi-user.target; then
+        printf '%s\n' "Error: system is not in multi-user.target (recovery) mode." >&2
+        exit 1
+    fi
+}
+
+change-uid-gid() {
+    check-recovery-mode
+
+    read -rp "Enter user name: " username
+
+    if ! id "$username" &>/dev/null; then
+        printf 'Error: user "%s" does not exist.\n' "$username" >&2
+        return 1
+    fi
+
+    local uid gid groupname
+    uid=$(id -u "$username")
+    gid=$(id -g "$username")
+    groupname=$(id -gn "$username")
+
+    if [ "$uid" != "1000" ] || [ "$gid" != "1000" ]; then
+        printf 'Error: user "%s" does not have UID 1000 and GID 1000 (found UID=%s, GID=%s).\n' "$username" "$uid" "$gid" >&2
+        return 1
+    fi
+
+    echo "Changing UID and GID for user '$username' (group '$groupname') from 1000 to 1001..."
+    sudo usermod -u 1001 "$username"
+    sudo groupmod -g 1001 "$groupname"
+    sudo find / -xdev -uid 1000 -exec chown 1001 {} +
+    sudo find / -xdev -gid 1000 -exec chgrp 1001 {} +
+
+    echo "Done. New ID:"
+    id "$username"
+}
+
 copy-pass() {
     if [ "$(hostname -s)" = "$SOURCE_HOST" ]; then
         printf '%s\n' "you cannot copy to self" >&2
@@ -114,7 +164,9 @@ tasks=(
     "Install/Update opencode, gemini-cli, crush::install-other"
     "Install/Update Ollama models::install-ollama-models"
     "Load GNOME keyboard shortcuts::gnome-settings"
+    ""
     "Omarchy — Configure NFS::configure-nfs"
+    "Omarchy: Change user UID and GID from 1000 to 1001::change-uid-gid"
     ""
     "Copy pass password store from $SOURCE_HOST::copy-pass"
     "Copy fnox secrets store from $SOURCE_HOST::copy-fnox"
