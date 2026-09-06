@@ -57,6 +57,31 @@ gnome-settings() {
     install-shared-clipboard-bindings-gnome.sh
 }
 
+configure-nfs() {
+    # Install NFS client services
+    sudo pacman -S --needed --noconfirm nfs-utils
+    sudo systemctl enable --now rpcbind # NFS client-side RPC support
+    sudo systemctl daemon-reload
+
+    # Create mount points
+    mkdir -p "$HOME/public" "$HOME/share"
+
+    # Add mounts to /etc/fstab (skip lines that are already present)
+    local fstab_entries=(
+        "nuc2:/public  /home/srackham/public  nfs4  defaults,vers=4.2,_netdev,x-systemd.automount  0  0"
+        "nuc2:/srackham /home/srackham/share  nfs4  defaults,vers=4.2,_netdev,x-systemd.automount  0  0"
+    )
+    for entry in "${fstab_entries[@]}"; do
+        if ! grep -Fxq "$entry" /etc/fstab; then
+            echo "$entry" | sudo tee -a /etc/fstab >/dev/null
+        else
+            echo "Already present in /etc/fstab: $entry"
+        fi
+    done
+
+    sudo systemctl daemon-reload
+}
+
 copy-pass() {
     if [ "$(hostname -s)" = "$SOURCE_HOST" ]; then
         printf '%s\n' "you cannot copy to self" >&2
@@ -89,6 +114,7 @@ tasks=(
     "Install/Update opencode, gemini-cli, crush::install-other"
     "Install/Update Ollama models::install-ollama-models"
     "Load GNOME keyboard shortcuts::gnome-settings"
+    "Omarchy — Configure NFS::configure-nfs"
     ""
     "Copy pass password store from $SOURCE_HOST::copy-pass"
     "Copy fnox secrets store from $SOURCE_HOST::copy-fnox"
