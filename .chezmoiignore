@@ -1,5 +1,5 @@
 README.md
-exported
+resources
 .luarc.json
 .config/nvim/spell
 .config/nvim/lua/plugins/disabled # Don't process disabled plugins

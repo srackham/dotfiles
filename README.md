@@ -44,14 +44,14 @@ See _Using chezmoi across multiple machines_ in `~/share/notes/chezmoi-notes.md`
 
 ## Manually Exported/Imported Configurations
 
-The `exported` directory contains files that are managed manually:
+The `resources` directory contains files that are managed manually:
 
 ### Browser Bookmarks
 
 Exported from Brave browser.
 
 - Open [Bookmarks Manager](brave://bookmarks/) (C-S-o).
-- Run the _Export bookmarks_ command in the ⋮ menu (vertical ellipsis menu, top right) and save bookmarks file to `~/.local/share/chezmoi/exported/bookmarks.html`.
+- Run the _Export bookmarks_ command in the ⋮ menu (vertical ellipsis menu, top right) and save bookmarks file to `~/.local/share/chezmoi/resources/bookmarks.html`.
 
 ### GNOME Desktop key bindings
 
@@ -60,17 +60,15 @@ Exported from Brave browser.
   ```
   chezmoi-dump-gnome-bindings     # Alias
 
-  dconf dump /org/gnome/desktop/wm/keybindings/ > exported/wm-keybindings.dconf && \
-  dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > exported/media-keys-keybindings.dconf && \
-  dconf dump /org/gnome/shell/keybindings/ > exported/shell-keybindings.dconf
+  dconf dump /org/gnome/desktop/wm/keybindings/ > resources/wm-keybindings.dconf && \
+  dconf dump /org/gnome/shell/keybindings/ > resources/shell-keybindings.dconf
   ```
 
-- Use the dconf load command to restore custom GNOME key binding from the dump file. See `./exported/post-install-config.sh` for details.
+- Use the dconf load command to restore custom GNOME key binding from the dump file. See `./resources/post-install-config.sh` for details.
 
 ```
-dconf load /org/gnome/desktop/wm/keybindings/ < exported/wm-keybindings.dconf && \
-dconf load /org/gnome/settings-daemon/plugins/media-keys/ < exported/media-keys-keybindings.dconf && \
-dconf load /org/gnome/shell/keybindings/ < exported/shell-keybindings.dconf
+dconf load /org/gnome/desktop/wm/keybindings/ < resources/wm-keybindings.dconf && \
+dconf load /org/gnome/shell/keybindings/ < resources/shell-keybindings.dconf
 ```
 
 ### Vimium Options

@@ -52,9 +52,8 @@ do_other() {
 do_gnome() {
     echo -e "\n${CYAN}--- Running GNOME keyboard shortcuts update ---${NC}"
     local chezmoi_repo_dir="$HOME/share/projects/chezmoi"
-    dconf load /org/gnome/desktop/wm/keybindings/ <"$chezmoi_repo_dir/exported/wm-keybindings.dconf"
-    dconf load /org/gnome/settings-daemon/plugins/media-keys/ <"$chezmoi_repo_dir/exported/media-keys-keybindings.dconf"
-    dconf load /org/gnome/shell/keybindings/ <"$chezmoi_repo_dir/exported/shell-keybindings.dconf"
+    dconf load /org/gnome/desktop/wm/keybindings/ <"$chezmoi_repo_dir/resources/wm-keybindings.dconf"
+    dconf load /org/gnome/shell/keybindings/ <"$chezmoi_repo_dir/resources/shell-keybindings.dconf"
 }
 
 do_nixos_build() {
