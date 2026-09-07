@@ -36,6 +36,14 @@ alias iotop="$HOME/.nix-profile/bin/iotop"     # So `sudo iotop` works
 alias nethogs="$HOME/.nix-profile/bin/nethogs" # So `sudo nethogs` works
 {{end}}
 
+if [ -n "$WAYLAND_DISPLAY" ]; then
+    alias clipboard-copy="wl-copy"
+    alias clipboard-paste="wl-paste"
+elif command -v xclip &> /dev/null; then
+    alias clipboard-copy="xclip -selection clipboard"
+    alias clipboard-paste="xclip -selection clipboard -o"
+fi
+
 {{/*
 Shared bash and zsh configuration settings for interactive shells.
 */}}
@@ -66,13 +74,6 @@ alias btc='echo $(date +'%H:%M'): $(ccp BTC)'
 alias cryptor="cryptor.arm64"
 {{end}}
 
-chezmoi_source="$(chezmoi source-path)"
-alias chezmoi-add-modified="chezmoi-dump-gnome-bindings && \
-    chezmoi re-add ~/.config/nvim/lazy-lock.json ~/.config/nvim/vim/init.vim ~/.local/share/nvim/gen_nvim/prompts/*.prompts.md"
-alias chezmoi-dump-gnome-bindings="dconf dump /org/gnome/desktop/wm/keybindings/ > $chezmoi_source/exported/wm-keybindings.dconf && \
-    dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > $chezmoi_source/exported/media-keys-keybindings.dconf && \
-    dconf dump /org/gnome/shell/keybindings/ > $chezmoi_source/exported/shell-keybindings.dconf"
-
 alias cryptor-summary="cryptor valuate -currency nzd -confdir ~/bin/.cryptor -aggregate-only"
 alias cryptor-plot="cryptor history -confdir ~/bin/.cryptor -portfolio aggregate | plot-history.sh"
 alias dmesg="sudo dmesg --human --color=always"
@@ -80,12 +81,11 @@ alias diff="diff --color=always -u"
 alias drake="deno run -A Drakefile.ts"
 alias rg="rg --colors path:style:bold  --colors path:fg:yellow"
 alias g='grep -i'
-alias gd="git diff --color"
 alias gg="git grep -P"
 alias gl="git log --graph --color=always --pretty=format:'%C(auto)%h %C(auto)%d %Cgreen%cr%Creset %s' | fzf --ansi --preview 'git show --color {2}'"
 alias gls="git ls-files"
 alias grep="grep --color=auto"
-alias gst="git status --short 2>/dev/null"
+alias gs="git status --short 2>/dev/null"
 alias gw="./gradlew --console plain"
 {{if eq .chezmoi.osRelease.id "manjaro"}}
 alias hx="helix"
