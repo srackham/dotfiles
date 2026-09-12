@@ -14,7 +14,7 @@ CHEZMOI_RESOURCES="$HOME/share/projects/chezmoi/resources"
 
 # --- Task functions ---
 
-install-ollama-models() {
+install_ollama_models() {
     models=(
         "gemma4:e4b" # Local model
         "dolphin3"   # Local model
@@ -31,7 +31,7 @@ install-ollama-models() {
     done
 }
 
-install-tools() {
+install_tools() {
     # Install global mise tools
     tools=(
         "age@latest"
@@ -44,14 +44,14 @@ install-tools() {
     done
 }
 
-install-other() {
+install_other() {
     npm install -g opencode-ai@latest
     npm install -g @google/gemini-cli
     go install github.com/charmbracelet/crush@latest
     cargo install --locked bacon
 }
 
-gnome-settings() {
+gnome_settings() {
     local chezmoi_repo_dir="$HOME/share/projects/chezmoi"
     dconf load /org/gnome/desktop/wm/keybindings/ <"$chezmoi_repo_dir/resources/wm-keybindings.dconf"
     dconf load /org/gnome/shell/keybindings/ <"$chezmoi_repo_dir/resources/shell-keybindings.dconf"
@@ -65,7 +65,7 @@ check_omarchy() {
     fi
 }
 
-configure-nfs() {
+configure_nfs() {
     check_omarchy
     # Install NFS client services
     sudo pacman -S --needed --noconfirm nfs-utils
@@ -98,7 +98,7 @@ update_omarchy_conf_files() {
     cp "$CHEZMOI_RESOURCES"/omarchy-bashrc.sh ~/.bashrc
 }
 
-check-recovery-mode() {
+check_recovery_mode() {
     # Recovery mode means: logged in at a real Linux virtual console (not an
     # SSH session or a GUI terminal emulator), with the system isolated to
     # multi-user.target (no display manager / graphical desktop running).
@@ -118,9 +118,9 @@ check-recovery-mode() {
     fi
 }
 
-change-uid-gid() {
+change_uid_gid() {
     check_omarchy
-    check-recovery-mode
+    check_recovery_mode
 
     read -rp "Enter user name: " username
 
@@ -149,7 +149,7 @@ change-uid-gid() {
     id "$username"
 }
 
-copy-pass() {
+copy_pass() {
     if [ "$(hostname -s)" = "$SOURCE_HOST" ]; then
         printf '%s\n' "you cannot copy to self" >&2
         return 1
@@ -162,7 +162,7 @@ copy-pass() {
     gpg2 --import ~/.gnupg/keyfile
 }
 
-copy-fnox() {
+copy_fnox() {
     if [ "$(hostname -s)" = "$SOURCE_HOST" ]; then
         printf '%s\n' "you cannot copy to self" >&2
         return 1
@@ -177,17 +177,17 @@ copy-fnox() {
 tasks=(
     "Apply Chezmoi dot files::chezmoi apply"
     'Install Lazyvim plugins::nvim --headless -c "Lazy! sync" -c "qa"'
-    "Install/Update mise tools::install-tools"
-    "Install/Update opencode, gemini-cli, crush::install-other"
-    "Install/Update Ollama models::install-ollama-models"
-    "Load GNOME keyboard shortcuts::gnome-settings"
+    "Install/Update mise tools::install_tools"
+    "Install/Update opencode, gemini-cli, crush::install_other"
+    "Install/Update Ollama models::install_ollama_models"
+    "Load GNOME keyboard shortcuts::gnome_settings"
     ""
-    "Omarchy: Configure NFS::configure-nfs"
-    "Omarchy: Change user UID and GID from 1000 to 1001::change-uid-gid"
+    "Omarchy: Configure NFS::configure_nfs"
+    "Omarchy: Change user UID and GID from 1000 to 1001::change_uid_gid"
     "Omarchy: Update custom configuration files::update_omarchy_conf_files"
     ""
-    "Copy pass password store from $SOURCE_HOST::copy-pass"
-    "Copy fnox secrets store from $SOURCE_HOST::copy-fnox"
+    "Copy pass password store from $SOURCE_HOST::copy_pass"
+    "Copy fnox secrets store from $SOURCE_HOST::copy_fnox"
     ""
     "Daily backup::backup.sh"
     "Weekly archive::archive.sh"
