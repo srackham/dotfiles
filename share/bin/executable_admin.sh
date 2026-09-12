@@ -10,6 +10,7 @@ shopt -s expand_aliases
 source "$HOME/.bashrc"
 
 SOURCE_HOST="dell7090" # The source of the up to date configuration data
+CHEZMOI_RESOURCES="$HOME/share/projects/chezmoi/resources"
 
 # --- Task functions ---
 
@@ -57,7 +58,15 @@ gnome-settings() {
     install-shared-clipboard-bindings-gnome.sh
 }
 
+check_omarchy() {
+    if ! grep -q "^ID=omarchy" /etc/os-release 2>/dev/null; then
+        echo "Error: update_omarchy_conf_files must be run on Omarchy Linux." >&2
+        exit 1
+    fi
+}
+
 configure-nfs() {
+    check_omarchy
     # Install NFS client services
     sudo pacman -S --needed --noconfirm nfs-utils
     sudo systemctl enable --now rpcbind # NFS client-side RPC support
@@ -80,6 +89,13 @@ configure-nfs() {
     done
 
     sudo systemctl daemon-reload
+    sudo mount -a
+}
+
+update_omarchy_conf_files() {
+    check_omarchy
+    cp "$CHEZMOI_RESOURCES"/omarchy-bindings.lua ~/.config/hypr/bindings.lua
+    cp "$CHEZMOI_RESOURCES"/omarchy-bashrc.sh ~/.bashrc
 }
 
 check-recovery-mode() {
@@ -103,6 +119,7 @@ check-recovery-mode() {
 }
 
 change-uid-gid() {
+    check_omarchy
     check-recovery-mode
 
     read -rp "Enter user name: " username
@@ -167,7 +184,7 @@ tasks=(
     ""
     "Omarchy: Configure NFS::configure-nfs"
     "Omarchy: Change user UID and GID from 1000 to 1001::change-uid-gid"
-    "Omarchy: Install custom key bindings::install-omarchy-custom-key-bindings.sh"
+    "Omarchy: Update custom configuration files::update_omarchy_conf_files"
     ""
     "Copy pass password store from $SOURCE_HOST::copy-pass"
     "Copy fnox secrets store from $SOURCE_HOST::copy-fnox"
