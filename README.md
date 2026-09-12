@@ -6,6 +6,13 @@ My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io
 
 ### TODO:
 
+- `admin.sh` menu items:
+  - Omarchy: Install VBox, SSH
+  - Omarchy: Update extra packages
+  - Omarchy: Update Neovim plugins
+  - Omarchy: Update .bashrc
+
+
 - `,fn` - replace `$HOME` with `~`.
 - `,fN` - file name only.
 - `,fp` - file directory path only.

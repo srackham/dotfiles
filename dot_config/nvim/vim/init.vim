@@ -8,6 +8,7 @@
 
 " Date and time abbreviations
 :iab <expr> DD strftime('%d-%b-%Y')
+:iab <expr> DL '### ' .. strftime('%d-%b-%Y') " Dated log entry
 :iab <expr> TT strftime('%H:%M')
 :iab <expr> DT strftime('%Y-%m-%d %H:%M')
 :iab <expr> DS strftime('%Y-%m-%d')
