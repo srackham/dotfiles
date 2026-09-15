@@ -1,9 +1,17 @@
 require("vim._core.ui2").enable()
 
+-- Yank, delete and change to the clipboard register
+vim.opt.clipboard = "unnamedplus"
+
+-- Normal mode: send all changes to the black-hole register so yanked text is not overwritten
+vim.keymap.set("n", "c", '"_c', { noremap = true, silent = true })
+vim.keymap.set("n", "cc", '"_cc', { noremap = true, silent = true })
+vim.keymap.set("n", "C", '"_C', { noremap = true, silent = true })
+
 -- Command-line completion
-vim.o.wildoptions = "pum"
-vim.o.wildmode = "longest:full,full"
-vim.o.wildmenu = true
+vim.opt.wildoptions = "pum"
+vim.opt.wildmode = "longest:full,full"
+vim.opt.wildmenu = true
 
 -- Bootstrap lazy.nvim https://lazy.folke.io/installation
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
