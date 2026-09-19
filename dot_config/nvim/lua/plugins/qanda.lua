@@ -17,8 +17,6 @@ return {
       provider_options = {
         ollama = { temperature = 0.4 },
       },
-      confirm_chat_file_deletion = false,
-      filter_mode = "substring",
     }
 
     -- Key mappings for builtin commands --
@@ -26,11 +24,11 @@ return {
     vim.keymap.set({ "n", "v" }, "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open user Chat window" })
     vim.keymap.set({ "n", "v" }, "aa", "<Cmd>Qanda /repeat<CR>", { desc = "Qanda.nvim execute previous command" })
     vim.keymap.set({ "n", "v" }, "acd", "<Cmd>Qanda /delete_old_chats<CR>", { desc = "Qanda.nvim delete old chats" })
-    vim.keymap.set({ "n", "v" }, "acm", "<Cmd>Qanda /toggle_chat_window_mode<CR>", { desc = "Qanda.nvim toggle Chat window mode" })
+    vim.keymap.set({ "n", "v" }, "acl", "<Cmd>Qanda /toggle_chat_location<CR>", { desc = "Qanda.nvim toggle Chat window location" })
     vim.keymap.set({ "n", "v" }, "acn", "<Cmd>Qanda /new_chat<CR>", { desc = "Qanda.nvim new chat" })
     vim.keymap.set({ "n", "v" }, "acp", "<Cmd>Qanda /chat_picker<CR>", { desc = "Qanda.nvim open Chat picker" })
     vim.keymap.set({ "n", "v" }, "acw", "<Cmd>Qanda /chat_window<CR>", { desc = "Qanda.nvim open Chat window" })
-    vim.keymap.set({ "n", "v" }, "add", "<Cmd>Qanda /dump_diagnostics<CR>", { desc = "Qanda.nvim display request/response diagnostics" })
+    vim.keymap.set({ "n", "v" }, "ad", "<Cmd>Qanda /diagnostics<CR>", { desc = "Qanda.nvim enable and view diagnostics" })
     vim.keymap.set({ "n", "v" }, "ai", "<Cmd>Qanda /status<CR>", { desc = "Qanda.nvim status information" })
     vim.keymap.set({ "n", "v" }, "ak", "<Cmd>Qanda /abort<CR>", { desc = "Qanda.nvim abort the current request" })
     vim.keymap.set({ "n", "v" }, "amp", "<Cmd>Qanda /provider_picker<CR>", { desc = "Qanda.nvim model provider selection" })
