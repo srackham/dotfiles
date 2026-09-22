@@ -6,6 +6,17 @@ My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io
 
 ### TODO:
 
+- `,bs` followed immediately by a second `,bs`: the second `,bs` repeats the changes, why?
+
+Here's the messages buffer:
+
+```
+211 substitutions on 206 lines
+215 substitutions on 210 lines
+211 substitutions on 206 lines
+215 substitutions on 210 lines
+```
+
 - `admin.sh` menu items:
   - Omarchy: Install VBox, SSH
   - Omarchy: Update extra packages
