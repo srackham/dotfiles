@@ -63,6 +63,7 @@ return {
         builtin.live_grep(opts)
       end
 
+      vim.keymap.set({ "n", "v" }, "<Leader>rl", builtin.registers, { desc = "Open registers picker" })
       vim.keymap.set({ "n", "v" }, "<Leader>bl", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>.", list_buffers, { desc = "List buffers" })
       vim.keymap.set({ "n", "v" }, "<Leader>ff", function()

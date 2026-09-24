@@ -11,14 +11,8 @@ return {
       end,
       nested = true,
     })
-    vim.keymap.set("n", "<leader>rl", function()
-      persistence.load()
-    end, { desc = "Load the session for the current directory" })
-    vim.keymap.set("n", "<leader>rL", function()
-      persistence.select()
-    end, { desc = "Select a session to load" })
-    vim.keymap.set("n", "<leader>rd", function()
-      persistence.stop()
-    end, { desc = "Do not save session on exit" })
+    -- vim.keymap.set("n", "<leader>rl", function() persistence.load() end, { desc = "Load the session for the current directory" })
+    -- vim.keymap.set("n", "<leader>rL", function() persistence.select() end, { desc = "Select a session to load" })
+    -- vim.keymap.set("n", "<leader>rd", function() persistence.stop() end, { desc = "Do not save session on exit" })
   end,
 }
