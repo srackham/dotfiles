@@ -19,6 +19,8 @@ return {
       },
     }
 
+    vim.keymap.set("n", "<Leader>a", "<Esc>", { noremap = true }) -- Handles the `<Leader>a` timeout harmlessly
+
     -- Key mappings for builtin commands --
     vim.keymap.set({ "n", "v" }, "<C-Del>", "<Cmd>Qanda /new_prompt<CR>", { desc = "Open new prompt" })
     vim.keymap.set({ "n", "v" }, "<S-Tab>", "<Cmd>Qanda /chat_window<CR>", { desc = "Open user Chat window" })
