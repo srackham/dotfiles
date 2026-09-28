@@ -130,27 +130,8 @@ vim.keymap.set("n", "<Leader>mv", function()
   os.execute('brave "' .. vim.fn.expand "%:p" .. '" > /dev/null 2>&1 &')
 end, { desc = "View current file in Brave browser" })
 
--- -- Clipboard cut, copy and paste commands --
--- -- NOTE: I have been unable to find reliable way to yank/append or yank/delete to clipboard, <Leader>ya is visual mode only.
--- vim.keymap.set({ "n", "v" }, "<Leader>p", '"+p', { desc = "Paste clipboard after cursor" })
--- vim.keymap.set({ "n", "v" }, "<Leader>P", '"+P', { desc = "Paste clipboard before cursor" })
---
--- vim.keymap.set("n", "YY", '"+yy', { desc = "Yank line to clipboard" })
--- vim.keymap.set({ "n", "v" }, "Y", '"+y', { desc = "Yank to clipboard (with selection or motion)" })
--- vim.keymap.set("n", "<Leader>yY", '"+yy', { desc = "Yank line to clipboard" })
--- vim.keymap.set({ "n", "v" }, "<Leader>yy", '"+y', { desc = "Yank to clipboard (with selection or motion)" })
---
--- vim.keymap.set({ "n", "v" }, "<Leader>yd", '"+d', { desc = "Delete to clipboard" })
--- vim.keymap.set("n", "<leader>yD", '"+dd', { desc = "Delete line to clipboard" })
---
--- vim.keymap.set("v", "<Leader>ya", function()
---   vim.cmd 'normal! "zy'
---   local text = vim.fn.getreg "z"
---   local regtype = vim.fn.getregtype "z"
---
---   local current = vim.fn.getreg "+"
---   vim.fn.setreg("+", current .. text, regtype)
--- end, { silent = true, desc = "Append visual selection to clipboard" })
+-- Clipboard cut, copy and paste commands --
+-- TODO: ,y and ,yy to yank-append yank register cf. y and yy
 
 -- Edit commands --
 vim.keymap.set(
