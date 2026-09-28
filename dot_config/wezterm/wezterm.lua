@@ -39,11 +39,12 @@ local palette_commands = {}
 local tabs = {}
 
 -- Append a normative 3-pane tab to the tabs definitions
-local function append_tab(name, path)
+local function append_tab(name, cmd_before, opts)
+  opts = opts or {}
   table.insert(tabs, {
     tab_name = name,
-    shell_command_before = path,
-    panes = {
+    shell_command_before = cmd_before,
+    panes = opts.panes or {
       { shell_command = "nvim" },
       { shell_command = "pi -c", split = "Right", size = 0.5 },
       { shell_command = "lazygit", split = "Bottom", size = 0.5 },
@@ -55,7 +56,7 @@ append_tab("Notes", "cd ~/notes")
 tabs[1].panes[3].shell_command = nil -- Don't open Lazygit in the 3rd Notes pane
 append_tab("Chezmoi", "cd ~/share/projects/chezmoi")
 append_tab("NixOS", "cd ~/share/projects/nixos-configurations")
-append_tab("HTMX Todo", "cd ~/share/projects/htmx-todos")
+append_tab("tuios", "", { panes = { { shell_command = "tuios" } } }) -- One pane running tuios
 append_tab("Cryptor", "cd ~/share/projects/cryptor")
 append_tab("qanda.nvim", "cd ~/share/projects/qanda.nvim")
 table.insert(tabs, {
