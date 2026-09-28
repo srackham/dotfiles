@@ -6,6 +6,12 @@ My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io
 
 ### TODO:
 
+- yank-append mappings see:
+
+  - https://claude.ai/share/14fbc187-01f0-4ebd-96ad-f48b87cef0df
+  - https://share.gemini.google/gX76jZ9Pcc5C
+  - https://chatgpt.com/share/6ab9c8fd-b660-83ec-aa67-f42813c7c3e7
+
 - `,bs` followed immediately by a second `,bs`: the second `,bs` repeats the changes, why?
 
 Here's the messages buffer:
