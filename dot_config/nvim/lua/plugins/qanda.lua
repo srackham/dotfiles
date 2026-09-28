@@ -1,6 +1,6 @@
 return {
   -- "srackham/qanda.nvim",
-  dir = "/home/srackham/projects/qanda.nvim",
+  dir = "/home/srackham/projects/qanda.nvim", -- Development directory
   dependencies = {
     "nvim-telescope/telescope.nvim",
   },
@@ -11,12 +11,10 @@ return {
 
     -- Override default options here --
     qanda.setup {
-      data_dir = "~/share/data/qanda_nvim",
+      global_data_dir = "~/share/data/qanda_nvim",
       user_prompt_lines = 5,
       system_message_lines = 5,
-      provider_options = {
-        ollama = { temperature = 0.4 },
-      },
+      -- I use the default provider_options
     }
 
     vim.keymap.set("n", "<Leader>a", "<Esc>", { noremap = true }) -- Handles the `<Leader>a` timeout harmlessly
