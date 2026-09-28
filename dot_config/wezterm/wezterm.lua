@@ -105,7 +105,10 @@ local function toggle_maximise_panes(window, pane)
 end
 
 -- Key bindings
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 5001 }
+
+-- Disable leader command so <C-b> is passed to tuios.
+-- config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 5000 }
+
 config.keys = {
   -- Show debug overlay
   { key = "d", mods = "CTRL|SHIFT", action = act.ShowDebugOverlay },
@@ -321,11 +324,6 @@ table.insert(palette_commands, {
   end),
 })
 
--- Install Palette commands
-wezterm.on("augment-command-palette", function()
-  return palette_commands
-end)
-
 -- Tabs loader.
 -- Published as a Github Gist: https://gist.github.com/srackham/2004f9a0ac4e555deba548c2e7549f2b
 local function apply_tab(tab_def, mux_win)
@@ -396,18 +394,33 @@ local function apply_tabs(tab_defs, mux_win)
   end)
 end
 
+-- Open the workspace windows
+local function open_tabs(win, pane)
+  -- Close the current tab (assumed empty, sitting at the shell prompt)
+  pane:send_text "exit\n"
+  -- This converts the GUI window handle into the Mux window handle
+  local mux_win = mux.get_window(win:window_id())
+  apply_tabs(tabs, mux_win)
+end
+
+-- Update plugins Palette command
+table.insert(palette_commands, {
+  brief = "Open workspaces, one per tab",
+  icon = "md_reload",
+  action = wezterm.action_callback(open_tabs),
+})
+
 -- Bind <Leader>t keys to load tab definitions
 local load_tabs = {
   key = "t",
   mods = "LEADER",
-  action = wezterm.action_callback(function(win, pane)
-    -- Close the current tab (assumed empty, sitting at the shell prompt)
-    pane:send_text "exit\n"
-    -- This converts the GUI window handle into the Mux window handle
-    local mux_win = mux.get_window(win:window_id())
-    apply_tabs(tabs, mux_win)
-  end),
+  action = wezterm.action_callback(open_tabs),
 }
 table.insert(config.keys, load_tabs)
+
+-- Install Palette commands
+wezterm.on("augment-command-palette", function()
+  return palette_commands
+end)
 
 return config

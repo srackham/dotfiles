@@ -39,7 +39,7 @@ alias nethogs="$HOME/.nix-profile/bin/nethogs" # So `sudo nethogs` works
 if [ -n "$WAYLAND_DISPLAY" ]; then
     alias clipboard-copy="wl-copy"
     alias clipboard-paste="wl-paste"
-elif command -v xclip &> /dev/null; then
+elif command -v xclip &>/dev/null; then
     alias clipboard-copy="xclip -selection clipboard"
     alias clipboard-paste="xclip -selection clipboard -o"
 fi
@@ -108,6 +108,8 @@ alias hc="hermes --continue"      # Continue previous session
 alias hl="hermes sessions list"
 # alias hermes='podman exec -it hermes /opt/hermes/.venv/bin/hermes'
 # alias hermes='$HOME/hermes-install/hermes-agent/.venv/bin/hermes'
+alias wezterm-minimal='wezterm --config-file ~/.config/wezterm/minimal.lua'
+alias wezterm-tuios='wezterm-minimal start -- tuios'
 
 {{/* distro-independent package mmmanagement aliases */}}
 {{if eq .chezmoi.osRelease.id "manjaro"}}
