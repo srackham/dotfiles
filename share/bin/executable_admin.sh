@@ -45,10 +45,11 @@ install_tools() {
 }
 
 install_other() {
-    npm install -g opencode-ai@latest
-    npm install -g @google/gemini-cli
-    go install github.com/charmbracelet/crush@latest
-    cargo install --locked bacon
+    go install github.com/Gaurav-Gosain/tuios/cmd/tuios@latest
+    # npm install -g opencode-ai@latest
+    # npm install -g @google/gemini-cli
+    # go install github.com/charmbracelet/crush@latest
+    # cargo install --locked bacon
 }
 
 gnome_settings() {
