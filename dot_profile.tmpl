@@ -3,13 +3,6 @@
 
 # Sourced by bash (from ~/.bash_profile), zsh (from ~/.zprofile), and the GDM.
 
-{{if eq .chezmoi.osRelease.id "manjaro"}}
-if [ -f "/etc/profile.d/locale.sh" ]; then
-    unset LANG
-    source /etc/profile.d/locale.sh
-fi
-{{end}}
-
 export NOTES_DIR="$HOME/notes"   # Obsidian vault with all my current note
 export DOCUMENTS_DIR="$HOME/doc" # Other documents (legacy and non-Markdown)
 export PROJECTS_DIR="$HOME/projects"
@@ -31,22 +24,38 @@ export RECOLL_CONFDIR="$HOME/.config/recoll"
 
 # Build the PATH env variable in descending priority order.
 # NOTE: NixOS updates this PATH and does not seem to preserve priorities.
-if [ -d "$HOME/.cargo/bin" ]; then # Rust cargo compiled binaries
-    export PATH=$PATH:$HOME/.cargo/bin
+
+dir=$HOME/.cargo/bin
+export PATH=$PATH:$dir
+if [ ! -d "$dir" ]; then # Rust cargo compiled binaries
+    echo "WARNING: Missing directory: "$dir" >&2
 fi
-if [ -d "$HOME/.deno/bin" ]; then # Deno runtime
-    export PATH=$PATH:$HOME/.deno/bin
+
+dir=$HOME/.deno/bin
+export PATH=$PATH:$dir
+if [ ! -d "$dir" ]; then # Deno runtime
+    echo "WARNING: Missing directory: "$dir" >&2
 fi
-if [ -d "$HOME/go" ]; then # Go language (add GOROOT and GOPATH to PATH)
-    export PATH=$PATH:$HOME/go/bin
+
+dir=$HOME/go/bin
+export PATH=$PATH:$dir
+if [ ! -d "$dir" ]; then # Go language
+    echo "WARNING: Missing directory: "$dir" >&2
 fi
-if [ -d "$HOME/.npm-packages/bin" ]; then # globally installed node packages
-    export PATH="$HOME/.npm-packages/bin:$PATH"
-    export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
+
+dir=$HOME/.npm-packages/bin
+export PATH=$dir:$PATH
+export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
+if [ ! -d "$dir" ]; then # globally installed node packages
+    echo "WARNING: Missing directory: "$dir" >&2
 fi
-if [ -d "$HOME/.local/bin" ]; then # Locally installed binaries
-    export PATH="$HOME/.local/bin:$PATH"
+
+dir=$HOME/.local/bin
+export PATH=$dir:$PATH
+if [ ! -d "$dir" ]; then # Locally installed binaries
+    echo "WARNING: Missing directory: "$dir" >&2
 fi
+
 export PATH="$HOME/bin:$HOME/share/bin:$PATH" # User's binaries
 
 # Source Nix Package Manager if it's installed.
