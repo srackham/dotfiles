@@ -66,18 +66,6 @@ fi
 # Run custom login commands
 #
 
-# Start ZeroClaw daemon and detach from terminal
-# zeroclaw daemon
-
-# Start Ollama in a Podman container
-# podman start ollama & disown
-
-# # Start Hermes Agent gateway
-# if [ "$(hostname)" = "dell7090" ]; then
-#     hermes gateway &
-#     disown
-# fi
-
 # Activate mise for current shell
 # IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
 eval "$(mise activate)"
