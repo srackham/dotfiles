@@ -117,7 +117,6 @@ alias pkg-install="sudo pacman -S"
 alias pkg-remove="sudo pacman -Rsun"
 alias pkgs-upgrade="sudo pacman -Syu"
 {{else if eq .chezmoi.osRelease.id "nixos"}}
-alias mknixos="sudo nixos-rebuild -I nixos-config=$HOME/share/projects/nixos-configurations/hosts/$(hostname)/configuration.nix"
 alias optimise-nixos="sudo nix-collect-garbage --delete-old && sudo nix-store --optimise"
 alias upgrade-nixos="optimise-nixos && sudo nix-channel --update && mknixos boot"
 alias upgrade-user="npm update -g"
@@ -140,6 +139,22 @@ alias pass-show="pass-names | fzf | xargs -d '\n' pass show"
 #
 # Shared functions
 #
+
+function mknixos() {
+    local source_dir="$HOME/share/projects/nixos-configurations"
+    local args=("$@")
+
+    # Default to 'switch' if no arguments are provided
+    if [ ${#args[@]} -eq 0 ]; then
+        args=("switch")
+    fi
+
+    echo "Running: nixos-rebuild ${args[*]} for $(hostname)..."
+
+    # Inject NIX_PATH directly into the sudo environment (the nixos-rebuild -I option is problematic)
+    # https://share.google/aimode/1TyxZsk0rRy56HPQ9
+    sudo NIX_PATH="nixos-config=$source_dir/hosts/$(hostname)/configuration.nix:$NIX_PATH" nixos-rebuild "${args[@]}"
+}
 
 open_file_cmd="$HOME/bin/file-open.sh"
 ds_manpage="Usage: ds QUERY
