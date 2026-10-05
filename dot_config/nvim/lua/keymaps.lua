@@ -509,9 +509,9 @@ vim.keymap.set("n", "<Leader>sa", "ggVG", { noremap = true, silent = true, desc 
 vim.keymap.set("n", "<Leader>sf", "?^```<CR>jV/^```<CR>k", { noremap = true, silent = true, desc = "Select fenced block" })
 
 -- Miscellaneous commands --
--- Scroll Page Down with Shift+Enter
+-- Scroll Page Down
 vim.keymap.set("n", "<S-CR>", "<C-F>", { desc = "Scroll page down" })
--- Scroll Page Up with Ctrl+Enter
+-- Scroll Page Up
 vim.keymap.set("n", "<M-S-CR>", "<C-B>", { desc = "Scroll page up" })
 
 vim.keymap.set("n", "<Leader>dd", function()
