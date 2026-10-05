@@ -25,35 +25,29 @@ export RECOLL_CONFDIR="$HOME/.config/recoll"
 # Build the PATH env variable in descending priority order.
 # NOTE: NixOS updates this PATH and does not seem to preserve priorities.
 
-dir=$HOME/.cargo/bin
-export PATH=$PATH:$dir
-if [ ! -d "$dir" ]; then # Rust cargo compiled binaries
-    echo "WARNING: Missing directory: "$dir" >&2
-fi
-
 dir=$HOME/.deno/bin
 export PATH=$PATH:$dir
 if [ ! -d "$dir" ]; then # Deno runtime
-    echo "WARNING: Missing directory: "$dir" >&2
+    echo "WARNING: Missing directory: $dir" >&2
 fi
 
 dir=$HOME/go/bin
 export PATH=$PATH:$dir
 if [ ! -d "$dir" ]; then # Go language
-    echo "WARNING: Missing directory: "$dir" >&2
+    echo "WARNING: Missing directory: $dir" >&2
 fi
 
 dir=$HOME/.npm-packages/bin
 export PATH=$dir:$PATH
 export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
 if [ ! -d "$dir" ]; then # globally installed node packages
-    echo "WARNING: Missing directory: "$dir" >&2
+    echo "WARNING: Missing directory: $dir" >&2
 fi
 
 dir=$HOME/.local/bin
 export PATH=$dir:$PATH
 if [ ! -d "$dir" ]; then # Locally installed binaries
-    echo "WARNING: Missing directory: "$dir" >&2
+    echo "WARNING: Missing directory: $dir" >&2
 fi
 
 export PATH="$HOME/bin:$HOME/share/bin:$PATH" # User's binaries
