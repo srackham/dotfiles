@@ -151,9 +151,14 @@ function mknixos() {
 
     echo "Running: nixos-rebuild ${args[*]} for $(hostname)..."
 
-    # Inject NIX_PATH directly into the sudo environment (the nixos-rebuild -I option is problematic)
-    # https://share.google/aimode/1TyxZsk0rRy56HPQ9
-    sudo NIX_PATH="nixos-config=$source_dir/hosts/$(hostname)/configuration.nix:$NIX_PATH" nixos-rebuild "${args[@]}"
+    if [ "$(hostname)" = "dell5450" ]; then
+        # Inject NIX_PATH directly into the sudo environment because the nixos-rebuild -I option is problematic
+        # https://share.google/aimode/1TyxZsk0rRy56HPQ9
+        sudo NIX_PATH="nixos-config=$source_dir/hosts/$(hostname)/configuration.nix:$NIX_PATH" nixos-rebuild "${args[@]}"
+    else
+        # This command works for NixOS prior to 26.01.
+        sudo nixos-rebuild -I "nixos-config=$HOME/share/projects/nixos-configurations/hosts/$(hostname)/configuration.nix" "${args[@]}"
+    fi
 }
 
 open_file_cmd="$HOME/bin/file-open.sh"
