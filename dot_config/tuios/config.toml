@@ -463,7 +463,7 @@ terminal_scroll_up = ['shift+up']
 
 [keybindings.global]
 # command_palette = ['ctrl+p']
-command_palette = ['f12']
+command_palette = ['ctrl+\\']
 launcher = ['alt+space']
 
 [keybindings.script]
