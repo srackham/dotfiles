@@ -97,7 +97,6 @@ alias ocr="clipboard-paste -t image/png | tesseract -l eng - - 2>/dev/null"
 
 alias ta="tmux attach"
 alias tde="tde --session $(hostname)"
-# alias ssh="wezterm ssh"
 alias ssh='TERM=xterm-256color ssh'
 alias stylua='stylua --config-path "$HOME/.config/nvim/stylua.toml"'
 alias stylua-all="stylua \$(find . -name '*.lua')" # Recursively format all .lua files in the current directory
@@ -108,7 +107,8 @@ alias hc="hermes --continue"      # Continue previous session
 alias hl="hermes sessions list"
 # alias hermes='podman exec -it hermes /opt/hermes/.venv/bin/hermes'
 # alias hermes='$HOME/hermes-install/hermes-agent/.venv/bin/hermes'
-alias wezterm-minimal='wezterm --config-file ~/.config/wezterm/minimal.lua'
+alias wezterm-minimal='wezterm --config-file ~/.config/wezterm/wezterm-minimal.lua'
+alias wezterm-tabbed='wezterm --config-file ~/.config/wezterm/wezterm-tabbed.lua'
 alias wezterm-tuios='wezterm-minimal start -- tuios'
 
 {{/* distro-independent package mmmanagement aliases */}}
