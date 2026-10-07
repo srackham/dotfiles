@@ -59,7 +59,6 @@ return {
         opts.additional_args = opts.additional_args or {}
         vim.list_extend(opts.additional_args, { "--hidden" })
         vim.cmd "OutlineFocusCode"
-        vim.cmd "wa"
         builtin.live_grep(opts)
       end
 
@@ -98,11 +97,9 @@ return {
         builtin.marks()
       end, { desc = "List marks" })
       vim.keymap.set({ "n", "v" }, "<Leader>fW", function()
-        vim.cmd "wa" -- Save all modified buffers
         builtin.grep_string()
       end, { desc = "Search files for word or selection" })
       vim.keymap.set({ "n", "v" }, "<leader>fw", function()
-        vim.cmd "wa" -- Save all modified buffers
         builtin.grep_string {
           word_match = "-w",
           additional_args = { "--case-sensitive" },
@@ -123,7 +120,7 @@ return {
       end, { desc = "Live-grep plugin files" })
 
       vim.keymap.set({ "n", "v" }, "<Leader>cr", function()
-        vim.cmd "update" -- Write modified buffer
+        vim.cmd "update"
         builtin.lsp_references()
       end, { desc = "List references to word under cursor" })
       local symbols = {

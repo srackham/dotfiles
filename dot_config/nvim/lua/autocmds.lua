@@ -1,8 +1,13 @@
 -- Auto-save on focus lost
-vim.api.nvim_create_autocmd("FocusLost", {
+vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
+  desc = "Save modified buffers on focus loss or buffer change",
   pattern = "*",
-  command = "silent! wa",
-  nested = true,
+  callback = function(ev)
+    if vim.bo.modified and vim.bo.buftype == "" and vim.fn.expand "%" ~= "" then -- Only save modified, normal, disk-backed files
+      print(string.format("UPDATE COMMAND EVENT FIRED: %s", vim.inspect(ev.event)))
+      vim.cmd "silent! update"
+    end
+  end,
 })
 
 -- Disable automatic line comment insertion for all filetypes
@@ -39,6 +44,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Auto-save Rust source files after a period of inactivity
 -- TODO: FIXME: This is a kludge because I can't figure how to force the Rust LSP to do lint check without saving.
 local timer = vim.loop.new_timer()
+assert(timer ~= nil)
+
 local save_delay = 500
 
 local function auto_save()
