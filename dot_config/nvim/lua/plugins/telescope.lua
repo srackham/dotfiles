@@ -106,6 +106,7 @@ return {
         }
       end, { desc = "Case sensitive search for whole word under cursor" })
 
+      vim.keymap.set("n", "<Leader>gv", builtin.git_status, { desc = "View Git hunks" })
       vim.keymap.set({ "n", "v" }, "<Leader>dl", function()
         builtin.diagnostics { bufnr = 0 }
       end, { desc = "List diagnostic messages in current buffer" })
