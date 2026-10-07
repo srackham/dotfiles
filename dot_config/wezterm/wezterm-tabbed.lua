@@ -15,8 +15,6 @@ config.inactive_pane_hsb = {
   brightness = 0.5,
 }
 
--- config.window_decorations = "RESIZE" -- FIXME: does not work on Wayland (wezterm 0-unstable-2025-05-18)
-
 -- Fonts
 config.font = wezterm.font_with_fallback {
   "JetBrainsMono Nerd Font",
