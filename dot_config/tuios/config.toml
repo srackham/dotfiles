@@ -126,14 +126,14 @@ scroll_lines = 3
 kitty_placeholders = 'auto'
 auto_enter_terminal_on_focus = 'off'
 click_to_type = 'double'
-dockbar_position = 'top'
+dockbar_position = 'bottom'
 preferred_shell = ''
 motion = 'none'
 modal_dim = 30
 whichkey_position = ''
 window_title_position = 'top'
 hide_clock = false
-show_clock = false
+show_clock = true
 show_cpu = false
 show_ram = false
 theme = ''
@@ -146,7 +146,7 @@ niri_reverse_scroll = false
 niri_scroll_cells = 8
 prefix_repeat_time = 500
 max_fps = 0
-dock_workspace_tab_format = ''
+dock_workspace_tab_format = '{index}: {name}'
 glyphs = 'default'
 gap = 0
 tiling_scheme = ''
@@ -155,9 +155,11 @@ scroll_column_width = 55
 scroll_column_max = 90
 zoom_size = 95
 panel_padding = 2
-clock_format = '15:04:05'
+clock_format = 'Mon Jan 2 15:04'
 dim_unfocused = 0
 dim_multifocus = false
+master_position = ''
+master_count = 0
 background = 'off'
 pane_background = ''
 desktop_background = ''
@@ -431,9 +433,13 @@ tape_prefix_review = ['t']
 tape_prefix_stop = ['s']
 
 [keybindings.layout_prefix]
+add_master = ['i']
+cycle_master_position = ['o']
+focus_master = ['m']
 layout_prefix_cancel = ['esc']
 layout_prefix_load = ['l']
 layout_prefix_save = ['s']
+remove_master = ['d']
 resize_height_50 = ['shift+5']
 resize_height_60 = ['shift+6']
 resize_height_70 = ['shift+7']
@@ -448,6 +454,7 @@ snap_corner_1 = ['1']
 snap_corner_2 = ['2']
 snap_corner_3 = ['3']
 snap_corner_4 = ['4']
+swap_with_master = ['enter']
 
 [keybindings.terminal_mode]
 terminal_exit_mode = ['alt+esc']
@@ -462,9 +469,11 @@ terminal_scroll_down = ['shift+down']
 terminal_scroll_up = ['shift+up']
 
 [keybindings.global]
-# command_palette = ['ctrl+p']
-command_palette = ['ctrl+\\']
 launcher = ['alt+space']
+
+# Custom mappings
+command_palette = ['ctrl+\']
+toggle_zoom = ['alt+f']
 
 [keybindings.script]
 script_pause = ['ctrl+p']
@@ -576,6 +585,7 @@ respond_from_shell = false
 resume_agents = 'ask'
 persist_scrollback_lines = 0
 persist_scrollback_kb = 0
+window_size = 'smallest'
 
 [startup]
 open_default_window = false
@@ -632,3 +642,6 @@ corner = 'bottom-right'
 
 [dock]
 [dock.clock]
+
+[hosts.nuc3]
+addr = "super@nuc3"
