@@ -472,7 +472,7 @@ terminal_scroll_up = ['shift+up']
 launcher = ['alt+space']
 
 # Custom mappings
-command_palette = ['ctrl+\']
+command_palette = ['ctrl+a']
 toggle_zoom = ['alt+f']
 
 [keybindings.script]
