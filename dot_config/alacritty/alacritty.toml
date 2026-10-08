@@ -1,12 +1,15 @@
 [env]
 TERM = "xterm-256color" # Nany systems do not have the 'alacritty' terminfo entry
 
+[window]
+decorations = "none"
+
 [window.dimensions]
 columns = 120
 lines = 70
 
 [font]
-size = 10
+size = 12
 normal = { family = "JetBrainsMonoNL Nerd Font", style = "Regular" }
 
 [window.padding]
