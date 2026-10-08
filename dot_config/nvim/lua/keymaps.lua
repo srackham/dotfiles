@@ -512,13 +512,20 @@ local function toggle_terminal(cmd)
 end
 
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to normal mode" })
+
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-t>", toggle_terminal, { desc = "Toggle Floating Terminal" })
-vim.keymap.set({ "n", "i", "v", "t" }, "<C-g>", function()
+vim.keymap.set("n", "<Leader>tt", toggle_terminal, { desc = "Toggle Floating Terminal" })
+
+local function toggle_lazygit()
   toggle_terminal "lazygit"
-end, { desc = "Toggle Floating Lazygit" })
-vim.keymap.set({ "n", "i", "v", "t" }, "<Leader>tl", function()
-  toggle_terminal { "git", "log" }
-end, { desc = "Toggle Floating Git log" })
+end
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-g>", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
+vim.keymap.set("n", "<Leader>tg", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
+
+local function toggle_pi()
+  toggle_terminal "pi"
+end
+vim.keymap.set("n", "<Leader>tp", toggle_pi, { desc = "Toggle Floating Pi coding agent" })
 
 -- Quickfix commands --
 vim.keymap.set("n", "<Leader>qc", "<Cmd>cclose<CR>", { noremap = true, silent = true, desc = "Close Quickfix window" })
