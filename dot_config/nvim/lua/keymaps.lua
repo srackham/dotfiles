@@ -93,6 +93,7 @@ local function format_with_stylua()
     vim.notify("Stylua only formats Lua files", vim.log.levels.WARN)
     return
   end
+  vim.cmd "update"
   local source_file = vim.api.nvim_buf_get_name(0)
   if source_file == "" then
     vim.notify("No file in current buffer", vim.log.levels.WARN)
