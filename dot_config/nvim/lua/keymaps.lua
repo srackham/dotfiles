@@ -408,27 +408,25 @@ local state = {
     buf = -1,
     win = -1,
   },
+  -- Cache instances for commands: state.instances[cmd] = { buf = ..., win = ... }
+  instances = {},
 }
 
 local function create_floating_window(opts)
   opts = opts or {}
-  -- Get current screen dimensions
   local width = opts.width or math.floor(vim.o.columns * 0.8)
   local height = opts.height or math.floor(vim.o.lines * 0.8)
 
-  -- Calculate centered position
   local col = math.floor((vim.o.columns - width) / 2)
   local row = math.floor((vim.o.lines - height) / 2)
 
-  -- Create a valid buffer
   local buf = nil
-  if vim.api.nvim_buf_is_valid(opts.buf) then
+  if opts.buf and vim.api.nvim_buf_is_valid(opts.buf) then
     buf = opts.buf
   else
-    buf = vim.api.nvim_create_buf(false, true) -- No file, scratch buffer
+    buf = vim.api.nvim_create_buf(false, true)
   end
 
-  -- Window configuration
   local win_config = {
     relative = "editor",
     width = width,
@@ -444,22 +442,59 @@ local function create_floating_window(opts)
   return { buf = buf, win = win }
 end
 
-local function toggle_terminal()
-  if not vim.api.nvim_win_is_valid(state.floating.win) then
-    -- If window doesn't exist, create it
+local function toggle_terminal(cmd)
+  -- Handle custom commands (separate window instance per cmd string)
+  if cmd then
+    local instance = state.instances[cmd] or { buf = -1, win = -1 }
+
+    -- If window for this specific command is currently open, hide/close it
+    if vim.api.nvim_win_is_valid(instance.win) then
+      vim.api.nvim_win_hide(instance.win)
+      return
+    end
+
+    -- Create or recreate window for this command
+    instance = create_floating_window { buf = instance.buf }
+    state.instances[cmd] = instance
+
+    -- If it's a new or fresh buffer, launch the command
+    if vim.bo[instance.buf].buftype ~= "terminal" then
+      local win = instance.win
+      local buf = instance.buf
+
+      vim.fn.termopen(cmd, {
+        on_exit = function()
+          if vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_win_close(win, true)
+          end
+          if vim.api.nvim_buf_is_valid(buf) then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+          state.instances[cmd] = nil
+        end,
+      })
+    end
+
+    vim.cmd "startinsert"
+    return
+  end
+
+  -- Default interactive terminal (no command passed)
+  if vim.api.nvim_win_is_valid(state.floating.win) then
+    vim.api.nvim_win_hide(state.floating.win)
+  else
     state.floating = create_floating_window { buf = state.floating.buf }
     if vim.bo[state.floating.buf].buftype ~= "terminal" then
-      vim.cmd.term() -- Open terminal if it's a new buffer
+      vim.cmd.term()
     end
-    -- Automatically enter Insert mode when opening
     vim.cmd "startinsert"
-  else
-    -- If window is open, hide it (but keep the buffer alive)
-    vim.api.nvim_win_hide(state.floating.win)
   end
 end
 
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-t>", toggle_terminal, { desc = "Toggle Floating Terminal" })
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-g>", function()
+  toggle_terminal "lazygit"
+end, { desc = "Toggle Floating Lazygit" })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to normal mode" })
 
 -- Quickfix commands --
