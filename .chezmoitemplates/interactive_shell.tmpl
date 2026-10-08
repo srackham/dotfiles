@@ -143,15 +143,21 @@ alias pass-show="pass-names | fzf | xargs -d '\n' pass show"
 # Neovim wrapper for tuios panes.
 #
 # tuios panes get TERM=xterm-256color, which has no styled-underline (Smulx)
-# capability, so Neovim draws spelling errors with plain underlines. Using
-# TERM=wezterm for Neovim only restores the red squiggles, while every other
+# capability, so Neovim draws spelling errors with plain underlines. Setting
+# TERM for Neovim only restores the red squiggles, while every other
 # program in the pane keeps xterm-256color.
-# Requires the wezterm terminfo entry (see https://wezterm.org/config/lua/config/term.html).
 function nvim() {
-    # Only override inside a tuios pane (tuios sets TUIOS_SESSION in every pane)
-    # and only when the wezterm terminfo entry is actually installed.
-    if [ -n "$TUIOS_SESSION" ] && infocmp wezterm >/dev/null 2>&1; then
-        TERM=wezterm command nvim "$@"
+    local term=""
+
+    # Pick the terminfo entry based on the outer terminal, and only if it's installed.
+    if [ -n "$WEZTERM_PANE" ]; then
+        term=wezterm
+    elif [ -n "$ALACRITTY_WINDOW_ID" ]; then
+        term=alacritty
+    fi
+
+    if [ -n "$term" ] && infocmp "$term" >/dev/null 2>&1; then
+        TERM=$term command nvim "$@"
     else
         command nvim "$@"
     fi
