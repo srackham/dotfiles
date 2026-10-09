@@ -4,6 +4,9 @@ onboarding = false
 name = "terminal"
 auto_switch = false
 
+[ui]
+tab_bar_position = "bottom"
+
 [keys]
 switch_tab = ["prefix+1..9", "ctrl+shift+1..9"] # Does not work with Wezterm
 # switch_tab = ["prefix+1..9", "alt+1..9"]
