@@ -1,0 +1,12 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[keys]
+switch_tab = ["prefix+1..9", "ctrl+shift+1..9"] # Does not work with Wezterm
+# switch_tab = ["prefix+1..9", "alt+1..9"]
+cycle_pane_next = ["prefix+n", "alt+n"]
+cycle_pane_previous = ["prefix+p", "alt+p"]
+zoom = ["prefix+z", "alt+f"]
