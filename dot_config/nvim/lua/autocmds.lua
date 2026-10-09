@@ -2,9 +2,8 @@
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   desc = "Save modified buffers on focus loss or buffer change",
   pattern = "*",
-  callback = function(ev)
+  callback = function()
     if vim.bo.modified and vim.bo.buftype == "" and vim.fn.expand "%" ~= "" then -- Only save modified, normal, disk-backed files
-      print(string.format("UPDATE COMMAND EVENT FIRED: %s", vim.inspect(ev.event)))
       vim.cmd "silent! update"
     end
   end,
