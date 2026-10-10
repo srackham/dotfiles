@@ -36,14 +36,6 @@ vim.g.maplocalleader = "\\"
 vim.g.editorconfig = false -- Disable .editorconfig files globally
 vim.g.vim_init_file = vim.fn.stdpath "config" .. "/vim/init.vim"
 
--- Spelling
-vim.opt.spell = true
-vim.opt.spelllang = { "en" }
-vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = "#ffcccb" })
-vim.api.nvim_set_hl(0, "SpellCap", { undercurl = true, sp = "#ffcccb" })
-vim.api.nvim_set_hl(0, "SpellRare", { undercurl = true, sp = "#ffcccb" })
-vim.api.nvim_set_hl(0, "SpellLocal", { undercurl = true, sp = "#ffcccb" })
-
 vim.o.winborder = "single"
 
 -- File types
@@ -83,4 +75,14 @@ if vim.fn.filereadable(project_config_file) == 1 then
   end
 end
 
-vim.api.nvim_set_hl(0, "Normal", { bg = "black" })
+-- Colors (these should probably be moved to the catppuccin/nvim plugin
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) -- Use terminal's background
+vim.api.nvim_set_hl(0, "Normal", { bg = "#1e1e2e" })
+
+-- Spelling
+vim.opt.spell = true
+vim.opt.spelllang = { "en" }
+vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = "#ffcccb" })
+vim.api.nvim_set_hl(0, "SpellCap", { undercurl = true, sp = "#ffcccb" })
+vim.api.nvim_set_hl(0, "SpellRare", { undercurl = true, sp = "#ffcccb" })
+vim.api.nvim_set_hl(0, "SpellLocal", { undercurl = true, sp = "#ffcccb" })
