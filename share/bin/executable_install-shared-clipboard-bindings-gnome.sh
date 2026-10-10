@@ -61,7 +61,8 @@ gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom2/" binding '<Alt><Super>v'
 
 # 4. custom0: wezterm, bound to Super+T
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" name 'wezterm'
-gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" command 'wezterm start --always-new-process'
+# gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" command 'wezterm start --always-new-process'
+gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" command 'ghostty'
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" binding '<Super>t'
 
 echo "Installed keybindings:"
