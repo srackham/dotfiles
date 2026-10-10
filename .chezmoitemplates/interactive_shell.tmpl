@@ -140,29 +140,6 @@ alias pass-show="pass-names | fzf | xargs -d '\n' pass show"
 # Shared functions
 #
 
-# Neovim wrapper for tuios panes.
-#
-# tuios panes get TERM=xterm-256color, which has no styled-underline (Smulx)
-# capability, so Neovim draws spelling errors with plain underlines. Setting
-# TERM for Neovim only restores the red squiggles, while every other
-# program in the pane keeps xterm-256color.
-function nvim() {
-    local term=""
-
-    # Pick the terminfo entry based on the outer terminal, and only if it's installed.
-    if [ -n "$WEZTERM_PANE" ]; then
-        term=wezterm
-    elif [ -n "$ALACRITTY_WINDOW_ID" ]; then
-        term=alacritty
-    fi
-
-    if [ -n "$term" ] && infocmp "$term" >/dev/null 2>&1; then
-        TERM=$term command nvim "$@"
-    else
-        command nvim "$@"
-    fi
-}
-
 # Wrapper for nixos-rebuild that builds using machine specific NixOS configuration file
 # from the shared `nixos-configurations` directory
 function mknixos() {
