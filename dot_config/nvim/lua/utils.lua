@@ -798,4 +798,113 @@ function M.stop_lsp(lsp_name)
   vim.notify "Harper LSP server disabled"
 end
 
+-- Terminal commands --
+local state = {
+  floating = {
+    buf = -1,
+    win = -1,
+  },
+  -- Cache instances for commands: state.instances[cmd] = { buf = ..., win = ... }
+  instances = {},
+}
+
+local function create_floating_window(opts)
+  opts = opts or {}
+  local width = opts.width or math.floor(vim.o.columns * 0.8)
+  local height = opts.height or math.floor(vim.o.lines * 0.8)
+
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
+
+  local buf = nil
+  if opts.buf and vim.api.nvim_buf_is_valid(opts.buf) then
+    buf = opts.buf
+  else
+    buf = vim.api.nvim_create_buf(false, true)
+  end
+
+  local win_config = {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+    style = "minimal",
+    border = "rounded",
+  }
+
+  local win = vim.api.nvim_open_win(buf, true, win_config)
+
+  return { buf = buf, win = win }
+end
+
+--- Toggle a floating terminal window.
+---
+--- With no `cmd`, toggles a persistent interactive shell. With a `cmd`, toggles
+--- a dedicated terminal for that command; the window and buffer are closed
+--- automatically when the command exits. Hiding a window keeps its job alive.
+---@param cmd? string|string[] Command to run (string, or list of arguments), or `nil` for a plain shell
+---@return nil
+function M.toggle_terminal(cmd)
+  -- Handle custom commands (separate window instance per cmd string)
+  if cmd then
+    -- Normalise commands with arguments (e.g. { "git", "log" }) into a usable table key
+    local key = type(cmd) == "table" and table.concat(cmd, " ") or cmd
+    local instance = state.instances[key] or { buf = -1, win = -1 }
+
+    -- If window for this specific command is currently open, hide it
+    if vim.api.nvim_win_is_valid(instance.win) then
+      vim.api.nvim_win_hide(instance.win)
+      return
+    end
+
+    -- Create or recreate window for this command
+    instance = create_floating_window { buf = instance.buf }
+    state.instances[key] = instance
+
+    -- If it's a new or fresh buffer, launch the command
+    if vim.bo[instance.buf].buftype ~= "terminal" then
+      local win = instance.win
+      local buf = instance.buf
+
+      local opts = {
+        on_exit = function()
+          -- Window/buffer operations aren't allowed directly in this
+          -- callback context, so defer them to the main loop.
+          vim.schedule(function()
+            if vim.api.nvim_win_is_valid(win) then
+              vim.api.nvim_win_close(win, true)
+            end
+            if vim.api.nvim_buf_is_valid(buf) then
+              vim.api.nvim_buf_delete(buf, { force = true })
+            end
+            -- Only clear the cache if it still points at this buffer
+            local current = state.instances[key]
+            if current and current.buf == buf then
+              state.instances[key] = nil
+            end
+          end)
+        end,
+      }
+
+      opts.term = true
+      vim.fn.jobstart(cmd, opts)
+    end
+
+    vim.cmd "startinsert"
+    return
+  end
+
+  -- Default interactive terminal (no command passed)
+  if vim.api.nvim_win_is_valid(state.floating.win) then
+    vim.api.nvim_win_hide(state.floating.win)
+  else
+    state.floating = create_floating_window { buf = state.floating.buf }
+    if vim.bo[state.floating.buf].buftype ~= "terminal" then
+      vim.cmd.term()
+    end
+    vim.cmd "startinsert"
+  end
+end
+
 return M
