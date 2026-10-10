@@ -8,8 +8,16 @@ auto_switch = false
 tab_bar_position = "bottom"
 
 [keys]
-switch_tab = ["prefix+1..9", "ctrl+shift+1..9"] # Does not work with Wezterm
-# switch_tab = ["prefix+1..9", "alt+1..9"]
+prefix = ["ctrl+a", "ctrl+b", "ctrl+s"]
+switch_tab = ["prefix+1..9", "ctrl+shift+1..9"]
 cycle_pane_next = ["prefix+n", "alt+n"]
 cycle_pane_previous = ["prefix+p", "alt+p"]
-zoom = ["prefix+z", "alt+f"]
+zoom = ["prefix+z", "alt+z"]
+
+[[keys.command]]
+key = "ctrl+g"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"
