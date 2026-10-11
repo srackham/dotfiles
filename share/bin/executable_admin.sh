@@ -46,6 +46,7 @@ install_tools() {
 
 install_other() {
     go install github.com/Gaurav-Gosain/tuios/cmd/tuios@latest
+    herdr update
     # npm install -g opencode-ai@latest
     # npm install -g @google/gemini-cli
     # go install github.com/charmbracelet/crush@latest
@@ -179,7 +180,7 @@ tasks=(
     "Apply Chezmoi dot files::chezmoi apply"
     'Install Lazyvim plugins::nvim --headless -c "Lazy! sync" -c "qa"'
     "Install/Update mise tools::install_tools"
-    "Install/Update tuios::install_other"
+    "Install/Update tuios, herdr::install_other"
     "Install/Update Ollama models::install_ollama_models"
     "Load GNOME keyboard shortcuts::gnome_settings"
     ""
