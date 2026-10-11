@@ -810,8 +810,8 @@ local state = {
 
 local function create_floating_window(opts)
   opts = opts or {}
-  local width = opts.width or math.floor(vim.o.columns * 0.8)
-  local height = opts.height or math.floor(vim.o.lines * 0.8)
+  local width = math.floor(vim.o.columns * (opts.width or 0.8))
+  local height = math.floor(vim.o.lines * (opts.height or 0.8))
 
   local col = math.floor((vim.o.columns - width) / 2)
   local row = math.floor((vim.o.lines - height) / 2)
@@ -844,8 +844,11 @@ end
 --- a dedicated terminal for that command; the window and buffer are closed
 --- automatically when the command exits. Hiding a window keeps its job alive.
 ---@param cmd? string|string[] Command to run (string, or list of arguments), or `nil` for a plain shell
+---@param opts? { width?: number, height?: number } Width and height of floating window (0..1)
 ---@return nil
-function M.toggle_terminal(cmd)
+function M.toggle_terminal(cmd, opts)
+  opts = opts or {}
+
   -- Handle custom commands (separate window instance per cmd string)
   if cmd then
     -- Normalise commands with arguments (e.g. { "git", "log" }) into a usable table key
@@ -859,7 +862,7 @@ function M.toggle_terminal(cmd)
     end
 
     -- Create or recreate window for this command
-    instance = create_floating_window { buf = instance.buf }
+    instance = create_floating_window { buf = instance.buf, width = opts.width, height = opts.height }
     state.instances[key] = instance
 
     -- If it's a new or fresh buffer, launch the command
@@ -867,7 +870,7 @@ function M.toggle_terminal(cmd)
       local win = instance.win
       local buf = instance.buf
 
-      local opts = {
+      local job_opts = {
         on_exit = function()
           -- Window/buffer operations aren't allowed directly in this
           -- callback context, so defer them to the main loop.
@@ -887,8 +890,8 @@ function M.toggle_terminal(cmd)
         end,
       }
 
-      opts.term = true
-      vim.fn.jobstart(cmd, opts)
+      job_opts.term = true
+      vim.fn.jobstart(cmd, job_opts)
     end
 
     vim.cmd "startinsert"

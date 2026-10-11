@@ -409,7 +409,7 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<C-t>", utils.toggle_terminal, { desc = 
 vim.keymap.set("n", "<Leader>tt", utils.toggle_terminal, { desc = "Toggle Floating Terminal" })
 
 local function toggle_lazygit()
-  utils.toggle_terminal "lazygit"
+  utils.toggle_terminal("lazygit", { height = 1.0 })
 end
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-g>", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
 vim.keymap.set("n", "<Leader>tg", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
