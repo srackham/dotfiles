@@ -7,3 +7,5 @@ window-width  = 140
 window-height = 50
 window-decoration = none
 keybind = alt+v=paste_from_clipboard
+keybind = ctrl+shift+n=unbind
+keybind = ctrl+shift+p=unbind
