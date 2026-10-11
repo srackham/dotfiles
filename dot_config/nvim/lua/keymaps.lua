@@ -411,8 +411,8 @@ vim.keymap.set("n", "<Leader>tt", utils.toggle_terminal, { desc = "Toggle Floati
 local function toggle_lazygit()
   utils.toggle_terminal "lazygit"
 end
-vim.keymap.set({ "n", "i", "v", "t" }, "<C-l>", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
-vim.keymap.set("n", "<Leader>tl", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-g>", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
+vim.keymap.set("n", "<Leader>tg", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
 
 local function toggle_pi()
   utils.toggle_terminal "pi"
