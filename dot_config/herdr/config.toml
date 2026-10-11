@@ -6,21 +6,15 @@ auto_switch = false
 
 [keys]
 # prefix = ["ctrl+a", "ctrl+b", "ctrl+s"]
-switch_workspace = ["prefix+shift+1..9", "ctrl+shift+1..9"]
-next_workspace = ["ctrl+shift+n"]
-previous_workspace = ["ctrl+shift+p"]
-switch_tab = ["prefix+1..9", "alt+1..9"]
-cycle_pane_next = ["prefix+n", "alt+n"]
-cycle_pane_previous = ["prefix+p", "alt+p"]
+switch_workspace = ["alt+1..9"]
+next_workspace = ["alt+n"]
+previous_workspace = ["alt+p"]
+switch_tab = ["ctrl+shift+1..9"]
+next_tab = ["ctrl+shift+n"]
+previous_tab = ["ctrl+shift+p"]
+cycle_pane_next = ["alt+shift+n"]
+cycle_pane_previous = ["alt+shift+p"]
 zoom = ["prefix+z", "alt+z"]
-
-# [[keys.command]]
-# key = "ctrl+g"
-# type = "popup"
-# command = "lazygit"
-# description = "run lazygit"
-# width = "80%"
-# height = "100%"
 
 [ui]
 tab_bar_position = "bottom"
