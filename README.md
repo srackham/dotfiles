@@ -2,15 +2,13 @@
 
 17-Sep-2024
 
-My cross-distribution Linux dotfiles managed by [chezmoi](https://www.chezmoi.io/).
-
 ### TODO:
 
-- yank-append mappings see:
+- A single wezterm config with an environment variable (`WEZTERM_STARTUP`) to steer startup behaviour e.g.
 
-  - https://claude.ai/share/14fbc187-01f0-4ebd-96ad-f48b87cef0df
-  - https://share.gemini.google/gX76jZ9Pcc5C
-  - https://chatgpt.com/share/6ab9c8fd-b660-83ec-aa67-f42813c7c3e7
+```
+WEZTERM_STARTUP=tabbed wezterm
+```
 
 - `,bs` followed immediately by a second `,bs`: the second `,bs` repeats the changes, why?
 
@@ -22,13 +20,6 @@ Here's the messages buffer:
 211 substitutions on 206 lines
 215 substitutions on 210 lines
 ```
-
-- `admin.sh` menu items:
-  - Omarchy: Install VBox, SSH
-  - Omarchy: Update extra packages
-  - Omarchy: Update Neovim plugins
-  - Omarchy: Update .bashrc
-
 
 - `,fn` - replace `$HOME` with `~`.
 - `,fN` - file name only.
