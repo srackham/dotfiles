@@ -3,7 +3,7 @@
 # Custom prompt
 export PROMPT=$'\n%B%F{red}%n@%m %F{cyan}%~%f%b\n$ '
 
-export PATH=$HOME/bin:$PATH:/usr/sbin
+export PATH=$HOME/.local/bin:$HOME/bin:$PATH:/usr/sbin
 
 # Common aliases
 alias sudo='sudo '  # So aliases can be used

@@ -45,6 +45,11 @@ sed "0,/%F{[^}]*}/s//%F{$color}/" "$source_file" > "$destination"
 sudo apt update
 sudo apt install --yes curl sshpass parted rsnapshot rclone htop man-db manpages zsh tmux jq bat zsh-syntax-highlighting eza
 
+# Miscellaneous updates
+echo
+echo updating herdr...
+sudo -u super /home/super/.local/bin/herdr update
+
 # Create /root/.zshrc file
 sudo zsh -c 'cat > /root/.zshrc' <<'EOF'
 source ~super/.zshrc
