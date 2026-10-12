@@ -12,7 +12,7 @@ return {
         autofold_depth = 1,
       },
       outline_window = {
-        position = "right",
+        position = "left",
         width = 40,
         relative_width = false,
       },
