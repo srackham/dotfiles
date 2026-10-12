@@ -6,6 +6,9 @@ window-padding-balance = true
 window-width  = 140
 window-height = 50
 window-decoration = none
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = alt+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
 keybind = alt+v=paste_from_clipboard
 keybind = ctrl+shift+n=unbind
 keybind = ctrl+shift+p=unbind

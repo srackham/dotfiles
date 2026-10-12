@@ -5,7 +5,7 @@ name = "terminal"
 auto_switch = false
 
 [keys]
-# prefix = ["ctrl+a", "ctrl+b", "ctrl+s"]
+prefix = ["ctrl+backslash", "ctrl+b"]
 switch_workspace = ["alt+1..9"]
 next_workspace = ["alt+n"]
 previous_workspace = ["alt+p"]
