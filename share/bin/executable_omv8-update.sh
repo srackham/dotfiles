@@ -29,7 +29,7 @@ remote_tmp="/tmp/omv8-zshrc.$$"
 
 scp -- "$source_file" "$remote_host:$remote_tmp"
 
-ssh "$remote_host" bash -s -- "$remote_tmp" "$color" <<'REMOTE'
+ssh "super@$remote_host" bash -s -- "$remote_tmp" "$color" <<'REMOTE'
 set -euo pipefail
 
 source_file=$1
@@ -41,6 +41,9 @@ trap 'rm -f -- "$source_file"' EXIT
 # Set prompt color
 sed "0,/%F{[^}]*}/s//%F{$color}/" "$source_file" > "$destination"
 
+# Create ~/.zshenv
+echo 'export PATH=$HOME/.local/bin:$HOME/bin:$PATH:/usr/sbin' > ~/.zshenv
+
 # Update Debian packages
 sudo apt update
 sudo apt install --yes curl sshpass parted rsnapshot rclone htop man-db manpages zsh tmux jq bat zsh-syntax-highlighting eza
@@ -48,11 +51,11 @@ sudo apt install --yes curl sshpass parted rsnapshot rclone htop man-db manpages
 # Miscellaneous updates
 echo
 echo updating herdr...
-sudo -u super /home/super/.local/bin/herdr update
+~/.local/bin/herdr update
 
 # Create /root/.zshrc file
 sudo zsh -c 'cat > /root/.zshrc' <<'EOF'
-source ~super/.zshrc
+source ~/.zshrc
 export PROMPT=$'\n%B%F{white}%n@%m %F{cyan}%~%f%b\n$ '
 EOF
 
