@@ -700,4 +700,4 @@ end, {
 
 vim.keymap.set("n", "<Leader>?", function()
   require("prefix_keymaps").pick { require_desc = false }
-end, { desc = "Keymaps by prefix" })
+end, { desc = "Keymaps by prefix (enter `<keys>[ <description>]`)" })

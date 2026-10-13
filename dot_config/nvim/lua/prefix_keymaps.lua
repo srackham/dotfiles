@@ -10,6 +10,10 @@
 --
 --     vim.keymap.set({ "n", "v" }, "<Leader>acn", "<Cmd>Qanda /new_chat<CR>", { desc = "New chat" })
 --
+-- Typing a space ends the key prefix: the text after it fuzzy-matches descriptions,
+-- e.g. `,a new` lists `,a…` mappings whose description fuzzy-matches "new".
+-- (If your leader is <Space>, the leading space counts as part of the prefix.)
+--
 -- Rows are unique (by lhs + description) and <CR> executes the selected mapping.
 --
 -- Install: save as  lua/prefix_keymaps.lua  in your Neovim config, then:
@@ -21,6 +25,8 @@
 --     modes        string[]  modes to collect            (default { "n", "x" })
 --     require_desc boolean   only list mappings with desc (default true)
 --     default_text string    initial prompt text           (default "")
+--
+-- See also https://claude.ai/share/69286d0a-9846-48f8-a5be-815bfdac11fc
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
@@ -28,6 +34,7 @@ local sorters = require("telescope.sorters")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local entry_display = require("telescope.pickers.entry_display")
+local conf = require("telescope.config").values
 
 local M = {}
 
@@ -88,33 +95,71 @@ local function collect(opts)
   return results
 end
 
---- Sorter that keeps only entries whose lhs starts with the prompt.
+--- Split a prompt into (key prefix, description query) at the first space.
+--- If the leader is a space, a leading space is part of the key prefix.
+local function parse_prompt(prompt)
+  local p = normalize_prompt(prompt)
+  local start = 1
+  if (vim.g.mapleader or "\\") == " " and p:sub(1, 1) == " " then
+    start = 2
+  end
+  local space = p:find(" ", start, true)
+  if not space then
+    return p, ""
+  end
+  return p:sub(1, space - 1), p:sub(space + 1)
+end
+
+--- Sorter that keeps entries whose lhs starts with the key prefix and, when a
+--- space has been typed, whose description fuzzy-matches the text after it.
 local function prefix_sorter()
-  local function matches(prompt, entry, line)
-    local p = normalize_prompt(prompt)
-    if p == "" then
+  local fzy = sorters.get_fzy_sorter()
+
+  local function prefix_matches(prefix, entry, line)
+    if prefix == "" then
       return true
     end
     local lhs = entry and entry.lhs or line
     local raw = entry and entry.lhsraw
-    return vim.startswith(lhs, p) or (raw ~= nil and vim.startswith(raw, p))
+    return vim.startswith(lhs, prefix) or (raw ~= nil and vim.startswith(raw, prefix))
   end
 
   return sorters.Sorter:new({
     discard = true,
     scoring_function = function(_, prompt, line, entry)
-      -- -1 filters the entry out; any other value keeps it (stable order).
-      return matches(prompt, entry, line) and 1 or -1
+      local prefix, query = parse_prompt(prompt)
+      if not prefix_matches(prefix, entry, line) then
+        return -1
+      end
+      if query == "" then
+        return 1 -- prefix only: keep (stable order)
+      end
+      -- Fuzzy-match the description; fzy returns -1 when there is no match,
+      -- and lower scores rank higher.
+      return fzy.scoring_function(fzy, query, entry and entry.desc or "")
     end,
     tiebreak = function(current, existing)
       return (current.index or 0) < (existing.index or 0)
     end,
     highlighter = function(_, prompt, display)
-      local p = normalize_prompt(prompt)
-      if p ~= "" and vim.startswith(display, p) then
-        return { { start = 1, finish = #p } }
+      local prefix, query = parse_prompt(prompt)
+      local highlights = {}
+      if prefix ~= "" and vim.startswith(display, prefix) then
+        highlights[#highlights + 1] = { start = 1, finish = #prefix }
       end
-      return {}
+      if query ~= "" then
+        -- The description starts right after the first column separator.
+        local _, sep_end = display:find(" │ ", 1, true)
+        if sep_end then
+          local desc = display:sub(sep_end + 1)
+          for _, pos in ipairs(fzy:highlighter(query, desc) or {}) do
+            if type(pos) == "number" then
+              highlights[#highlights + 1] = { start = sep_end + pos, finish = sep_end + pos }
+            end
+          end
+        end
+      end
+      return highlights
     end,
   })
 end
