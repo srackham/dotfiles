@@ -622,34 +622,6 @@ vim.keymap.set("n", "<Leader>ew", function()
   vim.notify(vim.wo.wrap and "Word wrap enabled" or "Word wrap disabled")
 end, { noremap = true, silent = true, desc = "Toggle word wrap" })
 
-vim.keymap.set("v", "<Leader>sd", function()
-  local source_win = vim.api.nvim_get_current_win()
-
-  -- Yank visual selection to unnamed register
-  vim.cmd.normal "y"
-
-  -- Create split for selection, paste it
-  vim.cmd "vsplit | enew | setlocal buftype=nofile bufhidden=wipe noswapfile"
-  vim.cmd.normal "P"
-  vim.api.nvim_buf_set_name(0, "Selection")
-
-  -- Hide original source window
-  vim.api.nvim_win_hide(source_win)
-
-  -- Create split for clipboard, paste it
-  vim.cmd "vsplit | enew | setlocal buftype=nofile bufhidden=wipe noswapfile"
-  vim.cmd.normal '"+P'
-  vim.api.nvim_buf_set_name(0, "Clipboard")
-
-  -- Enable diff and wrap in both windows
-  vim.cmd "windo set wrap"
-  vim.cmd "windo diffthis"
-end, {
-  desc = "Diff visual selection and clipboard",
-  noremap = true,
-  silent = true,
-})
-
 -- Visual mode incremental selection (Neovim 0.12)
 vim.keymap.set("v", "<M-k>", "an", { remap = true, desc = "Incremental selection: outer node" })
 vim.keymap.set("v", "<M-j>", "in", { remap = true, desc = "Incremental selection: inner node" })
@@ -725,3 +697,7 @@ vim.keymap.set("n", "<Leader>td", function()
 end, {
   desc = "Insert TODO with today's date",
 })
+
+vim.keymap.set("n", "<Leader>?", function()
+  require("prefix_keymaps").pick { require_desc = false }
+end, { desc = "Keymaps by prefix" })
