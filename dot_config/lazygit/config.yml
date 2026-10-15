@@ -7,3 +7,9 @@ gui:
   theme:
     selectedLineBgColor:
       - "#404040"
+
+customCommands:
+  - key: 'G'
+    context: 'global'
+    command: 'gh repo view --web'
+    description: 'Open GitHub repository in browser'
