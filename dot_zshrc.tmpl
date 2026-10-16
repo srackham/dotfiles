@@ -39,6 +39,9 @@ if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn '\e]0;%m\a'
 fi
 
+eval "$(zoxide init zsh)"
+alias cd="z" # zoxide
+
 # Activate mise for current shell
 # IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
 source <(mise activate zsh)
