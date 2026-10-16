@@ -471,9 +471,18 @@ vim.keymap.set("n", "<M-S-CR>", "<C-B>", { desc = "Scroll page up" })
 vim.keymap.set("c", "<Up>", "<C-p>", { desc = "Previous command-line completion" })
 vim.keymap.set("c", "<Down>", "<C-n>", { desc = "Next command-line completion" })
 
-vim.keymap.set("n", "<Leader>dd", function()
-  vim.notify("<Leader>dd is a noop", vim.log.levels.WARN)
-end, { noremap = true, silent = true, desc = "Ensures inadvertent <Leader>dd does not pass through a dd command" })
+-- Ignore repeated `dd` commands to guard against inadvertently holding down the `d` key
+local last = 0
+vim.keymap.set("n", "dd", function()
+  local now = vim.uv.hrtime() / 1e6
+  local elapsed = now - last
+  last = now
+  if elapsed < 150 then -- ignore auto-repeat (typically ~30ms apart)
+    vim.api.nvim_echo({ { "Blocked repeated dd", "WarningMsg" } }, false, {})
+    return
+  end
+  return "dd"
+end, { expr = true, desc = "Throttled dd command" })
 
 vim.keymap.set(
   "n",
