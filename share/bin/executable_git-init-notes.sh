@@ -9,8 +9,13 @@ set -e
 set -o pipefail
 
 cd ~/share/notes
-git init -q
-git add -A
-git commit -qm "session baseline"
+if [[ -d .git ]]; then
+    git add -A
+    git commit --amend -qm "session baseline"
+else
+    git init -q
+    git add -A
+    git commit -qm "session baseline"
+fi
 git add -N ':(glob)**/*.md' # Make new files visible in git diff
-echo "Session baseline created"
+echo "Session baseline reset"
