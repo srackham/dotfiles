@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 #
-# install-clipboard-keybindings.sh
-#
 # Installs two GNOME custom keyboard shortcuts (overwriting any existing
 # custom keybindings list):
-#   custom1: Alt+Super+C -> /home/srackham/share/bin/shared-clipboard.sh copy
-#   custom2: Alt+Super+V -> /home/srackham/share/bin/shared-clipboard.sh paste
 
 set -euo pipefail
 
