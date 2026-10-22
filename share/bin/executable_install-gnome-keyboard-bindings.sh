@@ -41,21 +41,21 @@ if ! gsettings list-schemas | grep -qx "$SCHEMA"; then
     exit 1
 fi
 
-# 1. Overwrite the custom-keybindings list with custom0, custom1, and custom2
+# Overwrite the custom-keybindings list with custom0, custom1, and custom2
 gsettings set "$SCHEMA" custom-keybindings \
     "['${BASE_PATH}/custom0/', '${BASE_PATH}/custom1/', '${BASE_PATH}/custom2/']"
 
-# 2. custom1: copy, bound to Alt+Super+C
+# custom1: copy, bound to Alt+Super+C
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom1/" name 'shared-clipboard-copy'
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom1/" command "${SCRIPT} copy"
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom1/" binding '<Alt><Super>c'
 
-# 3. custom2: paste, bound to Alt+Super+V
+# custom2: paste, bound to Alt+Super+V
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom2/" name 'shared-clipboard-paste'
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom2/" command "${SCRIPT} paste"
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom2/" binding '<Alt><Super>v'
 
-# 4. custom0: wezterm, bound to Super+T
+# custom0: wezterm, bound to Super+T
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" name 'wezterm'
 # gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" command 'wezterm start --always-new-process'
 gsettings set "${BINDING_SCHEMA}:${BASE_PATH}/custom0/" command 'ghostty'
@@ -70,3 +70,8 @@ if [ ! -x "$SCRIPT" ]; then
     echo "Warning: ${SCRIPT} is not executable or does not exist." >&2
     echo "  Run: chmod +x ${SCRIPT}" >&2
 fi
+
+# Disable Super+1..9
+for i in {1..9}; do
+    gsettings set "org.gnome.shell.keybindings" "switch-to-application-$i" "[]"
+done
