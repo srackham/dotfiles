@@ -17,8 +17,18 @@ bindkey -M vicmd '^N' down-line-or-history
 bindkey -M viins '^P' up-line-or-history
 bindkey -M vicmd '^P' up-line-or-history
 
-# fzf command recall with Ctrl+R, fuzzy cd with Alt+C
+# fzf command recall with Ctrl+r
 source <(fzf --zsh)
+
+# Ergonomic Alt key bindings (to avoid the stretch to Ctrl)
+
+# Bind Alt+r to command recall (in addition to the default Ctrl+r)
+bindkey '\er' fzf-history-widget
+
+# Bind Alt+d to exit shell
+close-shell() { exit }
+zle -N close-shell
+bindkey '^[d' close-shell
 
 # zsh help command for builtin commands
 autoload -Uz run-help; alias help=run-help
@@ -40,7 +50,8 @@ if [[ -n "$SSH_CONNECTION" ]]; then
 fi
 
 eval "$(zoxide init zsh)"
-alias cd="z" # zoxide
+alias ,="z -"
+alias ..="z .."
 
 # Activate mise for current shell
 # IMPORTANT: Place mise activate at the end of your shell config file so nothing overrides the PATH it sets.
