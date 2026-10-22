@@ -37,9 +37,9 @@ return {
     vim.keymap.set({ "n", "v" }, "<Leader>amr", "<Cmd>Qanda /recent_models<CR>", { desc = "Recent model selection" })
     vim.keymap.set({ "n", "v" }, "<Leader>ams", "<Cmd>Qanda /model_picker<CR>", { desc = "Model selection" })
     vim.keymap.set({ "n", "v" }, "<Leader>apn", "<Cmd>Qanda /new_prompt<CR>", { desc = "Open new prompt" })
-    vim.keymap.set({ "n", "v" }, "<Leader>apt", "<Cmd>Qanda /prompt_template_picker<CR>", { desc = "Open prompts template picker" })
-    vim.keymap.set({ "n", "v" }, "<Leader>apw", "<Cmd>Qanda /prompt_window<CR>", { desc = "Open Prompt window" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ast", "<Cmd>Qanda /system_template_picker<CR>", { desc = "Open System template picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>apw", "<Cmd>Qanda /prompt_window<CR>", { desc = "Open prompt window" })
+    vim.keymap.set({ "n", "v" }, "<Leader>apt", "<Cmd>Qanda /prompt_template_picker<CR>", { desc = "Open prompt template picker" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ast", "<Cmd>Qanda /system_template_picker<CR>", { desc = "Open system template picker" })
     vim.keymap.set({ "n", "v" }, "<Leader>atp", "<Cmd>Qanda /turn_picker<CR>", { desc = "Open turn picker" })
 
     -- Key mappings for prompt templates --
