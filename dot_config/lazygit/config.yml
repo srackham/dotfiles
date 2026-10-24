@@ -10,47 +10,50 @@ gui:
 
 customCommands:
   - key: "G"
-    context: "global"
-    description: "Open GitHub repository in browser"
-    command: "gh repo view --web"
+    description: "Custom Lazygit commands"
+    commandMenu:
+      - key: "g"
+        context: "global"
+        description: "Open GitHub repository in browser"
+        command: "gh repo view --web"
 
-  - key: "P"
-    context: "global"
-    description: "Search commits and copy selected hash"
-    output: popup
-    outputTitle: "Copied to clipboard"
-    prompts:
-      - type: "menu"
-        title: "Pickaxe search type"
-        key: "SearchType"
-        options:
-          - name: "Literal string (-S)"
-            value: "S"
-          - name: "Regular expression (-G)"
-            value: "G"
+      - key: "p"
+        context: "global"
+        description: "Search for commits for changes"
+        output: popup
+        outputTitle: "Copied to clipboard"
+        prompts:
+          - type: "menu"
+            title: "Pickaxe search type"
+            key: "SearchType"
+            options:
+              - name: "Literal string (-S)"
+                value: "S"
+              - name: "Regular expression (-G)"
+                value: "G"
 
-      - type: "input"
-        title: "Search regular expression"
-        key: "Pattern"
-        condition: '{{ eq .Form.SearchType "G" }}'
-        initialValue: ""
+          - type: "input"
+            title: "Search regular expression"
+            key: "Pattern"
+            condition: '{{ eq .Form.SearchType "G" }}'
+            initialValue: ""
 
-      - type: "input"
-        title: "Search string"
-        key: "Pattern"
-        condition: '{{ eq .Form.SearchType "S" }}'
-        initialValue: ""
+          - type: "input"
+            title: "Search string"
+            key: "Pattern"
+            condition: '{{ eq .Form.SearchType "S" }}'
+            initialValue: ""
 
-      - type: "menuFromCommand"
-        title: "Matching commits"
-        key: "Commit"
+          - type: "menuFromCommand"
+            title: "Matching commits"
+            key: "Commit"
+            command: >-
+              git log --all --format='%H %s'
+              {{if eq .Form.SearchType "G"}}-G{{else}}-S{{end}}{{.Form.Pattern | quote}}
+            filter: "^(?P<hash>[0-9a-f]+) (?P<subject>.*)$"
+            valueFormat: "{{.hash}}"
+            labelFormat: "{{slice .hash 0 7}} {{.subject}}"
+
         command: >-
-          git log --all --format='%H %s'
-          {{if eq .Form.SearchType "G"}}-G{{else}}-S{{end}}{{.Form.Pattern | quote}}
-        filter: "^(?P<hash>[0-9a-f]+) (?P<subject>.*)$"
-        valueFormat: "{{.hash}}"
-        labelFormat: "{{slice .hash 0 7}} {{.subject}}"
-
-    command: >-
-      printf "%s" {{.Form.Commit | quote}} | wl-copy >/dev/null 2>&1
-      && echo "Commit hash {{.Form.Commit}}"
+          printf "%s" {{.Form.Commit | quote}} | wl-copy >/dev/null 2>&1
+          && echo "Commit hash {{.Form.Commit}}"
