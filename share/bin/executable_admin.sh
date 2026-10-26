@@ -57,7 +57,7 @@ gnome_settings() {
     local chezmoi_repo_dir="$HOME/share/projects/chezmoi"
     dconf load /org/gnome/desktop/wm/keybindings/ <"$chezmoi_repo_dir/resources/wm-keybindings.dconf"
     dconf load /org/gnome/shell/keybindings/ <"$chezmoi_repo_dir/resources/shell-keybindings.dconf"
-    install-shared-clipboard-bindings-gnome.sh
+    install-gnome-keyboard-bindings.sh
 }
 
 check_omarchy() {
