@@ -1,14 +1,26 @@
-local utils = require "utils"
-
 -- Use vim.g to persist state across file re-evaluations
 -- Sets whether Harper is enabled at startup
 vim.g.harper_enabled = false
 
+--- Reattach Harper LSP to current and future buffers
+local function start_lsp()
+  vim.lsp.enable("harper", true)
+  vim.g.harper_enabled = true
+end
+
+--- Stop all harper LSP clients
+local function stop_lsp()
+  vim.lsp.enable("harper", false) -- Prevents auto-attaching to future buffers
+  vim.g.harper_enabled = false
+end
+
 vim.keymap.set("n", "<Leader>dg", function()
   if vim.g.harper_enabled then
-    utils.stop_lsp "harper"
+    stop_lsp()
+    vim.notify "Harper LSP server disabled"
   else
-    utils.start_lsp "harper"
+    start_lsp()
+    vim.notify "Harper LSP server enabled"
   end
 end, { desc = "Toggle the grammar checker diagnostic messages on and off" })
 
@@ -19,7 +31,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.schedule(function()
       vim.defer_fn(function() -- This delay should not be necessary but some directories seem to require it
         if not vim.g.harper_enabled then
-          utils.stop_lsp "harper"
+          stop_lsp()
         end
       end, 100)
     end)
