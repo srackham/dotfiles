@@ -186,9 +186,9 @@ flash_ms = 420
 flash_style = 'diagonal'
 
 [appearance.sidebar]
-enabled = false
+enabled = true
 position = 'right'
-width = 24
+width = 36
 workspaces = ''
 sections = 'sessions:25,terminals,files:25,agents:34'
 folder_click = 'navigate'
@@ -472,7 +472,7 @@ terminal_scroll_up = ['shift+up']
 launcher = ['alt+space']
 
 # Custom mappings
-command_palette = ['ctrl+a']
+command_palette = ['alt+a']
 toggle_zoom = ['alt+f']
 
 [keybindings.script]
