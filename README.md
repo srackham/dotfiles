@@ -4,6 +4,20 @@
 
 ### TODO:
 
+```
+pi --name 'claude: create pi-trial-solutions.sh' --print --model openrouter/anthropic/claude-haiku-5.5 @PROMPT.md
+git switch -C attempt/claude
+git add -A
+git commit -m 'claude: create pi-trial-solutions.sh'
+git switch main
+
+git switch main
+git merge --squash attempt/claude
+git commit -m '<commit-message>'
+```
+
+---
+
 - A single wezterm config with an environment variable (`WEZTERM_STARTUP`) to steer startup behaviour e.g.
 
 ```
@@ -52,6 +66,21 @@ My desktop machines NFS-mount my shared documents directory to `~/share`; the lo
 
 1. Copying the `~/.config/chezmoi/chezmoi.toml` file from the primary desktop PC which points chezmoi to the shared NFS location.
 2. Run `chezmoi apply` to copy the chezmoi source files to their target locations.
+
+### 24-Oct-2026
+
+Weird error (non-repeatable):
+
+This error occurs when I start a Neovim session in herdr (it does not occur outside herdr):
+
+```
+E5108: Lua: [string "vim/_core/editor"]:355: nvim_exec2(), line 1: Vim(normal):E756: Spell checking is not possible
+stack traceback:
+	[C]: in function 'nvim_exec2'
+	[string "vim/_core/editor"]:355: in function 'cmd'
+	/home/srackham/.config/nvim/lua/keymaps.lua:7: in function 'n'
+	/home/srackham/.config/nvim/lua/keymaps.lua:14: in function </home/srackham/.config/nvim/lua/keymaps.lua:5>
+```
 
 ### Machines that do not have access to the NFS projects directory mounts
 
