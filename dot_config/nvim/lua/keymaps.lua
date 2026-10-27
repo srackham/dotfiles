@@ -405,20 +405,19 @@ vim.keymap.set("n", "<leader>wf", float_current_window, { desc = "Float current 
 -- Terminal commands --
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Switch from terminal mode to normal mode" })
 
-vim.keymap.set({ "n", "i", "v", "t" }, "<C-t>", utils.toggle_terminal, { desc = "Toggle Floating Terminal" })
 vim.keymap.set({ "n", "i", "v", "t" }, "<M-t>", utils.toggle_terminal, { desc = "Toggle Floating Terminal" })
 vim.keymap.set("n", "<Leader>tt", utils.toggle_terminal, { desc = "Toggle Floating Terminal" })
 
 local function toggle_lazygit()
   utils.toggle_terminal("lazygit", { height = 1.0 })
 end
-vim.keymap.set({ "n", "i", "v", "t" }, "<C-g>", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
 vim.keymap.set({ "n", "i", "v", "t" }, "<M-g>", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
 vim.keymap.set("n", "<Leader>tg", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
 
 local function toggle_pi()
-  utils.toggle_terminal "pi"
+  utils.toggle_terminal("pi", { height = 1.0 })
 end
+vim.keymap.set({ "n", "i", "v", "t" }, "<M-a>", toggle_pi, { desc = "Toggle Floating Pi coding agent" })
 vim.keymap.set("n", "<Leader>tp", toggle_pi, { desc = "Toggle Floating Pi coding agent" })
 
 -- Quickfix commands --

@@ -31,7 +31,7 @@ return {
     vim.keymap.set({ "n", "v" }, "<Leader>ade", "<Cmd>Qanda /diagnostics_enable<CR>", { desc = "Enable diagnostics capture" })
     vim.keymap.set({ "n", "v" }, "<Leader>add", "<Cmd>Qanda /diagnostics_disable<CR>", { desc = "Disable diagnostics capture" })
     vim.keymap.set({ "n", "v" }, "<Leader>adv", "<Cmd>Qanda /diagnostics_view<CR>", { desc = "Open diagnostics file" })
-    vim.keymap.set({ "n", "v" }, "<Leader>ai", "<Cmd>Qanda /status<CR>", { desc = "Status information" })
+    vim.keymap.set({ "n", "v" }, "<Leader>ai", "<Cmd>Qanda /info<CR>", { desc = "Configuration and status information" })
     vim.keymap.set({ "n", "v" }, "<Leader>ak", "<Cmd>Qanda /abort<CR>", { desc = "Abort the current request" })
     vim.keymap.set({ "n", "v" }, "<Leader>amp", "<Cmd>Qanda /provider_picker<CR>", { desc = "Model provider selection" })
     vim.keymap.set({ "n", "v" }, "<Leader>amr", "<Cmd>Qanda /recent_models<CR>", { desc = "Recent model selection" })
