@@ -2,27 +2,12 @@
 #
 # pi-fanout.sh - create trial solutions with several Pi coding agent models,
 # and commit a chosen trial solution to the main branch.
-#
-# Synopsis: pi-fanout.sh COMMAND OPTIONS
-#
-#   COMMAND
-#     create   Create a trial solution with each model (or only the models
-#              given with -i) on branch pi/<model-id>.
-#     apply    Squash-merge pi/<model-id> into main and commit it.
-#
-#   OPTIONS
-#     -h, --help                   Show help and exit.
-#     -n, --dry-run                Print the commands without executing them.
-#     -m, --commit-message <msg>   Commit message. Mandatory for apply; optional
-#                                  for create (defaults to "trial solution").
-#     -i, --id <model-id>          Model ID. May be repeated with create to
-#                                  process only the given models; mandatory
-#                                  (exactly once) for apply.
 
 set -euo pipefail
 
 PROG=$(basename "$0")
 PROMPT_FILE='PROMPT.md'
+LOG_FILE='PI_FANOUT_LOG.md'
 DEFAULT_CREATE_MSG='trial solution'
 
 MODEL_NAMES=(
@@ -42,7 +27,8 @@ WORKFLOW:
   1. Write a task specification to the PROMPT.md file.
   2. Generate trial solutions with the 'create' command.
   3. Review each trial solution branch.
-  4. Merge the best solution into the main branch with the 'apply' command.
+  4. Repeat steps 1..3 with the --continue option until satisfied.
+  5. Merge the best solution into the main branch with the 'apply' command.
 
 COMMAND:
   create   Create a trial solution with each model (branch pi/<model-id>).
@@ -53,11 +39,13 @@ OPTIONS:
   -n, --dry-run                Print the commands without executing them.
   -m, --commit-message <msg>   Commit message. Mandatory for apply; optional
                                for create (default: "$DEFAULT_CREATE_MSG").
+  -c, --continue               Pass --continue to pi (create only, optional).
   -i, --id <model-id>          Model ID. May be repeated with create to
                                process only the given models; mandatory
-                               (exactly once) for apply.
+                               for apply (exactly once).
 
-Model IDs: ${MODEL_IDS[*]}
+Model IDs:   ${MODEL_IDS[*]}
+Model names: ${MODEL_NAMES[*]}
 EOF
 }
 
@@ -88,8 +76,29 @@ run() {
     fi
 }
 
+# Append a Markdown header and the PROMPT.md contents to the log file.
+append_log() {
+    local id=$1 model=$2 header
+    header="## $(date '+%Y-%m-%d %H:%M'): $id: $model: $commit_msg"
+
+    if [[ $dry_run == true ]]; then
+        echo "Would append to $LOG_FILE:"
+        echo
+        echo "$header"
+        echo "<contents of $PROMPT_FILE>"
+        echo
+    else
+        {
+            echo
+            echo "$header"
+            echo
+            cat "$PROMPT_FILE"
+        } >>"$LOG_FILE"
+    fi
+}
+
 create_trial() {
-    local id=$1 idx model start elapsed
+    local id=$1 idx model start elapsed pi_cmd
     idx=$(model_index "$id")
     model=${MODEL_NAMES[idx]}
 
@@ -97,8 +106,14 @@ create_trial() {
     echo "$id: Generating trial solution..."
     echo "----------------------------------------"
     echo
+    append_log "$id" "$model"
     start=$SECONDS
-    run pi --name "$id" --print --model "$model" "@$PROMPT_FILE"
+    pi_cmd=(pi)
+    if [[ $continue_run == true ]]; then
+        pi_cmd+=(--continue)
+    fi
+    pi_cmd+=(--name "$id" --print --model "$model" "@$PROMPT_FILE")
+    run "${pi_cmd[@]}"
     elapsed=$((SECONDS - start))
 
     run git switch -C "pi/$id"
@@ -131,6 +146,7 @@ command=''
 commit_msg=''
 have_msg=false
 dry_run=false
+continue_run=false
 ids=()
 
 if [[ $# -eq 0 ]]; then
@@ -152,6 +168,9 @@ while [[ $# -gt 0 ]]; do
         commit_msg=$2
         have_msg=true
         shift
+        ;;
+    -c | --continue)
+        continue_run=true
         ;;
     -i | --id)
         [[ $# -ge 2 ]] || die "option $1 requires an argument"
@@ -181,6 +200,10 @@ esac
 
 if [[ $have_msg == true && -z $commit_msg ]]; then
     die "-m, --commit-message <commit-message> must not be empty"
+fi
+
+if [[ $continue_run == true && $command != create ]]; then
+    die "-c, --continue is only valid with the create command"
 fi
 
 for id in ${ids[@]+"${ids[@]}"}; do
