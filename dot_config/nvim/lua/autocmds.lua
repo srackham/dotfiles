@@ -2,8 +2,11 @@
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   desc = "Save modified buffers on focus loss or buffer change",
   pattern = "*",
-  callback = function()
-    if vim.bo.modified and vim.bo.buftype == "" and vim.fn.expand "%" ~= "" then -- Only save modified, normal, disk-backed files
+  callback = function(args)
+    local buf = args.buf
+    if vim.bo[buf].modified and vim.bo[buf].buftype == "" and vim.api.nvim_buf_get_name(buf) ~= "" then
+      -- sync with disk first so the write-time check doesn't prompt
+      vim.cmd("silent! checktime " .. buf)
       vim.cmd "silent! update"
     end
   end,

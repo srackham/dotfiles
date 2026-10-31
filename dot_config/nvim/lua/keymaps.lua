@@ -415,10 +415,10 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<M-g>", toggle_lazygit, { desc = "Toggle
 vim.keymap.set("n", "<Leader>tg", toggle_lazygit, { desc = "Toggle Floating Lazygit" })
 
 local function toggle_pi()
-  utils.toggle_terminal("pi", { height = 1.0 })
+  utils.toggle_terminal("pi -c", { height = 1.0 })
 end
 vim.keymap.set({ "n", "i", "v", "t" }, "<M-a>", toggle_pi, { desc = "Toggle Floating Pi coding agent" })
-vim.keymap.set("n", "<Leader>tp", toggle_pi, { desc = "Toggle Floating Pi coding agent" })
+vim.keymap.set("n", "<Leader>ta", toggle_pi, { desc = "Toggle Floating Pi coding agent" })
 
 -- Quickfix commands --
 vim.keymap.set("n", "<Leader>qc", "<Cmd>cclose<CR>", { noremap = true, silent = true, desc = "Close Quickfix window" })
