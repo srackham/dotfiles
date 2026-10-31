@@ -25,6 +25,11 @@ source <(fzf --zsh)
 # Bind Alt+r to command recall (in addition to the default Ctrl+r)
 bindkey '\er' fzf-history-widget
 
+# Bind Alt+d to exit shell
+close-shell() { exit }
+zle -N close-shell
+bindkey '^[d' close-shell
+
 # zsh help command for builtin commands
 autoload -Uz run-help; alias help=run-help
 
