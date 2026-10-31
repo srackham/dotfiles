@@ -115,7 +115,7 @@
 
 [appearance]
 border_style = 'rounded'
-zen_mode = 'always'
+zen_mode = "disabled"
 links = 'all'
 hide_window_buttons = false
 window_button_style = 'pill'
@@ -188,7 +188,7 @@ flash_style = 'diagonal'
 [appearance.sidebar]
 enabled = true
 position = 'right'
-width = 36
+width = 0
 workspaces = ''
 sections = 'sessions:25,terminals,files:25,agents:34'
 folder_click = 'navigate'
@@ -214,7 +214,7 @@ needs_input = ''
 
 [notifications.mail]
 [keybindings]
-leader_key = 'ctrl+b'
+leader_key = 'alt+b'
 
 [keybindings.window_management]
 close_window = ['w', 'x']
@@ -645,3 +645,6 @@ corner = 'bottom-right'
 
 [hosts.nuc3]
 addr = "super@nuc3"
+
+[appearance.sidebar.right]
+width = 60
