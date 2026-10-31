@@ -2,17 +2,7 @@
   "defaultModel": "minimax/minimax-m2.7",
   "defaultProvider": "openrouter",
   "defaultThinkingLevel": "high",
-  "enabledModels": [
-    "openrouter/google/gemini-3.6-flash",
-    "openrouter/google/gemini-2.5-flash",
-    "openrouter/minimax/minimax-m2.7",
-    "openrouter/minimax/minimax-m3",
-    "openrouter/anthropic/claude-sonnet-4.6",
-    "ollama/gemma4:e4b",
-    "openrouter/google/gemini-3.7-flash",
-    "openrouter/~deepseek/deepseek-v4-flash-latest",
-    "openrouter/perplexity/sonar"
-  ],
+  "enabledModels": [],
   "lastChangelogVersion": "1.4.0",
   "packages": [
     "npm:@ollama/pi-web-search"

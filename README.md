@@ -1,38 +1,35 @@
+synopsis:
+
+```
+```
+
+IMPORTANT: There is no easy way to resume Pi at a previous session based on its session name (session names are just non-unique labels).
+
+- Do not execute the `generate` command if the current branch is not main or its working tree is not clean.
+- If the `generate` command is specified with the `-c, --continue` option then do not put the `-C` option in the Git `switch` command.
+- The `generate` command should execute `git switch` before (not after) the `pi` command.
+<!-- - I have modified the `usage` function in @X to reflect these changes. -->
+
+—
+```
+pi --model openrouter/anthropic/claude-haiku-5.5 @PROMPT.md
+
+pi --name 'claude: rename the `create` command to `generate`' --print --model openrouter/anthropic/claude-haiku-5.5 @PROMPT.md
+git switch -C pi/claude
+git add -A
+git commit -m 'claude: generate pi-trial-solutions.sh'
+git switch main
+
+git switch main
+git merge --squash pi/claude
+git commit -m 'rename the `create` command to `generate`'
+```
+
+
 # Chezmoi Managed Dotfiles
 
 17-Sep-2024
 
-### TODO:
-
-```
-pi --name 'claude: create pi-trial-solutions.sh' --print --model openrouter/anthropic/claude-haiku-5.5 @PROMPT.md
-git switch -C attempt/claude
-git add -A
-git commit -m 'claude: create pi-trial-solutions.sh'
-git switch main
-
-git switch main
-git merge --squash attempt/claude
-git commit -m '<commit-message>'
-```
-
----
-
-- A single wezterm config with an environment variable (`WEZTERM_STARTUP`) to steer startup behaviour e.g.
-
-```
-WEZTERM_STARTUP=tabbed wezterm
-```
-
-- `,bs` followed immediately by a second `,bs`: the second `,bs` repeats the changes, why?
-
-Here's the messages buffer:
-
-```
-211 substitutions on 206 lines
-215 substitutions on 210 lines
-211 substitutions on 206 lines
-215 substitutions on 210 lines
 ```
 
 - `,fn` - replace `$HOME` with `~`.
