@@ -1,31 +1,3 @@
-synopsis:
-
-```
-```
-
-IMPORTANT: There is no easy way to resume Pi at a previous session based on its session name (session names are just non-unique labels).
-
-- Do not execute the `generate` command if the current branch is not main or its working tree is not clean.
-- If the `generate` command is specified with the `-c, --continue` option then do not put the `-C` option in the Git `switch` command.
-- The `generate` command should execute `git switch` before (not after) the `pi` command.
-<!-- - I have modified the `usage` function in @X to reflect these changes. -->
-
-—
-```
-pi --model openrouter/anthropic/claude-haiku-5.5 @PROMPT.md
-
-pi --name 'claude: rename the `create` command to `generate`' --print --model openrouter/anthropic/claude-haiku-5.5 @PROMPT.md
-git switch -C pi/claude
-git add -A
-git commit -m 'claude: generate pi-trial-solutions.sh'
-git switch main
-
-git switch main
-git merge --squash pi/claude
-git commit -m 'rename the `create` command to `generate`'
-```
-
-
 # Chezmoi Managed Dotfiles
 
 17-Sep-2024
