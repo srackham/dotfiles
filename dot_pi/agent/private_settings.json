@@ -1,5 +1,5 @@
 {
-  "defaultModel": "minimax/minimax-m2.7",
+  "defaultModel": "anthropic/claude-haiku-5.5",
   "defaultProvider": "openrouter",
   "defaultThinkingLevel": "high",
   "enabledModels": [],
