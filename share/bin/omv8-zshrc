@@ -21,6 +21,9 @@ alias g='grep -i'
 alias h='fc -l 1'
 alias l="batcat --plain"
 
+alias wake-dell7080="wakeonlan b0:7b:25:05:7c:3b"
+alias wake-dell7090="wakeonlan b0:7b:25:26:17:a1"
+
 # Command-line history
 HISTSIZE=200000
 SAVEHIST=200000

@@ -46,7 +46,7 @@ echo 'export PATH=$HOME/.local/bin:$HOME/bin:$PATH:/usr/sbin' > ~/.zshenv
 
 # Update Debian packages
 sudo apt update
-sudo apt install --yes curl sshpass parted rsnapshot rclone htop man-db manpages zsh tmux jq bat zsh-syntax-highlighting eza
+sudo apt install --yes curl sshpass parted rsnapshot rclone htop man-db manpages zsh tmux jq bat zsh-syntax-highlighting eza wakeonlan
 
 # Miscellaneous updates
 echo
