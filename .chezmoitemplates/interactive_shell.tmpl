@@ -126,6 +126,9 @@ alias paste-image="clipboard-paste -t image/png"                                
 alias paste-browser="paste-image >/tmp/clipboard.png && b /tmp/clipboard.png 2>/dev/null" # Paste image to browser
 alias resize-image="mogrify -quality 25 -resize 800"                                      # Resize and compress images
 
+alias wake-dell7080="wakeonlan b0:7b:25:05:7c:3b"
+alias wake-dell7090="wakeonlan b0:7b:25:26:17:a1"
+
 # List name paths of pass entries
 alias pass-names="find ~/.password-store -name '*.gpg' -type f | sed \"s|^$HOME/.password-store/||; s|\.gpg||\""
 # Copy password from pass password manager to the clipboard
