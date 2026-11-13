@@ -2,8 +2,15 @@
   "defaultModel": "anthropic/claude-haiku-5.5",
   "defaultProvider": "openrouter",
   "defaultThinkingLevel": "high",
-  "enabledModels": [],
-  "lastChangelogVersion": "1.4.0",
+  "enabledModels": [
+    "openrouter/anthropic/claude-haiku-5.5",
+    "openrouter/anthropic/claude-sonnet-5.5",
+    "openrouter/anthropic/claude-opus-5.5",
+    "openrouter/z-ai/glm-5.3-flash",
+    "openrouter/z-ai/glm-5.3",
+    "openrouter/deepseek/deepseek-v4.1-flash-1017"
+  ],
+  "lastChangelogVersion": "1.5.0",
   "packages": [
     "npm:@ollama/pi-web-search"
   ],

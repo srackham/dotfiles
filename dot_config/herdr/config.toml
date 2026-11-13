@@ -12,6 +12,7 @@ previous_workspace = ["alt+up"]
 switch_tab = ["prefix+1..9", "ctrl+shift+1..9"]
 next_tab = ["prefix+n", "ctrl+shift+n"]
 previous_tab = ["prefix+p", "ctrl+shift+p"]
+last_pane = "alt+,"
 cycle_pane_next = ["prefix+tab", "alt+n"]
 cycle_pane_previous = ["prefix+shift+tab", "alt+p"]
 zoom = ["prefix+z", "alt+f"]

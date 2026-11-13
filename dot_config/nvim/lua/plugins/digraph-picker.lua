@@ -50,7 +50,7 @@ return {
         { digraph = "rx", symbol = "❌", name = "Red heavy cross mark" },
         { digraph = "sc", symbol = "✂", name = "Scissors" },
         { digraph = "sd", symbol = "†", name = "Dagger" },
-        { digraph = "se", symbol = "§", name = "Section sign" },
+        { digraph = "ss", symbol = "§", name = "Silcrow (section sign)" },
         { digraph = "sm", symbol = "☺", name = "Smiling face" },
         { digraph = "su", symbol = "☀", name = "Sun" },
         { digraph = "td", symbol = "👎", name = "Thumbs down" },
