@@ -19,8 +19,6 @@ install_ollama_models() {
         "gemma4:e4b" # Local model
         "dolphin3"   # Local model
         "deepseek-v4.1-flash:cloud"
-        "glm-5.2:cloud"
-        "minimax-m2.7:cloud"
     )
     for model in "${models[@]}"; do
         echo "Installing model: $model"
