@@ -37,5 +37,6 @@
   "telescope.nvim": { "branch": "master", "commit": "40aedd8a68c78a656a10a8d62d80c54af59420fb" },
   "vim-abolish": { "branch": "master", "commit": "dcbfe065297d31823561ba787f51056c147aa682" },
   "vim-easy-align": { "branch": "master", "commit": "9815a55dbcd817784458df7a18acacc6f82b1241" },
-  "whisper.nvim": { "branch": "master", "commit": "43b9317c35d33cecb89cad6b9f581f136f26a22d" }
+  "whisper.nvim": { "branch": "master", "commit": "43b9317c35d33cecb89cad6b9f581f136f26a22d" },
+  "yanky.nvim": { "branch": "main", "commit": "edcbe0f6d693b9e7860626094f886a2d79cfe63b" }
 }
