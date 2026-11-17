@@ -34,7 +34,7 @@ fi
 
 # Set up zoxide and alias to cd and cdi.
 if command -v zoxide &>/dev/null; then
-    source <(zoxide init bash)
+    source <(zoxide init bash --cmd cd)
 fi
 
 # Jujutsu command-line completions
